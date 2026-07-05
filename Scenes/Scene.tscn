@@ -1,13 +1,10 @@
 [gd_scene format=3 uid="uid://diok8s6cdy4wy"]
 
 [ext_resource type="PackedScene" uid="uid://d1tkfeinx3ajq" path="res://Scenes/Player.tscn" id="1_t6lng"]
-[ext_resource type="Texture2D" uid="uid://dfibg7wiabfwc" path="res://Textures/World/Skybox/New_Sedes/back.png" id="2_s3lxa"]
-
-[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_1ymyh"]
-panorama = ExtResource("2_s3lxa")
+[ext_resource type="Material" uid="uid://beug8fe15r3nt" path="res://Assets/Textures/World/Skybox/New_Sedes.tres" id="2_s3lxa"]
 
 [sub_resource type="Sky" id="Sky_8evay"]
-sky_material = SubResource("PanoramaSkyMaterial_1ymyh")
+sky_material = ExtResource("2_s3lxa")
 
 [sub_resource type="Environment" id="Environment_b6prx"]
 background_mode = 2
@@ -34,22 +31,18 @@ data = PackedVector3Array(-10, 0, 10, 10, 0, 10, -10, 0, 10, 10, 0, 10, 10, 0, 1
 [node name="Player" parent="." unique_id=429257260 instance=ExtResource("1_t6lng")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0177488, 0)
 
-[node name="World" type="Node" parent="." unique_id=23823750]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=818971424]
+environment = SubResource("Environment_b6prx")
 
-[node name="Lighting" type="DirectionalLight3D" parent="World" unique_id=1879746125]
+[node name="Lighting" type="DirectionalLight3D" parent="." unique_id=1879746125]
 transform = Transform3D(1, 0, 0, 0, 0.82820916, 0.56041914, 0, -0.56041914, 0.82820916, 0, 2.6831632, 8.068848)
 light_specular = 2.5
 shadow_bias = 10.0
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="World/Lighting" unique_id=818971424]
-environment = SubResource("Environment_b6prx")
-
-[node name="Workspace" type="Node" parent="World" unique_id=164165024]
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="World/Workspace" unique_id=2139660426]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=2139660426]
 mesh = SubResource("BoxMesh_f3sb7")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="World/Workspace/MeshInstance3D" unique_id=1358201085]
+[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D" unique_id=1358201085]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Workspace/MeshInstance3D/StaticBody3D" unique_id=36228023]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/StaticBody3D" unique_id=36228023]
 shape = SubResource("ConcavePolygonShape3D_f3sb7")

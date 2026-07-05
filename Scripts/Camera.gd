@@ -6,7 +6,7 @@ var mouse_sensitivity := 0.01
 var pitch := 0.0
 var yaw := 0.0
 
-var cam_offset = Vector3(0, 0.75, 0)
+var cam_offset = Vector3(0, 0.35, 0)
 
 @export
 var zoom := 5.0
