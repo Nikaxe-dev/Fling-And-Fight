@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://d1tkfeinx3ajq"]
 
 [ext_resource type="Script" uid="uid://sr4bt2migxsj" path="res://Scripts/Player.gd" id="1_kpjcp"]
-[ext_resource type="PackedScene" uid="uid://dpf6s5he18hoa" path="res://Scenes/Camera.tscn" id="2_onrkg"]
+[ext_resource type="Script" uid="uid://dtws6wdtaddnj" path="res://Scripts/Camera.gd" id="3_dewec"]
 [ext_resource type="PackedScene" uid="uid://cvdetglujjdh5" path="res://HumanoidCharacter.tscn" id="3_gntrk"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_f3sb7"]
@@ -14,10 +14,19 @@ script = ExtResource("1_kpjcp")
 transform = Transform3D(0.5, 0, 0, 0, 1, 0, 0, 0, 0.5, 0, -0.22291625, 0)
 shape = SubResource("CapsuleShape3D_f3sb7")
 
-[node name="CameraPivot" parent="." unique_id=386980006 instance=ExtResource("2_onrkg")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.48045343, 0)
-
 [node name="Model" type="Node3D" parent="." unique_id=1537216992]
 transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0.41, 0)
 
 [node name="Character" parent="." unique_id=561997231 instance=ExtResource("3_gntrk")]
+
+[node name="CameraPivot" type="Node3D" parent="." unique_id=1510910130]
+script = ExtResource("3_dewec")
+
+[node name="SpringArm3D" type="SpringArm3D" parent="CameraPivot" unique_id=793478104]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3981857, 0)
+spring_length = 10.0
+
+[node name="Camera3D" type="Camera3D" parent="CameraPivot/SpringArm3D" unique_id=2049456854]
+fov = 90.0
+
+[editable path="Character"]

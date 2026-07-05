@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c2paiy7hrng6j"
-path.s3tc="res://.godot/imported/Symbol FaF Sun GLowing.png-be579bba401814bac996206fd9bd53b5.s3tc.ctex"
+uid="uid://dlu1vfki83tn3"
+path.s3tc="res://.godot/imported/WorldSun.png-905da12cec7adc3cb189d34a28b668bc.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://Assets/Textures/Decals/Symbols/Symbol FaF Sun GLowing.png"
-dest_files=["res://.godot/imported/Symbol FaF Sun GLowing.png-be579bba401814bac996206fd9bd53b5.s3tc.ctex"]
+source_file="res://Assets/Textures/World/Skybox/New Sedes/WorldSun.png"
+dest_files=["res://.godot/imported/WorldSun.png-905da12cec7adc3cb189d34a28b668bc.s3tc.ctex"]
 
 [params]
 
