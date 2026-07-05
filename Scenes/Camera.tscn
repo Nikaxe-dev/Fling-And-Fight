@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://dpf6s5he18hoa"]
+
+[ext_resource type="Script" uid="uid://djdbtjcq0orsh" path="res://Scripts/Camera.gd" id="1_nackv"]
+
+[node name="CameraPivot" type="Node3D" unique_id=386980006]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.0177488, 0)
+script = ExtResource("1_nackv")
+
+[node name="Camera" type="Camera3D" parent="." unique_id=1525187130]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3)
+fov = 70.0
