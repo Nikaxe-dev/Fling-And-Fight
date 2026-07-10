@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://diok8s6cdy4wy"]
+
+[ext_resource type="PackedScene" uid="uid://dg0p1fqfjnctp" path="res://Content/Maps/Base_Map/Base_Map.tscn" id="1_lefe8"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qyq8l"]
+albedo_color = Color(1.6845763e-06, 0.8264412, 0.14732, 1)
+
+[node name="MapRoot" unique_id=133042613 instance=ExtResource("1_lefe8")]
+
+[node name="Baseplate" type="CSGCombiner3D" parent="Scene/Map" parent_id_path=PackedInt32Array(1669075599) index="0" unique_id=756583450]
+use_collision = true
+
+[node name="CSGBox" type="CSGBox3D" parent="Scene/Map/Baseplate" index="0" unique_id=1655714080]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -16.5, 0)
+size = Vector3(32, 32, 32)
+material = SubResource("StandardMaterial3D_qyq8l")

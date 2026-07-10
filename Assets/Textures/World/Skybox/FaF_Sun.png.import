@@ -2,20 +2,17 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://jcyxxwgiwcdy"
-path.s3tc="res://.godot/imported/Character_Untitled40_20260419183040.png-96336d8756559e48fac4dec745fdac63.s3tc.ctex"
+uid="uid://bxn65lvpn11qy"
+path.s3tc="res://.godot/imported/FaF_Sun.png-9c3ed2057d40881a37e5ac88c7d34667.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
-generator_parameters={
-"md5": "413ce266aee6bf8f4c4a263d0b510313"
-}
 
 [deps]
 
-source_file="res://Character_Untitled40_20260419183040.png"
-dest_files=["res://.godot/imported/Character_Untitled40_20260419183040.png-96336d8756559e48fac4dec745fdac63.s3tc.ctex"]
+source_file="res://Assets/Textures/World/Skybox/FaF_Sun.png"
+dest_files=["res://.godot/imported/FaF_Sun.png-9c3ed2057d40881a37e5ac88c7d34667.s3tc.ctex"]
 
 [params]
 

@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="MapRegistry" format=3 uid="uid://cyris8uda7lpt"]
+
+[ext_resource type="Script" uid="uid://8bkplj8alg5t" path="res://Content/Registry/MapRegistry.cs" id="1_4xmqu"]
+[ext_resource type="PackedScene" uid="uid://dg0p1fqfjnctp" path="res://Content/Maps/Base_Map/Base_Map.tscn" id="1_bjs7s"]
+
+[resource]
+script = ExtResource("1_4xmqu")
+Name = "base_map"
+Creator = "Nikaxe"
+Scene = ExtResource("1_bjs7s")
+metadata/_custom_type_script = "uid://8bkplj8alg5t"

@@ -10,14 +10,18 @@ config_version=5
 
 [application]
 
-config/name="Fling And Fight"
-run/main_scene="uid://diok8s6cdy4wy"
-config/features=PackedStringArray("4.6", "GL Compatibility")
+config/name="Fling And Fight*"
+config/version="1.0"
+run/main_scene="uid://dgr38pghxvmmd"
+config/features=PackedStringArray("4.6", "C#", "GL Compatibility")
 config/icon="res://icon.svg"
+
+[autoload]
+
+NetworkManager="*uid://cgq7ve731rqrt"
 
 [display]
 
-window/size/mode=3
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 
@@ -29,6 +33,12 @@ project/assembly_name="Fling And Fight"
 
 folder_colors={
 "res://Assets/": "red",
+"res://Assets/Meshes/": "red",
+"res://Assets/Models/": "red",
+"res://Assets/Sounds/": "red",
+"res://Content/": "green",
+"res://Game/": "blue",
+"res://Launcher/": "yellow",
 "res://Scenes/": "green",
 "res://Scripts/": "blue"
 }
@@ -82,9 +92,9 @@ zoom_out={
 [physics]
 
 3d/physics_engine="Jolt Physics"
+3d/default_gravity=28.0
 
 [rendering]
 
 rendering_device/driver.windows="d3d12"
-renderer/rendering_method="gl_compatibility"
-renderer/rendering_method.mobile="gl_compatibility"
+renderer/rendering_method="mobile"
