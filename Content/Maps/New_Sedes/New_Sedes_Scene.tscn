@@ -1,0 +1,50 @@
+[gd_scene format=4 uid="uid://jyl6yvmc2i8u"]
+
+[ext_resource type="PackedScene" uid="uid://dg0p1fqfjnctp" path="res://Content/Maps/Base_Map/Base_Map.tscn" id="1_hwly8"]
+[ext_resource type="Script" uid="uid://cwu5cf7a0awcd" path="res://addons/func_godot/src/map/func_godot_map.gd" id="2_fm4e1"]
+[ext_resource type="Resource" uid="uid://bkhxcqsquw1yg" path="res://addons/func_godot/func_godot_default_map_settings.tres" id="3_tqp31"]
+[ext_resource type="Texture2D" uid="uid://bq5nofux6u6bi" path="res://trenchbroom/textures/grass001/grass001_color.jpg" id="4_tqp31"]
+[ext_resource type="PackedScene" uid="uid://cvdetglujjdh5" path="res://Game/Character/HumanoidNPC.tscn" id="5_tqp31"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_oj026"]
+albedo_texture = ExtResource("4_tqp31")
+metallic_specular = 0.0
+texture_filter = 2
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_lkdhn"]
+_surfaces = [{
+"aabb": AABB(-32.5, -2.46875, -37, 69.875, 0.96875, 66.25),
+"attribute_data": PackedByteArray("ypqqv5AzaD81ZZU/kDNoPzVllT9zY8Q/ypqqv3NjxD8HOI4/c2PEP/nHsb9zY8Q/+cexv5AzaD8HOI4/kDNoPwc4jr81ZZU/BziOv8qaqr/5x7E/ypqqv/nHsT81ZZU/BziOPzVllT/5x7G/NWWVP/nHsb/Kmqq/BziOP8qaqr8HOI6/kDNoP/nHsT+QM2g/+cexP3NjxD8HOI6/c2PEP8qaqj9zY8Q/NWWVv3NjxD81ZZW/kDNoP8qaqj+QM2g/"),
+"format": 34359742487,
+"index_count": 36,
+"index_data": PackedByteArray("AAABAAIAAAACAAMABAAFAAYABAAGAAcACAAJAAoACAAKAAsADAANAA4ADAAOAA8AEAARABIAEAASABMAFAAVABYAFAAWABcA"),
+"material": SubResource("StandardMaterial3D_oj026"),
+"name": "grass001/grass001_color",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 24,
+"vertex_data": PackedByteArray("AIAVQgAAwL8AABTCAAACwgAAwL8AABTCAAACwgAAHsAAABTCAIAVQgAAHsAAABTCAAACwgAAHsAAAOpBAAACwgAAHsAAABTCAAACwgAAwL8AABTCAAACwgAAwL8AAOpBAAACwgAAHsAAAOpBAIAVQgAAHsAAAOpBAIAVQgAAHsAAABTCAAACwgAAHsAAABTCAAACwgAAwL8AAOpBAAACwgAAwL8AABTCAIAVQgAAwL8AABTCAIAVQgAAwL8AAOpBAIAVQgAAwL8AAOpBAIAVQgAAwL8AABTCAIAVQgAAHsAAABTCAIAVQgAAHsAAAOpBAIAVQgAAHsAAAOpBAAACwgAAHsAAAOpBAAACwgAAwL8AAOpBAIAVQgAAwL8AAOpB/////wAA/7//////AAD/v/////8AAP+//////wAA/78AAP9//3//vwAA/3//f/+/AAD/f/9//78AAP9//3//v/9/AAD//////38AAP//////fwAA//////9/AAD//////3////9//7//f////3//v/9/////f/+//3////9//7////9//////////3//////////f/////////9///////9//3////+//3//f////7//f/9/////v/9//3////+/")
+}]
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_ejrkb"]
+points = PackedVector3Array(37.375, -1.5, 29.25, 37.375, -2.4652777, 29.25, -32.5, -1.5, 29.25, -32.5, -2.4652777, 29.25, 37.375, -1.5, -37, 37.375, -2.4652777, -37, -32.5, -1.5, -37, -32.5, -2.4652777, -37)
+
+[node name="MapRoot" unique_id=1505379970 instance=ExtResource("1_hwly8")]
+
+[node name="FuncGodotMap" type="Node3D" parent="Scene/Map" parent_id_path=PackedInt32Array(1669075599) index="0" unique_id=255924978]
+script = ExtResource("2_fm4e1")
+local_map_file = "uid://bg812nmmvryh6"
+map_settings = ExtResource("3_tqp31")
+metadata/_custom_type_script = "uid://cwu5cf7a0awcd"
+
+[node name="entity_0_worldspawn" type="StaticBody3D" parent="Scene/Map/FuncGodotMap" index="0" unique_id=1736617495]
+collision_mask = 0
+
+[node name="entity_0_mesh_instance" type="MeshInstance3D" parent="Scene/Map/FuncGodotMap/entity_0_worldspawn" index="0" unique_id=1218288923]
+mesh = SubResource("ArrayMesh_lkdhn")
+
+[node name="entity_0_brush_0_collision_shape" type="CollisionShape3D" parent="Scene/Map/FuncGodotMap/entity_0_worldspawn" index="1" unique_id=1947009957]
+shape = SubResource("ConvexPolygonShape3D_ejrkb")
+
+[node name="HumanoidNPC" parent="Scene/Map" parent_id_path=PackedInt32Array(1669075599) index="1" unique_id=1141210056 instance=ExtResource("5_tqp31")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.9480419, -1.5, 4.2689657)

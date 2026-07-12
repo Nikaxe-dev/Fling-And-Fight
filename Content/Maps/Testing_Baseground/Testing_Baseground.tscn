@@ -14,3 +14,6 @@ use_collision = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -16.5, 0)
 size = Vector3(32, 32, 32)
 material = SubResource("StandardMaterial3D_qyq8l")
+
+[node name="Environment" parent="Scene" parent_id_path=PackedInt32Array(1054204705) index="1" unique_id=198490607]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 110.43307, 0)

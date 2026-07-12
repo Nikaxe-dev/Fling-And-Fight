@@ -29,6 +29,10 @@ window/stretch/aspect="expand"
 
 project/assembly_name="Fling And Fight"
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/func_godot/plugin.cfg")
+
 [file_customization]
 
 folder_colors={
@@ -98,3 +102,4 @@ zoom_out={
 
 rendering_device/driver.windows="d3d12"
 renderer/rendering_method="mobile"
+environment/defaults/default_clear_color=Color(0.038397163, 0.038397174, 0.038397145, 1)

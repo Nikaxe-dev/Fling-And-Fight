@@ -43,6 +43,7 @@ public partial class Player : Node
 			AlbedoColor = new Color(r,g,b)
 		});
 
+		// HumanoidRootPart.SetNetworkOwner()
 		SetMultiplayerAuthority(PEER_ID);
 
 		// call environment specific ready functions

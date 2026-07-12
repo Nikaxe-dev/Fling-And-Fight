@@ -30,15 +30,15 @@ public partial class Initializer : Node
             
             // TODO: ADD MAP OPTION TO COMMAND LINE SERVER STARTUP (MAKE SURE TO INCLUDE DEFAULTS)
 
-            GetTree().ChangeSceneToFile("res://Content/Maps/Testing_Baseground/Testing_Baseground.tscn");
-            NetworkManager.Instance.StartServer(56565);
+            GetTree().ChangeSceneToFile("res://Content/Maps/New_Sedes/New_Sedes_Scene.tscn");
+            NetworkManager.Instance.StartServer(NetworkManager.DEFAULT_PORT);
         } else if (args.Contains("--auto-join"))
         {
             GD.Print("CLIENT: Auto joining server in 2(s).");
 
             Thread.Sleep(2000);
-            GetTree().ChangeSceneToFile("res://Content/Maps/Testing_Baseground/Testing_Baseground.tscn");
-            NetworkManager.Instance.StartClient("127.0.0.1", 56565);
+            GetTree().ChangeSceneToFile("res://Content/Maps/New_Sedes/New_Sedes_Scene.tscn");
+            NetworkManager.Instance.StartClient(NetworkManager.DEFAULT_IP, NetworkManager.DEFAULT_PORT);
         }
     }
 }

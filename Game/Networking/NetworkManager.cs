@@ -4,6 +4,9 @@ namespace FlingAndFight.Game.Networking;
 
 public partial class NetworkManager : Node
 {
+    public readonly static string DEFAULT_IP = "127.0.0.1";
+    public readonly static int DEFAULT_PORT = 56565;
+
     public static NetworkManager Instance {get; private set;}
 
     public ENetMultiplayerPeer Peer;

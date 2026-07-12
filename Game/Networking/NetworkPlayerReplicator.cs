@@ -17,6 +17,7 @@ public partial class NetworkPlayerReplicator : MultiplayerSpawner
 
     private void HandlePeerDisconnected(long id)
     {
+        if (!Multiplayer.IsServer()) return;
         if (GetNode(SpawnPath).GetNode(id.ToString()) is Player player) player.QueueFree();
     }
 

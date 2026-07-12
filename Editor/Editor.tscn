@@ -1,0 +1,56 @@
+[gd_scene format=3 uid="uid://b0wbrmtwq14fg"]
+
+[ext_resource type="PackedScene" uid="uid://dg0p1fqfjnctp" path="res://Content/Maps/Base_Map/Base_Map.tscn" id="1_mauyw"]
+[ext_resource type="Script" uid="uid://6fma3reeemq2" path="res://Game/Visuals/FreeCamera.cs" id="2_ue5br"]
+
+[sub_resource type="Curve3D" id="Curve3D_mauyw"]
+bake_interval = 0.01
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 0, 0, 1000, 0, 0, 0, 0, 0, 0, 0, 0, -1000),
+"tilts": PackedFloat32Array(0, 0)
+}
+point_count = 2
+
+[sub_resource type="Curve3D" id="Curve3D_ue5br"]
+bake_interval = 0.01
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 1000, 0, 0, 0, 0, 0, 0, 0, 0, -1000, 0, 0),
+"tilts": PackedFloat32Array(0, 0)
+}
+point_count = 2
+
+[sub_resource type="Curve3D" id="Curve3D_uuq6v"]
+bake_interval = 0.01
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 0, 1000, 0, 0, 0, 0, 0, 0, 0, 0, -1000, 0),
+"tilts": PackedFloat32Array(0, 0)
+}
+point_count = 2
+
+[node name="Editor" type="Node" unique_id=562377428]
+
+[node name="FreeCamera" type="Camera3D" parent="." unique_id=2102623429]
+transform = Transform3D(1, 0, 0, 0, 0.70710677, 0.70710677, 0, -0.70710677, 0.70710677, 0, 5, 5)
+script = ExtResource("2_ue5br")
+metadata/_custom_type_script = "uid://6fma3reeemq2"
+
+[node name="World" type="Node3D" parent="." unique_id=99039711]
+
+[node name="MapRoot" parent="World" unique_id=1505379970 instance=ExtResource("1_mauyw")]
+process_mode = 4
+
+[node name="Visuals" type="Node3D" parent="." unique_id=1317242700]
+
+[node name="CenterMarker" type="Node3D" parent="Visuals" unique_id=1234483404]
+
+[node name="Z" type="Path3D" parent="Visuals/CenterMarker" unique_id=1811141832]
+curve = SubResource("Curve3D_mauyw")
+debug_custom_color = Color(0, 0, 1, 1)
+
+[node name="X" type="Path3D" parent="Visuals/CenterMarker" unique_id=1991930443]
+curve = SubResource("Curve3D_ue5br")
+debug_custom_color = Color(1, 0, 0, 1)
+
+[node name="Y" type="Path3D" parent="Visuals/CenterMarker" unique_id=1895771814]
+curve = SubResource("Curve3D_uuq6v")
+debug_custom_color = Color(0, 1, 0, 1)

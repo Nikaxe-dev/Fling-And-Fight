@@ -1,0 +1,33 @@
+@BaseClass size(-8.0 -8.0 -8.0, 8.0 8.0 8.0) color(204 204 204) = Phong
+[
+	_phong(choices) : "Phong shading" : 0 = 
+	[
+		0 : "Disabled"
+		1 : "Smooth shading"
+	]
+	_phong_angle(float) : "Phong smoothing angle" : "89.0"
+]
+
+@BaseClass size(-8.0 -8.0 -8.0, 8.0 8.0 8.0) color(204 204 204) = VertexMergeDistance
+[
+	_vertex_merge_distance(float) : "Adjustable value to snap vertices to on map build. This can reduce instances of seams between polygons." : "0.03125"
+]
+
+@BaseClass size(-8.0 -8.0 -8.0, 8.0 8.0 8.0) color(204 204 204) = CullInteriorFaces
+[
+	_cull_interior_faces(choices) : "If true, cull interior faces with matching vertices or faces that are flush within a larger face. Note: This has a performance impact that scales with how many brushes are in the brush entity." : 0 = 
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+]
+
+@SolidClass color(204 204 204) base(VertexMergeDistance, CullInteriorFaces) = worldspawn : "Default static world geometry. Builds a StaticBody3D with a single MeshInstance3D and a single convex CollisionShape3D shape." []
+
+@SolidClass color(204 204 204) base(Phong, VertexMergeDistance, CullInteriorFaces) = func_geo : "Static collidable geometry. Builds a StaticBody3D with a MeshInstance3D, a single concave CollisionShape3D, and an OccluderInstance3D." []
+
+@SolidClass color(204 204 204) base(Phong, VertexMergeDistance, CullInteriorFaces) = func_detail : "Static collidable geometry. Builds a StaticBody3D with a MeshInstance3D and a single concave CollisionShape3D. Does not occlude other VisualInstance3D nodes." []
+
+@SolidClass color(204 204 204) base(Phong, VertexMergeDistance, CullInteriorFaces) = func_detail_illusionary : "Static geometry with no collision. Builds a Node3D with a MeshInstance3D. Does not occlude other VisualInstance3D nodes." []
+
+@SolidClass color(204 204 204) base(Phong, VertexMergeDistance, CullInteriorFaces) = func_illusionary : "Static geometry with no collision. Builds a Node3D with a MeshInstance3D and an Occluder3D to aid in render culling of other VisualInstance3D nodes." []

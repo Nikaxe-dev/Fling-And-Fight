@@ -55,7 +55,6 @@ public partial class OrbitalCamera : Node3D
 		if (Input.IsActionJustPressed(INPUT_ZOOM_OUT, true))
 		{
 			Zoom += (float)delta * ZOOM_SENS;
-			GD.Print(Zoom);
 		}
 
 		Zoom = Math.Clamp(Zoom, MIN_ZOOM, MAX_ZOOM);
