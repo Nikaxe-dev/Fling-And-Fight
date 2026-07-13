@@ -28,7 +28,7 @@ public partial class Initializer : Node
         {
             GD.Print("Starting server");
             
-            // TODO: ADD MAP OPTION TO COMMAND LINE SERVER STARTUP (MAKE SURE TO INCLUDE DEFAULTS)
+            // TODO: Add map option to command line server startup (MAKE SURE TO INCLUDE DEFAULTS)
 
             GetTree().ChangeSceneToFile("res://Content/Maps/New_Sedes/New_Sedes_Scene.tscn");
             NetworkManager.Instance.StartServer(NetworkManager.DEFAULT_PORT);

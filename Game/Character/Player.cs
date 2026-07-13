@@ -14,9 +14,6 @@ public partial class Player : Node
 	[Export] public required NPC Character;
 	[Export] public required Node3D CameraPivot;
 
-	// TEMP: Random color part
-	[Export] public required MeshInstance3D ColorTorso;
-
 	[Export] public Node3D[] FirstPersonHideNodes = [];
 
 	public int PEER_ID;
@@ -28,20 +25,6 @@ public partial class Player : Node
 	{
 		// Name is set to the peer id.
 		PEER_ID = int.Parse(Name);
-
-		// TEMP: Random color torso
-		var randomNumberGen = new RandomNumberGenerator();
-		randomNumberGen.Seed = (ulong)PEER_ID;
-		var r = randomNumberGen.Randf();
-		randomNumberGen.Seed = (ulong)(r*PEER_ID);
-		var g = randomNumberGen.Randf();
-		randomNumberGen.Seed = (ulong)(g*PEER_ID);
-		var b = randomNumberGen.Randf();
-
-		ColorTorso.Mesh.SurfaceSetMaterial(0, new StandardMaterial3D
-		{
-			AlbedoColor = new Color(r,g,b)
-		});
 
 		// HumanoidRootPart.SetNetworkOwner()
 		SetMultiplayerAuthority(PEER_ID);

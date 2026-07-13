@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cjjffbyctrkmo"
-path.s3tc="res://.godot/imported/grass001_displacement.jpg-32f7600facce70a704dad1f9be7765d0.s3tc.ctex"
+uid="uid://d0cldp8jd8dt2"
+path.s3tc="res://.godot/imported/grass001_roughness.jpg-a525484907a44b9e8792b9420ce36993.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://trenchbroom/textures/grass001/grass001_displacement.jpg"
-dest_files=["res://.godot/imported/grass001_displacement.jpg-32f7600facce70a704dad1f9be7765d0.s3tc.ctex"]
+source_file="res://trenchbroom/textures/grass001_roughness.jpg"
+dest_files=["res://.godot/imported/grass001_roughness.jpg-a525484907a44b9e8792b9420ce36993.s3tc.ctex"]
 
 [params]
 

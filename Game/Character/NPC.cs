@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Numerics;
 using Godot;
 using Vector3 = Godot.Vector3;
@@ -20,14 +21,23 @@ public partial class NPC : CharacterBody3D
     [Export] public float TurnSpeed = 10;
 
     [ExportGroup("State Machine")]
-    [Export] public NPCState State = NPCState.Movement;
+    private NPCState _state = NPCState.Movement;
 
-    [Export] public bool RagdollStateEnabled = true;
-    [Export] public bool DeadStateEnabled = true;
-    [Export] public bool PhysicsStateEnabled = true;
-    [Export] public bool SeatedStateEnabled = true;
-    [Export] public bool MovementStateEnabled = true;
-    [Export] public bool UpStateEnabled = true;
+    [Export] public NPCState State
+    {
+        get => _state;
+        set => _state = IsStateEnabled(value) ? value : _state;
+    }
+
+    [Export] public Godot.Collections.Dictionary<NPCState, bool> EnabledStates = new()
+    {
+        [NPCState.Dead] = true,
+        [NPCState.Movement] = true,
+        [NPCState.Physics] = true,
+        [NPCState.Ragdolled] = true,
+        [NPCState.Seated] = true,
+        [NPCState.Up] = true,
+    };
 
     [ExportGroup("Animations")]
     [Export] public string FALL_ANIMATION = "humanoid_6/fall";
@@ -75,16 +85,21 @@ public partial class NPC : CharacterBody3D
 
     // RUNTIME MOVEMENT
     
+    [ExportGroup("Runtime Movement")]
     [Export] public bool Jump = false;
     [Export] public Vector3 MoveDirection = Vector3.Zero;
 
     public bool OverrideRotation = false;
     public Vector3 RotationOverride = Vector3.Zero;
 
-    public bool StateAllowsMovement()
+    // STATE MACHINE
+
+    public bool IsStateEnabled(NPCState state)
     {
-        return State == NPCState.Movement && MovementStateEnabled;
+        return EnabledStates[state];
     }
+
+    // PHYSICS
 
     public void PhysicsGravity(double delta)
     {
@@ -92,6 +107,13 @@ public partial class NPC : CharacterBody3D
         {
             Velocity += GetGravity() * (float)delta;
         }
+    }
+
+    // MOVEMENT/PHYSICS
+
+    public bool StateAllowsMovement()
+    {
+        return State == NPCState.Movement;
     }
 
     public void MovementJump()
@@ -123,34 +145,7 @@ public partial class NPC : CharacterBody3D
         }
     }
 
-    public void PhysicsAnimations(double delta)
-    {
-        if (MoveDirection != Vector3.Zero && !OverrideRotation)
-        {
-            double targetRotation = Math.Atan2(MoveDirection.X, MoveDirection.Z);
-            Rotation = new Vector3(Rotation.X, (float)Mathf.LerpAngle(Rotation.Y, targetRotation, TurnSpeed * delta), Rotation.Z);
-        }
-
-        if (!IsOnFloor())
-        {
-            PlayAnimation(FALL_ANIMATION, 1, 0.1f);
-        } else if (MoveDirection != Vector3.Zero)
-        {
-            PlayAnimation(WALK_ANIMATION, WalkSpeed/5, 0.1f);
-        } else
-        {
-            PlayAnimation(IDLE_ANIMATION, 1, 0.1f);
-        }
-    }
-
-    public void ProcessAnimations(double delta)
-    {
-        if (OverrideRotation)
-        {
-            double targetRotation = Math.Atan2(RotationOverride.X, RotationOverride.Z);
-            Rotation = new Vector3(Rotation.X, (float)Mathf.LerpAngle(Rotation.Y, targetRotation, TurnSpeed * delta), Rotation.Z);
-        }
-    }
+    // OVERRIDES
 
     public override void _Process(double delta)
     {
@@ -192,5 +187,34 @@ public partial class NPC : CharacterBody3D
             Animator.Play(id, blend);
         }
         Animator.SpeedScale = speed;
+    }
+
+    public void PhysicsAnimations(double delta)
+    {
+        if (MoveDirection != Vector3.Zero && !OverrideRotation)
+        {
+            double targetRotation = Math.Atan2(MoveDirection.X, MoveDirection.Z);
+            Rotation = new Vector3(Rotation.X, (float)Mathf.LerpAngle(Rotation.Y, targetRotation, TurnSpeed * delta), Rotation.Z);
+        }
+
+        if (!IsOnFloor())
+        {
+            PlayAnimation(FALL_ANIMATION, 1, 0.1f);
+        } else if (MoveDirection != Vector3.Zero)
+        {
+            PlayAnimation(WALK_ANIMATION, WalkSpeed/5, 0.1f);
+        } else
+        {
+            PlayAnimation(IDLE_ANIMATION, 1, 0.1f);
+        }
+    }
+
+    public void ProcessAnimations(double delta)
+    {
+        if (OverrideRotation)
+        {
+            double targetRotation = Math.Atan2(RotationOverride.X, RotationOverride.Z);
+            Rotation = new Vector3(Rotation.X, (float)Mathf.LerpAngle(Rotation.Y, targetRotation, TurnSpeed * delta), Rotation.Z);
+        }
     }
 }

@@ -2,20 +2,21 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ccfv84imw5a7l"
-path="res://.godot/imported/grass001_roughness.jpg-cbd9e18c4d473604aa5d8c3382a08bbb.ctex"
+uid="uid://5gfals2qklba"
+path.s3tc="res://.godot/imported/grass001_ao.jpg-2c6bc9c37009104b71652f79af0cd574.s3tc.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
 }
 
 [deps]
 
-source_file="res://trenchbroom/textures/grass001/grass001_roughness.jpg"
-dest_files=["res://.godot/imported/grass001_roughness.jpg-cbd9e18c4d473604aa5d8c3382a08bbb.ctex"]
+source_file="res://trenchbroom/textures/grass001_ao.jpg"
+dest_files=["res://.godot/imported/grass001_ao.jpg-2c6bc9c37009104b71652f79af0cd574.s3tc.ctex"]
 
 [params]
 
-compress/mode=3
+compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0
@@ -23,10 +24,10 @@ compress/rdo_quality_loss=0.0
 compress/hdr_compression=1
 compress/normal_map=0
 compress/channel_pack=0
-mipmaps/generate=false
+mipmaps/generate=true
 mipmaps/limit=-1
-roughness/mode=0
-roughness/src_normal=""
+roughness/mode=8
+roughness/src_normal="res://trenchbroom/textures/grass001_normal.jpg"
 process/channel_remap/red=0
 process/channel_remap/green=1
 process/channel_remap/blue=2
@@ -37,4 +38,4 @@ process/normal_map_invert_y=false
 process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
-detect_3d/compress_to=1
+detect_3d/compress_to=0
