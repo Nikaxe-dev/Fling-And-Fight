@@ -1,4 +1,5 @@
 using System;
+using FaF.Rig.States;
 using Godot;
 using Vector3 = Godot.Vector3;
 
@@ -18,24 +19,24 @@ public partial class NPC : CharacterBody3D
 
     [Export] public float TurnSpeed = 10;
 
-    [ExportGroup("State Machine")]
-    private NPCState _state = NPCState.Movement;
+    // [ExportGroup("State Machine")]
+    // private NPCState _state = NPCState.Movement;
 
-    [Export] public NPCState State
-    {
-        get => _state;
-        set => _state = IsStateEnabled(value) ? value : _state;
-    }
+    // [Export] public NPCState State
+    // {
+    //     get => _state;
+    //     set => _state = IsStateEnabled(value) ? value : _state;
+    // }
 
-    [Export] public Godot.Collections.Dictionary<NPCState, bool> EnabledStates = new()
-    {
-        [NPCState.Dead] = true,
-        [NPCState.Movement] = true,
-        [NPCState.Physics] = true,
-        [NPCState.Ragdolled] = true,
-        [NPCState.Seated] = true,
-        [NPCState.Up] = true,
-    };
+    // [Export] public Godot.Collections.Dictionary<NPCState, bool> EnabledStates = new()
+    // {
+    //     [NPCState.Dead] = true,
+    //     [NPCState.Movement] = true,
+    //     [NPCState.Physics] = true,
+    //     [NPCState.Ragdolled] = true,
+    //     [NPCState.Seated] = true,
+    //     [NPCState.Up] = true,
+    // };
 
     [ExportGroup("Animations")]
     [Export] public string FALL_ANIMATION = "humanoid_6/fall";
@@ -47,39 +48,40 @@ public partial class NPC : CharacterBody3D
     [ExportGroup("Connected Nodes")]
     [Export] public required AnimationPlayer Animator;
     [Export] public required CollisionShape3D Collision;
+    [Export] public required StateMachine StateMachine;
 
-    public enum NPCState
-    {
-        /// <summary>
-        /// The NPC is ragdolled in physics mode.
-        /// </summary>
-        Ragdolled,
+    // public enum NPCState
+    // {
+    //     /// <summary>
+    //     /// The NPC is ragdolled in physics mode.
+    //     /// </summary>
+    //     Ragdolled,
 
-        /// <summary>
-        /// The NPC is dead. Switching to this state will kill the NPC.
-        /// </summary>
-        Dead,
+    //     /// <summary>
+    //     /// The NPC is dead. Switching to this state will kill the NPC.
+    //     /// </summary>
+    //     Dead,
 
-        /// <summary>
-        /// The NPC doesn't apply any of it's own forces and acts in physics mode.
-        /// </summary>
-        Physics,
+    //     /// <summary>
+    //     /// The NPC doesn't apply any of it's own forces and acts in physics mode.
+    //     /// </summary>
+    //     Physics,
 
-        /// <summary>
-        /// The NPC is seated.
-        /// </summary>
-        Seated,
+    //     /// <summary>
+    //     /// The NPC is seated.
+    //     /// </summary>
+    //     Seated,
 
-        /// <summary>
-        /// The NPC is up and movable through normal NPC means.
-        /// </summary>
-        Movement,
+    //     /// <summary>
+    //     /// The NPC is up and movable through normal NPC means.
+    //     /// </summary>
+    //     Movement,
         
-        /// <summary>
-        /// The NPC is up.
-        /// </summary>
-        Up,
-    }
+    //     /// <summary>
+    //     /// The NPC is up.
+    //     /// </summary>
+    //     Up,
+    // }
 
     // RUNTIME MOVEMENT
     
@@ -92,79 +94,79 @@ public partial class NPC : CharacterBody3D
 
     // STATE MACHINE
 
-    public bool IsStateEnabled(NPCState state)
-    {
-        return EnabledStates[state];
-    }
+    // public bool IsStateEnabled(NPCState state)
+    // {
+    //     return EnabledStates[state];
+    // }
 
-    // PHYSICS
+    // // PHYSICS
 
-    public void PhysicsGravity(double delta)
-    {
-        if (!IsOnFloor())
-        {
-            Velocity += GetGravity() * (float)delta;
-        }
-    }
+    // public void PhysicsGravity(double delta)
+    // {
+    //     if (!IsOnFloor())
+    //     {
+    //         Velocity += GetGravity() * (float)delta;
+    //     }
+    // }
 
     // MOVEMENT/PHYSICS
 
-    public bool StateAllowsMovement()
-    {
-        return State == NPCState.Movement;
-    }
+    // public bool StateAllowsMovement()
+    // {
+    //     return State == NPCState.Movement;
+    // }
 
-    public void MovementJump()
-    {
-        Velocity = new Vector3(Velocity.X, JumpPower, Velocity.Z);
-    }
+    // public void MovementJump()
+    // {
+    //     Velocity = new Vector3(Velocity.X, JumpPower, Velocity.Z);
+    // }
 
-    public void PhysicsMovement(double delta)
-    {
-        if (Jump && IsOnFloor()) MovementJump();
+    // public void PhysicsMovement(double delta)
+    // {
+    //     if (Jump && IsOnFloor()) MovementJump();
 
-        if (MoveDirection != Vector3.Zero)
-        {
-            if (Velocity.Length() < WalkSpeed)
-            {
-                Velocity += MoveDirection * WalkAcceleration;
-            }
+    //     if (MoveDirection != Vector3.Zero)
+    //     {
+    //         if (Velocity.Length() < WalkSpeed)
+    //         {
+    //             Velocity += MoveDirection * WalkAcceleration;
+    //         }
 
-            Vector3 targetVelocity = MoveDirection * WalkSpeed;
+    //         Vector3 targetVelocity = MoveDirection * WalkSpeed;
 
-            Velocity = new Vector3(
-                Mathf.MoveToward(Velocity.X, targetVelocity.X, WalkAcceleration),
-                Velocity.Y,
-                Mathf.MoveToward(Velocity.Z, targetVelocity.Z, WalkAcceleration)
-            );
-        } else
-        {
-            Velocity = new Vector3(Mathf.MoveToward(Velocity.X, 0, WalkAcceleration), Velocity.Y, Mathf.MoveToward(Velocity.Z, 0, WalkAcceleration));
-        }
-    }
+    //         Velocity = new Vector3(
+    //             Mathf.MoveToward(Velocity.X, targetVelocity.X, WalkAcceleration),
+    //             Velocity.Y,
+    //             Mathf.MoveToward(Velocity.Z, targetVelocity.Z, WalkAcceleration)
+    //         );
+    //     } else
+    //     {
+    //         Velocity = new Vector3(Mathf.MoveToward(Velocity.X, 0, WalkAcceleration), Velocity.Y, Mathf.MoveToward(Velocity.Z, 0, WalkAcceleration));
+    //     }
+    // }
 
-    // OVERRIDES
+    // // OVERRIDES
 
-    public override void _Process(double delta)
-    {
-        if (IsMultiplayerAuthority())
-        {
-            ProcessAnimations(delta);
-        }
-    }
+    // public override void _Process(double delta)
+    // {
+    //     if (IsMultiplayerAuthority())
+    //     {
+    //         ProcessAnimations(delta);
+    //     }
+    // }
 
-    public override void _PhysicsProcess(double delta)
-    {
-        if (IsMultiplayerAuthority())
-        {
-            PhysicsGravity(delta);
-            if (StateAllowsMovement()) PhysicsMovement(delta);
+    // public override void _PhysicsProcess(double delta)
+    // {
+    //     if (IsMultiplayerAuthority())
+    //     {
+    //         PhysicsGravity(delta);
+    //         if (StateAllowsMovement()) PhysicsMovement(delta);
             
-            PhysicsAnimations(delta);
+    //         PhysicsAnimations(delta);
 
-            MoveAndSlide();
-        }
-    }
+    //         MoveAndSlide();
+    //     }
+    // }
 
     // ANIMATION
 
@@ -187,32 +189,32 @@ public partial class NPC : CharacterBody3D
         Animator.SpeedScale = speed;
     }
 
-    public void PhysicsAnimations(double delta)
-    {
-        if (MoveDirection != Vector3.Zero && !OverrideRotation)
-        {
-            double targetRotation = Math.Atan2(MoveDirection.X, MoveDirection.Z);
-            Rotation = new Vector3(Rotation.X, (float)Mathf.LerpAngle(Rotation.Y, targetRotation, TurnSpeed * delta), Rotation.Z);
-        }
+    // public void PhysicsAnimations(double delta)
+    // {
+    //     if (MoveDirection != Vector3.Zero && !OverrideRotation)
+    //     {
+    //         double targetRotation = Math.Atan2(MoveDirection.X, MoveDirection.Z);
+    //         Rotation = new Vector3(Rotation.X, (float)Mathf.LerpAngle(Rotation.Y, targetRotation, TurnSpeed * delta), Rotation.Z);
+    //     }
 
-        if (!IsOnFloor())
-        {
-            PlayAnimation(FALL_ANIMATION, 1, 0.1f);
-        } else if (MoveDirection != Vector3.Zero)
-        {
-            PlayAnimation(WALK_ANIMATION, WalkSpeed/5, 0.1f);
-        } else
-        {
-            PlayAnimation(IDLE_ANIMATION, 1, 0.1f);
-        }
-    }
+    //     if (!IsOnFloor())
+    //     {
+    //         PlayAnimation(FALL_ANIMATION, 1, 0.1f);
+    //     } else if (MoveDirection != Vector3.Zero)
+    //     {
+    //         PlayAnimation(WALK_ANIMATION, WalkSpeed/5, 0.1f);
+    //     } else
+    //     {
+    //         PlayAnimation(IDLE_ANIMATION, 1, 0.1f);
+    //     }
+    // }
 
-    public void ProcessAnimations(double delta)
-    {
-        if (OverrideRotation)
-        {
-            double targetRotation = Math.Atan2(RotationOverride.X, RotationOverride.Z);
-            Rotation = new Vector3(Rotation.X, (float)Mathf.LerpAngle(Rotation.Y, targetRotation, TurnSpeed * delta), Rotation.Z);
-        }
-    }
+    // public void ProcessAnimations(double delta)
+    // {
+    //     if (OverrideRotation)
+    //     {
+    //         double targetRotation = Math.Atan2(RotationOverride.X, RotationOverride.Z);
+    //         Rotation = new Vector3(Rotation.X, (float)Mathf.LerpAngle(Rotation.Y, targetRotation, TurnSpeed * delta), Rotation.Z);
+    //     }
+    // }
 }
