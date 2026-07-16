@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://d1tkfeinx3ajq"]
+
+[ext_resource type="Script" uid="uid://bi0nni8fracvj" path="res://Game/Character/Player.cs" id="1_pkcgc"]
+
+[node name="Player" type="Node" unique_id=338683107 node_paths=PackedStringArray("Character", "CameraPivot", "FirstPersonHideNodes")]
+script = ExtResource("1_pkcgc")
+Character = NodePath("")
+CameraPivot = NodePath("")
+FirstPersonHideNodes = [NodePath(""), NodePath(""), NodePath(""), NodePath("")]
+metadata/_custom_type_script = "uid://bi0nni8fracvj"
