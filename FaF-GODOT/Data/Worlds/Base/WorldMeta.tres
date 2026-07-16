@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="WorldRegistry" format=3 uid="uid://dkxxf7d31mnpj"]
+
+[ext_resource type="Script" uid="uid://bylfnf2a4xvub" path="res://Content/RegistryObjects/WorldRegistry.cs" id="1_6vatv"]
+
+[resource]
+script = ExtResource("1_6vatv")
+Name = "base_HIDDEN"
+Creator = "NIKAXE"
+ShowInGame = false
+metadata/_custom_type_script = "uid://bylfnf2a4xvub"

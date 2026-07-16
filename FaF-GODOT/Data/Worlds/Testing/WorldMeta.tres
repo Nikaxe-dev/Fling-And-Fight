@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="WorldRegistry" format=3 uid="uid://btxkbetmj0vck"]
+
+[ext_resource type="Script" uid="uid://bylfnf2a4xvub" path="res://Content/RegistryObjects/WorldRegistry.cs" id="1_tkm13"]
+
+[resource]
+script = ExtResource("1_tkm13")
+Name = "Testing"
+Creator = "NIKAXE"
+metadata/_custom_type_script = "uid://bylfnf2a4xvub"

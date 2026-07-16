@@ -13,7 +13,7 @@ config_version=5
 config/name="Fling And Fight*"
 config/version="1.0"
 run/main_scene="uid://dgr38pghxvmmd"
-config/features=PackedStringArray("4.7", "4.7.1", "C#", "GL Compatibility")
+config/features=PackedStringArray("4.7", "4.7.1", "4.7.1", "C#", "GL Compatibility")
 config/icon="res://icon.svg"
 
 [autoload]
@@ -49,6 +49,7 @@ folder_colors={
 
 [filesystem]
 
+import/blender/enabled=false
 import/blender/enabled.web=true
 
 [input]
