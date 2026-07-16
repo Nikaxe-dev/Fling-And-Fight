@@ -1,0 +1,14 @@
+[remap]
+
+importer="func_godot.map"
+type="Resource"
+uid="uid://0yip11l35bg1"
+path="res://.godot/imported/New_Sedes.4.map-e930352344c03de0d40c3922110ec5fc.tres"
+
+[deps]
+
+source_file="res://Data/Worlds/FaF_World/Data/Maps/New_Sedes/autosave/New_Sedes.4.map"
+dest_files=["res://.godot/imported/New_Sedes.4.map-e930352344c03de0d40c3922110ec5fc.tres"]
+
+[params]
+
