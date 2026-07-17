@@ -1,12 +1,12 @@
 [gd_scene format=3 uid="uid://dg0p1fqfjnctp"]
 
-[ext_resource type="Script" uid="uid://kn1j48y7bpdu" path="res://Data/Worlds/Base/Maps/Base_Map/MapRoot.cs" id="1_yc1jn"]
+[ext_resource type="Script" uid="uid://kn1j48y7bpdu" path="res://Data/Worlds/Base/Data/Maps/Base_Map/MapRoot.cs" id="1_yc1jn"]
 [ext_resource type="Material" uid="uid://beug8fe15r3nt" path="res://Assets/Textures/World/Skybox/New Sedes/Skybox.tres" id="2_ex6xq"]
 [ext_resource type="Texture2D" uid="uid://bxn65lvpn11qy" path="res://Assets/Textures/World/Skybox/FaF_Sun.png" id="3_b5n76"]
 [ext_resource type="Script" uid="uid://di7kh1c1ovgee" path="res://Networking/CharacterSpawner.cs" id="4_kvv20"]
 [ext_resource type="Script" uid="uid://0cam62lnrwv3" path="res://Networking/PlayerSpawner.cs" id="4_ras5e"]
 [ext_resource type="PackedScene" uid="uid://d1tkfeinx3ajq" path="res://Players/Player.tscn" id="5_hcybn"]
-[ext_resource type="Script" uid="uid://bg8pj4l4t1pwq" path="res://Class/CameraPivot.cs" id="5_kvv20"]
+[ext_resource type="Script" uid="uid://bnnmdd0ats3pg" path="res://Visuals/Camera/CameraPivot.cs" id="5_kvv20"]
 
 [sub_resource type="Sky" id="Sky_8evay"]
 sky_material = ExtResource("2_ex6xq")
@@ -62,7 +62,6 @@ environment = SubResource("Environment_hcybn")
 
 [node name="CameraPivot" type="Node3D" parent="Scene/Environment" unique_id=581817193]
 script = ExtResource("5_kvv20")
-metadata/_custom_type_script = "uid://bg8pj4l4t1pwq"
 
 [node name="DirectionalLight" type="DirectionalLight3D" parent="Scene/Environment/CameraPivot" unique_id=2099556932]
 transform = Transform3D(1, 0, 0, 0, 0.8280604, 0.560639, 0, -0.560639, 0.8280604, 0, 2.2233505, 8.992889)

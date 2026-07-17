@@ -4,7 +4,7 @@ using Godot;
 
 namespace FaF.Networking;
 
-public partial class NetworkPlayerReplicator : MultiplayerSpawner
+public partial class PlayerSpawner : MultiplayerSpawner
 {
     [Export] public PackedScene ReplicatedScene;
 

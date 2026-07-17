@@ -209,7 +209,7 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_btku3")
 
-[node name="EmptyRig" unique_id=619846865 instance=ExtResource("1_fuvyi")]
+[node name="HumanoidRig6" unique_id=619846865 instance=ExtResource("1_fuvyi")]
 FALL_ANIMATION = "HumanoidRig6Animations/fall"
 WALK_ANIMATION = "HumanoidRig6Animations/walk"
 IDLE_ANIMATION = "HumanoidRig6Animations/idle"

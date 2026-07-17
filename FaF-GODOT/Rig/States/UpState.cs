@@ -3,25 +3,20 @@ using Godot;
 namespace FaF.Rig.States;
 
 [GlobalClass]
-public partial class UpState : State
+public partial class UpState(bool ApplyGravity) : State
 {
-    public override void _Enter()
+    public override void PhysicsProcess(double delta)
     {
-        
-    }
+        base.PhysicsProcess(delta);
 
-    public override void _Exit()
-    {
-        
-    }
+        if (ApplyGravity && IsMultiplayerAuthority())
+        {
+            if (!Npc.IsOnFloor())
+            {
+                Npc.Velocity += Npc.GetGravity() * (float)delta;
+            }
+        }
 
-    public override void _PhysicsProcess(double delta)
-    {
-        
-    }
-
-    public override void _Process(double delta)
-    {
-        
+        Npc.MoveAndSlide();
     }
 }

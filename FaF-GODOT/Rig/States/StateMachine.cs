@@ -1,4 +1,5 @@
 using System.Linq;
+using FaF.Debug;
 using Godot;
 
 namespace FaF.Rig.States;
@@ -25,17 +26,17 @@ public partial class StateMachine : Node
         }
 
         CurrentState = INITIAL_STATE;
-        CurrentState?._Enter();
+        CurrentState?.Enter();
     }
 
     public override void _Process(double delta)
     {
-        CurrentState?._Process(delta);
+        CurrentState?.Process(delta);
     }
 
     public override void _PhysicsProcess(double delta)
     {
-        CurrentState?._PhysicsProcess(delta);
+        CurrentState?.PhysicsProcess(delta);
     }
 
     /// <summary>
@@ -47,10 +48,19 @@ public partial class StateMachine : Node
     {
         if (CurrentState == Target) return;
         
-        CurrentState?._Exit();
-        CurrentState = Target;
+        // CurrentState?.Exit();
+        // if (Target != null) Target.PreviousState = CurrentState;
+        // Target?.Enter();
+        // if(IsMultiplayerAuthority()) FaFConsole.PrintINFO("FaF.States/StateMachine", $"Switched to state {Target?.Name} from {CurrentState?.Name}");
+        // CurrentState = Target;
+
+        var previous = CurrentState;
         if (Target != null) Target.PreviousState = CurrentState;
 
+        CurrentState = Target;
+        Target?.Enter();
+
+        if(IsMultiplayerAuthority()) FaFConsole.PrintINFO("FaF.States/StateMachine", $"Switched to state {Target?.Name} from {CurrentState?.Name}");
     }
 
     public State? GetCurrentState()

@@ -14,7 +14,7 @@ public partial class NPC : CharacterBody3D
 
     [ExportGroup("Movement")]
     [Export] public float WalkSpeed = 7.5f;
-    [Export] public float WalkAcceleration = 3f;
+    [Export] public float WalkAcceleration = 15f;
     [Export] public float JumpPower = 9f;
 
     [Export] public float TurnSpeed = 10;

@@ -2,10 +2,10 @@
 
 [ext_resource type="Script" uid="uid://dnutsoav7lqts" path="res://Rig/NPC.cs" id="1_utqbp"]
 [ext_resource type="Script" uid="uid://bkjt2jmbdq36q" path="res://Rig/States/StateMachine.cs" id="2_1dxc1"]
-[ext_resource type="Script" uid="uid://danh62la084tv" path="res://Rig/States/UpState.cs" id="3_qn0kr"]
-[ext_resource type="Script" uid="uid://cofuxanubby3x" path="res://Rig/States/MovementState.cs" id="4_m1jb8"]
-[ext_resource type="Script" uid="uid://bql1pehyqar1k" path="res://Rig/States/PhysicsState.cs" id="5_eqqby"]
-[ext_resource type="Script" uid="uid://fmbpuncrxhr" path="res://Rig/States/RagdolledState.cs" id="6_cnevh"]
+[ext_resource type="Script" uid="uid://c1qqqt1a3mpwy" path="res://Rig/States/Movement/GroundedState.cs" id="3_qn0kr"]
+[ext_resource type="Script" uid="uid://dunqapar335x3" path="res://Rig/States/Movement/FreeFallState.cs" id="4_m1jb8"]
+[ext_resource type="Script" uid="uid://bb8jb23s0wkds" path="res://Rig/States/Movement/JumpingState.cs" id="5_eqqby"]
+[ext_resource type="Script" uid="uid://c73xrr18foiqy" path="res://Rig/States/Movement/LandedState.cs" id="6_cnevh"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_utqbp"]
 radius = 0.3
@@ -67,21 +67,37 @@ vertical_alignment = 2
 
 [node name="StateMachine" type="Node" parent="." unique_id=166203790 node_paths=PackedStringArray("INITIAL_STATE")]
 script = ExtResource("2_1dxc1")
-INITIAL_STATE = NodePath("MovementState")
+INITIAL_STATE = NodePath("GroundedState")
 metadata/_custom_type_script = "uid://bkjt2jmbdq36q"
 
-[node name="UpState" type="Node" parent="StateMachine" unique_id=75769046]
+[node name="GroundedState" type="Node" parent="StateMachine" unique_id=2034327199 node_paths=PackedStringArray("FreeFall", "Jumping", "Grounded", "Landed")]
 script = ExtResource("3_qn0kr")
-metadata/_custom_type_script = "uid://danh62la084tv"
+FreeFall = NodePath("../FreeFallState")
+Jumping = NodePath("../JumpingState")
+Grounded = NodePath(".")
+Landed = NodePath("../LandedState")
+metadata/_custom_type_script = "uid://c1qqqt1a3mpwy"
 
-[node name="MovementState" type="Node" parent="StateMachine" unique_id=1375834471]
+[node name="FreeFallState" type="Node" parent="StateMachine" unique_id=224118502 node_paths=PackedStringArray("FreeFall", "Jumping", "Grounded", "Landed")]
 script = ExtResource("4_m1jb8")
-metadata/_custom_type_script = "uid://cofuxanubby3x"
+FreeFall = NodePath(".")
+Jumping = NodePath("../JumpingState")
+Grounded = NodePath("../GroundedState")
+Landed = NodePath("../LandedState")
+metadata/_custom_type_script = "uid://dunqapar335x3"
 
-[node name="PhysicsState" type="Node" parent="StateMachine" unique_id=332267648]
+[node name="JumpingState" type="Node" parent="StateMachine" unique_id=2130267309 node_paths=PackedStringArray("FreeFall", "Jumping", "Grounded", "Landed")]
 script = ExtResource("5_eqqby")
-metadata/_custom_type_script = "uid://bql1pehyqar1k"
+FreeFall = NodePath("../FreeFallState")
+Jumping = NodePath(".")
+Grounded = NodePath("../GroundedState")
+Landed = NodePath("../LandedState")
+metadata/_custom_type_script = "uid://bb8jb23s0wkds"
 
-[node name="RagdolledState" type="Node" parent="StateMachine" unique_id=992782467]
+[node name="LandedState" type="Node" parent="StateMachine" unique_id=1381270121 node_paths=PackedStringArray("FreeFall", "Jumping", "Grounded", "Landed")]
 script = ExtResource("6_cnevh")
-metadata/_custom_type_script = "uid://fmbpuncrxhr"
+FreeFall = NodePath("../FreeFallState")
+Jumping = NodePath("../JumpingState")
+Grounded = NodePath("../GroundedState")
+Landed = NodePath(".")
+metadata/_custom_type_script = "uid://c73xrr18foiqy"

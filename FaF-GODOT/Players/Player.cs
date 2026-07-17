@@ -27,7 +27,7 @@ public partial class Player : Node
 		PEER_ID = int.Parse(Name);
 
 		// HumanoidRootPart.SetNetworkOwner()
-		SetMultiplayerAuthority(PEER_ID);
+		Character.SetMultiplayerAuthority(PEER_ID);
 
 		// call environment specific ready functions
 		if (Multiplayer.IsServer()) {ReadyServer();} else {ReadyClient();}
@@ -66,10 +66,10 @@ public partial class Player : Node
         Character.OverrideRotation = Camera != null && Camera.IsInFirstPerson();
 		Character.RotationOverride = -Camera?.Camera3D.GlobalTransform.Basis.Z ?? Vector3.Forward;
 
-		foreach (Node3D item in FirstPersonHideNodes)
-		{
-			item.Visible = Camera != null ? !Camera.IsInFirstPerson() : true;
-		}
+		// foreach (Node3D item in FirstPersonHideNodes)
+		// {
+		// 	item.Visible = Camera != null ? !Camera.IsInFirstPerson() : true;
+		// }
     }
 
     public override void _PhysicsProcess(double delta)

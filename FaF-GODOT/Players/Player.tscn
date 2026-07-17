@@ -1,10 +1,20 @@
 [gd_scene format=3 uid="uid://d1tkfeinx3ajq"]
 
 [ext_resource type="Script" uid="uid://can4skm07ig2v" path="res://Players/Player.cs" id="1_pkcgc"]
+[ext_resource type="PackedScene" uid="uid://cvdetglujjdh5" path="res://Rig/HumanoidRig6/HumanoidRig6.tscn" id="2_h53b3"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_h53b3"]
+viewport_path = NodePath("Nametag/BillboardViewport")
 
 [node name="Player" type="Node" unique_id=338683107 node_paths=PackedStringArray("Character", "CameraPivot", "FirstPersonHideNodes")]
 script = ExtResource("1_pkcgc")
-Character = NodePath("")
-CameraPivot = NodePath("")
-FirstPersonHideNodes = [NodePath(""), NodePath(""), NodePath(""), NodePath("")]
-metadata/_custom_type_script = "uid://bi0nni8fracvj"
+Character = NodePath("Character")
+CameraPivot = NodePath("Character/Skeleton3D/HeadBone")
+FirstPersonHideNodes = [null, null, null, null]
+
+[node name="Character" parent="." unique_id=619846865 instance=ExtResource("2_h53b3")]
+
+[node name="Nametag" parent="Character" index="2" unique_id=956275761]
+texture = SubResource("ViewportTexture_h53b3")
+
+[editable path="Character"]
