@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c4grqsd54srd8"
-path.s3tc="res://.godot/imported/Symbol Explosion.png-041db8f668086632b4bd6e887e7f4519.s3tc.ctex"
+uid="uid://bnxynebeajltu"
+path.s3tc="res://.godot/imported/Torso.png-949e4ac8376cce8c596c40e2edcc71e9.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://Assets/Textures/Decals/Symbols/Symbol Explosion.png"
-dest_files=["res://.godot/imported/Symbol Explosion.png-041db8f668086632b4bd6e887e7f4519.s3tc.ctex"]
+source_file="res://Data/AvatarItems/TShirts/Explosion/Torso.png"
+dest_files=["res://.godot/imported/Torso.png-949e4ac8376cce8c596c40e2edcc71e9.s3tc.ctex"]
 
 [params]
 

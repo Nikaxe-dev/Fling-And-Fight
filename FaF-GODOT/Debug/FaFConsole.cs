@@ -5,6 +5,55 @@ using Godot;
 
 namespace FaF.Debug;
 
+public enum ConsoleCategory
+{
+    // NETWORKING
+    Networking,
+    PlayerJoinLog,
+
+    // NPC
+    NPC,
+
+    NPCAnimation,
+
+    StateMachine,
+    StateMachineMovement,
+    StateMachinePhysics,
+    StateMachineRagdoll,
+
+    ClientStateChanged,
+
+    // PlayerCharacter
+    PlayerCharacter,
+
+    // UI
+    UI,
+    MainMenu,
+
+    // Visuals
+    Visuals,
+
+    // Initialization
+    Initialization,
+
+    // Data
+    Data,
+    DataLoader,
+    
+    DataWorlds,
+    DataMaps,
+    
+    DataItemLike,
+    DataItems,
+    DataGears,
+
+    DataAvatarItem,
+    DataAccessory,
+    DataPants,
+    DataShirt,
+    DataTShirt
+}
+
 public static class FaFConsole
 {
     private static string genPrintEnvInfo()

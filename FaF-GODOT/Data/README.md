@@ -30,7 +30,7 @@ PROJECT_ROOT/Data:
                         MapMeta.tres (MapRegistry Resource)
 
                         -- THIS IS REQUIRED TO INHERIT FROM PROJECT_ROOT/Data/Worlds/Base/Data/Maps/Base_Map/Base_Map.tscn
-                        name_doesnt_matter.tscn (PackedScene) (recommend to name it after the map so godot shows the correct name in the editor)
+                        name_doesnt_matter.tscn (MapRoot PackedScene) (recommend to name it after the map so godot shows the correct name in the editor)
                         
                         -- IF YOUR USING TrenchBroom / OTHER MAPPING SOFTWARE
                         name_doesnt_matter.map (Map file or other formats) (same recommendation for the naming)
@@ -57,6 +57,38 @@ PROJECT_ROOT/Data:
             -- This is a special required world not shown in game that artificially adds its content to every other world. Worlds can choose to disable all or parts of globals content.
         Base:
             -- This is a special required world not shown in game that stores the base scenes for each type of registry. These peices of content all are not real and do not show in game.
+    
+    -- This is a category of registries.
+    AvatarItems:
+        Accessories:
+            *:
+                AccessoryMeta.tres (AccessoryRegistry Resource)
+
+                name_doesnt_matter.tscn (Accessory PackedScene)
+
+                Assets:
+                    -- assets folder for resources relating to the content.
+        
+        Pants:
+            *:
+                PantsMeta.tres (PantsRegistry Resource)
+
+                LeftLeg.png/.jpg/ect (Image) (Use the leg template for this!)
+                RightLeg.png/.jpg/ect (Image) (Use the leg template for this!)
+        
+        TShirt:
+            *:
+                TShirtMeta.tres (TShirtRegistry Resource)
+
+                Torso.png/.jpg/ect (Image) (Any image! No template required. Stuck ontop of the Torso)
+        
+        Shirt:
+            *:
+                ShirtMeta.tres (ShirtRegistry Resource)
+
+                LeftArm.png/.jpg/ect (Image) (Use the arm template for this!)
+                RightArm.png/.jpg/ect (Image) (Use the arm template for this!)
+                Torso.png/.jpg/ect (Image) (Use the torso template for this!)
 
     RegistryObjects (registry classes, just ignore this)
 ```

@@ -1,6 +1,6 @@
 using Godot;
 
-namespace FaF.Content.RegistryObjects;
+namespace FaF.Data.RegistryObjects;
 
 [GlobalClass]
 public partial class ItemRegistry : AbstractItemLikeRegistry

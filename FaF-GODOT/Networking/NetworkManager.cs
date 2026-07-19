@@ -1,5 +1,6 @@
 using System;
 using FaF.Debug;
+using FaF.Players;
 using Godot;
 
 namespace FaF.Networking;

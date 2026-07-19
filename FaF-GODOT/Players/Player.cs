@@ -1,3 +1,6 @@
+using System;
+using FaF.Debug;
+using FaF.Networking;
 using FaF.Rig;
 using FaF.Visuals.Camera;
 using Godot;
@@ -11,26 +14,60 @@ namespace FaF.Players;
 [GlobalClass, Icon("res://Assets/Textures/Character/Icons/PlayerNode.png")]
 public partial class Player : Node
 {
-	[Export] public required NPC Character;
-	[Export] public required Node3D CameraPivot;
-
-	[Export] public Node3D[] FirstPersonHideNodes = [];
+	[Export] public required NPC? Character;
+	[Export] public Node3D? CameraPivot;
 
 	public int PEER_ID;
 
 	public OrbitalCamera? Camera;
+	
+	private CharacterSpawner? WorldCharacterSpawner;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
 		// Name is set to the peer id.
 		PEER_ID = int.Parse(Name);
+	}
 
-		// HumanoidRootPart.SetNetworkOwner()
-		Character.SetMultiplayerAuthority(PEER_ID);
+    public override void _EnterTree()
+    {
+		PEER_ID = int.Parse(Name);
 
-		// call environment specific ready functions
-		if (Multiplayer.IsServer()) {ReadyServer();} else {ReadyClient();}
+        WorldCharacterSpawner = GetTree().CurrentScene.GetNodeOrNull<CharacterSpawner>("Networking/CharacterSpawner");
+
+		if (WorldCharacterSpawner == null) FaFConsole.PushERROR("Players.Player/EnterTree", "Expected CharacterSpawner Scene/Networking/CharacterSpawner to exist but got nothing");
+
+		SpawnNewCharacter();
+    }
+
+	public NPC LoadCharacterApparence(NPC Rig)
+	{
+		// Avatar customization is not implemented yet: SKIP
+		return Rig;
+	}
+
+	public NPC UseNPCAsCharacter(NPC Rig)
+	{
+		Character = Rig;
+		Character.player = this;
+
+		FaFConsole.PrintINFO("Player", "Player using new character");
+
+		return Rig;
+	}
+
+	public NPC? SpawnNewCharacter()
+	{
+		if (!Multiplayer.IsServer()) return null;
+		Character?.QueueFree();
+		return (NPC?)(WorldCharacterSpawner?.Spawn(PEER_ID));
+	}
+
+	[Rpc(MultiplayerApi.RpcMode.AnyPeer)]
+	public void RequestSpawnNewCharacter()
+	{
+		if (Multiplayer.GetRemoteSenderId() == PEER_ID) SpawnNewCharacter();
 	}
 
 	/// <summary>
@@ -38,42 +75,28 @@ public partial class Player : Node
 	/// </summary>
 	public bool IsLocalPlayer()
 	{
-		GD.Print(Multiplayer.GetUniqueId(), " ", PEER_ID);
 		return Multiplayer.GetUniqueId() == PEER_ID;
-	}
-
-	private void ReadyClient()
-	{
-		if (IsLocalPlayer()) {
-			Camera = new OrbitalCamera
-			{
-				Name = "ClientOrbitalCamera",
-			};
-
-			Character.AddChild(Camera);
-			Camera.GlobalPosition = CameraPivot.GlobalPosition;
-			Camera.FOV = 90;
-		}
-	}
-
-	private void ReadyServer()
-	{
-		
 	}
 
     public override void _Process(double delta)
     {
+		if (Character == null || !IsLocalPlayer()) return;
+
         Character.OverrideRotation = Camera != null && Camera.IsInFirstPerson();
 		Character.RotationOverride = -Camera?.Camera3D.GlobalTransform.Basis.Z ?? Vector3.Forward;
 
-		// foreach (Node3D item in FirstPersonHideNodes)
-		// {
-		// 	item.Visible = Camera != null ? !Camera.IsInFirstPerson() : true;
-		// }
+		foreach (Node3D item in Character.FirstPersonHideNodes)
+		{
+			item.Visible = Camera == null || !Camera.IsInFirstPerson();
+		}
+
+		if (Input.IsActionJustPressed("debug_reset")) RpcId(1, MethodName.RequestSpawnNewCharacter);
     }
 
     public override void _PhysicsProcess(double delta)
     {
+		if (Character == null || !IsLocalPlayer()) return;
+
 		Character.Jump = Input.IsActionPressed("movement_jump");
 
 		Vector2 inputDir = Input.GetVector("movement_left","movement_right","movement_forward","movement_backward");

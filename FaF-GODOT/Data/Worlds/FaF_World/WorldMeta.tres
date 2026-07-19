@@ -1,9 +1,10 @@
 [gd_resource type="Resource" script_class="WorldRegistry" format=3 uid="uid://dvrqyjr7k7gf2"]
 
-[ext_resource type="Script" uid="uid://bylfnf2a4xvub" path="res://Content/RegistryObjects/WorldRegistry.cs" id="1_chawn"]
+[ext_resource type="Script" uid="uid://bylfnf2a4xvub" path="res://Data/RegistryObjects/WorldRegistry.cs" id="1_chawn"]
 
 [resource]
 script = ExtResource("1_chawn")
 Name = "Fling And Fight"
 Creator = "NIKAXE"
+Description = "Explore a fragile world where the grabline didn't solve as much..."
 metadata/_custom_type_script = "uid://bylfnf2a4xvub"

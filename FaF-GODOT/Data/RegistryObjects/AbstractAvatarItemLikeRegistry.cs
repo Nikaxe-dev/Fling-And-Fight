@@ -3,14 +3,10 @@ using Godot;
 namespace FaF.Data.RegistryObjects;
 
 [GlobalClass]
-public partial class MapRegistry : Resource
+public abstract partial class AbstractAvatarItemLikeRegistry : Resource
 {
     [Export] public string Name;
     [Export] public string Creator;
 
     [Export(PropertyHint.MultilineText)] public string Description;
-
-    [Export] public bool ShowInGame = true;
-
-    [Export] public PackedScene Scene;
 }

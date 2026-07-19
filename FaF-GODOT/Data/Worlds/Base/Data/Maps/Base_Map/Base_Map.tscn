@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://0cam62lnrwv3" path="res://Networking/PlayerSpawner.cs" id="4_ras5e"]
 [ext_resource type="PackedScene" uid="uid://d1tkfeinx3ajq" path="res://Players/Player.tscn" id="5_hcybn"]
 [ext_resource type="Script" uid="uid://bnnmdd0ats3pg" path="res://Visuals/Camera/CameraPivot.cs" id="5_kvv20"]
+[ext_resource type="PackedScene" uid="uid://cvdetglujjdh5" path="res://Rig/HumanoidRig6/HumanoidRig6.tscn" id="5_wg4yv"]
 
 [sub_resource type="Sky" id="Sky_8evay"]
 sky_material = ExtResource("2_ex6xq")
@@ -46,10 +47,12 @@ spawn_path = NodePath("../../Players")
 script = ExtResource("4_ras5e")
 ReplicatedScene = ExtResource("5_hcybn")
 
-[node name="CharacterSpawner" type="MultiplayerSpawner" parent="Networking" unique_id=1196821328]
+[node name="CharacterSpawner" type="MultiplayerSpawner" parent="Networking" unique_id=1196821328 node_paths=PackedStringArray("PlayersContainer")]
 _spawnable_scenes = PackedStringArray("uid://cvdetglujjdh5")
 spawn_path = NodePath("../../Scene/Characters")
 script = ExtResource("4_kvv20")
+CharacterModel = ExtResource("5_wg4yv")
+PlayersContainer = NodePath("../../Players")
 
 [node name="Scene" type="Node3D" parent="." unique_id=1054204705]
 
@@ -76,11 +79,11 @@ mesh = SubResource("PlaneMesh_ras5e")
 
 [node name="Props" type="Node3D" parent="Scene" unique_id=976973069]
 
-[node name="SpawnedItems" type="Node3D" parent="Scene/Props" unique_id=133514281]
+[node name="PlayerItems" type="Node3D" parent="Scene/Props" unique_id=133514281]
 
-[node name="MapSpawnedItems" type="Node3D" parent="Scene/Props" unique_id=2124992890]
+[node name="MapItems" type="Node3D" parent="Scene/Props" unique_id=2124992890]
 
-[node name="GearProps" type="Node3D" parent="Scene/Props" unique_id=1541704254]
+[node name="Temporary" type="Node3D" parent="Scene/Props" unique_id=1541704254]
 
 [node name="Characters" type="Node3D" parent="Scene" unique_id=1629383935]
 
