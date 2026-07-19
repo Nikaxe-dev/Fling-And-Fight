@@ -3,7 +3,7 @@ using Godot;
 namespace FaF.Rig.States.Movement;
 
 [GlobalClass]
-public partial class FreeFallState() : MovementState(false)
+public partial class FreeFallState() : MovementState(false, true, false, true, "FALL_ANIMATION", "FALL_ANIMATION")
 {
     public override void PhysicsProcess(double delta)
     {
@@ -11,7 +11,7 @@ public partial class FreeFallState() : MovementState(false)
 
         if (Npc.IsOnFloor())
         {
-            Machine.SwitchToState(Grounded);
+            Machine.SwitchToState(Landed);
         }
     }
 }

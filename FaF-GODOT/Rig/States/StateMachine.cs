@@ -46,13 +46,7 @@ public partial class StateMachine : Node
     /// <param name="Target">The state to switch to.</param>
     public void SwitchToState(State? Target)
     {
-        if (CurrentState == Target) return;
-        
-        // CurrentState?.Exit();
-        // if (Target != null) Target.PreviousState = CurrentState;
-        // Target?.Enter();
-        // if(IsMultiplayerAuthority()) FaFConsole.PrintINFO("FaF.States/StateMachine", $"Switched to state {Target?.Name} from {CurrentState?.Name}");
-        // CurrentState = Target;
+        if (CurrentState?.GetType() == Target?.GetType()) return;
 
         var previous = CurrentState;
         if (Target != null) Target.PreviousState = CurrentState;
@@ -60,7 +54,7 @@ public partial class StateMachine : Node
         CurrentState = Target;
         Target?.Enter();
 
-        if(IsMultiplayerAuthority()) FaFConsole.PrintINFO("FaF.States/StateMachine", $"Switched to state {Target?.Name} from {CurrentState?.Name}");
+        if(IsMultiplayerAuthority()) FaFConsole.PrintINFO("FaF.States/StateMachine", $"Switched to state {CurrentState?.Name} from {previous?.Name}");
     }
 
     public State? GetCurrentState()

@@ -1,14 +1,18 @@
+using System;
 using Godot;
 
 namespace FaF.Rig.States.Movement;
 
 [GlobalClass]
-public partial class MovementState(bool AllowJumping = true, bool AllowWalking = true, bool AutoSwitchToFreeFall = true, bool ApplyGravity = true) : UpState(ApplyGravity)
+public partial class MovementState(bool AllowJumping = true, bool AllowWalking = true, bool AutoSwitchToFreeFall = true, bool ApplyGravity = true, string walkingAnimation = "WALK_ANIMATION", string idleAnimation = "IDLE_ANIMATION") : UpState(ApplyGravity)
 {
     [Export] public required FreeFallState FreeFall;
     [Export] public required JumpingState Jumping;
     [Export] public required GroundedState Grounded;
     [Export] public required LandedState Landed;
+
+    private StringName WalkingAnimation = new(walkingAnimation);
+    private StringName IdleAnimation = new(idleAnimation);
 
     public override void PhysicsProcess(double delta)
     {
@@ -21,7 +25,7 @@ public partial class MovementState(bool AllowJumping = true, bool AllowWalking =
 
         if (AllowWalking && IsMultiplayerAuthority())
         {
-            float walkAcceleration = Npc.WalkAcceleration * (float)delta;
+            float walkAcceleration = Npc.WalkAcceleration;
 
             if (Npc.Velocity.Length() < Npc.WalkSpeed)
             {
@@ -35,11 +39,36 @@ public partial class MovementState(bool AllowJumping = true, bool AllowWalking =
                 Npc.Velocity.Y,
                 Mathf.MoveToward(Npc.Velocity.Z, targetVelocity.Z, walkAcceleration)
             );
+
+            if (Npc.MoveDirection != Vector3.Zero)
+            {
+                Npc.PlayAnimation((NPCAnimationData)Npc.Get(WalkingAnimation));
+
+                if (!Npc.OverrideRotation)
+                {
+                    double targetRotation = Math.Atan2(Npc.MoveDirection.X, Npc.MoveDirection.Z);
+                    Npc.Rotation = new Vector3(Npc.Rotation.X, (float)Mathf.LerpAngle(Npc.Rotation.Y, targetRotation, Npc.TurnSpeed * delta), Npc.Rotation.Z);
+                }
+            } else
+            {
+                Npc.PlayAnimation((NPCAnimationData)Npc.Get(IdleAnimation));
+            }
         }
 
         if (AutoSwitchToFreeFall && !Npc.IsOnFloor())
         {
             Machine.SwitchToState(FreeFall);
+        }
+    }
+
+    public override void Process(double delta)
+    {
+        base.Process(delta);
+
+        if (Npc.OverrideRotation)
+        {
+            double targetRotation = Math.Atan2(Npc.RotationOverride.X, Npc.RotationOverride.Z);
+            Npc.Rotation = new Vector3(Npc.Rotation.X, (float)Mathf.LerpAngle(Npc.Rotation.Y, targetRotation, Npc.TurnSpeed * delta), Npc.Rotation.Z);
         }
     }
 }

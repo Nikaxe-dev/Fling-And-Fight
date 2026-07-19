@@ -5,6 +5,8 @@ using Vector3 = Godot.Vector3;
 
 namespace FaF.Rig;
 
+#nullable enable
+
 [GlobalClass, Icon("res://Assets/Textures/Character/Icons/NPCNode.png")]
 public partial class NPC : CharacterBody3D
 {
@@ -14,7 +16,7 @@ public partial class NPC : CharacterBody3D
 
     [ExportGroup("Movement")]
     [Export] public float WalkSpeed = 7.5f;
-    [Export] public float WalkAcceleration = 15f;
+    [Export] public float WalkAcceleration = 3f;
     [Export] public float JumpPower = 9f;
 
     [Export] public float TurnSpeed = 10;
@@ -39,16 +41,20 @@ public partial class NPC : CharacterBody3D
     // };
 
     [ExportGroup("Animations")]
-    [Export] public string FALL_ANIMATION = "humanoid_6/fall";
+    [Export] public required NPCAnimationData FALL_ANIMATION;
 
-    [Export] public string WALK_ANIMATION = "humanoid_6/walk";
+    [Export] public required NPCAnimationData WALK_ANIMATION;
 
-    [Export] public string IDLE_ANIMATION = "humanoid_6/idle";
+    [Export] public required NPCAnimationData IDLE_ANIMATION;
 
     [ExportGroup("Connected Nodes")]
     [Export] public required AnimationPlayer Animator;
     [Export] public required CollisionShape3D Collision;
     [Export] public required StateMachine StateMachine;
+
+    [ExportGroup("Optional Model Parts")]
+    [Export] public BoneAttachment3D? HeadBone;
+    [Export] public BoneAttachment3D? TorsoBone;
 
     // public enum NPCState
     // {
@@ -170,12 +176,21 @@ public partial class NPC : CharacterBody3D
 
     // ANIMATION
 
-    public void PlayAnimation(string id, float speed = 1, float blend = 0.2f)
+    public void PlayAnimation(NPCAnimationData animation, float speed, float blend)
     {
-        if (Animator.CurrentAnimation != id || speed != Animator.SpeedScale)
+        if (Animator.CurrentAnimation != animation.ANIMATION_ID || speed != Animator.SpeedScale)
         {
-            RPCPlayAnimation(id, speed, blend);
-            Rpc(MethodName.RPCPlayAnimation, id, speed, blend);
+            RPCPlayAnimation(animation.ANIMATION_ID, speed, blend);
+            Rpc(MethodName.RPCPlayAnimation, animation.ANIMATION_ID, speed, blend);
+        }
+    }
+
+    public void PlayAnimation(NPCAnimationData animation)
+    {
+        if (Animator.CurrentAnimation != animation.ANIMATION_ID || animation.PLAYBACK_SPEED != Animator.SpeedScale)
+        {
+            RPCPlayAnimation(animation.ANIMATION_ID, animation.PLAYBACK_SPEED, animation.PLAYBACK_BLEND);
+            Rpc(MethodName.RPCPlayAnimation, animation.ANIMATION_ID, animation.PLAYBACK_SPEED, animation.PLAYBACK_BLEND);
         }
     }
 

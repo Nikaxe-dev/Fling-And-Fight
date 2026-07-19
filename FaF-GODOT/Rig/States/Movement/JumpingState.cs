@@ -12,6 +12,11 @@ public partial class JumpingState() : MovementState(false,true,false)
         // FIXME: StateMachine gets stuck here when jumping instead of moving on to FreeFall immediately. POSSIBLE FIX: Add Machine.SwitchToState(FreeFall) to PhysicsProcess.
 
         if (IsMultiplayerAuthority()) Npc.Velocity = new Vector3(Npc.Velocity.X, Npc.JumpPower, Npc.Velocity.Z);
+    }
+
+    public override void Process(double delta)
+    {
+        base.Process(delta);
         Machine.SwitchToState(FreeFall);
     }
 }
