@@ -1,4 +1,5 @@
 using System;
+using FaF.Debug;
 using FaF.Players;
 using FaF.Rig.States;
 using FaF.Visuals.Camera;
@@ -46,6 +47,8 @@ public partial class NPC : CharacterBody3D
 
     [Export] public Player? player;
 
+    [Export] public OrbitalCamera? Camera;
+
     // RUNTIME MOVEMENT
     
     [ExportGroup("Runtime Movement")]
@@ -55,27 +58,31 @@ public partial class NPC : CharacterBody3D
     public bool OverrideRotation = false;
     public Vector3 RotationOverride = Vector3.Zero;
 
-    public void CreateCameraForPlayer()
+    public OrbitalCamera CreateOrbitalCamera(bool doNotUsePlayer = false)
     {
-        // FIXME: PLAYER IS NULL FOR NO REASON
-        if (player != null && !Multiplayer.IsServer() && player.IsLocalPlayer())
-		{
-			player.CameraPivot = CameraPivot;
+        Camera = new()
+        {
+            Name = "ClientOrbitalCamera",
+        };
 
-			player.Camera = new OrbitalCamera
-			{
-				Name = "ClientOrbitalCamera",
-			};
+        AddChild(Camera);
 
-			AddChild(player.Camera);
-			player.Camera.GlobalPosition = CameraPivot?.GlobalPosition ?? GlobalPosition;
-			player.Camera.FOV = 90;
-		}
+        if (IsInsideTree())
+        {
+            Camera.GlobalPosition = CameraPivot?.GlobalPosition ?? GlobalPosition;
+        }
+
+        Camera.FOV = 90;
+
+        return Camera;
     }
 
-    public override void _EnterTree()
+    public override void _Ready()
     {
-        CreateCameraForPlayer();
+        if (Camera != null)
+        {
+            Camera.GlobalPosition = CameraPivot?.GlobalPosition ?? GlobalPosition;
+        }
     }
 
     // ANIMATION

@@ -1,6 +1,7 @@
 using FaF.Debug;
 using FaF.Players;
 using FaF.Rig;
+using FaF.Visuals.Camera;
 using Godot;
 using System;
 using System.Threading.Tasks;
@@ -42,7 +43,22 @@ public partial class CharacterSpawner : MultiplayerSpawner
 			while ((player = PlayersContainer.GetNodeOrNull<Player>(PEER_ID.ToString())) == null)
 				await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
 
-			player.UseNPCAsCharacter(player.LoadCharacterApparence(rig));
+			// GD.Print(player, " ", Multiplayer.IsServer(), " ", rig.IsMultiplayerAuthority());
+			// if (player != null && !Multiplayer.IsServer() && rig.IsMultiplayerAuthority())
+			// {
+			// 	player.CameraPivot = rig.CameraPivot;
+
+			// 	player.Camera = new OrbitalCamera
+			// 	{
+			// 		Name = "ClientOrbitalCamera",
+			// 	};
+
+			// 	rig.AddChild(player.Camera);
+			// 	player.Camera.GlobalPosition = rig.CameraPivot?.GlobalPosition ?? rig.GlobalPosition;
+			// 	player.Camera.FOV = 90;
+			// }
+
+			player?.UseNPCAsCharacter(player.LoadCharacterApparence(rig));
 		}
 	}
 }

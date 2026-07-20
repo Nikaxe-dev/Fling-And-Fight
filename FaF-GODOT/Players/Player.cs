@@ -18,8 +18,6 @@ public partial class Player : Node
 	[Export] public Node3D? CameraPivot;
 
 	public int PEER_ID;
-
-	public OrbitalCamera? Camera;
 	
 	private CharacterSpawner? WorldCharacterSpawner;
 
@@ -53,6 +51,12 @@ public partial class Player : Node
 		Character.player = this;
 
 		FaFConsole.PrintINFO("Player", "Player using new character");
+		
+		if (IsLocalPlayer())
+		{
+			FaFConsole.PrintINFO("Player", "Local player using new character");
+			Character.CreateOrbitalCamera();
+		}
 
 		return Rig;
 	}
@@ -82,12 +86,12 @@ public partial class Player : Node
     {
 		if (Character == null || !IsLocalPlayer()) return;
 
-        Character.OverrideRotation = Camera != null && Camera.IsInFirstPerson();
-		Character.RotationOverride = -Camera?.Camera3D.GlobalTransform.Basis.Z ?? Vector3.Forward;
+        Character.OverrideRotation = Character.Camera != null && Character.Camera.IsInFirstPerson();
+		Character.RotationOverride = -Character.Camera?.Camera3D?.GlobalTransform.Basis.Z ?? Vector3.Forward;
 
 		foreach (Node3D item in Character.FirstPersonHideNodes)
 		{
-			item.Visible = Camera == null || !Camera.IsInFirstPerson();
+			item.Visible = Character.Camera == null || !Character.Camera.IsInFirstPerson();
 		}
 
 		if (Input.IsActionJustPressed("debug_reset")) RpcId(1, MethodName.RequestSpawnNewCharacter);
@@ -101,11 +105,11 @@ public partial class Player : Node
 
 		Vector2 inputDir = Input.GetVector("movement_left","movement_right","movement_forward","movement_backward");
 
-		Vector3 forward = Camera?.Camera3D.GlobalTransform.Basis.Z ?? Vector3.Forward;
+		Vector3 forward = Character.Camera?.Camera3D?.GlobalTransform.Basis.Z ?? Vector3.Forward;
 		forward *= new Vector3(1,0,1);
 		forward = forward.Normalized();
 
-		Vector3 right = Camera?.Camera3D.GlobalTransform.Basis.X ?? Vector3.Right;
+		Vector3 right = Character.Camera?.Camera3D?.GlobalTransform.Basis.X ?? Vector3.Right;
 		right *= new Vector3(1,0,1);
 		right = right.Normalized();
 
