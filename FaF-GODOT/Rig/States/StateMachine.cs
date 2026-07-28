@@ -9,6 +9,8 @@ namespace FaF.Rig.States;
 [GlobalClass]
 public partial class StateMachine : Node
 {
+    private static readonly FaFLogger LOGGER = FaFLogger.Get("States/StateMachine");
+
     [Export] public State? INITIAL_STATE;
 
     public required NPC Npc;
@@ -54,7 +56,7 @@ public partial class StateMachine : Node
         CurrentState = Target;
         Target?.Enter();
 
-        if(IsMultiplayerAuthority()) FaFConsole.PrintINFO("FaF.States/StateMachine", $"Switched to state {CurrentState?.Name} from {previous?.Name}");
+        if(IsMultiplayerAuthority()) LOGGER.LOG(LogType.INFO, $"Switched to state {CurrentState?.Name} from {previous?.Name}", "StateChanged");
     }
 
     public State? GetCurrentState()

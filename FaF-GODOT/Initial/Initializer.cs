@@ -30,14 +30,14 @@ public partial class Initializer : Node
 			
 			// TODO: Add map option to command line server startup (MAKE SURE TO INCLUDE DEFAULTS)
 
-			GetTree().ChangeSceneToFile("res://Data/Worlds/FaF_World/Data/Maps/New_Sedes/New_Sedes_Scene.tscn");
+			GetTree().ChangeSceneToFile("res://Data/Worlds/FaF/Data/Maps/New_Sedes/New_Sedes_Scene.tscn");
 			NetworkManager.Instance.StartServer(NetworkManager.DEFAULT_PORT);
 		} else if (args.Contains("--auto-join"))
 		{
 			GD.Print("CLIENT: Auto joining server in 2(s).");
 
 			Thread.Sleep(2000);
-			GetTree().ChangeSceneToFile("res://Data/Worlds/FaF_World/Data/Maps/New_Sedes/New_Sedes_Scene.tscn");
+			GetTree().ChangeSceneToFile("res://Data/Worlds/FaF/Data/Maps/New_Sedes/New_Sedes_Scene.tscn");
 			NetworkManager.Instance.JoinServer(NetworkManager.DEFAULT_IP, NetworkManager.DEFAULT_PORT);
 		}
 	}

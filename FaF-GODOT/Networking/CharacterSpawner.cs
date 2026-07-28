@@ -12,6 +12,8 @@ namespace FaF.Networking;
 
 public partial class CharacterSpawner : MultiplayerSpawner
 {
+	private static readonly FaFLogger LOGGER = FaFLogger.Get("Networking/Spawners/CharacterSpawner");
+
 	[Export] public required PackedScene CharacterModel;
 	[Export] public required Node PlayersContainer;
 
@@ -22,7 +24,7 @@ public partial class CharacterSpawner : MultiplayerSpawner
 
 	public Node CreateNewPlayerCharacter(int PEER_ID)
 	{
-		FaFConsole.PrintINFO("CharacterSpawner", $"Creating character {PEER_ID}");
+		LOGGER.LOG(LogType.INFO, $"Creating character {PEER_ID}");
 		var instance = CharacterModel.Instantiate();
 		instance.Name = PEER_ID.ToString();
 

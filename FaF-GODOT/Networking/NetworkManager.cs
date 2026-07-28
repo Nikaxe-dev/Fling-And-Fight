@@ -40,6 +40,8 @@ namespace FaF.Networking;
 
 public partial class NetworkManager : Node
 {
+    private static readonly FaFLogger LOGGER = FaFLogger.Get("Networking/NetworkManager");
+
     // CODE CONFIGURATION
 
     [Signal] public delegate void PlayerConnectedEventHandler(int PEER_ID);
@@ -79,14 +81,14 @@ public partial class NetworkManager : Node
 
         if (err != Error.Ok)
         {
-            FaFConsole.PushERROR("NetworkManager/StartServer", $"Failed to create server: {err}");
+            LOGGER.LOG(LogType.ERROR, $"Failed to create server: {err}", "ServerLifeCycle");
             return err;
         }
 
         Multiplayer.MultiplayerPeer = Peer;
         IsServer = true;
 
-        FaFConsole.PrintINFO("NetworkManager/StartServer", $"Successfully created server at 127.0.0.1:{PORT}.");
+        LOGGER.LOG(LogType.INFO, $"Successfully created server at 127.0.0.1:{PORT}", "ServerLifeCycle");
 
         return Error.Ok;
     }
@@ -98,13 +100,13 @@ public partial class NetworkManager : Node
 
         if (err != Error.Ok)
         {
-            FaFConsole.PushERROR("NetworkManager/JoinServer", $"Failed to create client & join server at {IP_ADDRESS}:{PORT} with Godot error '{err}'");
+            LOGGER.LOG(LogType.ERROR, $"Failed to create client & join server at {IP_ADDRESS}:{PORT} with Godot error '${err}'", "ClientLifeCycle");
         }
 
         Multiplayer.MultiplayerPeer = Peer;
         IsServer = false;
 
-        FaFConsole.PrintINFO("NetworkManager/JoinServer", $"Connecting to server {IP_ADDRESS}:{PORT}.");
+        LOGGER.LOG(LogType.INFO, $"Connecting to server {IP_ADDRESS}:{PORT}", "ClientLifeCycle");
 
         return Error.Ok;
     }
@@ -117,7 +119,7 @@ public partial class NetworkManager : Node
         Multiplayer.MultiplayerPeer = null;
         IsServer = false;
 
-        FaFConsole.PrintINFO("NetworkManager/StopServer", "Successfully stopped server.");
+        LOGGER.LOG(LogType.INFO, "Successfully stopped server", "ServerLifeCycle");
 
         GetTree().Quit();
     }
@@ -130,7 +132,7 @@ public partial class NetworkManager : Node
         Multiplayer.MultiplayerPeer = null;
         IsServer = false;
 
-        FaFConsole.PrintINFO("NetworkManager/StopClient", "Successfully stopped client.");
+        LOGGER.LOG(LogType.INFO, "Successfully stopped client", "ClientLifeCycle");
 
         GetTree().ChangeSceneToFile("res://Launcher/MainMenu/TitleScreen.tscn");
     }
@@ -139,32 +141,32 @@ public partial class NetworkManager : Node
 
     private void OnServerDisconnected()
     {
-        FaFConsole.PrintWARNING("NetworkManager/Debug", "Client disconnected from server.");
+        LOGGER.LOG(LogType.WARNING, "Client disconnected from server", "ClientLifeCycle");
         StopClient();
     }
 
     private void OnConnectionFailed()
     {
-        FaFConsole.PrintWARNING("NetworkManager/Debug", "Client failed to connect to server.");
+        LOGGER.LOG(LogType.WARNING, "Client failed to connect to server", "ClientLifeCycle");
         StopClient();
         EmitSignal(SignalName.ConnectionFailed);
     }
 
     private void OnConnectedToServer()
     {
-        FaFConsole.PrintINFO("NetworkManager/Debug", $"Connected to server! PEER_ID: {Multiplayer.GetUniqueId()}");
+        LOGGER.LOG(LogType.INFO, $"Connected to server! PEER_ID: {Multiplayer.GetUniqueId()}", "ClientLifeCycle");
         EmitSignal(SignalName.ConnectionEstablished);
     }
 
     private void OnPeerDisconnected(long id)
     {
-        FaFConsole.PrintINFO("NetworkManager/Debug", $"Peer disconnected: {id}");
+        LOGGER.LOG(LogType.INFO, $"Peer disconnected: {id}", "PeerConnections");
         EmitSignal(SignalName.PlayerDisconnected, (int)id);
     }
 
     private void OnPeerConnected(long id)
     {
-        FaFConsole.PrintINFO("NetworkManager/Debug", $"Peer connected: {id}");
+        LOGGER.LOG(LogType.INFO, $"Peer connected: {id}", "PeerConnections");
         EmitSignal(SignalName.PlayerConnected, (int)id);
     }
 

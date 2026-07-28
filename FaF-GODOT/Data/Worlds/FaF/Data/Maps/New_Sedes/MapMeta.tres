@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="MapRegistry" format=3 uid="uid://b4agt2j2ut0pq"]
 
-[ext_resource type="PackedScene" uid="uid://jyl6yvmc2i8u" path="res://Data/Worlds/FaF_World/Data/Maps/New_Sedes/New_Sedes_Scene.tscn" id="1_3de2m"]
+[ext_resource type="PackedScene" uid="uid://jyl6yvmc2i8u" path="res://Data/Worlds/FaF/Data/Maps/New_Sedes/New_Sedes_Scene.tscn" id="1_3de2m"]
 [ext_resource type="Script" uid="uid://8bkplj8alg5t" path="res://Data/RegistryObjects/MapRegistry.cs" id="1_mtqgl"]
 
 [resource]

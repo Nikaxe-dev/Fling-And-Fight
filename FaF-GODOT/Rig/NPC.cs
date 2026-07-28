@@ -57,6 +57,7 @@ public partial class NPC : CharacterBody3D
 
     public bool OverrideRotation = false;
     public Vector3 RotationOverride = Vector3.Zero;
+    public float TurnSpeedOverride = 100;
 
     public OrbitalCamera CreateOrbitalCamera(bool doNotUsePlayer = false)
     {

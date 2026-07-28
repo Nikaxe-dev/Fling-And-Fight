@@ -14,6 +14,8 @@ namespace FaF.Players;
 [GlobalClass, Icon("res://Assets/Textures/Character/Icons/PlayerNode.png")]
 public partial class Player : Node
 {
+	private static readonly FaFLogger LOGGER = FaFLogger.Get("Players/Player");
+
 	[Export] public required NPC? Character;
 	[Export] public Node3D? CameraPivot;
 
@@ -34,7 +36,7 @@ public partial class Player : Node
 
         WorldCharacterSpawner = GetTree().CurrentScene.GetNodeOrNull<CharacterSpawner>("Networking/CharacterSpawner");
 
-		if (WorldCharacterSpawner == null) FaFConsole.PushERROR("Players.Player/EnterTree", "Expected CharacterSpawner Scene/Networking/CharacterSpawner to exist but got nothing");
+		if (WorldCharacterSpawner == null) LOGGER.LOG(LogType.ERROR, "Expected CharacterSpawner Scene/Networking/CharacterSpawner to exist but got nothing", "CharacterSystems");
 
 		SpawnNewCharacter();
     }
@@ -50,11 +52,11 @@ public partial class Player : Node
 		Character = Rig;
 		Character.player = this;
 
-		FaFConsole.PrintINFO("Player", "Player using new character");
+		LOGGER.LOG(LogType.INFO, "Player using new character", "CharacterSystems");
 		
 		if (IsLocalPlayer())
 		{
-			FaFConsole.PrintINFO("Player", "Local player using new character");
+			LOGGER.LOG(LogType.INFO, "Local player using new character", "CharacterSystems");
 			Character.CreateOrbitalCamera();
 		}
 

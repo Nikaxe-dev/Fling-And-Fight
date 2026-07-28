@@ -7,6 +7,8 @@ public partial class UpState(bool ApplyGravity) : State
 {
     public override void PhysicsProcess(double delta)
     {
+        Npc.MoveAndSlide();
+
         base.PhysicsProcess(delta);
 
         if (ApplyGravity && IsMultiplayerAuthority())
@@ -16,7 +18,5 @@ public partial class UpState(bool ApplyGravity) : State
                 Npc.Velocity += Npc.GetGravity() * (float)delta;
             }
         }
-
-        Npc.MoveAndSlide();
     }
 }

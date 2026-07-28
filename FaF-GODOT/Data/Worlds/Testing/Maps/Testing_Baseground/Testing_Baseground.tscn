@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://diok8s6cdy4wy"]
 
-[ext_resource type="PackedScene" uid="uid://dg0p1fqfjnctp" path="res://Content/Maps/Base_Map/Base_Map.tscn" id="1_lefe8"]
+[ext_resource type="PackedScene" uid="uid://dg0p1fqfjnctp" path="res://World/BaseMap.tscn" id="1_lefe8"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qyq8l"]
 albedo_color = Color(1.6845763e-06, 0.8264412, 0.14732, 1)
