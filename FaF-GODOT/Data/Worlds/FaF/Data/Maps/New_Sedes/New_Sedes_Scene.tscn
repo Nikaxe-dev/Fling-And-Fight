@@ -1,6 +1,6 @@
 [gd_scene format=4 uid="uid://jyl6yvmc2i8u"]
 
-[ext_resource type="PackedScene" uid="uid://dg0p1fqfjnctp" path="res://World/BaseMap.tscn" id="1_hwly8"]
+[ext_resource type="PackedScene" uid="uid://dg0p1fqfjnctp" path="res://Game/World/BaseMap.tscn" id="1_hwly8"]
 [ext_resource type="Script" uid="uid://cwu5cf7a0awcd" path="res://addons/func_godot/src/map/func_godot_map.gd" id="2_fm4e1"]
 [ext_resource type="Resource" uid="uid://bkhxcqsquw1yg" path="res://addons/func_godot/func_godot_default_map_settings.tres" id="3_tqp31"]
 [ext_resource type="Material" uid="uid://ctcwt3pufp0ai" path="res://trenchbroom/textures/grass001.tres" id="4_fm4e1"]

@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 [autoload]
 
 NetworkManager="*uid://cgq7ve731rqrt"
+ConsoleUI="*uid://dh2x5lnklpc14"
 
 [display]
 
@@ -37,14 +38,9 @@ enabled=PackedStringArray("res://addons/func_godot/plugin.cfg")
 
 folder_colors={
 "res://Assets/": "red",
-"res://Assets/Meshes/": "red",
-"res://Assets/Models/": "red",
-"res://Assets/Sounds/": "red",
-"res://Content/": "green",
-"res://Game/": "blue",
-"res://Launcher/": "yellow",
-"res://Scenes/": "green",
-"res://Scripts/": "blue"
+"res://Data/": "red",
+"res://addons/": "gray",
+"res://trenchbroom/": "gray"
 }
 
 [filesystem]
@@ -98,6 +94,11 @@ debug_reset={
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":82,"key_label":0,"unicode":114,"location":0,"echo":false,"script":null)
 ]
 }
+debug_console={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":59,"key_label":0,"unicode":59,"location":0,"echo":false,"script":null)
+]
+}
 
 [physics]
 
@@ -108,4 +109,4 @@ debug_reset={
 
 rendering_device/driver.windows="d3d12"
 renderer/rendering_method="mobile"
-environment/defaults/default_clear_color=Color(0.038397163, 0.038397174, 0.038397145, 1)
+environment/defaults/default_clear_color=Color(0.16338924, 0.27550068, 1, 1)

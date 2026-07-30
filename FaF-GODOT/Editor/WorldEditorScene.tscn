@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://bkri4odm02asr"]
+
+[ext_resource type="Script" uid="uid://dkntj4x5gci5k" path="res://Visuals/Camera/FreeCamera.cs" id="1_hkwi2"]
+
+[node name="WorldEditorScene" type="Node" unique_id=532999971]
+
+[node name="Scene" type="Node3D" parent="." unique_id=11276306]
+
+[node name="EditorObjects" type="Node3D" parent="Scene" unique_id=1474551997]
+
+[node name="EditorCamera" type="Camera3D" parent="Scene/EditorObjects" unique_id=213167515]
+script = ExtResource("1_hkwi2")
+metadata/_custom_type_script = "uid://dkntj4x5gci5k"

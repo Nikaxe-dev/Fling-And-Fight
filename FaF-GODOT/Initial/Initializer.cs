@@ -1,6 +1,6 @@
 using System.Linq;
 using System.Threading;
-using FaF.Networking;
+using FaF.Game.Networking;
 using Godot;
 
 namespace FlingAndFight.Launcher;
@@ -39,6 +39,11 @@ public partial class Initializer : Node
 			Thread.Sleep(2000);
 			GetTree().ChangeSceneToFile("res://Data/Worlds/FaF/Data/Maps/New_Sedes/New_Sedes_Scene.tscn");
 			NetworkManager.Instance.JoinServer(NetworkManager.DEFAULT_IP, NetworkManager.DEFAULT_PORT);
+		} else if (args.Contains("--editor"))
+		{
+			GD.Print("Launching FaF level editor");
+
+			GetTree().ChangeSceneToFile("res://Editor/WorldEditorScene.tscn");
 		}
 	}
 }

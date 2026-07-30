@@ -1,0 +1,103 @@
+[gd_scene format=3 uid="uid://c6mwpytxasj6s"]
+
+[ext_resource type="Script" uid="uid://dnutsoav7lqts" path="res://Game/Rig/NPC.cs" id="1_utqbp"]
+[ext_resource type="Script" uid="uid://bkjt2jmbdq36q" path="res://Game/Rig/States/StateMachine.cs" id="2_1dxc1"]
+[ext_resource type="Script" uid="uid://c1qqqt1a3mpwy" path="res://Game/Rig/States/Movement/GroundedState.cs" id="3_qn0kr"]
+[ext_resource type="Script" uid="uid://dunqapar335x3" path="res://Game/Rig/States/Movement/FreeFallState.cs" id="4_m1jb8"]
+[ext_resource type="Script" uid="uid://bb8jb23s0wkds" path="res://Game/Rig/States/Movement/JumpingState.cs" id="5_eqqby"]
+[ext_resource type="Script" uid="uid://c73xrr18foiqy" path="res://Game/Rig/States/Movement/LandedState.cs" id="6_cnevh"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_utqbp"]
+radius = 0.3
+height = 2.25
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_7urwx"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath(".:Jump")
+properties/2/spawn = true
+properties/2/replication_mode = 1
+properties/3/path = NodePath(".:MoveDirection")
+properties/3/spawn = true
+properties/3/replication_mode = 1
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_jpi7y"]
+viewport_path = NodePath("Nametag/BillboardViewport")
+
+[node name="EmptyRig" type="CharacterBody3D" unique_id=619846865 node_paths=PackedStringArray("Animator", "Collision", "StateMachine")]
+script = ExtResource("1_utqbp")
+Animator = NodePath("AnimationPlayer")
+Collision = NodePath("Collision")
+StateMachine = NodePath("StateMachine")
+metadata/_custom_type_script = "uid://dnutsoav7lqts"
+
+[node name="Collision" type="CollisionShape3D" parent="." unique_id=589156652]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.95208395, 0)
+shape = SubResource("CapsuleShape3D_utqbp")
+
+[node name="BaseRigSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=958760793]
+replication_config = SubResource("SceneReplicationConfig_7urwx")
+
+[node name="Nametag" type="Sprite3D" parent="." unique_id=956275761]
+transform = Transform3D(0.75, 0, 0, 0, 0.75, 0, 0, 0, 0.75, 0, 2.25, 0)
+billboard = 2
+texture = SubResource("ViewportTexture_jpi7y")
+
+[node name="BillboardViewport" type="SubViewport" parent="Nametag" unique_id=720553549]
+transparent_bg = true
+gui_disable_input = true
+size = Vector2i(400, 50)
+
+[node name="Name" type="Label" parent="Nametag/BillboardViewport" unique_id=573737929]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 32
+text = "HumanoidNPC"
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=404893790]
+
+[node name="StateMachine" type="Node" parent="." unique_id=166203790 node_paths=PackedStringArray("INITIAL_STATE")]
+script = ExtResource("2_1dxc1")
+INITIAL_STATE = NodePath("GroundedState")
+metadata/_custom_type_script = "uid://bkjt2jmbdq36q"
+
+[node name="GroundedState" type="Node" parent="StateMachine" unique_id=2034327199 node_paths=PackedStringArray("FreeFall", "Jumping", "Grounded", "Landed")]
+script = ExtResource("3_qn0kr")
+FreeFall = NodePath("../FreeFallState")
+Jumping = NodePath("../JumpingState")
+Grounded = NodePath(".")
+Landed = NodePath("../LandedState")
+metadata/_custom_type_script = "uid://c1qqqt1a3mpwy"
+
+[node name="FreeFallState" type="Node" parent="StateMachine" unique_id=224118502 node_paths=PackedStringArray("FreeFall", "Jumping", "Grounded", "Landed")]
+script = ExtResource("4_m1jb8")
+FreeFall = NodePath(".")
+Jumping = NodePath("../JumpingState")
+Grounded = NodePath("../GroundedState")
+Landed = NodePath("../LandedState")
+metadata/_custom_type_script = "uid://dunqapar335x3"
+
+[node name="JumpingState" type="Node" parent="StateMachine" unique_id=2130267309 node_paths=PackedStringArray("FreeFall", "Jumping", "Grounded", "Landed")]
+script = ExtResource("5_eqqby")
+FreeFall = NodePath("../FreeFallState")
+Jumping = NodePath(".")
+Grounded = NodePath("../GroundedState")
+Landed = NodePath("../LandedState")
+metadata/_custom_type_script = "uid://bb8jb23s0wkds"
+
+[node name="LandedState" type="Node" parent="StateMachine" unique_id=1381270121 node_paths=PackedStringArray("FreeFall", "Jumping", "Grounded", "Landed")]
+script = ExtResource("6_cnevh")
+FreeFall = NodePath("../FreeFallState")
+Jumping = NodePath("../JumpingState")
+Grounded = NodePath("../GroundedState")
+Landed = NodePath(".")
+metadata/_custom_type_script = "uid://c73xrr18foiqy"
