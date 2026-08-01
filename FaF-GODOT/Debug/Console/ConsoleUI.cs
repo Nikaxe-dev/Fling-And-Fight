@@ -1,3 +1,4 @@
+using FaF.Game.Networking;
 using Godot;
 using System;
 
@@ -29,11 +30,14 @@ public partial class ConsoleUI : Control
     public override void _Ready()
     {
         Instance = this;
+
+        Visible = false;
+        NetworkManager.Instance.WorldEntered += () => Visible = Multiplayer.IsServer();
     }
 
-    public override void _Process(double delta)
+    public override void _UnhandledInput(InputEvent @event)
     {
-        if (Input.IsActionJustPressed("debug_console"))
+        if (@event.IsActionPressed("debug_console"))
         {
             Visible = !Visible;
         }

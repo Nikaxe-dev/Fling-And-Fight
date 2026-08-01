@@ -2,8 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bgvv60q1bkvjv" path="res://Debug/Console/ConsoleUI.cs" id="1_3nq65"]
 
-[node name="GlobalConsoleUI" type="Control" unique_id=2087792725 node_paths=PackedStringArray("UserInput", "OutputContainer")]
-visible = false
+[node name="GlobalConsoleUI" type="Control" unique_id=2087792725 node_paths=PackedStringArray("UserInput", "OutputContainer") groups=["UIModal"]]
 layout_mode = 3
 anchor_top = 0.65
 anchor_right = 0.5
@@ -13,7 +12,6 @@ grow_vertical = 2
 script = ExtResource("1_3nq65")
 UserInput = NodePath("Layout/LineEdit")
 OutputContainer = NodePath("Layout/ColorRect/ScrollContainer/VBoxContainer")
-OUTPUT_FONT_SIZE = 10
 
 [node name="Layout" type="VBoxContainer" parent="." unique_id=1162396621]
 layout_mode = 1
@@ -36,6 +34,8 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_vertical = 3
+mouse_filter = 0
+mouse_force_pass_scroll_events = false
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Layout/ColorRect/ScrollContainer" unique_id=2109820325]
 layout_mode = 2

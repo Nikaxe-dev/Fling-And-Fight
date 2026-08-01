@@ -2,6 +2,7 @@ using System;
 using FaF.Debug;
 using FaF.Game.Networking;
 using FaF.Game.Rig;
+using FaF.UserInput;
 using FaF.Visuals.Camera;
 using Godot;
 using Vector2 = Godot.Vector2;
@@ -20,6 +21,9 @@ public partial class Player : Node
 	[Export] public Node3D? CameraPivot;
 
 	public int PEER_ID;
+
+	public string UserID = $"guest-{(int)GD.RandRange(1111, 9999)}";
+	public string DisplayName = $"guest-{(int)GD.RandRange(1111, 9999)}";
 	
 	private CharacterSpawner? WorldCharacterSpawner;
 
@@ -122,16 +126,16 @@ public partial class Player : Node
 			item.Visible = Character.Camera == null || !Character.Camera.IsInFirstPerson();
 		}
 
-		if (Input.IsActionJustPressed("debug_reset")) RpcId(1, MethodName.RequestSpawnNewCharacter);
+		if (InputManager.IsActionJustPressed("debug_reset", InputContext.Gameplay)) RpcId(1, MethodName.RequestSpawnNewCharacter);
     }
 
     public override void _PhysicsProcess(double delta)
     {
 		if (Character == null || !IsLocalPlayer()) return;
 
-		Character.Jump = Input.IsActionPressed("movement_jump");
+		Character.Jump = InputManager.IsActionPressed("movement_jump", InputContext.Gameplay);
 
-		Vector2 inputDir = Input.GetVector("movement_left","movement_right","movement_forward","movement_backward");
+		Vector2 inputDir = InputManager.GetVector("movement_left","movement_right","movement_forward","movement_backward", InputContext.Gameplay);
 
 		Vector3 forward = Character.Camera?.Camera3D?.GlobalTransform.Basis.Z ?? Vector3.Forward;
 		forward *= new Vector3(1,0,1);

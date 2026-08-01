@@ -5,49 +5,49 @@ using Godot;
 
 namespace FaF.Game.Networking;
 
-// public partial class NetworkManager : Node
-// {
-//     public readonly static string DEFAULT_IP = "127.0.0.1";
-//     public readonly static int DEFAULT_PORT = 56565;
-
-//     public static NetworkManager Instance {get; private set;}
-
-//     public ENetMultiplayerPeer Peer;
-
-//     public override void _Ready()
-//     {
-//         Instance = this;
-//     }
-
-//     public void StartServer(int PORT, int MAX_CHANNELS = 0)
-//     {
-//         Peer = new ENetMultiplayerPeer();
-//         Peer.CreateServer(PORT, 30, MAX_CHANNELS);
-//         Multiplayer.MultiplayerPeer = Peer;
-
-//         GD.Print("Started Server");
-//     }
-
-//     public void StartClient(string IP_ADDRESS, int PORT)
-//     {
-//         Peer = new ENetMultiplayerPeer();
-//         Peer.CreateClient(IP_ADDRESS, PORT);
-//         Multiplayer.MultiplayerPeer = Peer;
-
-//         GD.Print("Started Client");
-//     }
-// }
-
 public partial class NetworkManager : Node
 {
     private static readonly FaFLogger LOGGER = FaFLogger.Get("Networking/NetworkManager");
 
     // CODE CONFIGURATION
 
+    /// <summary>
+    /// <b>COMMON</b> -
+    /// Emitted when a player connects to the server.
+    /// </summary>
+    /// <param name="PEER_ID"></param>
     [Signal] public delegate void PlayerConnectedEventHandler(int PEER_ID);
+
+    /// <summary>
+    /// <b>COMMON</b> -
+    /// Emitted when a player disconnects from the server.
+    /// </summary>
+    /// <param name="PEER_ID"></param>
     [Signal] public delegate void PlayerDisconnectedEventHandler(int PEER_ID);
+
+    /// <summary>
+    /// <b>CLIENT</b> -
+    /// Emitted when the client connects to the server.
+    /// </summary>
     [Signal] public delegate void ConnectionEstablishedEventHandler();
+
+    /// <summary>
+    /// <b>CLIENT</b> -
+    /// Emitted when the client disconnects from the server.
+    /// </summary>
     [Signal] public delegate void ConnectionFailedEventHandler();
+
+    /// <summary>
+    /// <b>COMMON</b> -
+    /// Emitted when the game enters a world (LOADING THE SCENE)
+    /// </summary>
+    [Signal] public delegate void WorldEnteredEventHandler();
+
+    /// <summary>
+    /// <b>COMMON</b> -
+    /// Emitted when the game exits a world (UNLOADING THE SCENE TO THE MAIN MENU / PROGRAM END)
+    /// </summary>
+    [Signal] public delegate void WorldExitedEventHandler();
 
     public static readonly string DEFAULT_IP = "127.0.0.1";
     public static readonly int DEFAULT_PORT = 56565;
@@ -74,6 +74,13 @@ public partial class NetworkManager : Node
 
     // FUNCTIONS
 
+    /// <summary>
+    /// <b>SERVER</b> -
+    /// Creates a new server. Run after switching to the maps scene.
+    /// </summary>
+    /// <param name="PORT"></param>
+    /// <param name="MAX_PLAYERS"></param>
+    /// <returns></returns>
     public Error StartServer(int PORT = 56565, int MAX_PLAYERS = 30)
     {
         Peer = new();
@@ -90,9 +97,18 @@ public partial class NetworkManager : Node
 
         LOGGER.LOG(LogType.INFO, $"Successfully created server at 127.0.0.1:{PORT}", "ServerLifeCycle");
 
+        EmitSignal(SignalName.WorldEntered);
+
         return Error.Ok;
     }
 
+    /// <summary>
+    /// <b>CLIENT</b> -
+    /// Connects to an already existing server. Run after switching to the maps scene.
+    /// </summary>
+    /// <param name="IP_ADDRESS"></param>
+    /// <param name="PORT"></param>
+    /// <returns></returns>
     public Error JoinServer(string IP_ADDRESS = "127.0.0.1", int PORT = 56565)
     {
         Peer = new();
@@ -108,6 +124,8 @@ public partial class NetworkManager : Node
 
         LOGGER.LOG(LogType.INFO, $"Connecting to server {IP_ADDRESS}:{PORT}", "ClientLifeCycle");
 
+        EmitSignal(SignalName.WorldEntered);
+
         return Error.Ok;
     }
 
@@ -121,6 +139,8 @@ public partial class NetworkManager : Node
 
         LOGGER.LOG(LogType.INFO, "Successfully stopped server", "ServerLifeCycle");
 
+        EmitSignal(SignalName.WorldExited);
+
         GetTree().Quit();
     }
 
@@ -133,6 +153,8 @@ public partial class NetworkManager : Node
         IsServer = false;
 
         LOGGER.LOG(LogType.INFO, "Successfully stopped client", "ClientLifeCycle");
+
+        EmitSignal(SignalName.WorldExited);
 
         GetTree().ChangeSceneToFile("res://Launcher/MainMenu/TitleScreen.tscn");
     }

@@ -21,6 +21,8 @@ public enum LogType
 
 public class FaFLogger(string path)
 {
+    private static readonly FaFLogger LOGGER = new("Debug/Logger");
+
     public static readonly Dictionary<LogType, bool> EnabledLogTypes = new()
     {
         [LogType.CRASH] = true,
@@ -61,18 +63,38 @@ public class FaFLogger(string path)
             EnabledLogPaths[path] = true;
         }
 
+        LOGGER.LOG(LogType.INFO, $"Registered new LOGGER with path '{path}'", "Registration");
+
         return newLogger;
     }
 
     private static string GenerateCommonLoggerInfo()
     {
-        return $"[{DateTime.Now:HH:mm:ss:fff}] [{(NetworkManager.Instance.Multiplayer.IsServer() ? "Server" : $"Client:{NetworkManager.Instance.Multiplayer.GetUniqueId()}")}]";
+        return $"[{DateTime.Now:HH:mm:ss:fff}] {(NetworkManager.Instance != null ? $"[{(NetworkManager.Instance.Multiplayer.IsServer() ? "Server" : $"Client:{NetworkManager.Instance.Multiplayer.GetUniqueId()}")}]" : "")}";
     }
+
+    private static readonly List<string> queuedUIOutputs = [];
 
     public void LOG(LogType logType, string message, string category = "General")
     {
         string richFormatted = RichFormatLog($"{GenerateCommonLoggerInfo()} [{logType}] [{path}:{category}]", message, logType);
         if (EnabledLogTypes[logType] && EnabledLogPaths.TryGetValue(path, out bool enabled) && enabled) GD.PrintRich(richFormatted);
-        ConsoleUI.Instance.OutputRichString(richFormatted);
+        
+        if (ConsoleUI.Instance != null)
+        {
+            if (queuedUIOutputs.Count > 0)
+            {
+                foreach (string item in queuedUIOutputs)
+                {
+                    ConsoleUI.Instance.OutputRichString(item);
+                }
+                queuedUIOutputs.RemoveRange(0, queuedUIOutputs.Count);
+            }
+
+            ConsoleUI.Instance.OutputRichString(richFormatted);
+        } else
+        {
+            queuedUIOutputs.Add(richFormatted);
+        }
     }
 }

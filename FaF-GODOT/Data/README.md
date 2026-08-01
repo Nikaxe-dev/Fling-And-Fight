@@ -29,7 +29,7 @@ PROJECT_ROOT/Data:
                     *:
                         MapMeta.tres (MapRegistry Resource)
 
-                        -- THIS IS REQUIRED TO INHERIT FROM PROJECT_ROOT/Data/Worlds/Base/Data/Maps/Base_Map/Base_Map.tscn
+                        -- THIS IS REQUIRED TO INHERIT FROM PROJECT_ROOT/Game/World/BaseMap.tscn
                         name_doesnt_matter.tscn (MapRoot PackedScene) (recommend to name it after the map so godot shows the correct name in the editor)
                         
                         -- IF YOUR USING TrenchBroom / OTHER MAPPING SOFTWARE
@@ -55,8 +55,6 @@ PROJECT_ROOT/Data:
         
         Global:
             -- This is a special required world not shown in game that artificially adds its content to every other world. Worlds can choose to disable all or parts of globals content.
-        Base:
-            -- This is a special required world not shown in game that stores the base scenes for each type of registry. These peices of content all are not real and do not show in game.
     
     -- This is a category of registries.
     AvatarItems:

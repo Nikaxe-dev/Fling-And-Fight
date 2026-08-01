@@ -20,6 +20,8 @@ config/icon="res://icon.svg"
 
 NetworkManager="*uid://cgq7ve731rqrt"
 ConsoleUI="*uid://dh2x5lnklpc14"
+MouseInputManager="*uid://co4ciphoaek5d"
+InputManager="*uid://bmdpo8fxmmerv"
 
 [display]
 
@@ -47,6 +49,10 @@ folder_colors={
 
 import/blender/enabled=false
 import/blender/enabled.web=true
+
+[global_group]
+
+UIModal="If enabled, while the control node is visible, the mouse will not be locked unless the right mouse button is down."
 
 [input]
 
@@ -109,4 +115,4 @@ debug_console={
 
 rendering_device/driver.windows="d3d12"
 renderer/rendering_method="mobile"
-environment/defaults/default_clear_color=Color(0.16338924, 0.27550068, 1, 1)
+environment/defaults/default_clear_color=Color(0.10059657, 0.10417772, 0.109042265, 1)

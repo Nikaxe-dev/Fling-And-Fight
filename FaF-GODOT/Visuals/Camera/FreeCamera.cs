@@ -1,3 +1,4 @@
+using FaF.UserInput;
 using Godot;
 
 namespace FaF.Visuals.Camera;
@@ -34,9 +35,9 @@ public partial class FreeCamera : Camera3D
     public void ProcessCameraLookInput(InputEvent @event)
     {
         bool TurnEnabled = Input.IsMouseButtonPressed(MouseButton.Right);
-        Input.MouseMode = TurnEnabled ? Input.MouseModeEnum.Captured : Input.MouseModeEnum.Visible;
+        MouseInputManager.Instance.TargetMouseMode = TurnEnabled ? MouseMode.LockedCenter : MouseMode.Free;
 
-        if (@event is InputEventMouseMotion motion && TurnEnabled)
+        if (@event is InputEventMouseMotion motion && !MouseInputManager.Instance.IsMouseFree())
         {
             Rotation += Vector3.Down * motion.Relative.X * CAMERA_TURN_SENS + Vector3.Left * motion.Relative.Y * CAMERA_TURN_SENS;
         }

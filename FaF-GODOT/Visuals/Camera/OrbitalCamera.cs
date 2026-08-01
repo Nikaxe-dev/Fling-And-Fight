@@ -1,3 +1,4 @@
+using FaF.UserInput;
 using Godot;
 using System;
 
@@ -16,7 +17,7 @@ public partial class OrbitalCamera : Node3D
 
 	[Export] public float ZOOM_SMOOTHING = 0.15f;
 
-	[Export] public float ZOOM_SENS = 100;
+	[Export] public float ZOOM_SENS = 1;
 	[Export] public float MAX_ZOOM = 50;
 	[Export] public float MIN_ZOOM = 0;
 
@@ -45,34 +46,34 @@ public partial class OrbitalCamera : Node3D
 		AddChild(SpringArm);
 	}
 
-	public void HandleZoomInput(double delta)
-	{
-		if (Input.IsActionJustPressed(INPUT_ZOOM_IN, true))
-		{
-			Zoom -= (float)delta * ZOOM_SENS;
-		}
-
-		if (Input.IsActionJustPressed(INPUT_ZOOM_OUT, true))
-		{
-			Zoom += (float)delta * ZOOM_SENS;
-		}
-
-		Zoom = Math.Clamp(Zoom, MIN_ZOOM, MAX_ZOOM);
-	}
-
-    public override void _Input(InputEvent @event)
+    public override void _UnhandledInput(InputEvent @event)
 	{
 		base._Input(@event);
 		if (UserCanTurn) ProcessCameraLookInput(@event);
+
+		if (UserCanZoom)
+		{
+			if (@event.IsActionPressed("zoom_in"))
+			{
+				Zoom -= ZOOM_SENS;
+			}
+
+			if (@event.IsActionPressed("zoom_out"))
+			{
+				Zoom += ZOOM_SENS;
+			}
+
+			Zoom = Math.Clamp(Zoom, MIN_ZOOM, MAX_ZOOM);
+		}
 	}
 
 
 	public void ProcessCameraLookInput(InputEvent @event)
 	{
 		bool TurnEnabled = Input.IsMouseButtonPressed(MouseButton.Right) || IsInFirstPerson();
+		MouseInputManager.Instance.TargetMouseMode = TurnEnabled ? MouseMode.LockedCenter : MouseMode.Free;
 
-		Input.MouseMode = TurnEnabled ? Input.MouseModeEnum.Captured : Input.MouseModeEnum.Visible;
-		if(@event is InputEventMouseMotion motion && TurnEnabled)
+		if(@event is InputEventMouseMotion motion && !MouseInputManager.Instance.IsMouseFree())
 		{
 			SpringArm.Rotation -= Vector3.Up * motion.Relative.X * CAMERA_TURN_SENS;
 			SpringArm.Rotation -= Vector3.Right * motion.Relative.Y * CAMERA_TURN_SENS;
@@ -86,8 +87,6 @@ public partial class OrbitalCamera : Node3D
 	public override void _Process(double delta)
 	{
 		GlobalRotation = Vector3.Zero;
-		
-		if (UserCanZoom) HandleZoomInput(delta);
 
 		SpringArm.SpringLength += (Zoom - SpringArm.SpringLength) * ZOOM_SMOOTHING;
 	}
