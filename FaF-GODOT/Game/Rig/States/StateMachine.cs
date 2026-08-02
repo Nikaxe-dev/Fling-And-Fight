@@ -59,7 +59,7 @@ public partial class StateMachine : Node
         CurrentState = Target;
         Target?.Enter();
 
-        if(IsMultiplayerAuthority()) LOGGER.LOG(LogType.INFO, $"Switched to state {CurrentState?.Name} from {previous?.Name}", "StateChanged");
+        if(IsMultiplayerAuthority()) LOGGER.LOG(LogType.DEBUG, $"Switched to state {CurrentState?.Name} from {previous?.Name}", "StateChanged");
     }
 
     public State? GetCurrentState()
