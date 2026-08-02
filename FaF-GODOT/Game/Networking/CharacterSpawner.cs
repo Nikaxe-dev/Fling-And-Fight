@@ -10,6 +10,9 @@ namespace FaF.Game.Networking;
 
 # nullable enable
 
+/// <summary>
+/// A MultiplayerSpawner usually under MapRoot/Networking/CharacterSpawner that handles the spawning and replication of player characters on all of the clients.
+/// </summary>
 public partial class CharacterSpawner : MultiplayerSpawner
 {
 	private static readonly FaFLogger LOGGER = FaFLogger.Get("Networking/Spawners/CharacterSpawner");
@@ -44,21 +47,6 @@ public partial class CharacterSpawner : MultiplayerSpawner
 
 			while ((player = PlayersContainer.GetNodeOrNull<Player>(PEER_ID.ToString())) == null)
 				await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
-
-			// GD.Print(player, " ", Multiplayer.IsServer(), " ", rig.IsMultiplayerAuthority());
-			// if (player != null && !Multiplayer.IsServer() && rig.IsMultiplayerAuthority())
-			// {
-			// 	player.CameraPivot = rig.CameraPivot;
-
-			// 	player.Camera = new OrbitalCamera
-			// 	{
-			// 		Name = "ClientOrbitalCamera",
-			// 	};
-
-			// 	rig.AddChild(player.Camera);
-			// 	player.Camera.GlobalPosition = rig.CameraPivot?.GlobalPosition ?? rig.GlobalPosition;
-			// 	player.Camera.FOV = 90;
-			// }
 
 			player?.UseNPCAsCharacter(player.LoadCharacterApparence(rig));
 		}

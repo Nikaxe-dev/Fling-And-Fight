@@ -4,6 +4,9 @@ using Godot;
 
 namespace FaF.Game.Networking;
 
+/// <summary>
+/// MultiplayerSpawner usually located under MapRoot/Networking/PlayerSpawner & handles the replication of players to all clients.
+/// </summary>
 public partial class PlayerSpawner : MultiplayerSpawner
 {
     [Export] public PackedScene ReplicatedScene;

@@ -3,6 +3,15 @@ using Godot;
 
 namespace FaF.Game.Rig.States.Movement;
 
+/// <summary>
+/// A configurable state where the NPC can move around.
+/// </summary>
+/// <param name="AllowJumping">Whether the NPC can jump in this state.</param>
+/// <param name="AllowWalking">Whether the NPC can walk in this state.</param>
+/// <param name="AutoSwitchToFreeFall">Whether it switches to FreeFall automatically when detected to be off the ground.</param>
+/// <param name="ApplyGravity">Whether to apply gravity in this state.</param>
+/// <param name="walkingAnimation">The name of the property that stores the NPCAnimationData that is played when walking.</param>
+/// <param name="idleAnimation">The name of the property that stores the NPCAnimationData that is played when idle.</param>
 [GlobalClass]
 public partial class MovementState(bool AllowJumping = true, bool AllowWalking = true, bool AutoSwitchToFreeFall = true, bool ApplyGravity = true, string walkingAnimation = "WALK_ANIMATION", string idleAnimation = "IDLE_ANIMATION") : UpState(ApplyGravity)
 {

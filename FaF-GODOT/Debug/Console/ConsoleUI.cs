@@ -4,6 +4,9 @@ using System;
 
 namespace FaF.Debug.Console;
 
+/// <summary>
+/// A simple in-game console UI for viewing all logs created by the FaFLogger static class.
+/// </summary>
 public partial class ConsoleUI : Control
 {
     public static ConsoleUI Instance;

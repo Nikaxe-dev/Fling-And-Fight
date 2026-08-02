@@ -4,11 +4,22 @@ namespace FaF.Game.Rig.States;
 
 # nullable enable
 
+/// <summary>
+/// A state, used in the StateMachine node.
+/// </summary>
 [GlobalClass]
 public abstract partial class State : Node
 {
     // SET ON _Ready()
+    
+    /// <summary>
+    /// The NPC connected to this state.
+    /// </summary>
     public required NPC Npc;
+
+    /// <summary>
+    /// The StateMachine connected to this state.
+    /// </summary>
     public required StateMachine Machine;
 
     public State? PreviousState;

@@ -2,14 +2,15 @@ using Godot;
 
 namespace FaF.Game.Rig.States.Movement;
 
+/// <summary>
+/// Active for the frame after the NPC jumps. Sets the velocity on Enter().
+/// </summary>
 [GlobalClass]
 public partial class JumpingState() : MovementState(false,true,false)
 {
     public override void Enter()
     {
         base.Enter();
-
-        // FIXME: StateMachine gets stuck here when jumping instead of moving on to FreeFall immediately. POSSIBLE FIX: Add Machine.SwitchToState(FreeFall) to PhysicsProcess.
 
         if (IsMultiplayerAuthority()) Npc.Velocity = new Vector3(Npc.Velocity.X, Npc.JumpPower, Npc.Velocity.Z);
     }

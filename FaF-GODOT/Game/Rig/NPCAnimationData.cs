@@ -2,6 +2,9 @@ using Godot;
 
 namespace FaF.Game.Rig;
 
+/// <summary>
+/// Contains data for an animation to be played by an NPC.
+/// </summary>
 [GlobalClass]
 public partial class NPCAnimationData : Resource
 {

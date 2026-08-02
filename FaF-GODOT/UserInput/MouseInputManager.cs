@@ -9,6 +9,10 @@ public enum MouseMode
     LockedCenter,
 }
 
+/// <summary>
+/// Handles the global mouse mode using a UIModal group similar to Roblox's GuiButton.Modal property.
+/// Also uses my own enums and methods for changing the mouse mode, which is understood much better to me.
+/// </summary>
 public partial class MouseInputManager : Node
 {
     public static MouseInputManager Instance;

@@ -2,6 +2,9 @@ using Godot;
 
 namespace FaF.Data.RegistryObjects;
 
+/// <summary>
+/// Contains data about a world.
+/// </summary>
 [GlobalClass]
 public partial class WorldRegistry : Resource
 {

@@ -5,6 +5,9 @@ using Godot;
 
 namespace FaF.Game.Networking;
 
+/// <summary>
+/// Manages all of the networking of FaF including starting a server, joining a server, and disconnection from that server.
+/// </summary>
 public partial class NetworkManager : Node
 {
     private static readonly FaFLogger LOGGER = FaFLogger.Get("Networking/NetworkManager");

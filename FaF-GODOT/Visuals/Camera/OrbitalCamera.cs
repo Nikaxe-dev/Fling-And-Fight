@@ -4,6 +4,9 @@ using System;
 
 namespace FaF.Visuals.Camera;
 
+/// <summary>
+/// A camera that allows you to pivot around an object and zoom in or out. Also has a first person mode which the player controller hides certain body parts in.
+/// </summary>
 [GlobalClass, Icon("res://Assets/Textures/Decals/Symbols/Symbol Camera.png")]
 public partial class OrbitalCamera : Node3D
 {

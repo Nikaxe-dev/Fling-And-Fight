@@ -10,6 +10,9 @@ namespace FaF.Game.Rig;
 
 #nullable enable
 
+/// <summary>
+/// An NPC, containing data for movement, health, alongside other systems. Also requires to be instanced from a scene inheriting './Empty_Rig.tscn'. This scene should contain a StateMachine with all of the NPC related states in it.
+/// </summary>
 [GlobalClass, Icon("res://Assets/Textures/Character/Icons/NPCNode.png")]
 public partial class NPC : CharacterBody3D
 {

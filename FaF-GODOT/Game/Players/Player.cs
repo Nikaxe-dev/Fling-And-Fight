@@ -12,6 +12,9 @@ namespace FaF.Game.Players;
 
 # nullable enable
 
+/// <summary>
+/// A player node, storing all data of a player with authority set to the server. Uses the WorldCharacterSpawner to spawn a new character when it needs to.
+/// </summary>
 [GlobalClass, Icon("res://Assets/Textures/Character/Icons/PlayerNode.png")]
 public partial class Player : Node
 {
@@ -45,12 +48,22 @@ public partial class Player : Node
 		SpawnNewCharacter();
     }
 
+	/// <summary>
+	/// Loads the appearence of the given Rig.
+	/// </summary>
+	/// <param name="Rig"></param>
+	/// <returns></returns>
 	public NPC LoadCharacterApparence(NPC Rig)
 	{
 		// Avatar customization is not implemented yet: SKIP
 		return Rig;
 	}
 
+	/// <summary>
+	/// Uses the given Rig as the players character.
+	/// </summary>
+	/// <param name="Rig"></param>
+	/// <returns></returns>
 	public NPC UseNPCAsCharacter(NPC Rig)
 	{
 		Character = Rig;

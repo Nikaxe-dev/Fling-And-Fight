@@ -2,6 +2,9 @@ using Godot;
 
 namespace FaF.Game.Rig.States.Movement;
 
+/// <summary>
+/// Activated for a quick frame when the NPC lands after being in FreeFall. Immediately switches to Grounded.
+/// </summary>
 [GlobalClass]
 public partial class LandedState : MovementState
 {

@@ -3,6 +3,9 @@ using Godot;
 
 namespace FaF.Game.World;
 
+/// <summary>
+/// The root of the loaded map. Controls the worlds global state.
+/// </summary>
 [GlobalClass]
 public partial class MapRoot : Node
 {   

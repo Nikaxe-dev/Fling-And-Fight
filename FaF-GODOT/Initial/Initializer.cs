@@ -5,6 +5,9 @@ using Godot;
 
 namespace FlingAndFight.Launcher;
 
+/// <summary>
+/// The starting point of the entire program, handling the intialization of the server & client if a startup argument says so. Otherwise loads the main menu for the client.
+/// </summary>
 public partial class Initializer : Node
 {
 	public override void _Ready()

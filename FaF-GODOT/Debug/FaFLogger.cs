@@ -19,6 +19,10 @@ public enum LogType
 
 #nullable enable
 
+/// <summary>
+/// The FaF logger, wrapping around the GD global logging functions but applying an easy to grasp standard with many filtering options. Also outputs to the in-game console for easy debugging by the developers alongside easy ways for the players to send problems. In the future it will post to a log file somewhere.
+/// </summary>
+/// <param name="path"></param>
 public class FaFLogger(string path)
 {
     private static readonly FaFLogger LOGGER = new("Debug/Logger");

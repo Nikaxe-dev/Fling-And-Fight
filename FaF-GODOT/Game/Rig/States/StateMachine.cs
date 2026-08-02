@@ -6,6 +6,9 @@ namespace FaF.Game.Rig.States;
 
 #nullable enable
 
+/// <summary>
+/// A state machine, handling the switching and notification of all states under it.
+/// </summary>
 [GlobalClass]
 public partial class StateMachine : Node
 {

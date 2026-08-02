@@ -3,6 +3,9 @@ using Godot;
 
 namespace FaF.Visuals.Camera;
 
+/// <summary>
+/// A camera not locked to anything, allowing you to view any spot in the world easily. Used on the server instance & in the level editor.
+/// </summary>
 [GlobalClass, Icon("res://Assets/Textures/Decals/Symbols/Symbol Camera.png")]
 public partial class FreeCamera : Camera3D
 {
