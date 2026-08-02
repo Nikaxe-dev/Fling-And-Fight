@@ -3,7 +3,7 @@ using Godot;
 namespace FaF.Data.RegistryObjects;
 
 [GlobalClass]
-public partial class ItemRegistry : AbstractItemLikeRegistry
+public partial class PropRegistry : AbstractItemLikeRegistry
 {
     [Export] public PackedScene Scene;
 }

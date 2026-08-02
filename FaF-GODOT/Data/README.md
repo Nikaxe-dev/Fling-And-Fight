@@ -3,7 +3,7 @@
 This directory contains the FaF Data system. In FaF, most content is declared as such:
 
 ```
-{content_medium}: (Worlds, Maps, Items, Gears, ect) (these might be inside other types of content)
+{content_medium}: (Worlds, Maps, Props, Gears, ect) (these might be inside other types of content)
     {content_id}: (WoodenPallet,SolidSteelPallet,WeldGun,WireGun,ect):
         {content_medium}Meta.tres ({content_medium}Registry Resource)
         -- THE NEXT FOLDERS ARE OPTIONAL
@@ -37,12 +37,12 @@ PROJECT_ROOT/Data:
 
                         Assets:
                             -- assets folder for textures, sounds, ect relating to the content
-                Items:
+                Props:
                     *:
-                        ItemMeta.tres (ItemRegistry Resource)
+                        PropMeta.tres (PropRegistry Resource)
 
-                        -- THIS IS REQUIRED TO INHERIT FROM PROJECT_ROOT/Data/Worlds/Base/Data/Items/Base_Item/Base_Item.tscn
-                        name_doesnt_matter.tscn (PackedScene) (recommend to name it after the itemID so godot shows the correct name in the editor)
+                        -- THIS IS REQUIRED TO INHERIT FROM PROJECT_ROOT/Game/Prop/BaseProp.tscn
+                        name_doesnt_matter.tscn (PackedScene) (recommend to name it after the propID so godot shows the correct name in the editor)
 
                         Assets:
                             -- assets folder for textures, sounds, ect relating to the content
@@ -50,7 +50,7 @@ PROJECT_ROOT/Data:
                     *:
                         GearMeta.tres (GearRegistry Resource)
 
-                        -- THIS IS REQUIRED TO INHERIT FROM PROJECT_ROOT/Data/Worlds/Base/Data/Gears/Base_Gear/Base_Gear.tscn
+                        -- THIS IS REQUIRED TO INHERIT FROM PROJECT_ROOT/Game/Gear/BaseGear.tscn
                         name_doesnt_matter.tscn (PackedScene) (recommend to name it after the gearID so godot shows the correct name in the editor)
         
         Global:
@@ -74,13 +74,13 @@ PROJECT_ROOT/Data:
                 LeftLeg.png/.jpg/ect (Image) (Use the leg template for this!)
                 RightLeg.png/.jpg/ect (Image) (Use the leg template for this!)
         
-        TShirt:
+        TShirts:
             *:
                 TShirtMeta.tres (TShirtRegistry Resource)
 
                 Torso.png/.jpg/ect (Image) (Any image! No template required. Stuck ontop of the Torso)
         
-        Shirt:
+        Shirts:
             *:
                 ShirtMeta.tres (ShirtRegistry Resource)
 
