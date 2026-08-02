@@ -217,7 +217,7 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_btku3")
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_hksig"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_ucmwe"]
 viewport_path = NodePath("Nametag/BillboardViewport")
 
 [node name="HumanoidRig6" unique_id=1335526919 node_paths=PackedStringArray("HeadBone", "TorsoBone", "CameraPivot", "FirstPersonHideNodes") instance=ExtResource("1_fuvyi")]
@@ -339,4 +339,4 @@ transform = Transform3D(0.44997936, -0.0036770871, 0.0005647683, 0.00410469, 0.4
 mesh = SubResource("ArrayMesh_0ppul")
 
 [node name="Nametag" parent="." index="3" unique_id=362662380]
-texture = SubResource("ViewportTexture_hksig")
+texture = SubResource("ViewportTexture_ucmwe")
