@@ -43,3 +43,5 @@ size_flags_horizontal = 3
 
 [node name="LineEdit" type="LineEdit" parent="Layout" unique_id=887654473]
 layout_mode = 2
+context_menu_enabled = false
+emoji_menu_enabled = false

@@ -36,6 +36,8 @@ public partial class ConsoleUI : Control
 
         Visible = false;
         NetworkManager.Instance.WorldEntered += () => Visible = Multiplayer.IsServer();
+
+        UserInput.GuiInput += _UserInput_Input;
     }
 
     public override void _UnhandledInput(InputEvent @event)
@@ -43,6 +45,20 @@ public partial class ConsoleUI : Control
         if (@event.IsActionPressed("debug_console"))
         {
             Visible = !Visible;
+        }
+    }
+
+    private void _UserInput_Input(InputEvent @event)
+    {
+        if (@event.IsActionPressed("ui_escape"))
+        {
+            UserInput.ReleaseFocus();
+        }
+
+        if (@event.IsActionPressed("textbox_accept"))
+        {
+            UserInput.Clear();
+            UserInput.ReleaseFocus();
         }
     }
 }
