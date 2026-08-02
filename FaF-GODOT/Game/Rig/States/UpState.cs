@@ -3,24 +3,18 @@ using Godot;
 namespace FaF.Game.Rig.States;
 
 /// <summary>
-/// The default UpState of an NPC, controlling the kinematic physics of it.
+/// A state that locks the physics down to no interaction with rotation.
 /// </summary>
 /// <param name="ApplyGravity"></param>
 [GlobalClass]
-public partial class UpState(bool ApplyGravity) : State
+public partial class UpState : PhysicsState
 {
-    public override void PhysicsProcess(double delta)
+    public override void Enter()
     {
-        Npc.MoveAndSlide();
-
-        base.PhysicsProcess(delta);
-
-        if (ApplyGravity && IsMultiplayerAuthority())
-        {
-            if (!Npc.IsOnFloor())
-            {
-                Npc.Velocity += Npc.GetGravity() * (float)delta;
-            }
-        }
+        base.Enter();
+        
+        Npc.AxisLockAngularX = true;
+        Npc.AxisLockAngularY = true;
+        Npc.AxisLockAngularZ = true;
     }
 }

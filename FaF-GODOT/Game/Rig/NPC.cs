@@ -14,7 +14,7 @@ namespace FaF.Game.Rig;
 /// An NPC, containing data for movement, health, alongside other systems. Also requires to be instanced from a scene inheriting './Empty_Rig.tscn'. This scene should contain a StateMachine with all of the NPC related states in it.
 /// </summary>
 [GlobalClass, Icon("res://Assets/Textures/Character/Icons/NPCNode.png")]
-public partial class NPC : CharacterBody3D
+public partial class NPC : RigidBody3D
 {
     [ExportGroup("Health")]
     [Export] public float MaxHealth = 200;
@@ -22,7 +22,7 @@ public partial class NPC : CharacterBody3D
 
     [ExportGroup("Movement")]
     [Export] public float WalkSpeed = 7.5f;
-    [Export] public float WalkAcceleration = 3f;
+    [Export] public float WalkAcceleration = 9f;
     [Export] public float JumpPower = 9f;
 
     [Export] public float TurnSpeed = 10;
@@ -38,6 +38,8 @@ public partial class NPC : CharacterBody3D
     [Export] public required AnimationPlayer Animator;
     [Export] public required CollisionShape3D Collision;
     [Export] public required StateMachine StateMachine;
+    [Export] public required RayCast3D FloorCast;
+    [Export] public required Node3D Model;
 
     [ExportGroup("Optional Model Parts")]
     [Export] public BoneAttachment3D? HeadBone;
@@ -61,6 +63,11 @@ public partial class NPC : CharacterBody3D
     public bool OverrideRotation = false;
     public Vector3 RotationOverride = Vector3.Zero;
     public float TurnSpeedOverride = 100;
+
+    public bool IsOnFloor()
+    {
+        return FloorCast.IsColliding();
+    }
 
     public OrbitalCamera CreateOrbitalCamera(bool doNotUsePlayer = false)
     {

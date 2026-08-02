@@ -6,12 +6,19 @@
 [ext_resource type="Script" uid="uid://dunqapar335x3" path="res://Game/Rig/States/Movement/FreeFallState.cs" id="4_m1jb8"]
 [ext_resource type="Script" uid="uid://bb8jb23s0wkds" path="res://Game/Rig/States/Movement/JumpingState.cs" id="5_eqqby"]
 [ext_resource type="Script" uid="uid://c73xrr18foiqy" path="res://Game/Rig/States/Movement/LandedState.cs" id="6_cnevh"]
+[ext_resource type="Script" uid="uid://chpflc8gbvey1" path="res://Game/Rig/States/PhysicsState.cs" id="7_6ieb5"]
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_utqbp"]
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_6ieb5"]
+friction = 0.0
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_3sb27"]
 radius = 0.3
 height = 2.25
 
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_7urwx"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_3sb27"]
+viewport_path = NodePath("Nametag/BillboardViewport")
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_3sb27"]
 properties/0/path = NodePath(".:position")
 properties/0/spawn = true
 properties/0/replication_mode = 1
@@ -25,34 +32,76 @@ properties/3/path = NodePath(".:MoveDirection")
 properties/3/spawn = true
 properties/3/replication_mode = 1
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_jpi7y"]
-viewport_path = NodePath("Nametag/BillboardViewport")
-
-[node name="EmptyRig" type="CharacterBody3D" unique_id=619846865 node_paths=PackedStringArray("Animator", "Collision", "StateMachine")]
+[node name="EmptyRig" type="RigidBody3D" unique_id=1335526919 node_paths=PackedStringArray("Animator", "Collision", "StateMachine", "FloorCast", "Model")]
+physics_material_override = SubResource("PhysicsMaterial_6ieb5")
 script = ExtResource("1_utqbp")
-Animator = NodePath("AnimationPlayer")
+Animator = NodePath("Model/AnimationPlayer")
 Collision = NodePath("Collision")
 StateMachine = NodePath("StateMachine")
+FloorCast = NodePath("FloorCast")
+Model = NodePath("Model")
 metadata/_custom_type_script = "uid://dnutsoav7lqts"
 
-[node name="Collision" type="CollisionShape3D" parent="." unique_id=589156652]
+[node name="StateMachine" type="Node" parent="." unique_id=157238295 node_paths=PackedStringArray("INITIAL_STATE")]
+script = ExtResource("2_1dxc1")
+INITIAL_STATE = NodePath("GroundedState")
+metadata/_custom_type_script = "uid://bkjt2jmbdq36q"
+
+[node name="GroundedState" type="Node" parent="StateMachine" unique_id=2057602440 node_paths=PackedStringArray("FreeFall", "Jumping", "Grounded", "Landed")]
+script = ExtResource("3_qn0kr")
+FreeFall = NodePath("../FreeFallState")
+Jumping = NodePath("../JumpingState")
+Grounded = NodePath(".")
+Landed = NodePath("../LandedState")
+metadata/_custom_type_script = "uid://c1qqqt1a3mpwy"
+
+[node name="FreeFallState" type="Node" parent="StateMachine" unique_id=1683221465 node_paths=PackedStringArray("FreeFall", "Jumping", "Grounded", "Landed")]
+script = ExtResource("4_m1jb8")
+FreeFall = NodePath(".")
+Jumping = NodePath("../JumpingState")
+Grounded = NodePath("../GroundedState")
+Landed = NodePath("../LandedState")
+metadata/_custom_type_script = "uid://dunqapar335x3"
+
+[node name="JumpingState" type="Node" parent="StateMachine" unique_id=1691671304 node_paths=PackedStringArray("FreeFall", "Jumping", "Grounded", "Landed")]
+script = ExtResource("5_eqqby")
+FreeFall = NodePath("../FreeFallState")
+Jumping = NodePath(".")
+Grounded = NodePath("../GroundedState")
+Landed = NodePath("../LandedState")
+metadata/_custom_type_script = "uid://bb8jb23s0wkds"
+
+[node name="LandedState" type="Node" parent="StateMachine" unique_id=1326533651 node_paths=PackedStringArray("FreeFall", "Jumping", "Grounded", "Landed")]
+script = ExtResource("6_cnevh")
+FreeFall = NodePath("../FreeFallState")
+Jumping = NodePath("../JumpingState")
+Grounded = NodePath("../GroundedState")
+Landed = NodePath(".")
+metadata/_custom_type_script = "uid://c73xrr18foiqy"
+
+[node name="PhysicsState" type="Node" parent="StateMachine" unique_id=805868519]
+script = ExtResource("7_6ieb5")
+metadata/_custom_type_script = "uid://chpflc8gbvey1"
+
+[node name="Collision" type="CollisionShape3D" parent="." unique_id=1166651409]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.95208395, 0)
-shape = SubResource("CapsuleShape3D_utqbp")
+shape = SubResource("CapsuleShape3D_3sb27")
 
-[node name="BaseRigSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=958760793]
-replication_config = SubResource("SceneReplicationConfig_7urwx")
+[node name="Model" type="Node3D" parent="." unique_id=371236156]
 
-[node name="Nametag" type="Sprite3D" parent="." unique_id=956275761]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Model" unique_id=1077416673]
+
+[node name="Nametag" type="Sprite3D" parent="." unique_id=362662380]
 transform = Transform3D(0.75, 0, 0, 0, 0.75, 0, 0, 0, 0.75, 0, 2.25, 0)
 billboard = 2
-texture = SubResource("ViewportTexture_jpi7y")
+texture = SubResource("ViewportTexture_3sb27")
 
-[node name="BillboardViewport" type="SubViewport" parent="Nametag" unique_id=720553549]
+[node name="BillboardViewport" type="SubViewport" parent="Nametag" unique_id=29701640]
 transparent_bg = true
 gui_disable_input = true
 size = Vector2i(400, 50)
 
-[node name="Name" type="Label" parent="Nametag/BillboardViewport" unique_id=573737929]
+[node name="Name" type="Label" parent="Nametag/BillboardViewport" unique_id=1100177509]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -63,41 +112,9 @@ text = "HumanoidNPC"
 horizontal_alignment = 1
 vertical_alignment = 2
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=404893790]
+[node name="BaseRigSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=213944711]
+replication_config = SubResource("SceneReplicationConfig_3sb27")
 
-[node name="StateMachine" type="Node" parent="." unique_id=166203790 node_paths=PackedStringArray("INITIAL_STATE")]
-script = ExtResource("2_1dxc1")
-INITIAL_STATE = NodePath("GroundedState")
-metadata/_custom_type_script = "uid://bkjt2jmbdq36q"
-
-[node name="GroundedState" type="Node" parent="StateMachine" unique_id=2034327199 node_paths=PackedStringArray("FreeFall", "Jumping", "Grounded", "Landed")]
-script = ExtResource("3_qn0kr")
-FreeFall = NodePath("../FreeFallState")
-Jumping = NodePath("../JumpingState")
-Grounded = NodePath(".")
-Landed = NodePath("../LandedState")
-metadata/_custom_type_script = "uid://c1qqqt1a3mpwy"
-
-[node name="FreeFallState" type="Node" parent="StateMachine" unique_id=224118502 node_paths=PackedStringArray("FreeFall", "Jumping", "Grounded", "Landed")]
-script = ExtResource("4_m1jb8")
-FreeFall = NodePath(".")
-Jumping = NodePath("../JumpingState")
-Grounded = NodePath("../GroundedState")
-Landed = NodePath("../LandedState")
-metadata/_custom_type_script = "uid://dunqapar335x3"
-
-[node name="JumpingState" type="Node" parent="StateMachine" unique_id=2130267309 node_paths=PackedStringArray("FreeFall", "Jumping", "Grounded", "Landed")]
-script = ExtResource("5_eqqby")
-FreeFall = NodePath("../FreeFallState")
-Jumping = NodePath(".")
-Grounded = NodePath("../GroundedState")
-Landed = NodePath("../LandedState")
-metadata/_custom_type_script = "uid://bb8jb23s0wkds"
-
-[node name="LandedState" type="Node" parent="StateMachine" unique_id=1381270121 node_paths=PackedStringArray("FreeFall", "Jumping", "Grounded", "Landed")]
-script = ExtResource("6_cnevh")
-FreeFall = NodePath("../FreeFallState")
-Jumping = NodePath("../JumpingState")
-Grounded = NodePath("../GroundedState")
-Landed = NodePath(".")
-metadata/_custom_type_script = "uid://c73xrr18foiqy"
+[node name="FloorCast" type="RayCast3D" parent="." unique_id=1097347875]
+target_position = Vector3(0, -0.3, 0)
+hit_from_inside = true

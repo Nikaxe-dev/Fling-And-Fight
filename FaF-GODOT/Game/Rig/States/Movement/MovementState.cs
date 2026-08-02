@@ -13,7 +13,7 @@ namespace FaF.Game.Rig.States.Movement;
 /// <param name="walkingAnimation">The name of the property that stores the NPCAnimationData that is played when walking.</param>
 /// <param name="idleAnimation">The name of the property that stores the NPCAnimationData that is played when idle.</param>
 [GlobalClass]
-public partial class MovementState(bool AllowJumping = true, bool AllowWalking = true, bool AutoSwitchToFreeFall = true, bool ApplyGravity = true, string walkingAnimation = "WALK_ANIMATION", string idleAnimation = "IDLE_ANIMATION") : UpState(ApplyGravity)
+public partial class MovementState(bool AllowJumping = true, bool AllowWalking = true, bool AutoSwitchToFreeFall = true, string walkingAnimation = "WALK_ANIMATION", string idleAnimation = "IDLE_ANIMATION") : UpState
 {
     [Export] public required FreeFallState FreeFall;
     [Export] public required JumpingState Jumping;
@@ -34,19 +34,17 @@ public partial class MovementState(bool AllowJumping = true, bool AllowWalking =
 
         if (AllowWalking && IsMultiplayerAuthority())
         {
-            float walkAcceleration = Npc.WalkAcceleration;
-
-            if (Npc.Velocity.Length() < Npc.WalkSpeed)
+            if (Npc.LinearVelocity.Length() < Npc.WalkSpeed)
             {
-                Npc.Velocity += Npc.MoveDirection * Npc.WalkAcceleration * walkAcceleration;
+                Npc.ApplyCentralForce(Npc.MoveDirection * Npc.WalkAcceleration);
             }
 
             Vector3 targetVelocity = Npc.MoveDirection * Npc.WalkSpeed;
 
-            Npc.Velocity = new Vector3(
-                Mathf.MoveToward(Npc.Velocity.X, targetVelocity.X, Npc.WalkAcceleration * walkAcceleration),
-                Npc.Velocity.Y,
-                Mathf.MoveToward(Npc.Velocity.Z, targetVelocity.Z, walkAcceleration)
+            Npc.LinearVelocity = new Vector3(
+                Mathf.MoveToward(Npc.LinearVelocity.X, targetVelocity.X, Npc.WalkAcceleration),
+                Npc.LinearVelocity.Y,
+                Mathf.MoveToward(Npc.LinearVelocity.Z, targetVelocity.Z, Npc.WalkAcceleration)
             );
 
             if (Npc.MoveDirection != Vector3.Zero)
@@ -57,10 +55,11 @@ public partial class MovementState(bool AllowJumping = true, bool AllowWalking =
                 {
                     double targetRotation = Math.Atan2(Npc.MoveDirection.X, Npc.MoveDirection.Z);
                     Npc.Rotation = new Vector3(Npc.Rotation.X, (float)Mathf.LerpAngle(Npc.Rotation.Y, targetRotation, Npc.TurnSpeed * delta), Npc.Rotation.Z);
+                    Npc.Model.Rotation = Vector3.Zero;
                 }
             } else
             {
-                Npc.PlayAnimation((NPCAnimationData)Npc.Get(IdleAnimation));
+                Npc.PlayAnimation((NPCAnimationData)(GodotObject)Npc.Get(IdleAnimation));
             }
         }
 
@@ -77,7 +76,7 @@ public partial class MovementState(bool AllowJumping = true, bool AllowWalking =
         if (Npc.OverrideRotation)
         {
             double targetRotation = Math.Atan2(Npc.RotationOverride.X, Npc.RotationOverride.Z);
-            Npc.Rotation = new Vector3(Npc.Rotation.X, (float)Mathf.LerpAngle(Npc.Rotation.Y, targetRotation, Npc.TurnSpeed * delta), Npc.Rotation.Z);
+            Npc.Model.GlobalRotation = new Vector3(Npc.Model.GlobalRotation.X, (float)Mathf.LerpAngle(Npc.Model.GlobalRotation.Y, targetRotation, Npc.TurnSpeed * delta), Npc.Model.GlobalRotation.Z);
         }
     }
 }

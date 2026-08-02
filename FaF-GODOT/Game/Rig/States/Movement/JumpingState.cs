@@ -12,7 +12,7 @@ public partial class JumpingState() : MovementState(false,true,false)
     {
         base.Enter();
 
-        if (IsMultiplayerAuthority()) Npc.Velocity = new Vector3(Npc.Velocity.X, Npc.JumpPower, Npc.Velocity.Z);
+        if (IsMultiplayerAuthority()) Npc.SetAxisVelocity(Vector3.Up*Npc.JumpPower);
     }
 
     public override void Process(double delta)
