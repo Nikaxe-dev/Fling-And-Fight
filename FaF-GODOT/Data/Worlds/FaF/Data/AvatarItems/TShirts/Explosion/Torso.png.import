@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bnxynebeajltu"
-path.s3tc="res://.godot/imported/Torso.png-949e4ac8376cce8c596c40e2edcc71e9.s3tc.ctex"
+path.s3tc="res://.godot/imported/Torso.png-990b69130cb37a83871bff1c4772fa43.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://Data/AvatarItems/TShirts/Explosion/Torso.png"
-dest_files=["res://.godot/imported/Torso.png-949e4ac8376cce8c596c40e2edcc71e9.s3tc.ctex"]
+source_file="res://Data/Worlds/FaF/Data/AvatarItems/TShirts/Explosion/Torso.png"
+dest_files=["res://.godot/imported/Torso.png-990b69130cb37a83871bff1c4772fa43.s3tc.ctex"]
 
 [params]
 

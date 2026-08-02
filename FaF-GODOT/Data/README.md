@@ -52,41 +52,38 @@ PROJECT_ROOT/Data:
 
                         -- THIS IS REQUIRED TO INHERIT FROM PROJECT_ROOT/Game/Gear/BaseGear.tscn
                         name_doesnt_matter.tscn (PackedScene) (recommend to name it after the gearID so godot shows the correct name in the editor)
-        
-        Global:
-            -- This is a special required world not shown in game that artificially adds its content to every other world. Worlds can choose to disable all or parts of globals content.
-    
-    -- This is a category of registries.
-    AvatarItems:
-        Accessories:
-            *:
-                AccessoryMeta.tres (AccessoryRegistry Resource)
+                
+                -- This is a category of registries.
+                AvatarItems:
+                    Accessories:
+                        *:
+                            AccessoryMeta.tres (AccessoryRegistry Resource)
 
-                name_doesnt_matter.tscn (Accessory PackedScene)
+                            name_doesnt_matter.tscn (Accessory PackedScene)
 
-                Assets:
-                    -- assets folder for resources relating to the content.
-        
-        Pants:
-            *:
-                PantsMeta.tres (PantsRegistry Resource)
+                            Assets:
+                                -- assets folder for resources relating to the content.
+                    
+                    Pants:
+                        *:
+                            PantsMeta.tres (PantsRegistry Resource)
 
-                LeftLeg.png/.jpg/ect (Image) (Use the leg template for this!)
-                RightLeg.png/.jpg/ect (Image) (Use the leg template for this!)
-        
-        TShirts:
-            *:
-                TShirtMeta.tres (TShirtRegistry Resource)
+                            LeftLeg.png/.jpg/ect (Image) (Use the leg template for this!)
+                            RightLeg.png/.jpg/ect (Image) (Use the leg template for this!)
+                    
+                    TShirts:
+                        *:
+                            TShirtMeta.tres (TShirtRegistry Resource)
 
-                Torso.png/.jpg/ect (Image) (Any image! No template required. Stuck ontop of the Torso)
-        
-        Shirts:
-            *:
-                ShirtMeta.tres (ShirtRegistry Resource)
+                            Torso.png/.jpg/ect (Image) (Any image! No template required. Stuck ontop of the Torso)
+                    
+                    Shirts:
+                        *:
+                            ShirtMeta.tres (ShirtRegistry Resource)
 
-                LeftArm.png/.jpg/ect (Image) (Use the arm template for this!)
-                RightArm.png/.jpg/ect (Image) (Use the arm template for this!)
-                Torso.png/.jpg/ect (Image) (Use the torso template for this!)
+                            LeftArm.png/.jpg/ect (Image) (Use the arm template for this!)
+                            RightArm.png/.jpg/ect (Image) (Use the arm template for this!)
+                            Torso.png/.jpg/ect (Image) (Use the torso template for this!)
 
     RegistryObjects (registry classes, just ignore this)
 ```

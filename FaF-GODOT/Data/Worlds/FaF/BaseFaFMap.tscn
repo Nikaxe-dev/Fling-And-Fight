@@ -1,5 +1,0 @@
-[gd_scene format=3 uid="uid://bcfjpxakm14c8"]
-
-[ext_resource type="PackedScene" uid="uid://dg0p1fqfjnctp" path="res://Game/World/BaseMap.tscn" id="1_v556q"]
-
-[node name="MapRoot" unique_id=1505379970 instance=ExtResource("1_v556q")]
