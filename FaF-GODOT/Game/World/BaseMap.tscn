@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://dg0p1fqfjnctp"]
 
-[ext_resource type="Script" uid="uid://kn1j48y7bpdu" path="res://Game/World/MapRoot.cs" id="1_n736j"]
+[ext_resource type="Script" uid="uid://cpch71j3u61ys" path="res://Game/World/WorldRoot.cs" id="1_n736j"]
 [ext_resource type="Script" uid="uid://0cam62lnrwv3" path="res://Game/Networking/PlayerSpawner.cs" id="2_60ydc"]
 [ext_resource type="PackedScene" uid="uid://d1tkfeinx3ajq" path="res://Game/Players/Player.tscn" id="3_47acn"]
 [ext_resource type="Script" uid="uid://di7kh1c1ovgee" path="res://Game/Networking/CharacterSpawner.cs" id="4_f0jvv"]
@@ -34,7 +34,7 @@ material = SubResource("StandardMaterial3D_qswnl")
 size = Vector2(1500, 1500)
 orientation = 2
 
-[node name="MapRoot" type="Node" unique_id=1505379970 node_paths=PackedStringArray("Scene")]
+[node name="WorldRoot" type="Node" unique_id=1505379970 node_paths=PackedStringArray("Scene")]
 script = ExtResource("1_n736j")
 Scene = NodePath("Scene")
 metadata/_custom_type_script = "uid://kn1j48y7bpdu"

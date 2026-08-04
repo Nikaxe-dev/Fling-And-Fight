@@ -1,0 +1,14 @@
+[remap]
+
+importer="func_godot.map"
+type="Resource"
+uid="uid://bljkm54yvwg4v"
+path="res://.godot/imported/New_Sedes.3.map-0745ee2fb0209095a65327c633ccb674.tres"
+
+[deps]
+
+source_file="res://Data/Worlds/New_Sedes/trenchbroom/autosave/New_Sedes.3.map"
+dest_files=["res://.godot/imported/New_Sedes.3.map-0745ee2fb0209095a65327c633ccb674.tres"]
+
+[params]
+

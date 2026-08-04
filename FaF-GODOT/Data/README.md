@@ -21,6 +21,10 @@ PROJECT_ROOT/Data:
         *:
             WorldMeta.tres
 
+            -- THIS IS REQUIRED TO INHERIT FROM PROJECT_ROOT/Game/World/BaseMap.tscn
+            -- OPTIONAL: Worlds don't need to have a map in them in the case that they are meant to only add items (such as the FaF world). Should be used alongside ShowInGame:false.
+            name_doesnt_matter.tscn (WorldRoot PackedScene) (recommend to name it after the world so godot shows the correct name in the editor)
+
             Assets:
                 -- assets folder for textures, sounds, ect relating to the content.
 

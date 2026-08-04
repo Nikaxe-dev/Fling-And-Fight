@@ -10,11 +10,11 @@ config_version=5
 
 [application]
 
-config/name="Fling And Fight*"
+config/name="Fling And Fight"
 config/version="1.0"
 run/main_scene="uid://dgr38pghxvmmd"
 config/features=PackedStringArray("4.7", "4.7.1", "4.7.1", "C#", "GL Compatibility")
-config/icon="res://icon.svg"
+config/icon="uid://2gbmis67qj5w"
 
 [autoload]
 

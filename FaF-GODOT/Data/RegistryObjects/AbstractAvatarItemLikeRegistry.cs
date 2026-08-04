@@ -12,4 +12,7 @@ public abstract partial class AbstractAvatarItemLikeRegistry : Resource
     [Export] public string Creator;
 
     [Export(PropertyHint.MultilineText)] public string Description;
+
+    [Export] public bool LockedToWorld = false;
+    [Export] public bool ShowInGame = true;
 }
