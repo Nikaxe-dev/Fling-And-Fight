@@ -26,6 +26,7 @@ public partial class ConsoleUI : Control
         };
 
         label.AddThemeFontSizeOverride("normal_font_size", OUTPUT_FONT_SIZE);
+        label.AddThemeFontSizeOverride("bold_font_size", OUTPUT_FONT_SIZE);
 
         OutputContainer.AddChild(label);
     }

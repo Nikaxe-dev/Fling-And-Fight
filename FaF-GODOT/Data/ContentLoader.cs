@@ -1,0 +1,122 @@
+using System;
+using System.Collections.Generic;
+using FaF.Data.RegistryObjects;
+using FaF.Debug;
+using Godot;
+
+namespace FaF.Data;
+
+/// <summary>
+/// FaF content loader. Contains all functions related to loading registries.
+/// </summary>
+public static class ContentLoader
+{
+    private static readonly FaFLogger LOGGER = FaFLogger.Get("Data/ContentLoader");
+
+    public static readonly string BUILTIN_DATA_PATH = "res://Data";
+    public static readonly string UGC_DATA_PATH = "user://Datapacks"; // OS.GetExecutablePath().GetBaseDir().PathJoin("Data");
+
+    private static readonly List<WorldRegistry> Worlds = [];
+
+    // ItemLike
+    private static readonly List<PropRegistry> Props = [];
+    private static readonly List<GearRegistry> Gears = [];
+
+    // AvatarItems
+    private static readonly List<TShirtRegistry> TShirts = [];
+
+    /// <summary>
+    /// Clears all of the registries with the exception of Worlds.
+    /// </summary>
+    public static void ClearRegistries()
+    {
+        Props.Clear();
+        Gears.Clear();
+        TShirts.Clear();
+    }
+
+    /// <summary>
+    /// Loads a worlds data. NOTE: This means it loads the props, gears, avatar items, ect. NOT THE MAP.
+    /// </summary>
+    public static void LoadWorldData(string WorldID)
+    {
+        LOGGER.LOG(LogType.INFO, $"Loading world '{WorldID}'", "WorldDataLoader");
+
+        DirAccess packRoot = DirAccess.Open(BUILTIN_DATA_PATH.PathJoin("Worlds").PathJoin(WorldID));
+        packRoot ??= DirAccess.Open(UGC_DATA_PATH.PathJoin("Worlds").PathJoin(WorldID));
+
+        if (packRoot == null) LOGGER.LOG(LogType.ERROR, $"World with ID: '{WorldID}' not found in res:// or user://", "WorldDataLoader"); else {
+            // World exists: CONTINUE LOADING !!
+
+            string fullPath = packRoot.GetCurrentDir();
+
+            if (!ResourceLoader.Exists(fullPath.PathJoin("WorldMeta.tres"))) LOGGER.LOG(LogType.ERROR, $"World with ID: '{WorldID}' does not include the required WorldMeta.tres WorldRegistry Resource file", "WorldDataLoader"); else
+            {
+                // Worlds.Add((WorldRegistry)ResourceLoader.Load(fullPath.PathJoin("WorldMeta.tres")));
+                
+                LOGGER.LOG(LogType.INFO, "Loading Props", "WorldDataLoader");
+                LoadRegistryFolder(WorldID, fullPath.PathJoin("Data/Props"), "PropMeta.tres", Props);
+
+                LOGGER.LOG(LogType.INFO, "Loading Gears", "WorldDataLoader");
+                LoadRegistryFolder(WorldID, fullPath.PathJoin("Data/Gears"), "GearMeta.tres", Gears);
+
+                LOGGER.LOG(LogType.INFO, "Loading TShirts", "WorldDataLoader");
+                LoadRegistryFolder(WorldID, fullPath.PathJoin("Data/AvatarItems/TShirts"), "TShirtMeta.tres", TShirts);
+
+                LOGGER.LOG(LogType.INFO, $"World '{WorldID}' successfully loaded", "WorldDataLoader");
+            }
+        }
+    }
+
+    public static void LoadWorldRegistryFolder()
+    {
+        LOGGER.LOG(LogType.INFO, "Loading all world registries", "WorldLoader");
+        LoadRegistryFolder("Worlds", BUILTIN_DATA_PATH.PathJoin("Worlds"), "WorldMeta.tres", Worlds);
+        LoadRegistryFolder("Worlds", UGC_DATA_PATH.PathJoin("Worlds"), "WorldMeta.tres", Worlds);
+    }
+
+    private static void LoadRegistryFolder<T>(string WorldID, string directory, string metaResourceFile, List<T> listOfContent) where T : Registry
+    {
+        if (DirAccess.DirExistsAbsolute(directory))
+        {
+            foreach (string item in DirAccess.GetDirectoriesAt(directory))
+            {
+                string metaPath = directory.PathJoin(item.PathJoin(metaResourceFile));
+                if (ResourceLoader.Exists(metaPath))
+                {
+                    var registry = ResourceLoader.Load(metaPath) as T;
+                    registry.ID = item.GetFile();
+                    registry.NAMESPACE = WorldID;
+                    registry.FULL_ID = $"{registry.NAMESPACE}:{registry.ID}";
+
+                    listOfContent.Add(registry);
+
+                    LOGGER.LOG(LogType.INFO, $"{registry.FULL_ID} resource loaded", "RegistryFolderLoading");
+                } else
+                {
+                    LOGGER.LOG(LogType.ERROR, $"{WorldID}:{item.GetFile()} failed to load: {metaPath} doesnt exist", "RegistryFolderLoading");
+                }
+            }
+        }
+    }
+
+    public static WorldRegistry GetWorld(string FULL_ID)
+    {
+        return Worlds.Find(registry => registry.ID == FULL_ID);
+    }
+
+    public static PropRegistry GetProp(string FULL_ID)
+    {
+        return Props.Find(registry => registry.FULL_ID == FULL_ID);
+    }
+
+    public static GearRegistry GetGear(string FULL_ID)
+    {
+        return Gears.Find(registry => registry.FULL_ID == FULL_ID);
+    }
+
+    public static TShirtRegistry GetTShirt(string FULL_ID)
+    {
+        return TShirts.Find(registry => registry.FULL_ID == FULL_ID);
+    }
+}

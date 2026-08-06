@@ -6,13 +6,7 @@ namespace FaF.Data.RegistryObjects;
 /// Abstract class for everything with functionality similar to an 'Item'. (Gears, Props)
 /// </summary>
 [GlobalClass]
-public abstract partial class AbstractItemLikeRegistry : Resource
+public abstract partial class AbstractItemLikeRegistry : Registry
 {
-    [Export] public string Name;
-    [Export] public string Creator;
-
-    [Export(PropertyHint.MultilineText)] public string Description;
-
     [Export] public bool LockedToWorld = false;
-    [Export] public bool ShowInGame = true;
 }

@@ -91,14 +91,14 @@ public partial class NetworkManager : Node
 
         if (err != Error.Ok)
         {
-            LOGGER.LOG(LogType.ERROR, $"Failed to create server: {err}", "ServerLifeCycle");
+            LOGGER.LOG(LogType.ERROR, $"Failed to create server: {err}", "ServerLifeCycle", true);
             return err;
         }
 
         Multiplayer.MultiplayerPeer = Peer;
         IsServer = true;
 
-        LOGGER.LOG(LogType.INFO, $"Successfully created server at 127.0.0.1:{PORT}", "ServerLifeCycle");
+        LOGGER.LOG(LogType.INFO, $"Successfully created server at 127.0.0.1:{PORT}", "ServerLifeCycle", true);
 
         EmitSignal(SignalName.WorldEntered);
 
@@ -119,13 +119,13 @@ public partial class NetworkManager : Node
 
         if (err != Error.Ok)
         {
-            LOGGER.LOG(LogType.ERROR, $"Failed to create client & join server at {IP_ADDRESS}:{PORT} with Godot error '${err}'", "ClientLifeCycle");
+            LOGGER.LOG(LogType.ERROR, $"Failed to create client & join server at {IP_ADDRESS}:{PORT} with Godot error '${err}'", "ClientLifeCycle", true);
         }
 
         Multiplayer.MultiplayerPeer = Peer;
         IsServer = false;
 
-        LOGGER.LOG(LogType.INFO, $"Connecting to server {IP_ADDRESS}:{PORT}", "ClientLifeCycle");
+        LOGGER.LOG(LogType.INFO, $"Connecting to server {IP_ADDRESS}:{PORT}", "ClientLifeCycle", true);
 
         EmitSignal(SignalName.WorldEntered);
 
@@ -140,7 +140,7 @@ public partial class NetworkManager : Node
         Multiplayer.MultiplayerPeer = null;
         IsServer = false;
 
-        LOGGER.LOG(LogType.INFO, "Successfully stopped server", "ServerLifeCycle");
+        LOGGER.LOG(LogType.INFO, "Successfully stopped server", "ServerLifeCycle", true);
 
         EmitSignal(SignalName.WorldExited);
 
@@ -155,7 +155,7 @@ public partial class NetworkManager : Node
         Multiplayer.MultiplayerPeer = null;
         IsServer = false;
 
-        LOGGER.LOG(LogType.INFO, "Successfully stopped client", "ClientLifeCycle");
+        LOGGER.LOG(LogType.INFO, "Successfully stopped client", "ClientLifeCycle", true);
 
         EmitSignal(SignalName.WorldExited);
 
@@ -166,32 +166,32 @@ public partial class NetworkManager : Node
 
     private void OnServerDisconnected()
     {
-        LOGGER.LOG(LogType.WARNING, "Client disconnected from server", "ClientLifeCycle");
+        LOGGER.LOG(LogType.WARNING, "Client disconnected from server", "ClientLifeCycle", true);
         StopClient();
     }
 
     private void OnConnectionFailed()
     {
-        LOGGER.LOG(LogType.WARNING, "Client failed to connect to server", "ClientLifeCycle");
+        LOGGER.LOG(LogType.WARNING, "Client failed to connect to server", "ClientLifeCycle", true);
         StopClient();
         EmitSignal(SignalName.ConnectionFailed);
     }
 
     private void OnConnectedToServer()
     {
-        LOGGER.LOG(LogType.INFO, $"Connected to server! PEER_ID: {Multiplayer.GetUniqueId()}", "ClientLifeCycle");
+        LOGGER.LOG(LogType.INFO, $"Connected to server! PEER_ID: {Multiplayer.GetUniqueId()}", "ClientLifeCycle", true);
         EmitSignal(SignalName.ConnectionEstablished);
     }
 
     private void OnPeerDisconnected(long id)
     {
-        LOGGER.LOG(LogType.INFO, $"Peer disconnected: {id}", "PeerConnections");
+        LOGGER.LOG(LogType.INFO, $"Peer disconnected: {id}", "PeerConnections", true);
         EmitSignal(SignalName.PlayerDisconnected, (int)id);
     }
 
     private void OnPeerConnected(long id)
     {
-        LOGGER.LOG(LogType.INFO, $"Peer connected: {id}", "PeerConnections");
+        LOGGER.LOG(LogType.INFO, $"Peer connected: {id}", "PeerConnections", true);
         EmitSignal(SignalName.PlayerConnected, (int)id);
     }
 

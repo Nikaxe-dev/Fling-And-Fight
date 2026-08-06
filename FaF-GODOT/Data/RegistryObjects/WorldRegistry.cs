@@ -8,13 +8,7 @@ namespace FaF.Data.RegistryObjects;
 /// Contains data about a world.
 /// </summary>
 [GlobalClass]
-public partial class WorldRegistry : Resource
+public partial class WorldRegistry : Registry
 {
-    [Export] public string Name = "UNTITLED";
-    [Export] public string Creator = "Unknown";
-
-    [Export(PropertyHint.MultilineText)] public required string Description;
-
     [Export] public PackedScene? Scene;
-    [Export] public bool ShowInGame = true;
 }

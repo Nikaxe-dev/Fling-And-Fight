@@ -33,15 +33,17 @@ public class FaFLogger(string path)
         [LogType.ERROR] = true,
         [LogType.WARNING] = true,
         [LogType.INFO] = true,
-        [LogType.DEBUG] = true,
-        [LogType.TRACE] = true,
+        [LogType.DEBUG] = false,
+        [LogType.TRACE] = false,
     };
 
     public static readonly Dictionary<string, bool> EnabledLogPaths = [];
 
     private static readonly Dictionary<string, FaFLogger> loggers = new();
 
-    public static string RichFormatLog(string environmentInfo, string message, LogType logType) => logType switch
+    public static string RichFormatLog(string environmentInfo, string message, LogType logType, bool isImportant) => $"{(isImportant ? "[b]" : "")}{
+    
+    logType switch
     {
         LogType.CRASH => $"[color=darkred]{environmentInfo}[/color] [color=red]{message}[/color]",
         LogType.ERROR => $"[color=darkred]{environmentInfo}[/color] [color=red]{message}[/color]",
@@ -50,7 +52,9 @@ public class FaFLogger(string path)
         LogType.DEBUG => $"[color=gray]{environmentInfo}[/color] [color=white]{message}[/color]",
         LogType.TRACE => $"[color=gray]{environmentInfo}[/color] [color=white]{message}[/color]",
         _ => $"[color=gray]{environmentInfo}[/color] [color=white]{message}[/color]",
-    };
+    }
+    
+    }";
 
     public static FaFLogger Get(string path)
     {
@@ -67,7 +71,7 @@ public class FaFLogger(string path)
             EnabledLogPaths[path] = true;
         }
 
-        LOGGER.LOG(LogType.INFO, $"Registered new LOGGER with path '{path}'", "Registration");
+        LOGGER.LOG(LogType.DEBUG, $"Registered new LOGGER with path '{path}'", "Registration");
 
         return newLogger;
     }
@@ -79,9 +83,9 @@ public class FaFLogger(string path)
 
     private static readonly List<string> queuedUIOutputs = [];
 
-    public void LOG(LogType logType, string message, string category = "General")
+    public void LOG(LogType logType, string message, string category = "General", bool isImportant = false)
     {
-        string richFormatted = RichFormatLog($"{GenerateCommonLoggerInfo()} [{logType}] [{path}:{category}]", message, logType);
+        string richFormatted = RichFormatLog($"{GenerateCommonLoggerInfo()} [{logType}] [{path}:{category}]", message, logType, isImportant);
         if (EnabledLogTypes[logType] && EnabledLogPaths.TryGetValue(path, out bool enabled) && enabled) GD.PrintRich(richFormatted);
         
         if (ConsoleUI.Instance != null)
