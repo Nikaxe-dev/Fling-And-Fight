@@ -47,10 +47,10 @@ public partial class Initializer : Node
 		GD.Print("System arguments:");
 		GD.Print(JsonSerializer.Serialize(arguments));
 
-		CallDeferred(nameof(QuickPlayArgs));
+		CallDeferred(nameof(StartGame));
 	}
 
-	private void QuickPlayArgs()
+	private void StartGame()
 	{
 		if (arguments.ContainsKey("server"))
 		{
@@ -72,6 +72,9 @@ public partial class Initializer : Node
 			LOGGER.LOG(LogType.INFO, "Launching FaF Editor", "QuickArgs", true);
 
 			GetTree().ChangeSceneToFile("res://Editor/WorldEditorScene.tscn");
+		} else
+		{
+			GameManager.Instance.SwitchToTitleScreen();
 		}
 	}
 }

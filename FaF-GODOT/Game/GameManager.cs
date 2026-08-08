@@ -1,3 +1,4 @@
+using System;
 using FaF.Data;
 using FaF.Data.RegistryObjects;
 using FaF.Debug;
@@ -35,8 +36,38 @@ public sealed partial class GameManager : Node
         ContentLoader.LoadWorlds();
     }
 
-    public static bool IS_IN_GAME = false;
+    public static bool IS_IN_GAME {get; private set;} = false;
     public static string LOADED_WORLD {get; private set;}
+    public static string GLOBAL_SERVER_ID {get; private set;} = "";
+
+    private static bool has_server_communicated_info = false;
+
+    // Static method bindings for GDScript
+    
+    public static bool GetIsInGame() => IS_IN_GAME;
+    public static string GetLoadedWorld() => LOADED_WORLD;
+    public static string GetGlobalServerID() => GLOBAL_SERVER_ID;
+
+    public static WorldRegistry ContentLoaderGetWorld(string FULL_ID) => ContentLoader.GetWorld(FULL_ID);
+
+    // HELPERS
+
+    private static string GenerateGlobalServerID()
+    {
+        return ((int)GD.RandRange(11111111111111111111, 9999999999999999999)).ToString();
+    }
+
+    // SIGNALS
+
+    [Signal] public delegate void JoinedServerEventHandler();
+    [Signal] public delegate void SwitchedToTitleScreenEventHandler();
+
+    public void SwitchToTitleScreen()
+    {
+        GetTree().ChangeSceneToFile("res://UI/Menus/Title/TitleScreen.tscn");
+        EmitSignal(SignalName.SwitchedToTitleScreen);
+    }
+
 
     /// <summary>
     /// Loads the world with no client or server specific loading.
@@ -60,7 +91,7 @@ public sealed partial class GameManager : Node
 
     private void OnPeerConnected(int ID)
     {
-        if (Multiplayer.IsServer()) RpcId(ID, MethodName.TransmitLoadedWorldToClient, LOADED_WORLD);
+        if (Multiplayer.IsServer()) RpcId(ID, MethodName.CommunicateServerInfo, LOADED_WORLD, GLOBAL_SERVER_ID);
     }
 
     /// <summary>
@@ -70,6 +101,8 @@ public sealed partial class GameManager : Node
     /// <param name="PORT"></param>
     public void CreateServer(string WorldID, int PORT = 56565)
     {
+        GLOBAL_SERVER_ID = GenerateGlobalServerID();
+
         NetworkManager.Instance.StartServer();
         LoadWorld(WorldID);
 
@@ -96,6 +129,7 @@ public sealed partial class GameManager : Node
     /// <param name="PORT"></param>
     public void CreateClient(string IP_ADDRESS = "127.0.0.1", int PORT = 56565)
     {
+        has_server_communicated_info = false;
         NetworkManager.Instance.StartClient(IP_ADDRESS, PORT);
     }
 
@@ -107,12 +141,24 @@ public sealed partial class GameManager : Node
     {
         NetworkManager.Instance.StopClient();
         IS_IN_GAME = false;
-        GetTree().ChangeSceneToFile("res://UI/Menus/Title/TitleScreen.tscn");
+        has_server_communicated_info = false;
+        
+        SwitchToTitleScreen();
     }
     
     [Rpc(MultiplayerApi.RpcMode.Authority, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
-    private void TransmitLoadedWorldToClient(string WorldID)
+    private void CommunicateServerInfo(string WorldID, string GlobalServerID)
     {
-        if (!Multiplayer.IsServer()) LoadWorld(WorldID);
+        if (Multiplayer.IsServer()) return;
+        if (has_server_communicated_info) LOGGER.LOG(LogType.WARNING, "CommunicateServerInfo() ignored: It has already been run", "ServerClientCommunication");
+
+        has_server_communicated_info = true;
+
+        LoadWorld(WorldID);
+        GLOBAL_SERVER_ID = GlobalServerID;
+
+        EmitSignal(SignalName.JoinedServer);
+
+        LOGGER.LOG(LogType.INFO, $"Server communicated info to client (WorldID: {WorldID}, GlobalServerID: {GlobalServerID})", "ServerClientCommunication");
     }
 }

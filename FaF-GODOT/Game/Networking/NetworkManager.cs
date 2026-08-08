@@ -40,17 +40,17 @@ public partial class NetworkManager : Node
     /// </summary>
     [Signal] public delegate void ConnectionFailedEventHandler();
 
-    /// <summary>
-    /// <b>COMMON</b> -
-    /// Emitted when the game enters a world (LOADING THE SCENE)
-    /// </summary>
-    [Signal] public delegate void WorldEnteredEventHandler();
+    // /// <summary>
+    // /// <b>COMMON</b> -
+    // /// Emitted when the game enters a world (LOADING THE SCENE)
+    // /// </summary>
+    // [Signal] public delegate void WorldEnteredEventHandler();
 
-    /// <summary>
-    /// <b>COMMON</b> -
-    /// Emitted when the game exits a world (UNLOADING THE SCENE TO THE MAIN MENU / PROGRAM END)
-    /// </summary>
-    [Signal] public delegate void WorldExitedEventHandler();
+    // /// <summary>
+    // /// <b>COMMON</b> -
+    // /// Emitted when the game exits a world (UNLOADING THE SCENE TO THE MAIN MENU / PROGRAM END)
+    // /// </summary>
+    // [Signal] public delegate void WorldExitedEventHandler();
 
     public static readonly string DEFAULT_IP = "127.0.0.1";
     public static readonly int DEFAULT_PORT = 56565;
@@ -107,7 +107,7 @@ public partial class NetworkManager : Node
         LOGGER.LOG(LogType.INFO, $"Successfully created server at 127.0.0.1:{PORT}", "ServerLifeCycle", true);
         IS_CONNECTED = true;
 
-        EmitSignal(SignalName.WorldEntered);
+        // EmitSignal(SignalName.WorldEntered);
 
         return Error.Ok;
     }
@@ -136,7 +136,7 @@ public partial class NetworkManager : Node
         LOGGER.LOG(LogType.INFO, $"Connecting to server {IP_ADDRESS}:{PORT}", "ClientLifeCycle", true);
         IS_CONNECTED = true;
 
-        EmitSignal(SignalName.WorldEntered);
+        // EmitSignal(SignalName.WorldEntered);
 
         return Error.Ok;
     }
@@ -151,7 +151,7 @@ public partial class NetworkManager : Node
 
         LOGGER.LOG(LogType.INFO, "Stopping server networking", "ServerLifeCycle", true);
 
-        EmitSignal(SignalName.WorldExited);
+        // EmitSignal(SignalName.WorldExited);
     }
 
     public void StopClient()
@@ -164,7 +164,7 @@ public partial class NetworkManager : Node
 
         LOGGER.LOG(LogType.INFO, "Stopping client networking", "ClientLifeCycle", true);
 
-        EmitSignal(SignalName.WorldExited);
+        // EmitSignal(SignalName.WorldExited);
     }
 
     // CONNECTIONS

@@ -25,6 +25,8 @@ NetworkManager="*uid://cgq7ve731rqrt"
 GameManager="*uid://c3d02dtcnj37x"
 MouseInputManager="*uid://co4ciphoaek5d"
 InputManager="*uid://bmdpo8fxmmerv"
+DiscordRPCLoader="*uid://cdg170dhtuqaw"
+Discord="*uid://87qn2l8pml20"
 
 [display]
 
@@ -37,7 +39,7 @@ project/assembly_name="Fling And Fight"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/func_godot/plugin.cfg")
+enabled=PackedStringArray("res://addons/discord-rpc-gd/plugin.cfg", "res://addons/func_godot/plugin.cfg")
 
 [file_customization]
 

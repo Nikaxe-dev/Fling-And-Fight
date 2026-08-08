@@ -36,7 +36,6 @@ public partial class ConsoleUI : Control
         Instance = this;
 
         Visible = false;
-        // NetworkManager.Instance.WorldEntered += () => Visible = Multiplayer.IsServer();
 
         UserInput.GuiInput += _UserInput_Input;
     }
