@@ -6,6 +6,7 @@ using System.Threading;
 using FaF.Data;
 using FaF.Data.RegistryObjects;
 using FaF.Debug;
+using FaF.Game;
 using FaF.Game.Networking;
 using Godot;
 
@@ -46,8 +47,6 @@ public partial class Initializer : Node
 		GD.Print("System arguments:");
 		GD.Print(JsonSerializer.Serialize(arguments));
 
-		ContentLoader.LoadWorldRegistryFolder();
-
 		CallDeferred(nameof(QuickPlayArgs));
 	}
 
@@ -58,15 +57,7 @@ public partial class Initializer : Node
 			LOGGER.LOG(LogType.INFO, "Starting server", "QuickArgs", true);
 			
 			if (arguments.TryGetValue("world", out string ID)) {
-				WorldRegistry worldRegistry = ContentLoader.GetWorld(ID);
-				if (worldRegistry != null)
-				{
-					GetTree().ChangeSceneToPacked(worldRegistry.Scene);
-					NetworkManager.Instance.StartServer();
-				} else
-				{
-					LOGGER.LOG(LogType.ERROR, $"World specified in commandline args not found: {ID}.", "QuickArgs", true);
-				}
+				GameManager.Instance.CreateServer(ID);
 			} else
 			{
 				LOGGER.LOG(LogType.ERROR, "Automatic server startup requires a world argument to be specified in the commandline args.", "QuickArgs", true);
@@ -74,9 +65,8 @@ public partial class Initializer : Node
 		} else if (arguments.ContainsKey("auto-join"))
 		{
 			LOGGER.LOG(LogType.INFO, "Auto joining server as client", "QuickArgs", true);
-
-			GetTree().ChangeSceneToFile("res://Data/Worlds/New_Sedes/New_Sedes_Scene.tscn");
-			NetworkManager.Instance.JoinServer(NetworkManager.DEFAULT_IP, NetworkManager.DEFAULT_PORT);
+			
+			GameManager.Instance.CreateClient();
 		} else if (arguments.ContainsKey("editor"))
 		{
 			LOGGER.LOG(LogType.INFO, "Launching FaF Editor", "QuickArgs", true);

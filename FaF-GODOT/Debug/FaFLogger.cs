@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text.Json;
 using FaF.Debug.Console;
+using FaF.Game;
 using FaF.Game.Networking;
 using Godot;
 
@@ -33,8 +34,8 @@ public class FaFLogger(string path)
         [LogType.ERROR] = true,
         [LogType.WARNING] = true,
         [LogType.INFO] = true,
-        [LogType.DEBUG] = false,
-        [LogType.TRACE] = false,
+        [LogType.DEBUG] = true,
+        [LogType.TRACE] = true,
     };
 
     public static readonly Dictionary<string, bool> EnabledLogPaths = [];
@@ -78,7 +79,7 @@ public class FaFLogger(string path)
 
     private static string GenerateCommonLoggerInfo()
     {
-        return $"[{DateTime.Now:HH:mm:ss:fff}] {(NetworkManager.Instance != null ? $"[{(NetworkManager.Instance.Multiplayer.IsServer() ? "Server" : $"Client:{NetworkManager.Instance.Multiplayer.GetUniqueId()}")}]" : "")}";
+        return $"[{DateTime.Now:HH:mm:ss:fff}] {((NetworkManager.Instance != null && NetworkManager.IS_CONNECTED) ? $"[{(NetworkManager.Instance.Multiplayer.IsServer() ? "Server" : $"Client:{NetworkManager.Instance.Multiplayer.GetUniqueId()}")}]" : "[NOT CONNECTED]")}";
     }
 
     private static readonly List<string> queuedUIOutputs = [];

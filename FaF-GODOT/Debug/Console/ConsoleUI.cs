@@ -9,7 +9,7 @@ namespace FaF.Debug.Console;
 /// </summary>
 public partial class ConsoleUI : Control
 {
-    public static ConsoleUI Instance;
+    public static ConsoleUI Instance {get; private set;}
 
     [Export] public required LineEdit UserInput;
     [Export] public required VBoxContainer OutputContainer;
@@ -36,7 +36,7 @@ public partial class ConsoleUI : Control
         Instance = this;
 
         Visible = false;
-        NetworkManager.Instance.WorldEntered += () => Visible = Multiplayer.IsServer();
+        // NetworkManager.Instance.WorldEntered += () => Visible = Multiplayer.IsServer();
 
         UserInput.GuiInput += _UserInput_Input;
     }

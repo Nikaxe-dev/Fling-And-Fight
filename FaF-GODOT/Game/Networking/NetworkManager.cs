@@ -56,6 +56,11 @@ public partial class NetworkManager : Node
     public static readonly int DEFAULT_PORT = 56565;
 
     public static readonly int DEFAULT_MAX_PLAYERS = 30;
+
+    /// <summary>
+    /// Whether the server/client is connected properly.
+    /// </summary>
+    public static bool IS_CONNECTED {get; private set;} = false;
     
     // RUNTIME
 
@@ -80,6 +85,7 @@ public partial class NetworkManager : Node
     /// <summary>
     /// <b>SERVER</b> -
     /// Creates a new server. Run after switching to the maps scene.
+    /// THIS IS NETWORKING RELATED ONLY. RUN THE GAMEMANAGER METHOD FOR LOADING THE WORLD TOO.
     /// </summary>
     /// <param name="PORT"></param>
     /// <param name="MAX_PLAYERS"></param>
@@ -99,6 +105,7 @@ public partial class NetworkManager : Node
         IsServer = true;
 
         LOGGER.LOG(LogType.INFO, $"Successfully created server at 127.0.0.1:{PORT}", "ServerLifeCycle", true);
+        IS_CONNECTED = true;
 
         EmitSignal(SignalName.WorldEntered);
 
@@ -108,11 +115,12 @@ public partial class NetworkManager : Node
     /// <summary>
     /// <b>CLIENT</b> -
     /// Connects to an already existing server. Run after switching to the maps scene.
+    /// THIS IS NETWORKING RELATED ONLY. RUN THE GAMEMANAGER METHOD FOR LOADING THE WORLD TOO.
     /// </summary>
     /// <param name="IP_ADDRESS"></param>
     /// <param name="PORT"></param>
     /// <returns></returns>
-    public Error JoinServer(string IP_ADDRESS = "127.0.0.1", int PORT = 56565)
+    public Error StartClient(string IP_ADDRESS = "127.0.0.1", int PORT = 56565)
     {
         Peer = new();
         var err = Peer.CreateClient(IP_ADDRESS, PORT);
@@ -126,6 +134,7 @@ public partial class NetworkManager : Node
         IsServer = false;
 
         LOGGER.LOG(LogType.INFO, $"Connecting to server {IP_ADDRESS}:{PORT}", "ClientLifeCycle", true);
+        IS_CONNECTED = true;
 
         EmitSignal(SignalName.WorldEntered);
 
@@ -140,11 +149,9 @@ public partial class NetworkManager : Node
         Multiplayer.MultiplayerPeer = null;
         IsServer = false;
 
-        LOGGER.LOG(LogType.INFO, "Successfully stopped server", "ServerLifeCycle", true);
+        LOGGER.LOG(LogType.INFO, "Stopping server networking", "ServerLifeCycle", true);
 
         EmitSignal(SignalName.WorldExited);
-
-        GetTree().Quit();
     }
 
     public void StopClient()
@@ -155,11 +162,9 @@ public partial class NetworkManager : Node
         Multiplayer.MultiplayerPeer = null;
         IsServer = false;
 
-        LOGGER.LOG(LogType.INFO, "Successfully stopped client", "ClientLifeCycle", true);
+        LOGGER.LOG(LogType.INFO, "Stopping client networking", "ClientLifeCycle", true);
 
         EmitSignal(SignalName.WorldExited);
-
-        GetTree().ChangeSceneToFile("res://Launcher/MainMenu/TitleScreen.tscn");
     }
 
     // CONNECTIONS
@@ -168,6 +173,8 @@ public partial class NetworkManager : Node
     {
         LOGGER.LOG(LogType.WARNING, "Client disconnected from server", "ClientLifeCycle", true);
         StopClient();
+
+        IS_CONNECTED = false;
     }
 
     private void OnConnectionFailed()
@@ -175,12 +182,16 @@ public partial class NetworkManager : Node
         LOGGER.LOG(LogType.WARNING, "Client failed to connect to server", "ClientLifeCycle", true);
         StopClient();
         EmitSignal(SignalName.ConnectionFailed);
+
+        IS_CONNECTED = false;
     }
 
     private void OnConnectedToServer()
     {
         LOGGER.LOG(LogType.INFO, $"Connected to server! PEER_ID: {Multiplayer.GetUniqueId()}", "ClientLifeCycle", true);
         EmitSignal(SignalName.ConnectionEstablished);
+
+        IS_CONNECTED = true;
     }
 
     private void OnPeerDisconnected(long id)

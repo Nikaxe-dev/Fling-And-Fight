@@ -14,7 +14,7 @@ public static class ContentLoader
     private static readonly FaFLogger LOGGER = FaFLogger.Get("Data/ContentLoader");
 
     public static readonly string BUILTIN_DATA_PATH = "res://Data";
-    public static readonly string UGC_DATA_PATH = "user://Datapacks"; // OS.GetExecutablePath().GetBaseDir().PathJoin("Data");
+    public static readonly string UGC_DATA_PATH = "user://Data"; // OS.GetExecutablePath().GetBaseDir().PathJoin("Data");
 
     private static readonly List<WorldRegistry> Worlds = [];
 
@@ -33,6 +33,16 @@ public static class ContentLoader
         Props.Clear();
         Gears.Clear();
         TShirts.Clear();
+    }
+
+    private static void ExpectDir(string directory)
+    {
+        DirAccess dir = DirAccess.Open(directory);
+
+        if (dir == null)
+        {
+            LOGGER.LOG(LogType.DEBUG, $"(ExpectDir) Attempted to create non-existant directory '{directory}' with result '{DirAccess.MakeDirAbsolute(directory)}'.");
+        }
     }
 
     /// <summary>
@@ -66,6 +76,16 @@ public static class ContentLoader
                 LOGGER.LOG(LogType.INFO, $"World '{WorldID}' successfully loaded", "WorldDataLoader");
             }
         }
+    }
+
+    public static void LoadWorlds()
+    {
+        ExpectDir(UGC_DATA_PATH);
+        ExpectDir(UGC_DATA_PATH.PathJoin("Worlds"));
+
+        // Load Built in data then user defined data.
+        foreach (string item in DirAccess.GetDirectoriesAt(BUILTIN_DATA_PATH.PathJoin("Worlds"))) LoadWorldData(item.GetFile());
+        foreach (string item in DirAccess.GetDirectoriesAt(UGC_DATA_PATH.PathJoin("Worlds"))) LoadWorldData(item.GetFile());
     }
 
     public static void LoadWorldRegistryFolder()
