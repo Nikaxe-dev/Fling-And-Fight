@@ -40,6 +40,8 @@ public sealed partial class GameManager : Node
     public static string LOADED_WORLD {get; private set;}
     public static string GLOBAL_SERVER_ID {get; private set;} = "";
 
+    public static int PLAYER_COUNT {get; private set;} = 0;
+
     private static bool has_server_communicated_info = false;
 
     // Static method bindings for GDScript
@@ -47,6 +49,7 @@ public sealed partial class GameManager : Node
     public static bool GetIsInGame() => IS_IN_GAME;
     public static string GetLoadedWorld() => LOADED_WORLD;
     public static string GetGlobalServerID() => GLOBAL_SERVER_ID;
+    public static int GetPlayerCount() => PLAYER_COUNT;
 
     public static WorldRegistry ContentLoaderGetWorld(string FULL_ID) => ContentLoader.GetWorld(FULL_ID);
 
@@ -92,6 +95,12 @@ public sealed partial class GameManager : Node
     private void OnPeerConnected(int ID)
     {
         if (Multiplayer.IsServer()) RpcId(ID, MethodName.CommunicateServerInfo, LOADED_WORLD, GLOBAL_SERVER_ID);
+        if (ID != 1) PLAYER_COUNT += 1;
+    }
+
+    private void OnPeerDisconnected(int ID)
+    {
+        if (ID != 1) PLAYER_COUNT -= 1;
     }
 
     /// <summary>
@@ -106,7 +115,10 @@ public sealed partial class GameManager : Node
         NetworkManager.Instance.StartServer();
         LoadWorld(WorldID);
 
+        PLAYER_COUNT = 0;
+
         NetworkManager.Instance.PlayerConnected += OnPeerConnected;
+        NetworkManager.Instance.PlayerDisconnected += OnPeerDisconnected;
     }
 
     /// <summary>
@@ -115,10 +127,13 @@ public sealed partial class GameManager : Node
     public void StopServer()
     {
         NetworkManager.Instance.PlayerConnected -= OnPeerConnected;
+        NetworkManager.Instance.PlayerDisconnected -= OnPeerDisconnected;
 
         NetworkManager.Instance.StopServer();
         IS_IN_GAME = false;
         GetTree().Quit();
+
+        PLAYER_COUNT = 0;
     }
 
     /// <summary>
@@ -131,6 +146,11 @@ public sealed partial class GameManager : Node
     {
         has_server_communicated_info = false;
         NetworkManager.Instance.StartClient(IP_ADDRESS, PORT);
+
+        PLAYER_COUNT = 1;
+
+        NetworkManager.Instance.PlayerConnected += OnPeerConnected;
+        NetworkManager.Instance.PlayerDisconnected += OnPeerDisconnected;
     }
 
     /// <summary>
@@ -139,11 +159,16 @@ public sealed partial class GameManager : Node
     /// </summary>
     public void StopClient()
     {
+        NetworkManager.Instance.PlayerConnected -= OnPeerConnected;
+        NetworkManager.Instance.PlayerDisconnected -= OnPeerDisconnected;
+
         NetworkManager.Instance.StopClient();
         IS_IN_GAME = false;
         has_server_communicated_info = false;
         
         SwitchToTitleScreen();
+
+        PLAYER_COUNT = 0;
     }
     
     [Rpc(MultiplayerApi.RpcMode.Authority, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]

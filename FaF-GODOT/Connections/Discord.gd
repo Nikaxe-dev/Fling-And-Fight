@@ -24,11 +24,19 @@ func _ready() -> void:
     GameManager.connect("SwitchedToTitleScreen", _on_switched_to_title_screen)
     GameManager.connect("JoinedServer", _on_joined_server)
 
+    NetworkManager.connect("PlayerConnected", update_player_count)
+    NetworkManager.connect("PlayerDisconnected", update_player_count)
+
 func _on_switched_to_title_screen() -> void:
     reset_rpc()
 
     DiscordRPC.details = "Fling And Fight"
     DiscordRPC.state = "On title screen..."
+
+    DiscordRPC.refresh()
+
+func update_player_count() -> void:
+    DiscordRPC.current_party_size = GameManager.GetPlayerCount()
 
     DiscordRPC.refresh()
 
@@ -41,7 +49,7 @@ func _on_joined_server() -> void:
     DiscordRPC.state = "In a game"
 
     DiscordRPC.max_party_size = 32
-    DiscordRPC.current_party_size = 1
+    update_player_count()
 
     DiscordRPC.party_id = GameManager.GetGlobalServerID()
 
