@@ -13,7 +13,7 @@ friction = 0.0
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_3sb27"]
 radius = 0.3
-height = 2.25
+height = 2.078125
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_3sb27"]
 viewport_path = NodePath("Nametag/BillboardViewport")
@@ -31,9 +31,15 @@ properties/2/replication_mode = 1
 properties/3/path = NodePath(".:MoveDirection")
 properties/3/spawn = true
 properties/3/replication_mode = 1
+properties/4/path = NodePath("Model:rotation")
+properties/4/spawn = true
+properties/4/replication_mode = 1
 
 [node name="EmptyRig" type="RigidBody3D" unique_id=1335526919 node_paths=PackedStringArray("Animator", "Collision", "StateMachine", "FloorCast", "Model")]
+collision_layer = 2
 physics_material_override = SubResource("PhysicsMaterial_6ieb5")
+contact_monitor = true
+max_contacts_reported = 512
 script = ExtResource("1_utqbp")
 Animator = NodePath("Model/AnimationPlayer")
 Collision = NodePath("Collision")
@@ -84,7 +90,7 @@ script = ExtResource("7_6ieb5")
 metadata/_custom_type_script = "uid://chpflc8gbvey1"
 
 [node name="Collision" type="CollisionShape3D" parent="." unique_id=1166651409]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.95208395, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0380214, 0)
 shape = SubResource("CapsuleShape3D_3sb27")
 
 [node name="Model" type="Node3D" parent="." unique_id=371236156]

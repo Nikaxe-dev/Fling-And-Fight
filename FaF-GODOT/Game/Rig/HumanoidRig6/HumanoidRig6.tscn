@@ -8,6 +8,10 @@
 [ext_resource type="Texture2D" uid="uid://bnxynebeajltu" path="res://Data/Worlds/FaF/Data/AvatarItems/TShirts/Explosion/Torso.png" id="4_6d8nj"]
 [ext_resource type="Resource" uid="uid://bqv1i1skpjlvn" path="res://Game/Rig/HumanoidRig6/AnimationData/Idle.tres" id="4_s2ni8"]
 
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ucmwe"]
+radius = 0.3
+height = 2.0144043
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0ic0q"]
 transparency = 1
 albedo_texture = ExtResource("2_tjcmm")
@@ -228,6 +232,10 @@ HeadBone = NodePath("Model/Skeleton3D/HeadBone")
 TorsoBone = NodePath("Model/Skeleton3D/TorsoBone")
 CameraPivot = NodePath("Model/Skeleton3D/HeadBone/Head")
 FirstPersonHideNodes = [NodePath("Model/Skeleton3D/HeadBone"), NodePath("Model/Skeleton3D/TorsoBone"), NodePath("Model/Skeleton3D/LeftLegBone"), NodePath("Model/Skeleton3D/RightLegBone")]
+
+[node name="Collision" parent="." index="1" unique_id=1166651409]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0090908, 0)
+shape = SubResource("CapsuleShape3D_ucmwe")
 
 [node name="AnimationPlayer" parent="Model" parent_id_path=PackedInt32Array(371236156) index="0" unique_id=1077416673]
 libraries/HumanoidRig6Animations = ExtResource("2_jgl1t")

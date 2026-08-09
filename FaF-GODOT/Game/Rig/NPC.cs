@@ -94,6 +94,39 @@ public partial class NPC : RigidBody3D
         {
             Camera.GlobalPosition = CameraPivot?.GlobalPosition ?? GlobalPosition;
         }
+
+        CustomIntegrator = true;
+    }
+
+    public override void _IntegrateForces(PhysicsDirectBodyState3D state)
+    {
+        Vector3 floorNormal = Vector3.Up;
+        bool onFloor = IsOnFloor();
+
+        if (onFloor)
+        {
+            floorNormal = FloorCast.GetCollisionNormal();
+        }
+
+        Vector3 gravity = GetGravity();
+
+        if (onFloor)
+        {
+            Vector3 velocity = state.LinearVelocity;
+
+            Vector3 velocityAlongSlope = velocity.Slide(floorNormal);
+
+            if (MoveDirection.LengthSquared() < 0.01f)
+            {
+                velocity -= velocityAlongSlope;
+            }
+
+            state.LinearVelocity = velocity;
+            state.LinearVelocity = state.LinearVelocity.Slide(floorNormal);
+        } else
+        {
+            state.LinearVelocity += gravity * state.Step;
+        }
     }
 
     // ANIMATION
