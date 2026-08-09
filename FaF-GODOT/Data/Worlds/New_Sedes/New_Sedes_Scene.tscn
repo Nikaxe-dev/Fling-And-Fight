@@ -1,9 +1,10 @@
 [gd_scene format=4 uid="uid://jyl6yvmc2i8u"]
 
-[ext_resource type="PackedScene" uid="uid://dg0p1fqfjnctp" path="res://Game/World/BaseMap.tscn" id="1_hwly8"]
+[ext_resource type="PackedScene" uid="uid://dg0p1fqfjnctp" path="res://Game/World/WorldRoot.tscn" id="1_hwly8"]
 [ext_resource type="Script" uid="uid://cwu5cf7a0awcd" path="res://addons/func_godot/src/map/func_godot_map.gd" id="2_fm4e1"]
 [ext_resource type="Resource" uid="uid://bkhxcqsquw1yg" path="res://addons/func_godot/func_godot_default_map_settings.tres" id="3_tqp31"]
 [ext_resource type="Material" uid="uid://ctcwt3pufp0ai" path="res://trenchbroom/textures/grass001.tres" id="4_fm4e1"]
+[ext_resource type="Texture2D" uid="uid://c2paiy7hrng6j" path="res://Assets/Textures/Decals/Symbols/Symbol FaF Sun GLowing.png" id="5_rw4o6"]
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_fm4e1"]
 _surfaces = [{
@@ -47,6 +48,15 @@ points = PackedVector3Array(-14.999998, 0, 16, 15.999994, 1.5000002, 16, -16, 0,
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_6konn"]
 points = PackedVector3Array(-14, 0.4999999, 15.999997, -14, 0.49999997, 15.999999, -16, 0, -15.999996, -16, 0, -16, -14, 0.4999998, 15.999986, -16, 1.4999999, 16.000004, -16, -2.6679425e-07, -16, -14, 0.49999976, 15.999992, -15, 0, -16, -16, 0, -16, -14.000002, 0.49999985, -16, -16, 1.4999996, -16)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ibvlx"]
+transparency = 1
+shading_mode = 0
+albedo_color = Color(0, 0, 0, 0.7647059)
+albedo_texture = ExtResource("5_rw4o6")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_gmomp"]
+material = SubResource("StandardMaterial3D_ibvlx")
+
 [node name="WorldRoot" unique_id=1505379970 instance=ExtResource("1_hwly8")]
 
 [node name="FuncGodotMap" type="Node3D" parent="Scene/Map" parent_id_path=PackedInt32Array(1669075599) index="0" unique_id=255924978]
@@ -89,3 +99,8 @@ shape = SubResource("ConvexPolygonShape3D_j5wwa")
 shape = SubResource("ConvexPolygonShape3D_6konn")
 
 [node name="SpawnDecal" type="MeshInstance3D" parent="Scene/Map" parent_id_path=PackedInt32Array(1669075599) index="1" unique_id=26230186]
+transform = Transform3D(10, 0, 0, 0, 1, 0, 0, 0, 10, 0, 0.5317583, 0)
+mesh = SubResource("PlaneMesh_gmomp")
+
+[node name="Sun" parent="Scene/Environment/CameraPivot/DirectionalLight" parent_id_path=PackedInt32Array(2099556932) index="0" unique_id=1794400525]
+transform = Transform3D(1.5, 0, 0, 0, -1.5, 1.509958e-07, 0, -2.2649371e-07, -1, 0, 0, 3750)

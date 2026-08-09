@@ -42,7 +42,7 @@ public class FaFLogger(string path)
 
     private static readonly Dictionary<string, FaFLogger> loggers = new();
 
-    public static string RichFormatLog(string environmentInfo, string message, LogType logType, bool isImportant) => $"{(isImportant ? "[b]" : "")}{
+    public static string RichFormatLog(string environmentInfo, string message, LogType logType, bool isImportant = false) => $"{(isImportant ? "[b]" : "")}{
     
     logType switch
     {
@@ -77,9 +77,9 @@ public class FaFLogger(string path)
         return newLogger;
     }
 
-    private static string GenerateCommonLoggerInfo()
+    public static string GenerateCommonLoggerInfo()
     {
-        return $"[{DateTime.Now:HH:mm:ss:fff}] {((NetworkManager.Instance != null && NetworkManager.IS_CONNECTED) ? $"[{(NetworkManager.Instance.Multiplayer.IsServer() ? "Server" : $"Client:{NetworkManager.Instance.Multiplayer.GetUniqueId()}")}]" : "[NOT CONNECTED]")}";
+        return $"[FaF] [{DateTime.Now:HH:mm:ss:fff}] {((NetworkManager.Instance != null && NetworkManager.IS_CONNECTED) ? $"[{(NetworkManager.Instance.Multiplayer.IsServer() ? "Server" : $"Client:{NetworkManager.Instance.Multiplayer.GetUniqueId()}")}]" : "[NOT CONNECTED]")}";
     }
 
     private static readonly List<string> queuedUIOutputs = [];

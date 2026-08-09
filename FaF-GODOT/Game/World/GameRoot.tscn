@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://ee7yjs525aer"]
+
+[ext_resource type="Script" uid="uid://0cam62lnrwv3" path="res://Game/Networking/PlayerSpawner.cs" id="1_6cbat"]
+[ext_resource type="PackedScene" uid="uid://d1tkfeinx3ajq" path="res://Game/Players/Player.tscn" id="2_fbm3u"]
+[ext_resource type="Script" uid="uid://di7kh1c1ovgee" path="res://Game/Networking/CharacterSpawner.cs" id="3_i4raf"]
+[ext_resource type="PackedScene" uid="uid://cvdetglujjdh5" path="res://Game/Rig/HumanoidRig6/HumanoidRig6.tscn" id="4_xbdbt"]
+
+[node name="GameRoot" type="Node" unique_id=2134877900]
+
+[node name="Networking" type="Node" parent="." unique_id=1715660367]
+
+[node name="PlayerSpawner" type="MultiplayerSpawner" parent="Networking" unique_id=1189848450]
+_spawnable_scenes = PackedStringArray("uid://d1tkfeinx3ajq")
+spawn_path = NodePath("../../Players")
+script = ExtResource("1_6cbat")
+ReplicatedScene = ExtResource("2_fbm3u")
+
+[node name="CharacterSpawner" type="MultiplayerSpawner" parent="Networking" unique_id=1450419201 node_paths=PackedStringArray("PlayersContainer")]
+_spawnable_scenes = PackedStringArray("uid://cvdetglujjdh5")
+spawn_path = NodePath("../../Characters")
+script = ExtResource("3_i4raf")
+CharacterModel = ExtResource("4_xbdbt")
+PlayersContainer = NodePath("../../Players")
+
+[node name="Players" type="Node" parent="." unique_id=112570946]
+
+[node name="Characters" type="Node3D" parent="." unique_id=1030962472]

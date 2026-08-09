@@ -28,6 +28,7 @@ public partial class CharacterSpawner : MultiplayerSpawner
 	public Node CreateNewPlayerCharacter(int PEER_ID)
 	{
 		LOGGER.LOG(LogType.INFO, $"Creating character {PEER_ID}");
+		
 		var instance = CharacterModel.Instantiate();
 		instance.Name = PEER_ID.ToString();
 

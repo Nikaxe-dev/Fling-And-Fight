@@ -27,6 +27,7 @@ MouseInputManager="*uid://co4ciphoaek5d"
 InputManager="*uid://bmdpo8fxmmerv"
 DiscordRPCLoader="*uid://cdg170dhtuqaw"
 Discord="*uid://87qn2l8pml20"
+ConsoleLoggerConnection="*uid://brkw7sdirdb6n"
 
 [display]
 

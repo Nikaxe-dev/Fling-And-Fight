@@ -1,10 +1,6 @@
 [gd_scene format=3 uid="uid://dg0p1fqfjnctp"]
 
 [ext_resource type="Script" uid="uid://cpch71j3u61ys" path="res://Game/World/WorldRoot.cs" id="1_n736j"]
-[ext_resource type="Script" uid="uid://0cam62lnrwv3" path="res://Game/Networking/PlayerSpawner.cs" id="2_60ydc"]
-[ext_resource type="PackedScene" uid="uid://d1tkfeinx3ajq" path="res://Game/Players/Player.tscn" id="3_47acn"]
-[ext_resource type="Script" uid="uid://di7kh1c1ovgee" path="res://Game/Networking/CharacterSpawner.cs" id="4_f0jvv"]
-[ext_resource type="PackedScene" uid="uid://cvdetglujjdh5" path="res://Game/Rig/HumanoidRig6/HumanoidRig6.tscn" id="5_hil0m"]
 [ext_resource type="Material" uid="uid://beug8fe15r3nt" path="res://Data/Worlds/FaF/Assets/Sky/Skybox.tres" id="6_wahym"]
 [ext_resource type="Script" uid="uid://bnnmdd0ats3pg" path="res://Visuals/Camera/CameraPivot.cs" id="7_e0tht"]
 [ext_resource type="Texture2D" uid="uid://bxn65lvpn11qy" path="res://Data/Worlds/FaF/Assets/Sky/Sun.png" id="8_wahym"]
@@ -37,22 +33,6 @@ orientation = 2
 [node name="WorldRoot" type="Node" unique_id=1505379970 node_paths=PackedStringArray("Scene")]
 script = ExtResource("1_n736j")
 Scene = NodePath("Scene")
-metadata/_custom_type_script = "uid://kn1j48y7bpdu"
-
-[node name="Networking" type="Node" parent="." unique_id=362930183]
-
-[node name="PlayerSpawner" type="MultiplayerSpawner" parent="Networking" unique_id=1117162494]
-_spawnable_scenes = PackedStringArray("uid://d1tkfeinx3ajq")
-spawn_path = NodePath("../../Players")
-script = ExtResource("2_60ydc")
-ReplicatedScene = ExtResource("3_47acn")
-
-[node name="CharacterSpawner" type="MultiplayerSpawner" parent="Networking" unique_id=1196821328 node_paths=PackedStringArray("PlayersContainer")]
-_spawnable_scenes = PackedStringArray("uid://cvdetglujjdh5")
-spawn_path = NodePath("../../Scene/Characters")
-script = ExtResource("4_f0jvv")
-CharacterModel = ExtResource("5_hil0m")
-PlayersContainer = NodePath("../../Players")
 
 [node name="Scene" type="Node3D" parent="." unique_id=1054204705]
 
@@ -84,7 +64,3 @@ mesh = SubResource("PlaneMesh_ras5e")
 [node name="MapItems" type="Node3D" parent="Scene/Props" unique_id=2124992890]
 
 [node name="Temporary" type="Node3D" parent="Scene/Props" unique_id=1541704254]
-
-[node name="Characters" type="Node3D" parent="Scene" unique_id=1629383935]
-
-[node name="Players" type="Node" parent="." unique_id=1230043507]

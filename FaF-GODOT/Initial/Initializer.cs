@@ -24,10 +24,8 @@ public partial class Initializer : Node
 	public override void _Ready()
 	{
 		base._Ready();
-		
-		// SWITCH to title screen unless --server is enabled, otherwise start a new server with the provided settings (given file OR specified in args OR defaults).
-		GD.Print("!!----------------------------------------!!");
-		LOGGER.LOG(LogType.INFO, "Starting FaF", "Startup", true);
+
+		LOGGER.LOG(LogType.INFO, "Starting new FaF instance.", "Startup", true);
 
 		foreach (var argument in OS.GetCmdlineArgs())
 		{
@@ -44,8 +42,12 @@ public partial class Initializer : Node
 			}
 		}
 
-		GD.Print("System arguments:");
-		GD.Print(JsonSerializer.Serialize(arguments));
+		LOGGER.LOG(LogType.INFO, $"System arguments: {JsonSerializer.Serialize(arguments)}");
+
+		if (arguments.TryGetValue("delay", out string rawDelay))
+		{
+			Thread.Sleep(int.Parse(rawDelay));
+		}
 
 		CallDeferred(nameof(StartGame));
 	}

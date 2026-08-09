@@ -3,54 +3,53 @@
 extends Node
 
 func reset_rpc():
-    DiscordRPC.details = "Fling And Fight"
-    DiscordRPC.state = "Idling..."
-    DiscordRPC.large_image = "symbol_icon"
-    DiscordRPC.large_image_text = "Fling And Fight"
-    DiscordRPC.small_image = "title_icon"
-    DiscordRPC.start_timestamp = int(Time.get_unix_time_from_system())
-    DiscordRPC.party_id = ""
-    DiscordRPC.current_party_size = 0
-    DiscordRPC.max_party_size = 0
+	DiscordRPC.details = "Fling And Fight"
+	DiscordRPC.state = "Idling..."
+	DiscordRPC.large_image = "symbol_icon"
+	DiscordRPC.large_image_text = "Fling And Fight"
+	DiscordRPC.small_image = "title_icon"
+	DiscordRPC.start_timestamp = int(Time.get_unix_time_from_system())
+	DiscordRPC.party_id = ""
+	DiscordRPC.current_party_size = 0
+	DiscordRPC.max_party_size = 32
 
 func _ready() -> void:
-    # base configuration
+	# base configuration
 
-    DiscordRPC.app_id = 1535523972593094698
-    reset_rpc()
+	DiscordRPC.app_id = 1535523972593094698
+	reset_rpc()
 
-    # connections
+	# connections
 
-    GameManager.connect("SwitchedToTitleScreen", _on_switched_to_title_screen)
-    GameManager.connect("JoinedServer", _on_joined_server)
+	GameManager.connect("SwitchedToTitleScreen", _on_switched_to_title_screen)
+	GameManager.connect("JoinedServer", _on_joined_server)
 
-    NetworkManager.connect("PlayerConnected", update_player_count)
-    NetworkManager.connect("PlayerDisconnected", update_player_count)
+	NetworkManager.connect("PlayerConnected", update_player_count)
+	NetworkManager.connect("PlayerDisconnected", update_player_count)
 
 func _on_switched_to_title_screen() -> void:
-    reset_rpc()
+	reset_rpc()
 
-    DiscordRPC.details = "Fling And Fight"
-    DiscordRPC.state = "On title screen..."
+	DiscordRPC.details = "Fling And Fight"
+	DiscordRPC.state = "On title screen..."
 
-    DiscordRPC.refresh()
+	DiscordRPC.refresh()
 
-func update_player_count() -> void:
-    DiscordRPC.current_party_size = GameManager.GetPlayerCount()
+func update_player_count(_peer_id: int = 0) -> void:
+	DiscordRPC.current_party_size = multiplayer.get_peers().size()
 
-    DiscordRPC.refresh()
+	DiscordRPC.refresh()
 
 func _on_joined_server() -> void:
-    reset_rpc()
+	reset_rpc()
 
-    var worldRegistry: WorldRegistry = GameManager.ContentLoaderGetWorld(GameManager.GetLoadedWorld())
+	var worldRegistry: WorldRegistry = GameManager.ContentLoaderGetWorld(GameManager.GetLoadedWorld())
 
-    DiscordRPC.details = "Playing " + worldRegistry.Name + " by " + worldRegistry.Creator
-    DiscordRPC.state = "In a game"
+	DiscordRPC.details = "Playing " + worldRegistry.Name + " by " + worldRegistry.Creator
+	DiscordRPC.state = "In a game"
 
-    DiscordRPC.max_party_size = 32
-    update_player_count()
+	update_player_count()
 
-    DiscordRPC.party_id = GameManager.GetGlobalServerID()
+	DiscordRPC.party_id = GameManager.GetGlobalServerID()
 
-    DiscordRPC.refresh()
+	DiscordRPC.refresh()
