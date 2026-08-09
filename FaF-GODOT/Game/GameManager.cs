@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using FaF.Data;
 using FaF.Data.RegistryObjects;
@@ -48,6 +49,8 @@ public sealed partial class GameManager : Node
     public static WorldRoot WORLD_ROOT {get; private set;}
 
     public static bool has_server_communicated_info {get; private set;} = false;
+
+    public static int PLAYER_COUNT => Instance.Multiplayer.GetPeers().Length;
 
     // CONSTANT
 
@@ -126,7 +129,7 @@ public sealed partial class GameManager : Node
 
     private void OnPeerDisconnected(int ID)
     {
-        
+        if (Multiplayer.IsServer() && PLAYER_COUNT < 1) StopServer();
     }
 
     /// <summary>

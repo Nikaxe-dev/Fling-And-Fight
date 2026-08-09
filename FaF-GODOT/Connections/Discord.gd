@@ -4,7 +4,7 @@ extends Node
 
 func reset_rpc():
 	DiscordRPC.details = "Fling And Fight"
-	DiscordRPC.state = "Idling..."
+	DiscordRPC.state = ""
 	DiscordRPC.large_image = "symbol_icon"
 	DiscordRPC.large_image_text = "Fling And Fight"
 	DiscordRPC.small_image = "title_icon"
@@ -30,13 +30,13 @@ func _ready() -> void:
 func _on_switched_to_title_screen() -> void:
 	reset_rpc()
 
-	DiscordRPC.details = "Fling And Fight"
-	DiscordRPC.state = "On title screen..."
+	DiscordRPC.details = "Title screen"
 
 	DiscordRPC.refresh()
 
 func update_player_count(_peer_id: int = 0) -> void:
 	DiscordRPC.current_party_size = multiplayer.get_peers().size()
+	DiscordRPC.state =  ("Multiplayer" if DiscordRPC.current_party_size > 1 else "Singleplayer") + " game"
 
 	DiscordRPC.refresh()
 
@@ -45,8 +45,7 @@ func _on_joined_server() -> void:
 
 	var worldRegistry: WorldRegistry = GameManager.ContentLoaderGetWorld(GameManager.GetLoadedWorld())
 
-	DiscordRPC.details = "Playing " + worldRegistry.Name + " by " + worldRegistry.Creator
-	DiscordRPC.state = "In a game"
+	DiscordRPC.details = worldRegistry.Name + " by " + worldRegistry.Creator
 
 	update_player_count()
 
