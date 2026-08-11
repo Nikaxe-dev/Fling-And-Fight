@@ -2,8 +2,8 @@
 This was originally a Roblox game, but now that the publishing changes have been implemented on Roblox I have been attempting to port it to Godot.
 
 ## Commit format:
-p
-[type]/[progress]: [summary]
+
+[type]/[optional_second_type]/[progress]: [summary]
 
 types:
 * fix
