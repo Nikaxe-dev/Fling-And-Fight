@@ -3,7 +3,7 @@ This was originally a Roblox game, but now that the publishing changes have been
 
 ## Commit format:
 
-[type]/[optional_second_type]/[progress]: [summary]
+[optional_feature]/[type]:[optional_second_type]/[progress]: [summary]
 
 types:
 * fix
