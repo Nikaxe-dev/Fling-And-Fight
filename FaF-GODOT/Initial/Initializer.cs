@@ -69,7 +69,7 @@ public partial class Initializer : Node
 			LOGGER.LOG(LogType.INFO, "Auto joining server as client", "QuickArgs", true);
 			
 			GameManager.Instance.CreateClient();
-		} else if (arguments.ContainsKey("editor"))
+		} else if (arguments.ContainsKey("faf-editor"))
 		{
 			LOGGER.LOG(LogType.INFO, "Launching FaF Editor", "QuickArgs", true);
 

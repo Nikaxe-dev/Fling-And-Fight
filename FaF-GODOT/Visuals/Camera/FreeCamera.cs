@@ -46,7 +46,7 @@ public partial class FreeCamera : Camera3D
         }
     }
 
-    public override void _Input(InputEvent @event)
+    public override void _UnhandledInput(InputEvent @event)
     {
         if (UserCanTurn) ProcessCameraLookInput(@event);
     }

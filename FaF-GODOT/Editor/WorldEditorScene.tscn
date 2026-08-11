@@ -1,13 +1,119 @@
 [gd_scene format=3 uid="uid://bkri4odm02asr"]
 
+[ext_resource type="PackedScene" uid="uid://bdbnm7xemd7dc" path="res://Editor/WorldMapScene.tscn" id="1_4oup0"]
 [ext_resource type="Script" uid="uid://dkntj4x5gci5k" path="res://Visuals/Camera/FreeCamera.cs" id="1_hkwi2"]
 
-[node name="WorldEditorScene" type="Node" unique_id=532999971]
+[sub_resource type="BoxMesh" id="BoxMesh_ti6d1"]
 
-[node name="Scene" type="Node3D" parent="." unique_id=11276306]
+[sub_resource type="SphereMesh" id="SphereMesh_r5vg0"]
 
-[node name="EditorObjects" type="Node3D" parent="Scene" unique_id=1474551997]
+[node name="Editor" type="Node" unique_id=532999971]
 
-[node name="EditorCamera" type="Camera3D" parent="Scene/EditorObjects" unique_id=213167515]
+[node name="Editor" type="Control" parent="." unique_id=1467953363]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Main" type="Control" parent="Editor" unique_id=258091288]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TopBar" type="PanelContainer" parent="Editor/Main" unique_id=563203606]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+offset_bottom = 32.0
+grow_horizontal = 2
+
+[node name="TabButtons" type="PanelContainer" parent="Editor/Main" unique_id=2038795420]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 32.0
+offset_bottom = 116.0
+grow_horizontal = 2
+
+[node name="Panels" type="HSplitContainer" parent="Editor/Main" unique_id=1847820731]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 116.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 3
+split_offsets = PackedInt32Array(200, -200)
+drag_area_highlight_in_editor = true
+split_offset = 200
+
+[node name="Right" type="VSplitContainer" parent="Editor/Main/Panels" unique_id=512238430]
+layout_mode = 2
+
+[node name="Viewport" type="PanelContainer" parent="Editor/Main/Panels" unique_id=1158318558]
+clip_contents = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Tabs" type="TabContainer" parent="Editor/Main/Panels/Viewport" unique_id=1414496504]
+layout_mode = 2
+current_tab = 0
+tab_0/title = "World:New_Sedes"
+tab_1/title = "Model:Twig_Tree"
+
+[node name="New_Sedes" type="SubViewportContainer" parent="Editor/Main/Panels/Viewport/Tabs" unique_id=623905940]
+layout_mode = 2
+stretch = true
+metadata/_tab_index = 0
+metadata/_tab_name = "World:New_Sedes"
+
+[node name="SubViewport" type="SubViewport" parent="Editor/Main/Panels/Viewport/Tabs/New_Sedes" unique_id=1306430806]
+own_world_3d = true
+handle_input_locally = false
+size = Vector2i(856, 573)
+render_target_update_mode = 4
+
+[node name="WorldMap" parent="Editor/Main/Panels/Viewport/Tabs/New_Sedes/SubViewport" unique_id=2022005699 instance=ExtResource("1_4oup0")]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Editor/Main/Panels/Viewport/Tabs/New_Sedes/SubViewport/WorldMap/World/Map" parent_id_path=PackedInt32Array(2022005699, 654892287) index="0" unique_id=1200186471]
+transform = Transform3D(0.5838121, 0.6247811, -0.5184709, -0.4671552, 0.7808, 0.41487038, 0.6640252, 0, 0.7477102, 0, 0, -1.5172877)
+mesh = SubResource("BoxMesh_ti6d1")
+
+[node name="FreeCamera" type="Camera3D" parent="Editor/Main/Panels/Viewport/Tabs/New_Sedes/SubViewport/WorldMap/Editor" parent_id_path=PackedInt32Array(2022005699, 1571719063) index="0" unique_id=983517295]
 script = ExtResource("1_hkwi2")
 metadata/_custom_type_script = "uid://dkntj4x5gci5k"
+
+[node name="Twig_Tree" type="SubViewportContainer" parent="Editor/Main/Panels/Viewport/Tabs" unique_id=671070412]
+visible = false
+layout_mode = 2
+stretch = true
+metadata/_tab_index = 1
+metadata/_tab_name = "Model:Twig_Tree"
+
+[node name="SubViewport" type="SubViewport" parent="Editor/Main/Panels/Viewport/Tabs/Twig_Tree" unique_id=2146478132]
+own_world_3d = true
+handle_input_locally = false
+size = Vector2i(856, 573)
+render_target_update_mode = 0
+
+[node name="WorldMap" parent="Editor/Main/Panels/Viewport/Tabs/Twig_Tree/SubViewport" unique_id=2030727219 instance=ExtResource("1_4oup0")]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Editor/Main/Panels/Viewport/Tabs/Twig_Tree/SubViewport/WorldMap/World/Map" parent_id_path=PackedInt32Array(2030727219, 654892287) index="0" unique_id=1172540391]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.38396668, 0, -1.5172877)
+mesh = SubResource("SphereMesh_r5vg0")
+
+[node name="FreeCamera" type="Camera3D" parent="Editor/Main/Panels/Viewport/Tabs/Twig_Tree/SubViewport/WorldMap/Editor" parent_id_path=PackedInt32Array(2030727219, 1571719063) index="0" unique_id=1347310291]
+script = ExtResource("1_hkwi2")
+metadata/_custom_type_script = "uid://dkntj4x5gci5k"
+
+[node name="Explorer" type="PanelContainer" parent="Editor/Main/Panels" unique_id=1282991537]
+layout_mode = 2
+
+[editable path="Editor/Main/Panels/Viewport/Tabs/New_Sedes/SubViewport/WorldMap"]
+[editable path="Editor/Main/Panels/Viewport/Tabs/Twig_Tree/SubViewport/WorldMap"]

@@ -52,6 +52,7 @@ public partial class OrbitalCamera : Node3D
     public override void _UnhandledInput(InputEvent @event)
 	{
 		base._Input(@event);
+
 		if (UserCanTurn) ProcessCameraLookInput(@event);
 
 		if (UserCanZoom)

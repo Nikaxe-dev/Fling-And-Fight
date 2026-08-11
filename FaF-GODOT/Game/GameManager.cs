@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using FaF.Data;
 using FaF.Data.RegistryObjects;
@@ -129,7 +130,7 @@ public sealed partial class GameManager : Node
 
     private void OnPeerDisconnected(int ID)
     {
-        if (Multiplayer.IsServer() && PLAYER_COUNT < 1) StopServer();
+        if (Multiplayer.IsServer() && PLAYER_COUNT < 1) Thread.Sleep(2000); StopServer();
     }
 
     /// <summary>
