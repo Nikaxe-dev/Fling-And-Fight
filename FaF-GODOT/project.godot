@@ -20,14 +20,14 @@ config/icon="uid://2gbmis67qj5w"
 
 [autoload]
 
+Discord="*uid://87qn2l8pml20"
 ConsoleUI="*uid://dh2x5lnklpc14"
 NetworkManager="*uid://cgq7ve731rqrt"
 GameManager="*uid://c3d02dtcnj37x"
 MouseInputManager="*uid://co4ciphoaek5d"
 InputManager="*uid://bmdpo8fxmmerv"
-DiscordRPCLoader="*uid://cdg170dhtuqaw"
-Discord="*uid://87qn2l8pml20"
 ConsoleLoggerConnection="*uid://brkw7sdirdb6n"
+DiscordRPCLoader="*uid://cdg170dhtuqaw"
 
 [display]
 

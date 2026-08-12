@@ -1,8 +1,23 @@
 [gd_scene format=3 uid="uid://bkri4odm02asr"]
 
-[ext_resource type="Script" uid="uid://uwrttm5gcykw" path="res://Editor/InstanceTree.cs" id="1_hkwi2"]
+[ext_resource type="Script" uid="uid://r2hmqlkinja6" path="res://Editor/EditorRoot.cs" id="1_4oup0"]
+
+[sub_resource type="Theme" id="Theme_hkwi2"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4oup0"]
+bg_color = Color(0.044717066, 0.026053125, 0.0877695, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ugwn3"]
+bg_color = Color(0.060288675, 0.059858933, 0.10106715, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_f35nr"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_220lh"]
+bg_color = Color(0.06879826, 0.06879829, 0.06879823, 1)
 
 [node name="Editor" type="Node" unique_id=532999971]
+script = ExtResource("1_4oup0")
 
 [node name="Editor" type="Control" parent="." unique_id=1467953363]
 layout_mode = 3
@@ -11,6 +26,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = SubResource("Theme_hkwi2")
 
 [node name="Main" type="Control" parent="Editor" unique_id=258091288]
 layout_mode = 1
@@ -26,6 +42,7 @@ anchors_preset = -1
 anchor_right = 1.0
 offset_bottom = 32.0
 grow_horizontal = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_4oup0")
 
 [node name="TabButtons" type="PanelContainer" parent="Editor/Main" unique_id=2038795420]
 layout_mode = 1
@@ -34,6 +51,7 @@ anchor_right = 1.0
 offset_top = 32.0
 offset_bottom = 116.0
 grow_horizontal = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ugwn3")
 
 [node name="Panels" type="HSplitContainer" parent="Editor/Main" unique_id=1847820731]
 layout_mode = 1
@@ -45,23 +63,24 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_vertical = 3
 split_offsets = PackedInt32Array(200, -200)
-drag_area_highlight_in_editor = true
 split_offset = 200
 
 [node name="Properties" type="PanelContainer" parent="Editor/Main/Panels" unique_id=837998234]
 layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_f35nr")
 
 [node name="Viewport" type="PanelContainer" parent="Editor/Main/Panels" unique_id=1158318558]
 clip_contents = true
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_220lh")
 
 [node name="Tabs" type="TabContainer" parent="Editor/Main/Panels/Viewport" unique_id=1414496504]
 layout_mode = 2
 
 [node name="Explorer" type="PanelContainer" parent="Editor/Main/Panels" unique_id=1282991537]
 layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_f35nr")
 
 [node name="InstanceTree" type="Tree" parent="Editor/Main/Panels/Explorer" unique_id=1765568602]
 layout_mode = 2
-script = ExtResource("1_hkwi2")

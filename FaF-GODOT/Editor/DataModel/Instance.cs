@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using FaF.Editor.Attributes;
 
 namespace FaF.Editor.DataModel;
 
@@ -8,6 +9,7 @@ public abstract class Instance
 {
     private Instance? _parent;
 
+    [EditorAccess("Parent")]
     public Instance? Parent
     {
         get => _parent;
@@ -23,7 +25,10 @@ public abstract class Instance
     
     private readonly List<Instance> Children = [];
 
+    [EditorAccess("ClassName")]
     public string ClassName {get; private set;}
+
+    [EditorAccess("Name", true)]
     public string Name;
 
     public Instance()

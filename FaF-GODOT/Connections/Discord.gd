@@ -8,7 +8,6 @@ func reset_rpc():
 	DiscordRPC.large_image = "symbol_icon"
 	DiscordRPC.large_image_text = "Fling And Fight"
 	DiscordRPC.small_image = "title_icon"
-	DiscordRPC.start_timestamp = int(Time.get_unix_time_from_system())
 	DiscordRPC.party_id = ""
 	DiscordRPC.current_party_size = 0
 	DiscordRPC.max_party_size = 32
@@ -16,10 +15,14 @@ func reset_rpc():
 func _ready() -> void:
 	# base configuration
 
+	DiscordRPC.start_timestamp = int(Time.get_unix_time_from_system())
 	DiscordRPC.app_id = 1535523972593094698
+
 	reset_rpc()
 
 	# connections
+
+	GameManager.connect("FaFEditorLoaded", _on_editor_loaded)
 
 	GameManager.connect("SwitchedToTitleScreen", _on_switched_to_title_screen)
 	GameManager.connect("JoinedServer", _on_joined_server)
@@ -37,6 +40,13 @@ func _on_switched_to_title_screen() -> void:
 func update_player_count(_peer_id: int = 0) -> void:
 	DiscordRPC.current_party_size = multiplayer.get_peers().size()
 	DiscordRPC.state =  ("Multiplayer" if DiscordRPC.current_party_size > 1 else "Singleplayer") + " game"
+
+	DiscordRPC.refresh()
+
+func _on_editor_loaded() -> void:
+	reset_rpc()
+
+	DiscordRPC.details = "In the editor"
 
 	DiscordRPC.refresh()
 

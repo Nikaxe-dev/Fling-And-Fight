@@ -78,6 +78,8 @@ public sealed partial class GameManager : Node
     [Signal] public delegate void SwitchedToTitleScreenEventHandler();
     [Signal] public delegate void ClientPeerLoadedWorldEventHandler(int PeerID);
 
+    [Signal] public delegate void FaFEditorLoadedEventHandler();
+
     public void SwitchToTitleScreen()
     {
         GetTree().ChangeSceneToFile("res://UI/Menus/Title/TitleScreen.tscn");
