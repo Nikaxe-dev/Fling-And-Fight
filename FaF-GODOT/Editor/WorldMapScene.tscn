@@ -33,22 +33,22 @@ orientation = 2
 
 [node name="World" type="Node3D" parent="." unique_id=1158445516]
 
-[node name="Map" type="Node3D" parent="World" unique_id=654892287]
+[node name="Environment" type="Node3D" parent="World" unique_id=654892287]
 
-[node name="Environment" type="WorldEnvironment" parent="World" unique_id=642562376]
+[node name="Lighting" type="WorldEnvironment" parent="World" unique_id=642562376]
 environment = SubResource("Environment_eslph")
 
-[node name="CameraPivot" type="Node3D" parent="World/Environment" unique_id=1141518837]
+[node name="CameraPivot" type="Node3D" parent="World/Lighting" unique_id=1141518837]
 script = ExtResource("2_48qk0")
 
-[node name="DirectionalLight" type="DirectionalLight3D" parent="World/Environment/CameraPivot" unique_id=1167577792]
+[node name="DirectionalLight" type="DirectionalLight3D" parent="World/Lighting/CameraPivot" unique_id=1167577792]
 transform = Transform3D(1, 0, 0, 0, 0.8280604, 0.560639, 0, -0.560639, 0.8280604, 0, 2.2233505, 8.992889)
 light_energy = 1.696
 light_specular = 2.5
 shadow_bias = 10.0
 sky_mode = 1
 
-[node name="Sun" type="MeshInstance3D" parent="World/Environment/CameraPivot/DirectionalLight" unique_id=1694766635]
+[node name="Sun" type="MeshInstance3D" parent="World/Lighting/CameraPivot/DirectionalLight" unique_id=1694766635]
 transform = Transform3D(1, 0, 0, 0, -1, 8.742278e-08, 0, -8.742278e-08, -1, 0, 0, 3750)
 mesh = SubResource("PlaneMesh_xriqk")
 
