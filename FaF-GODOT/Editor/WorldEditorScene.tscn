@@ -1,5 +1,7 @@
 [gd_scene format=3 uid="uid://bkri4odm02asr"]
 
+[ext_resource type="Script" uid="uid://uwrttm5gcykw" path="res://Editor/InstanceTree.cs" id="1_hkwi2"]
+
 [node name="Editor" type="Node" unique_id=532999971]
 
 [node name="Editor" type="Control" parent="." unique_id=1467953363]
@@ -46,7 +48,7 @@ split_offsets = PackedInt32Array(200, -200)
 drag_area_highlight_in_editor = true
 split_offset = 200
 
-[node name="Right" type="VSplitContainer" parent="Editor/Main/Panels" unique_id=512238430]
+[node name="Properties" type="PanelContainer" parent="Editor/Main/Panels" unique_id=837998234]
 layout_mode = 2
 
 [node name="Viewport" type="PanelContainer" parent="Editor/Main/Panels" unique_id=1158318558]
@@ -59,3 +61,7 @@ layout_mode = 2
 
 [node name="Explorer" type="PanelContainer" parent="Editor/Main/Panels" unique_id=1282991537]
 layout_mode = 2
+
+[node name="InstanceTree" type="Tree" parent="Editor/Main/Panels/Explorer" unique_id=1765568602]
+layout_mode = 2
+script = ExtResource("1_hkwi2")
