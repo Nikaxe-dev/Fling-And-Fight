@@ -10,7 +10,7 @@ using FaF.Game;
 using FaF.Game.Networking;
 using Godot;
 
-namespace FlingAndFight.Launcher;
+namespace FaF.Initial;
 
 /// <summary>
 /// The starting point of the entire program, handling the intialization of the server & client if a startup argument says so. Otherwise loads the main menu for the client.
