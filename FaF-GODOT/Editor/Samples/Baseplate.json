@@ -1,0 +1,52 @@
+{
+	"Instances": [
+		{
+			
+			"ClassName": "Environment",
+
+			"Children": [
+				{
+					"ClassName": "Part",
+					"Properties": {
+						"Name": "Baseplate",
+						"Shape": "Block",
+						"Material": "SmoothPlastic",
+						"Position": [0,0,0],
+						"Rotation": [0,0,0],
+						"Size": [75,2,75]
+					}
+				},
+
+				{
+					"ClassName": "SpawnLocation",
+					"Properties": {
+						"Name": "WorldSpawn",
+						"Position": [0,1.25,0]
+					}
+				},
+
+				{
+					"ClassName": "Part",
+					"Properties": {
+						"Name": "WorldSpawnVisual",
+						"Position": [0,1.25,0],
+						"Size": [1,0.25,1]
+					}
+				}
+			],
+
+			"Properties": {
+				"Name": "Environment"
+			}
+		},
+
+		{
+			"ClassName": "Lighting",
+
+			"Properties": {
+				"Name": "Lighting",
+				"Skybox": "res://Editor/Samples/BasicEnvironment.tres"
+			}
+		}
+	]
+}
