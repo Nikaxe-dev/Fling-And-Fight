@@ -11,10 +11,13 @@ bg_color = Color(0.044717066, 0.026053125, 0.0877695, 1)
 bg_color = Color(0.060288675, 0.059858933, 0.10106715, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_f35nr"]
-bg_color = Color(0, 0, 0, 1)
+bg_color = Color(0.036559667, 0.04372295, 0.054320283, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_220lh"]
 bg_color = Color(0.06879826, 0.06879829, 0.06879823, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ti6d1"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
 
 [node name="Editor" type="Node" unique_id=532999971]
 script = ExtResource("1_4oup0")
@@ -84,3 +87,4 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_f35nr")
 
 [node name="InstanceTree" type="Tree" parent="Editor/Main/Panels/Explorer" unique_id=1765568602]
 layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ti6d1")
