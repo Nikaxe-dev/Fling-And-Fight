@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using FaF.Editor.Attributes;
+using Godot;
 
 namespace FaF.Editor.DataModel;
 
