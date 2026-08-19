@@ -63,7 +63,6 @@ public static class EditorJSON
     
     public static T FromJson<T>(JsonElement Root)
     {
-        LOGGER.LOG(LogType.INFO, Root.ToString());
         string ClassName = Root.GetProperty("ClassName").GetString();
         if (ClassName == null) {LOGGER.LOG(LogType.ERROR, $"Expected String in 'ClassName' of data. Full JSON: ${Root}", "ConversionFrom"); return default;}
 
