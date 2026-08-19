@@ -1,9 +1,8 @@
 [gd_scene format=4 uid="uid://jyl6yvmc2i8u"]
 
 [ext_resource type="PackedScene" uid="uid://dg0p1fqfjnctp" path="res://Game/World/WorldRoot.tscn" id="1_hwly8"]
-[ext_resource type="Script" uid="uid://cwu5cf7a0awcd" path="res://addons/func_godot/src/map/func_godot_map.gd" id="2_fm4e1"]
-[ext_resource type="Resource" uid="uid://bkhxcqsquw1yg" path="res://addons/func_godot/func_godot_default_map_settings.tres" id="3_tqp31"]
-[ext_resource type="Material" uid="uid://ctcwt3pufp0ai" path="res://trenchbroom/textures/grass001.tres" id="4_fm4e1"]
+[ext_resource type="Script" path="res://addons/func_godot/src/map/func_godot_map.gd" id="2_fm4e1"]
+[ext_resource type="Material" uid="uid://ctcwt3pufp0ai" path="res://Data/Worlds/FaF/Assets/Materials/Grass/Grass.tres" id="4_fm4e1"]
 [ext_resource type="Texture2D" uid="uid://c2paiy7hrng6j" path="res://Assets/Textures/Decals/Symbols/Symbol FaF Sun GLowing.png" id="5_rw4o6"]
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_fm4e1"]
@@ -62,7 +61,6 @@ material = SubResource("StandardMaterial3D_ibvlx")
 [node name="FuncGodotMap" type="Node3D" parent="Scene/Map" parent_id_path=PackedInt32Array(1669075599) index="0" unique_id=255924978]
 script = ExtResource("2_fm4e1")
 local_map_file = "uid://bg812nmmvryh6"
-map_settings = ExtResource("3_tqp31")
 metadata/_custom_type_script = "uid://cwu5cf7a0awcd"
 
 [node name="entity_0_worldspawn" type="StaticBody3D" parent="Scene/Map/FuncGodotMap" index="0" unique_id=1819054172]
