@@ -12,6 +12,7 @@ types:
 * feat
 * refactor
 * rewrite
+* tiny-edit
 
 progress types:
 * complete
