@@ -4,6 +4,6 @@ namespace FaF.Editor.DataModel.Physical;
 
 public class SpawnLocation : Entity
 {
-    [EditorAccess("Spawn Radius")]
-    public float SpawnRadius = 16;
+    [EditorAccess("Spawn Radius"), Save]
+    public float SpawnRadius {get; set;} = 16;
 }

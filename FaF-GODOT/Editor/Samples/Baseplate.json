@@ -1,51 +1,100 @@
 {
+	"DOCTYPE": "FaFLevel",
+
 	"Instances": [
 		{
-			
-			"ClassName": "Environment",
-
+			"ClassName": "Instance",
+			"InstanceClass": "World",
+		
 			"Children": [
 				{
-					"ClassName": "Part",
+					"ClassName": "Instance",
+					"InstanceClass": "Environment",
+
+					"Children": [
+						{
+							"ClassName": "Instance",
+							"InstanceClass": "Part",
+
+							"Properties": {
+								"Name": "Baseplate",
+								"Shape": "Block",
+								"Material": "SmoothPlastic",
+								"Transform": {
+									"ClassName": "Transform3D",
+									"Origin": {"ClassName": "Vector3", "X": 0, "Y": 0, "Z": 0},
+									"Basis": {
+										"ClassName": "Basis",
+										"X": {"ClassName": "Vector3", "X": 1, "Y": 0, "Z": 0},
+										"Y": {"ClassName": "Vector3", "X": 0, "Y": 1, "Z": 0},
+										"Z": {"ClassName": "Vector3", "X": 0, "Y": 0, "Z": 1}
+									}
+								},
+								"Size": {"ClassName": "Vector3", "X": 75, "Y": 2, "Z": 75}
+							}
+						},
+
+						{
+							"ClassName": "Instance",
+							"InstanceClass": "SpawnLocation",
+
+							"Properties": {
+								"Name": "WorldSpawn",
+								"Transform": {
+									"ClassName": "Transform3D",
+									"Origin": {"ClassName": "Vector3", "X": 0, "Y": 0, "Z": 0},
+									"Basis": {
+										"ClassName": "Basis",
+										"X": {"ClassName": "Vector3", "X": 1, "Y": 0, "Z": 0},
+										"Y": {"ClassName": "Vector3", "X": 0, "Y": 1, "Z": 0},
+										"Z": {"ClassName": "Vector3", "X": 0, "Y": 0, "Z": 1}
+									}
+								}
+							}
+						},
+
+						{
+							"ClassName": "Instance",
+							"InstanceClass": "Part",
+
+							"Properties": {
+								"Name": "WorldSpawnVisual",
+								"Transform": {
+									"ClassName": "Transform3D",
+									"Origin": {"ClassName": "Vector3", "X": 0, "Y": 0, "Z": 0},
+									"Basis": {
+										"ClassName": "Basis",
+										"X": {"ClassName": "Vector3", "X": 1, "Y": 0, "Z": 0},
+										"Y": {"ClassName": "Vector3", "X": 0, "Y": 1, "Z": 0},
+										"Z": {"ClassName": "Vector3", "X": 0, "Y": 0, "Z": 1}
+									}
+								},
+								"Size": {"ClassName": "Vector3", "X": 1, "Y": 0.25, "Z": 1}
+							}
+						}
+					],
+
 					"Properties": {
-						"Name": "Baseplate",
-						"Shape": "Block",
-						"Material": "SmoothPlastic",
-						"Position": [0,0,0],
-						"Rotation": [0,0,0],
-						"Size": [75,2,75]
+						"Name": "Environment"
 					}
 				},
 
 				{
-					"ClassName": "SpawnLocation",
-					"Properties": {
-						"Name": "WorldSpawn",
-						"Position": [0,1.25,0]
-					}
-				},
+					"ClassName": "Instance",
+					"InstanceClass": "Lighting",
 
-				{
-					"ClassName": "Part",
 					"Properties": {
-						"Name": "WorldSpawnVisual",
-						"Position": [0,1.25,0],
-						"Size": [1,0.25,1]
+						"Name": "Lighting",
+						"Skybox": {
+							"ClassName": "ResourceReference",
+							"FilePath": "res://Editor/Samples/BasicEnvironment.tres"
+						}
 					}
 				}
 			],
 
 			"Properties": {
-				"Name": "Environment"
-			}
-		},
-
-		{
-			"ClassName": "Lighting",
-
-			"Properties": {
-				"Name": "Lighting",
-				"Skybox": "res://Editor/Samples/BasicEnvironment.tres"
+				"Name": "World"
 			}
 		}
 	]

@@ -5,6 +5,6 @@ namespace FaF.Editor.DataModel.Physical;
 
 public class PointInstance : Instance
 {
-    [EditorAccess("Transform")]
-    public Transform3D Transform = Transform3D.Identity;
+    [EditorAccess("Transform"), Save]
+    public Transform3D Transform {get; set;} = Transform3D.Identity;
 }
