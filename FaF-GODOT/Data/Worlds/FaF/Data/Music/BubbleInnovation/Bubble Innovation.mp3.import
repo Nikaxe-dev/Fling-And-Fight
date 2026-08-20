@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://cdniuladq3ucr"
+path="res://.godot/imported/Bubble Innovation.mp3-fb9186642c32bb89b8a947a99ed82558.mp3str"
+
+[deps]
+
+source_file="res://Data/Worlds/FaF/Data/Music/BubbleInnovation/Bubble Innovation.mp3"
+dest_files=["res://.godot/imported/Bubble Innovation.mp3-fb9186642c32bb89b8a947a99ed82558.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

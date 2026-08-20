@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="SongRegistry" format=3 uid="uid://bfw8v7vepwshe"]
+
+[ext_resource type="Script" uid="uid://cm4ii26marlud" path="res://Data/RegistryObjects/SongRegistry.cs" id="1_6n8ps"]
+
+[resource]
+script = ExtResource("1_6n8ps")
+metadata/_custom_type_script = "uid://cm4ii26marlud"
