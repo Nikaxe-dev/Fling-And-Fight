@@ -1,7 +1,11 @@
 [gd_resource type="Resource" script_class="SongRegistry" format=3 uid="uid://cmirdqfeks26b"]
 
+[ext_resource type="AudioStream" uid="uid://b5bmmqfrw55bk" path="res://Data/Worlds/FaF/Data/Music/NewAdventureInSpace/New Adventure In Space.mp3" id="1_287vv"]
 [ext_resource type="Script" uid="uid://cm4ii26marlud" path="res://Data/RegistryObjects/SongRegistry.cs" id="1_ag4po"]
 
 [resource]
 script = ExtResource("1_ag4po")
+Audio = ExtResource("1_287vv")
+Name = "New Adventure In Space"
+Creator = "Nikaxe"
 metadata/_custom_type_script = "uid://cm4ii26marlud"

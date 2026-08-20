@@ -1,7 +1,11 @@
 [gd_resource type="Resource" script_class="SongRegistry" format=3 uid="uid://cwv021unksb3i"]
 
 [ext_resource type="Script" uid="uid://cm4ii26marlud" path="res://Data/RegistryObjects/SongRegistry.cs" id="1_gkbxp"]
+[ext_resource type="AudioStream" uid="uid://bvrrqy2gj7sqe" path="res://Data/Worlds/FaF/Data/Music/ThinExploration/Thin Exploration.mp3" id="1_t8wyy"]
 
 [resource]
 script = ExtResource("1_gkbxp")
+Audio = ExtResource("1_t8wyy")
+Name = "Thin Exploration"
+Creator = "Nikaxe"
 metadata/_custom_type_script = "uid://cm4ii26marlud"
