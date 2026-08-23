@@ -26,8 +26,17 @@ public abstract class Instance
             value?._children.Add(this);
 
             _parent = value;
+
+            Parent?.ChildRemoved?.Invoke(this);
+            value?.ChildAdded?.Invoke(this);
         }
     }
+
+    public event ChildAddedEventHandler? ChildAdded;
+    public delegate void ChildAddedEventHandler(Instance child);
+
+    public event ChildRemovedEventHandler? ChildRemoved;
+    public delegate void ChildRemovedEventHandler(Instance child);
     
     private readonly List<Instance> _children = [];
     public List<Instance> Children {get => _children;}
