@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://bkri4odm02asr"]
 
 [ext_resource type="Script" uid="uid://r2hmqlkinja6" path="res://Editor/EditorRoot.cs" id="1_4oup0"]
+[ext_resource type="Texture2D" uid="uid://2gbmis67qj5w" path="res://icon.png" id="2_4oup0"]
 
 [sub_resource type="Theme" id="Theme_hkwi2"]
 
@@ -46,6 +47,28 @@ anchor_right = 1.0
 offset_bottom = 32.0
 grow_horizontal = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_4oup0")
+
+[node name="Container" type="HBoxContainer" parent="Editor/Main/TopBar" unique_id=633393562]
+layout_mode = 2
+
+[node name="Spacer" type="Control" parent="Editor/Main/TopBar/Container" unique_id=698338450]
+custom_minimum_size = Vector2(5, 0)
+layout_mode = 2
+
+[node name="ProgramIcon" type="AspectRatioContainer" parent="Editor/Main/TopBar/Container" unique_id=997478765]
+custom_maximum_size = Vector2(30, 30)
+layout_mode = 2
+
+[node name="Icon" type="TextureRect" parent="Editor/Main/TopBar/Container/ProgramIcon" unique_id=537324190]
+custom_maximum_size = Vector2(20, 20)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("2_4oup0")
+
+[node name="WorldName" type="Label" parent="Editor/Main/TopBar/Container" unique_id=1922186649]
+layout_mode = 2
+text = "CurrentlyEditingWorldID"
 
 [node name="TabButtons" type="PanelContainer" parent="Editor/Main" unique_id=2038795420]
 layout_mode = 1
