@@ -107,7 +107,8 @@ public static class ContentLoader
                     var registry = ResourceLoader.Load(metaPath) as T;
                     registry.ID = item.GetFile();
                     registry.NAMESPACE = WorldID;
-                    registry.FULL_ID = $"{registry.NAMESPACE}:{registry.ID}";
+
+                    registry.FILE_PATH = metaPath;
 
                     listOfContent.Add(registry);
 

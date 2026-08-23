@@ -1,5 +1,6 @@
 {
-	"DOCTYPE": "FaFLevel",
+	"DOC_TYPE": "FaFMap",
+	"DOC_VERSION": 1,
 
 	"Instances": [
 		{
@@ -61,7 +62,7 @@
 								"Name": "WorldSpawnVisual",
 								"Transform": {
 									"ClassName": "Transform3D",
-									"Origin": {"ClassName": "Vector3", "X": 0, "Y": 0, "Z": 0},
+									"Origin": {"ClassName": "Vector3", "X": 0, "Y": 5, "Z": 0},
 									"Basis": {
 										"ClassName": "Basis",
 										"X": {"ClassName": "Vector3", "X": 1, "Y": 0, "Z": 0},
