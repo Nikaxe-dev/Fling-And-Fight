@@ -100,7 +100,7 @@ split_offset = 350
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_f35nr")
 
-[node name="InstanceTree" type="Tree" parent="Editor/Main/Panels/Left/Properties" unique_id=1748962592]
+[node name="PropertyTree" type="Tree" parent="Editor/Main/Panels/Left/Properties" unique_id=1748962592]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_ti6d1")
 
@@ -108,7 +108,7 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_ti6d1")
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_f35nr")
 
-[node name="InstanceTree" type="Tree" parent="Editor/Main/Panels/Left/FileExplorer" unique_id=177129451]
+[node name="FileTree" type="Tree" parent="Editor/Main/Panels/Left/FileExplorer" unique_id=177129451]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_ti6d1")
 
