@@ -14,11 +14,11 @@ bg_color = Color(0.060288675, 0.059858933, 0.10106715, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_f35nr"]
 bg_color = Color(0.036559667, 0.04372295, 0.054320283, 1)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_220lh"]
-bg_color = Color(0.06879826, 0.06879829, 0.06879823, 1)
-
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ti6d1"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_220lh"]
+bg_color = Color(0.06879826, 0.06879829, 0.06879823, 1)
 
 [node name="Editor" type="Node" unique_id=532999971]
 script = ExtResource("1_4oup0")
@@ -88,12 +88,29 @@ offset_top = 116.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_vertical = 3
-split_offsets = PackedInt32Array(200, -200)
-split_offset = 200
+split_offsets = PackedInt32Array(188, -188)
+split_offset = 188
 
-[node name="Properties" type="PanelContainer" parent="Editor/Main/Panels" unique_id=837998234]
+[node name="Left" type="VSplitContainer" parent="Editor/Main/Panels" unique_id=622721151]
+layout_mode = 2
+split_offsets = PackedInt32Array(350)
+split_offset = 350
+
+[node name="Properties" type="PanelContainer" parent="Editor/Main/Panels/Left" unique_id=837998234]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_f35nr")
+
+[node name="InstanceTree" type="Tree" parent="Editor/Main/Panels/Left/Properties" unique_id=1748962592]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ti6d1")
+
+[node name="FileExplorer" type="PanelContainer" parent="Editor/Main/Panels/Left" unique_id=2070095676]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_f35nr")
+
+[node name="InstanceTree" type="Tree" parent="Editor/Main/Panels/Left/FileExplorer" unique_id=177129451]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ti6d1")
 
 [node name="Viewport" type="PanelContainer" parent="Editor/Main/Panels" unique_id=1158318558]
 clip_contents = true
