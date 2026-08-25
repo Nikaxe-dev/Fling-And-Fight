@@ -63,16 +63,6 @@ public partial class Explorer : Tree
         item.SetCollapsedRecursive(true);
     }
 
-    private void RemoveInstance(Instance instance)
-    {
-        TreeItem item = GetInstanceTreeItem(instance);
-
-        TreeMappings.Remove(instance);
-        InstanceMappings.Remove(item);
-
-        item.Free();
-    }
-
     private void LoadExplorer()
     {
         LOGGER.LOG(LogType.INFO, "Loading Explorer");
@@ -161,14 +151,10 @@ public partial class Explorer : Tree
         TreeItem OtherItem = GetItemAtPosition(atPosition);
         Instance OtherInstance = GetTreeItemInstance(OtherItem);
 
-        GD.Print(DropSection);
-        GD.Print(OtherInstance.Name);
-
         TreeItem previousItem = null;
         foreach (TreeItem item in data.AsGodotArray().Select(v => (TreeItem)(GodotObject)v))
         {
             Instance instance = GetTreeItemInstance(item);
-            GD.Print(instance.Name);
 
             instance.Parent = OtherInstance;
 
