@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Text.Json;
 using System.Text.Json.Nodes;
@@ -27,11 +28,19 @@ public partial class EditorRoot : Node
     public static readonly string Map_File_Extension = "json";
     public static readonly string Map_DOC_TYPE = "FaFMap";
     public static readonly int Map_DOC_VER = 1;
+    
+    /// <summary>
+    /// THIS IS SEPERATE FROM THE GAMES VERSION!!!
+    /// </summary>
+    public static readonly int PROGRAM_VERSION = 1;
+
+    public static readonly string PROGRAM_NAME = "FaF Editor";
 
     [Signal] public delegate void WorldLoadedEventHandler(string WorldID);
 
     public void LoadWorld(string WorldID = "FaF", string SampleName = "Baseplate")
     {
+        SetGlobalStatusMessage("Loading World...");
         LOGGER.LOG(LogType.INFO, $"Loading world {WorldID} in the editor.", "WorldLoading", true);
 
         WorldRegistry worldRegistry = ContentLoader.GetWorld(WorldID);
@@ -93,10 +102,13 @@ public partial class EditorRoot : Node
 
         EmitSignal(SignalName.WorldLoaded, CurrentWorkspaceWorldID);
         LOGGER.LOG(LogType.INFO, $"Successfully loaded world {WorldID} in the editor.", "WorldLoading", true);
+        SetGlobalStatusMessage("Successfully Loaded World!");
+        CurrentWorldLabel.Text = $"World - {WorldID}";
     }
 
     public void Save()
     {
+        SetGlobalStatusMessage("Saving World...");
         LOGGER.LOG(LogType.INFO, $"Saving world '{CurrentWorkspaceWorldID}' in the editor to '{CurrentWorkspaceMapFileDirectory}'.", "WorldSaving", true);
 
         JsonObject ROOT = new()
@@ -122,7 +134,17 @@ public partial class EditorRoot : Node
         file.Close();
         file.Dispose();
 
+        SetGlobalStatusMessage("Successfully Saved World!");
         LOGGER.LOG(LogType.INFO, $"Finished saving world '{CurrentWorkspaceWorldID}' in the editor.", "WorldSaving", true);
+    }
+
+    [Export] public Label GlobalStatusLabel;
+    [Export] public Label ProgramInfoLabel;
+    [Export] public Label CurrentWorldLabel;
+
+    public void SetGlobalStatusMessage(string message)
+    {
+        GlobalStatusLabel.Text = $"{DateTime.Now:HH:mm:ss} - {message}";
     }
 
     public override void _Input(InputEvent @event)
@@ -141,6 +163,11 @@ public partial class EditorRoot : Node
 
     public override void _Ready()
     {
+        CurrentWorldLabel.Text = "World - None";
+        SetGlobalStatusMessage("Loading the editor...");
+
+        ProgramInfoLabel.Text = $"{PROGRAM_NAME} - {(OS.IsDebugBuild() ? "Debug Build" : "Release Build")} - V{PROGRAM_VERSION}";
+
         LoadWorld("New_Sedes");
 
         GameManager.Instance.EmitSignal(GameManager.SignalName.FaFEditorLoaded);

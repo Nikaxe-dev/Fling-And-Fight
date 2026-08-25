@@ -1,6 +1,6 @@
 [gd_resource type="Theme" format=3 uid="uid://c1d6jy32p2jyv"]
 
-[ext_resource type="FontFile" uid="uid://b17j7rwwsufcl" path="res://Assets/Fonts/NotoSans.ttf" id="1_x365u"]
+[ext_resource type="FontFile" uid="uid://ciwcv1xi6dn63" path="res://Assets/Fonts/PatrickHand.ttf" id="1_x365u"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rh1ja"]
 content_margin_left = 4.0

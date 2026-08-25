@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://dyv5fbihqqdbt"]
 
 [ext_resource type="Theme" uid="uid://c1d6jy32p2jyv" path="res://Editor/EditorTheme.tres" id="1_ftvu3"]
-[ext_resource type="Texture2D" uid="uid://2gbmis67qj5w" path="res://icon.png" id="2_rpcuv"]
 [ext_resource type="Script" uid="uid://dmn0adgm6evbt" path="res://Editor/UI/Explorer.cs" id="3_vktc6"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4oup0"]
@@ -18,6 +17,15 @@ bg_color = Color(0.6, 0.6, 0.6, 0)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_220lh"]
 bg_color = Color(0.06879826, 0.06879829, 0.06879823, 1)
+
+[sub_resource type="Theme" id="Theme_rh1ja"]
+Label/colors/font_color = Color(0.51718444, 0.5171845, 0.51718444, 0.60784316)
+
+[sub_resource type="Gradient" id="Gradient_ftvu3"]
+colors = PackedColorArray(0.2, 0.2, 0.2, 0.5254902, 0.20152658, 0.20152658, 0.20152658, 0.5254902)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_bo4on"]
+gradient = SubResource("Gradient_ftvu3")
 
 [node name="Editor" type="Control" unique_id=1295747293]
 layout_mode = 3
@@ -47,25 +55,6 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_4oup0")
 [node name="Container" type="HBoxContainer" parent="Main/TopBar" unique_id=1819213607]
 layout_mode = 2
 
-[node name="Spacer" type="Control" parent="Main/TopBar/Container" unique_id=1833753253]
-custom_minimum_size = Vector2(5, 0)
-layout_mode = 2
-
-[node name="ProgramIcon" type="AspectRatioContainer" parent="Main/TopBar/Container" unique_id=1280636477]
-custom_maximum_size = Vector2(30, 30)
-layout_mode = 2
-
-[node name="Icon" type="TextureRect" parent="Main/TopBar/Container/ProgramIcon" unique_id=1920089402]
-custom_maximum_size = Vector2(20, 20)
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-texture = ExtResource("2_rpcuv")
-
-[node name="WorldName" type="Label" parent="Main/TopBar/Container" unique_id=207959622]
-layout_mode = 2
-text = "CurrentlyEditingWorldID"
-
 [node name="TabButtons" type="PanelContainer" parent="Main" unique_id=1315365454]
 layout_mode = 1
 anchors_preset = 10
@@ -81,6 +70,7 @@ anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_top = 116.0
+offset_bottom = -25.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_vertical = 3
@@ -189,3 +179,52 @@ allow_reselect = true
 select_mode = 2
 auto_tooltip = false
 script = ExtResource("3_vktc6")
+
+[node name="BottomBar" type="PanelContainer" parent="Main" unique_id=1832104930]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+offset_top = 695.0
+offset_bottom = 720.0
+grow_horizontal = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_4oup0")
+
+[node name="Container" type="HBoxContainer" parent="Main/BottomBar" unique_id=804870365]
+layout_mode = 2
+theme = SubResource("Theme_rh1ja")
+
+[node name="Spacer" type="Control" parent="Main/BottomBar/Container" unique_id=1834922339]
+custom_minimum_size = Vector2(2, 0)
+layout_mode = 2
+
+[node name="Seperator3" type="TextureRect" parent="Main/BottomBar/Container" unique_id=1913942010]
+custom_maximum_size = Vector2(2, -1)
+layout_mode = 2
+texture = SubResource("GradientTexture1D_bo4on")
+
+[node name="ProgramInfo" type="Label" parent="Main/BottomBar/Container" unique_id=444308276]
+layout_mode = 2
+text = "ProgramName - Edition - Version"
+
+[node name="Seperator" type="TextureRect" parent="Main/BottomBar/Container" unique_id=252179556]
+custom_maximum_size = Vector2(2, -1)
+layout_mode = 2
+texture = SubResource("GradientTexture1D_bo4on")
+
+[node name="Status" type="Label" parent="Main/BottomBar/Container" unique_id=1338461863]
+layout_mode = 2
+text = "hh:mm:ss:ms - LatestProgramStatus"
+
+[node name="Seperator2" type="TextureRect" parent="Main/BottomBar/Container" unique_id=50193221]
+custom_maximum_size = Vector2(2, -1)
+layout_mode = 2
+texture = SubResource("GradientTexture1D_bo4on")
+
+[node name="CurrentWorld" type="Label" parent="Main/BottomBar/Container" unique_id=1014006295]
+layout_mode = 2
+text = "World: CurrentlyEditingWorld"
+
+[node name="Seperator4" type="TextureRect" parent="Main/BottomBar/Container" unique_id=50546827]
+custom_maximum_size = Vector2(2, -1)
+layout_mode = 2
+texture = SubResource("GradientTexture1D_bo4on")

@@ -3,7 +3,12 @@
 [ext_resource type="Script" uid="uid://r2hmqlkinja6" path="res://Editor/EditorRoot.cs" id="1_4oup0"]
 [ext_resource type="PackedScene" uid="uid://dyv5fbihqqdbt" path="res://Editor/EditorUI.tscn" id="2_4oup0"]
 
-[node name="Editor" type="Node" unique_id=532999971]
+[node name="Editor" type="Node" unique_id=532999971 node_paths=PackedStringArray("GlobalStatusLabel", "ProgramInfoLabel", "CurrentWorldLabel")]
 script = ExtResource("1_4oup0")
+GlobalStatusLabel = NodePath("Editor/Main/BottomBar/Container/Status")
+ProgramInfoLabel = NodePath("Editor/Main/BottomBar/Container/ProgramInfo")
+CurrentWorldLabel = NodePath("Editor/Main/BottomBar/Container/CurrentWorld")
 
 [node name="Editor" parent="." unique_id=1295747293 instance=ExtResource("2_4oup0")]
+
+[editable path="Editor"]
