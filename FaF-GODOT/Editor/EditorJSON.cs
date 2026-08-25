@@ -153,7 +153,7 @@ public static class EditorJSON
 
             foreach (JsonElement childJSON in ChildrenEnumerator)
             {
-                instance.AddChild(InstanceFromJson(childJSON));
+                InstanceFromJson(childJSON).Parent = instance;
             }
         }
 

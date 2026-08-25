@@ -22,21 +22,16 @@ public abstract class Instance
 
         set
         {
-            Parent?._children.Remove(this);
-            value?._children.Add(this);
-
-            _parent = value;
-
-            Parent?.ChildRemoved?.Invoke(this);
-            value?.ChildAdded?.Invoke(this);
+            Parent?.RemoveChild(this);
+            value?.AddChild(this);
         }
     }
 
-    public event ChildAddedEventHandler? ChildAdded;
-    public delegate void ChildAddedEventHandler(Instance child);
+    public event MovedEventHandler? Moved;
+    public delegate void MovedEventHandler(Instance? newParent, Instance? oldParent);
 
-    public event ChildRemovedEventHandler? ChildRemoved;
-    public delegate void ChildRemovedEventHandler(Instance child);
+    public event RemovedEventHandler? Removed;
+    public delegate void RemovedEventHandler();
     
     private readonly List<Instance> _children = [];
     public List<Instance> Children {get => _children;}
@@ -53,14 +48,6 @@ public abstract class Instance
         Name = ClassName;
     }
 
-    public string ToJson() => JsonSerializer.Serialize(this, SerializerOptions);
-
-    private static readonly JsonSerializerOptions SerializerOptions = new()
-    {
-        ReferenceHandler = ReferenceHandler.IgnoreCycles,
-        DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
-    };
-
     public void SetProperty(string PropertyName, object Value)
     {
         Type type = GetType();
@@ -70,6 +57,26 @@ public abstract class Instance
 
     public void AddChild(Instance child)
     {
-        child.Parent = this;
+        if (child.Parent != null) return;
+        if (child.Parent == this) return;
+
+        child.Moved?.Invoke(this, child.Parent);
+
+        Children.Add(child);
+        child._parent = this;
+    }
+
+    public void RemoveChild(Instance child)
+    {
+        if (child.Parent != this) return;
+
+        Children.Remove(child);
+        child._parent = null;
+    }
+
+    public void Remove()
+    {
+        Parent = null;
+        Removed?.Invoke();
     }
 }

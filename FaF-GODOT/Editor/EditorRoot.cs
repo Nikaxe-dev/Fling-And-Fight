@@ -28,6 +28,8 @@ public partial class EditorRoot : Node
     public static readonly string Map_DOC_TYPE = "FaFMap";
     public static readonly int Map_DOC_VER = 1;
 
+    [Signal] public delegate void WorldLoadedEventHandler(string WorldID);
+
     public void LoadWorld(string WorldID = "FaF", string SampleName = "Baseplate")
     {
         LOGGER.LOG(LogType.INFO, $"Loading world {WorldID} in the editor.", "WorldLoading", true);
@@ -89,6 +91,7 @@ public partial class EditorRoot : Node
         CurrentWorkspaceDirectory = worldDirectory;
         CurrentWorkspaceMapFileDirectory = mapFileDirectory;
 
+        EmitSignal(SignalName.WorldLoaded, CurrentWorkspaceWorldID);
         LOGGER.LOG(LogType.INFO, $"Successfully loaded world {WorldID} in the editor.", "WorldLoading", true);
     }
 
@@ -122,10 +125,13 @@ public partial class EditorRoot : Node
         LOGGER.LOG(LogType.INFO, $"Finished saving world '{CurrentWorkspaceWorldID}' in the editor.", "WorldSaving", true);
     }
 
-    public override void _Ready()
+    public EditorRoot()
     {
         Instance = this;
+    }
 
+    public override void _Ready()
+    {
         LoadWorld("New_Sedes");
 
         GameManager.Instance.EmitSignal(GameManager.SignalName.FaFEditorLoaded);

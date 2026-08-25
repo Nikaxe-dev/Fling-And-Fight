@@ -1,0 +1,48 @@
+[gd_resource type="Theme" format=3 uid="uid://c1d6jy32p2jyv"]
+
+[ext_resource type="FontFile" uid="uid://b17j7rwwsufcl" path="res://Assets/Fonts/NotoSans.ttf" id="1_x365u"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rh1ja"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(1, 1, 1, 0.75)
+draw_center = false
+border_width_right = 15
+border_color = Color(0.9019608, 0, 0.15686275, 0.32156864)
+border_blend = true
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_x365u"]
+bg_color = Color(0.98039216, 0.5568628, 0.54901963, 0.13725491)
+border_width_right = 300
+border_color = Color(0.66244954, 0.22831878, 1, 0)
+border_blend = true
+corner_radius_top_left = 5
+corner_radius_bottom_left = 5
+expand_margin_left = 2.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_iybdm"]
+bg_color = Color(0.5803922, 0, 0.003921569, 0.44705883)
+border_width_right = 300
+border_color = Color(0.7647059, 0, 0.29411766, 0)
+border_blend = true
+expand_margin_left = 2.0
+
+[resource]
+default_font = ExtResource("1_x365u")
+Tree/colors/guide_color = Color(0.69803923, 0.69803923, 0.69803923, 0)
+Tree/constants/icon_max_width = 16
+Tree/font_sizes/font_size = 12
+Tree/styles/cursor = SubResource("StyleBoxFlat_rh1ja")
+Tree/styles/cursor_unfocused = SubResource("StyleBoxFlat_rh1ja")
+Tree/styles/hovered = SubResource("StyleBoxFlat_x365u")
+Tree/styles/hovered_selected = SubResource("StyleBoxFlat_iybdm")
+Tree/styles/hovered_selected_focus = SubResource("StyleBoxFlat_iybdm")
+Tree/styles/selected = SubResource("StyleBoxFlat_iybdm")
+Tree/styles/selected_focus = SubResource("StyleBoxFlat_iybdm")

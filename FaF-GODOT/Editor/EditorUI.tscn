@@ -1,0 +1,191 @@
+[gd_scene format=3 uid="uid://dyv5fbihqqdbt"]
+
+[ext_resource type="Theme" uid="uid://c1d6jy32p2jyv" path="res://Editor/EditorTheme.tres" id="1_ftvu3"]
+[ext_resource type="Texture2D" uid="uid://2gbmis67qj5w" path="res://icon.png" id="2_rpcuv"]
+[ext_resource type="Script" uid="uid://dmn0adgm6evbt" path="res://Editor/UI/Explorer.cs" id="3_vktc6"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4oup0"]
+bg_color = Color(0.044717066, 0.026053125, 0.0877695, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ugwn3"]
+bg_color = Color(0.060288675, 0.059858933, 0.10106715, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_f35nr"]
+bg_color = Color(0.036559667, 0.04372295, 0.054320283, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ti6d1"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_220lh"]
+bg_color = Color(0.06879826, 0.06879829, 0.06879823, 1)
+
+[node name="Editor" type="Control" unique_id=1295747293]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_ftvu3")
+
+[node name="Main" type="Control" parent="." unique_id=1147895338]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TopBar" type="PanelContainer" parent="Main" unique_id=1653015788]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+offset_bottom = 32.0
+grow_horizontal = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_4oup0")
+
+[node name="Container" type="HBoxContainer" parent="Main/TopBar" unique_id=1819213607]
+layout_mode = 2
+
+[node name="Spacer" type="Control" parent="Main/TopBar/Container" unique_id=1833753253]
+custom_minimum_size = Vector2(5, 0)
+layout_mode = 2
+
+[node name="ProgramIcon" type="AspectRatioContainer" parent="Main/TopBar/Container" unique_id=1280636477]
+custom_maximum_size = Vector2(30, 30)
+layout_mode = 2
+
+[node name="Icon" type="TextureRect" parent="Main/TopBar/Container/ProgramIcon" unique_id=1920089402]
+custom_maximum_size = Vector2(20, 20)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("2_rpcuv")
+
+[node name="WorldName" type="Label" parent="Main/TopBar/Container" unique_id=207959622]
+layout_mode = 2
+text = "CurrentlyEditingWorldID"
+
+[node name="TabButtons" type="PanelContainer" parent="Main" unique_id=1315365454]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 32.0
+offset_bottom = 116.0
+grow_horizontal = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ugwn3")
+
+[node name="Panels" type="HSplitContainer" parent="Main" unique_id=1857063709]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 116.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 3
+split_offsets = PackedInt32Array(250, -250)
+split_offset = 250
+
+[node name="Left" type="VSplitContainer" parent="Main/Panels" unique_id=609126555]
+layout_mode = 2
+split_offsets = PackedInt32Array(350)
+split_offset = 350
+
+[node name="Properties" type="PanelContainer" parent="Main/Panels/Left" unique_id=1506212157]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_f35nr")
+
+[node name="Menu" type="VBoxContainer" parent="Main/Panels/Left/Properties" unique_id=1139090664]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="Main/Panels/Left/Properties/Menu" unique_id=1097094981]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+text = "Properties"
+
+[node name="PropertyTree" type="Tree" parent="Main/Panels/Left/Properties/Menu" unique_id=749632348]
+layout_mode = 2
+size_flags_vertical = 3
+allow_search = false
+select_mode = 2
+auto_tooltip = false
+
+[node name="FileExplorer" type="PanelContainer" parent="Main/Panels/Left" unique_id=193804824]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_f35nr")
+
+[node name="Tabs" type="TabContainer" parent="Main/Panels/Left/FileExplorer" unique_id=1716658297]
+layout_mode = 2
+current_tab = 1
+tab_1/title = "res://"
+tab_2/title = "user://"
+
+[node name="World" type="VBoxContainer" parent="Main/Panels/Left/FileExplorer/Tabs" unique_id=1496315662]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="FileTree" type="Tree" parent="Main/Panels/Left/FileExplorer/Tabs/World" unique_id=669332800]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ti6d1")
+allow_reselect = true
+select_mode = 2
+auto_tooltip = false
+
+[node name="Project" type="VBoxContainer" parent="Main/Panels/Left/FileExplorer/Tabs" unique_id=867165869]
+layout_mode = 2
+metadata/_tab_index = 1
+metadata/_tab_name = "res://"
+
+[node name="FileTree" type="Tree" parent="Main/Panels/Left/FileExplorer/Tabs/Project" unique_id=570798598]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ti6d1")
+allow_reselect = true
+select_mode = 2
+auto_tooltip = false
+
+[node name="User" type="VBoxContainer" parent="Main/Panels/Left/FileExplorer/Tabs" unique_id=885611058]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 2
+metadata/_tab_name = "user://"
+
+[node name="FileTree" type="Tree" parent="Main/Panels/Left/FileExplorer/Tabs/User" unique_id=1450711785]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ti6d1")
+allow_reselect = true
+select_mode = 2
+auto_tooltip = false
+
+[node name="Viewport" type="PanelContainer" parent="Main/Panels" unique_id=2135111401]
+clip_contents = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_220lh")
+
+[node name="Tabs" type="TabContainer" parent="Main/Panels/Viewport" unique_id=521650397]
+layout_mode = 2
+
+[node name="Explorer" type="PanelContainer" parent="Main/Panels" unique_id=174493744]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_f35nr")
+
+[node name="Menu" type="VBoxContainer" parent="Main/Panels/Explorer" unique_id=1146640098]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="Main/Panels/Explorer/Menu" unique_id=1091772057]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+text = "Explorer"
+
+[node name="InstanceTree" type="Tree" parent="Main/Panels/Explorer/Menu" unique_id=2001952788]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_ti6d1")
+allow_reselect = true
+select_mode = 2
+auto_tooltip = false
+script = ExtResource("3_vktc6")
