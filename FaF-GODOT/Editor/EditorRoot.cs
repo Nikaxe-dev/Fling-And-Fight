@@ -125,6 +125,15 @@ public partial class EditorRoot : Node
         LOGGER.LOG(LogType.INFO, $"Finished saving world '{CurrentWorkspaceWorldID}' in the editor.", "WorldSaving", true);
     }
 
+    public override void _Input(InputEvent @event)
+    {
+        // save input detection
+        if (@event.IsActionPressed("editor_save"))
+        {
+            Save();
+        }
+    }
+
     public EditorRoot()
     {
         Instance = this;
