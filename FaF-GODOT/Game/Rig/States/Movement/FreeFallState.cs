@@ -8,6 +8,16 @@ namespace FaF.Game.Rig.States.Movement;
 [GlobalClass]
 public partial class FreeFallState() : MovementState(false, true, false, "FALL_ANIMATION", "FALL_ANIMATION")
 {
+    public override void Enter()
+    {
+        base.Enter();
+    }
+
+    public override void Exit()
+    {
+        base.Exit();
+    }
+
     public override void PhysicsProcess(double delta)
     {
         base.PhysicsProcess(delta);

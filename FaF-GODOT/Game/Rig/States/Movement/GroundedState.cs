@@ -8,5 +8,10 @@ namespace FaF.Game.Rig.States.Movement;
 [GlobalClass]
 public partial class GroundedState : MovementState
 {
-    
+    public override void Process(double delta)
+    {
+        base.Process(delta);
+
+        Npc.SlopeFixEnabled = true;
+    }
 }

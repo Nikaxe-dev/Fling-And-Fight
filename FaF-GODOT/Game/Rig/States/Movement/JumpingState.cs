@@ -12,6 +12,8 @@ public partial class JumpingState() : MovementState(false,true,false)
     {
         base.Enter();
 
+        Npc.SlopeFixEnabled = false;
+
         if (IsMultiplayerAuthority()) Npc.SetAxisVelocity(Vector3.Up*Npc.JumpPower);
     }
 

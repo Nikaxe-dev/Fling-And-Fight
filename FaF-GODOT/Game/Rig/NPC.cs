@@ -97,6 +97,8 @@ public partial class NPC : RigidBody3D
 
         CustomIntegrator = true;
     }
+    
+    public bool SlopeFixEnabled = true;
 
     public override void _IntegrateForces(PhysicsDirectBodyState3D state)
     {
@@ -110,7 +112,8 @@ public partial class NPC : RigidBody3D
 
         Vector3 gravity = GetGravity();
 
-        if (onFloor)
+        GD.Print(SlopeFixEnabled);
+        if (onFloor && SlopeFixEnabled)
         {
             Vector3 velocity = state.LinearVelocity;
 
