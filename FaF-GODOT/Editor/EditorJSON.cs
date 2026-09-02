@@ -7,6 +7,7 @@ using System.Text.Json.Nodes;
 using FaF.Debug;
 using FaF.Editor.Attributes;
 using FaF.Editor.DataModel;
+using FaF.Editor.DataModel.Physical.World;
 using Godot;
 
 namespace FaF.Editor;
@@ -23,6 +24,7 @@ public static class EditorJSON
         else if (Object is Vector4 vector4) return new JsonObject {["ClassName"] = "Vector4", ["X"] = vector4.X, ["Y"] = vector4.Y, ["Z"] = vector4.Z, ["W"] = vector4.W};
         else if (Object is Basis basis) return new JsonObject {["ClassName"] = "Basis", ["X"] = ToJson(basis.X), ["Y"] = ToJson(basis.Y), ["Z"] = ToJson(basis.Z)};
         else if (Object is Transform3D transform) return new JsonObject {["ClassName"] = "Transform3D", ["Basis"] = ToJson(transform.Basis), ["Origin"] = ToJson(transform.Origin)};
+        else if (Object is Color color) return new JsonObject {["ClassName"] = "Color", ["Hex"] = color.ToHtml()};
         else return JsonFromBasicType(Object);
     }
 
@@ -45,7 +47,8 @@ public static class EditorJSON
         {
             if (Attribute.IsDefined(property, typeof(SaveAttribute)) && property?.GetValue(instance) != property?.GetValue((Instance)Activator.CreateInstance(InstanceClassMappings[instance.ClassName])))
             {
-                Properties.Add(property.Name, ToJson(property.GetValue(instance)));
+                SaveAttribute saveAttribute = (SaveAttribute)Attribute.GetCustomAttribute(property, typeof(SaveAttribute));
+                Properties.Add(saveAttribute?.KeyName ?? property.Name, ToJson(property.GetValue(instance)));
             }
         }
 
@@ -97,6 +100,8 @@ public static class EditorJSON
                 FromJson<Vector3>(Root.GetProperty("Origin"))
             ),
 
+            "Color" => new Color(Root.GetProperty("Hex").GetString()),
+
             "ResourceReference" => ResourceLoader.Load(Root.GetProperty("FilePath").GetString()),
 
             "Instance" => InstanceFromJson(Root),
@@ -134,17 +139,22 @@ public static class EditorJSON
         if (InstanceClass == null) {LOGGER.LOG(LogType.ERROR, $"Expected String in 'InstanceClass' of data. Full JSON: ${Root}", "ConversionFrom"); return default;}
 
         Instance instance = (Instance)Activator.CreateInstance(InstanceClassMappings[InstanceClass]);
-        
-        JsonElement.ObjectEnumerator PropertyEnumerator = Root.GetProperty("Properties").EnumerateObject();
 
-        foreach (JsonProperty item in PropertyEnumerator)
+        foreach (var property in instance.GetType().GetProperties())
         {
-            if (item.Value.ValueKind == JsonValueKind.Object)
-            {
-                instance.SetProperty(item.Name, FromJson<object>(item.Value));
-            } else
-            {
-                instance.SetProperty(item.Name, JsonElementToObject(item.Value));
+            SaveAttribute saveAttribute = (SaveAttribute)Attribute.GetCustomAttribute(property, typeof(SaveAttribute));
+            string KeyName = saveAttribute?.KeyName ?? property.Name;
+
+            if (saveAttribute != null) {
+                if (Root.GetProperty("Properties").TryGetProperty(KeyName, out JsonElement element)) {
+                    if (element.ValueKind == JsonValueKind.Object)
+                    {
+                        instance.SetProperty(property.Name, FromJson<object>(element));
+                    } else
+                    {
+                        instance.SetProperty(property.Name, JsonElementToObject(element));
+                    }
+                }
             }
         }
 

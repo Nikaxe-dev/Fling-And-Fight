@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d0cldp8jd8dt2"
-path.s3tc="res://.godot/imported/Grass_roughness.jpg-a5384531643e1f90ba725ef2c141c192.s3tc.ctex"
+uid="uid://bsahx07ebk22e"
+path.s3tc="res://.godot/imported/Height.jpg-b0b1c4fd1a820be92704b180a2b2aecd.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://Data/Worlds/FaF/Assets/Materials/Grass/Grass_roughness.jpg"
-dest_files=["res://.godot/imported/Grass_roughness.jpg-a5384531643e1f90ba725ef2c141c192.s3tc.ctex"]
+source_file="res://Editor/PresetAssets/Materials/Grass/Height.jpg"
+dest_files=["res://.godot/imported/Height.jpg-b0b1c4fd1a820be92704b180a2b2aecd.s3tc.ctex"]
 
 [params]
 
@@ -26,8 +26,8 @@ compress/normal_map=0
 compress/channel_pack=0
 mipmaps/generate=true
 mipmaps/limit=-1
-roughness/mode=0
-roughness/src_normal=""
+roughness/mode=7
+roughness/src_normal="res://trenchbroom/textures/grass001_normal.jpg"
 process/channel_remap/red=0
 process/channel_remap/green=1
 process/channel_remap/blue=2

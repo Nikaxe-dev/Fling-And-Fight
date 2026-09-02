@@ -19,8 +19,9 @@
 
 							"Properties": {
 								"Name": "Baseplate",
-								"Shape": "Block",
+								"Shape": "Box",
 								"Material": "SmoothPlastic",
+								"Color": {"ClassName": "Color", "Hex": "#FFFFFF"},
 								"Transform": {
 									"ClassName": "Transform3D",
 									"Origin": {"ClassName": "Vector3", "X": 0, "Y": 0, "Z": 0},
@@ -51,27 +52,29 @@
 										"Z": {"ClassName": "Vector3", "X": 0, "Y": 0, "Z": 1}
 									}
 								}
-							}
-						},
+							},
 
-						{
-							"ClassName": "Instance",
-							"InstanceClass": "Part",
+                            "Children": [
+                                {
+                                    "ClassName": "Instance",
+                                    "InstanceClass": "Part",
 
-							"Properties": {
-								"Name": "WorldSpawnVisual",
-								"Transform": {
-									"ClassName": "Transform3D",
-									"Origin": {"ClassName": "Vector3", "X": 0, "Y": 5, "Z": 0},
-									"Basis": {
-										"ClassName": "Basis",
-										"X": {"ClassName": "Vector3", "X": 1, "Y": 0, "Z": 0},
-										"Y": {"ClassName": "Vector3", "X": 0, "Y": 1, "Z": 0},
-										"Z": {"ClassName": "Vector3", "X": 0, "Y": 0, "Z": 1}
-									}
-								},
-								"Size": {"ClassName": "Vector3", "X": 1, "Y": 0.25, "Z": 1}
-							}
+                                    "Properties": {
+                                        "Name": "VisualPart",
+                                        "Transform": {
+                                            "ClassName": "Transform3D",
+                                            "Origin": {"ClassName": "Vector3", "X": 0, "Y": 1, "Z": 0},
+                                            "Basis": {
+                                                "ClassName": "Basis",
+                                                "X": {"ClassName": "Vector3", "X": 1, "Y": 0, "Z": 0},
+                                                "Y": {"ClassName": "Vector3", "X": 0, "Y": 1, "Z": 0},
+                                                "Z": {"ClassName": "Vector3", "X": 0, "Y": 0, "Z": 1}
+                                            }
+                                        },
+                                        "Size": {"ClassName": "Vector3", "X": 1, "Y": 0.25, "Z": 1}
+                                    }
+                                }
+                            ]
 						}
 					],
 

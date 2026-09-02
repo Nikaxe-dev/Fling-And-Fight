@@ -112,7 +112,6 @@ public partial class NPC : RigidBody3D
 
         Vector3 gravity = GetGravity();
 
-        GD.Print(SlopeFixEnabled);
         if (onFloor && SlopeFixEnabled)
         {
             Vector3 velocity = state.LinearVelocity;

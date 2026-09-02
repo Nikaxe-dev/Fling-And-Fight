@@ -18,6 +18,16 @@ public partial class EditorRoot : Node
 
     public World MapRoot {private set; get;}
 
+    public static bool IS_EDITOR = false;
+
+    public static Node WORLD_REPRESENTATION {get => EditorViewport.WorldRepresentation;}
+
+    public static Node3D ENVIRONMENT_REPRESENTATION {get => EditorViewport.EnvironmentRepresentation;}
+    public static WorldEnvironment LIGHTING_REPRESENTATION {get => EditorViewport.LightingRepresentation;}
+    
+    public static DirectionalLight3D SUN_REPRESENTATION {get => EditorViewport.SunRepresentation;}
+    public static MeshInstance3D SUN_SKYBOX_DECAL_REPRESENTATION {get => EditorViewport.SunSkyboxDecalRepresentation;}
+
     public string CurrentWorkspaceWorldID {private set; get;}
     public string CurrentWorkspaceDirectory {private set; get;}
     public string CurrentWorkspaceMapFileDirectory {private set; get;}
@@ -163,6 +173,8 @@ public partial class EditorRoot : Node
 
     public override void _Ready()
     {
+        IS_EDITOR = true;
+
         CurrentWorldLabel.Text = "World - None";
         SetGlobalStatusMessage("Loading the editor...");
 

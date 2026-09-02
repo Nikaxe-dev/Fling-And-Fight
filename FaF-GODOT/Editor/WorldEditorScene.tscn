@@ -1,14 +1,254 @@
 [gd_scene format=3 uid="uid://bkri4odm02asr"]
 
 [ext_resource type="Script" uid="uid://r2hmqlkinja6" path="res://Editor/EditorRoot.cs" id="1_4oup0"]
-[ext_resource type="PackedScene" uid="uid://dyv5fbihqqdbt" path="res://Editor/EditorUI.tscn" id="2_4oup0"]
+[ext_resource type="Script" uid="uid://dmn0adgm6evbt" path="res://Editor/UI/Explorer.cs" id="2_4oup0"]
+[ext_resource type="Theme" uid="uid://c1d6jy32p2jyv" path="res://Editor/EditorTheme.tres" id="2_220lh"]
+[ext_resource type="Script" uid="uid://dmsk6ed4hrrs7" path="res://Editor/UI/ViewportTexture.cs" id="3_hy100"]
+[ext_resource type="Script" uid="uid://b00518si23u68" path="res://Editor/EditorViewport.cs" id="5_hy100"]
+[ext_resource type="PackedScene" uid="uid://bdbnm7xemd7dc" path="res://Editor/WorldMapScene.tscn" id="6_fnb7j"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ugwn3"]
+bg_color = Color(0.044717066, 0.026053125, 0.0877695, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_f35nr"]
+bg_color = Color(0.060288675, 0.059858933, 0.10106715, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_220lh"]
+bg_color = Color(0.036559667, 0.04372295, 0.054320283, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hy100"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fnb7j"]
+bg_color = Color(0.06879826, 0.06879829, 0.06879823, 1)
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_qq4so"]
+viewport_path = NodePath("WorldViewport")
+
+[sub_resource type="Theme" id="Theme_qhilp"]
+Label/colors/font_color = Color(0.51718444, 0.5171845, 0.51718444, 0.60784316)
+
+[sub_resource type="Gradient" id="Gradient_ftvu3"]
+colors = PackedColorArray(0.2, 0.2, 0.2, 0.5254902, 0.20152658, 0.20152658, 0.20152658, 0.5254902)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_fgd06"]
+gradient = SubResource("Gradient_ftvu3")
 
 [node name="Editor" type="Node" unique_id=532999971 node_paths=PackedStringArray("GlobalStatusLabel", "ProgramInfoLabel", "CurrentWorldLabel")]
 script = ExtResource("1_4oup0")
-GlobalStatusLabel = NodePath("Editor/Main/BottomBar/Container/Status")
-ProgramInfoLabel = NodePath("Editor/Main/BottomBar/Container/ProgramInfo")
-CurrentWorldLabel = NodePath("Editor/Main/BottomBar/Container/CurrentWorld")
+GlobalStatusLabel = NodePath("EditorUI/Main/BottomBar/Container/Status")
+ProgramInfoLabel = NodePath("EditorUI/Main/BottomBar/Container/ProgramInfo")
+CurrentWorldLabel = NodePath("EditorUI/Main/BottomBar/Container/CurrentWorld")
 
-[node name="Editor" parent="." unique_id=1295747293 instance=ExtResource("2_4oup0")]
+[node name="EditorUI" type="Control" parent="." unique_id=2031014491]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_220lh")
 
-[editable path="Editor"]
+[node name="Main" type="Control" parent="EditorUI" unique_id=1657702416]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TopBar" type="PanelContainer" parent="EditorUI/Main" unique_id=401443917]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+offset_bottom = 32.0
+grow_horizontal = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ugwn3")
+
+[node name="Container" type="HBoxContainer" parent="EditorUI/Main/TopBar" unique_id=487557856]
+layout_mode = 2
+
+[node name="TabButtons" type="PanelContainer" parent="EditorUI/Main" unique_id=583226193]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 32.0
+offset_bottom = 116.0
+grow_horizontal = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_f35nr")
+
+[node name="Panels" type="HSplitContainer" parent="EditorUI/Main" unique_id=126822192]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 116.0
+offset_bottom = -25.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 3
+split_offsets = PackedInt32Array(250, -250)
+split_offset = 250
+
+[node name="Left" type="VSplitContainer" parent="EditorUI/Main/Panels" unique_id=157086700]
+layout_mode = 2
+split_offsets = PackedInt32Array(350)
+split_offset = 350
+
+[node name="Properties" type="PanelContainer" parent="EditorUI/Main/Panels/Left" unique_id=1151925012]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_220lh")
+
+[node name="Menu" type="VBoxContainer" parent="EditorUI/Main/Panels/Left/Properties" unique_id=843210952]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="EditorUI/Main/Panels/Left/Properties/Menu" unique_id=1058582162]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+text = "Properties"
+
+[node name="PropertyTree" type="Tree" parent="EditorUI/Main/Panels/Left/Properties/Menu" unique_id=1861348286]
+layout_mode = 2
+size_flags_vertical = 3
+allow_search = false
+select_mode = 2
+auto_tooltip = false
+
+[node name="FileExplorer" type="PanelContainer" parent="EditorUI/Main/Panels/Left" unique_id=191575306]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_220lh")
+
+[node name="Tabs" type="TabContainer" parent="EditorUI/Main/Panels/Left/FileExplorer" unique_id=1814585470]
+layout_mode = 2
+current_tab = 1
+tab_1/title = "res://"
+tab_2/title = "user://"
+
+[node name="World" type="VBoxContainer" parent="EditorUI/Main/Panels/Left/FileExplorer/Tabs" unique_id=1458589206]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="FileTree" type="Tree" parent="EditorUI/Main/Panels/Left/FileExplorer/Tabs/World" unique_id=1833270865]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_hy100")
+allow_reselect = true
+select_mode = 2
+auto_tooltip = false
+
+[node name="Project" type="VBoxContainer" parent="EditorUI/Main/Panels/Left/FileExplorer/Tabs" unique_id=1629236230]
+layout_mode = 2
+metadata/_tab_index = 1
+metadata/_tab_name = "res://"
+
+[node name="FileTree" type="Tree" parent="EditorUI/Main/Panels/Left/FileExplorer/Tabs/Project" unique_id=22317956]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_hy100")
+allow_reselect = true
+select_mode = 2
+auto_tooltip = false
+
+[node name="User" type="VBoxContainer" parent="EditorUI/Main/Panels/Left/FileExplorer/Tabs" unique_id=194544064]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 2
+metadata/_tab_name = "user://"
+
+[node name="FileTree" type="Tree" parent="EditorUI/Main/Panels/Left/FileExplorer/Tabs/User" unique_id=655457002]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_hy100")
+allow_reselect = true
+select_mode = 2
+auto_tooltip = false
+
+[node name="Viewport" type="PanelContainer" parent="EditorUI/Main/Panels" unique_id=449000801]
+clip_contents = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_fnb7j")
+
+[node name="ViewportTexture" type="TextureRect" parent="EditorUI/Main/Panels/Viewport" unique_id=1592414240 node_paths=PackedStringArray("viewport")]
+layout_mode = 2
+texture = SubResource("ViewportTexture_qq4so")
+expand_mode = 1
+stretch_mode = 6
+script = ExtResource("3_hy100")
+viewport = NodePath("../../../../../WorldViewport")
+
+[node name="Explorer" type="PanelContainer" parent="EditorUI/Main/Panels" unique_id=1827524348]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_220lh")
+
+[node name="Menu" type="VBoxContainer" parent="EditorUI/Main/Panels/Explorer" unique_id=105388073]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="EditorUI/Main/Panels/Explorer/Menu" unique_id=621345220]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+text = "Explorer"
+
+[node name="InstanceTree" type="Tree" parent="EditorUI/Main/Panels/Explorer/Menu" unique_id=65738473]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_hy100")
+allow_reselect = true
+select_mode = 2
+auto_tooltip = false
+script = ExtResource("2_4oup0")
+
+[node name="BottomBar" type="PanelContainer" parent="EditorUI/Main" unique_id=641684269]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+offset_top = 695.0
+offset_bottom = 720.0
+grow_horizontal = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ugwn3")
+
+[node name="Container" type="HBoxContainer" parent="EditorUI/Main/BottomBar" unique_id=184267740]
+layout_mode = 2
+theme = SubResource("Theme_qhilp")
+
+[node name="Spacer" type="Control" parent="EditorUI/Main/BottomBar/Container" unique_id=910279805]
+custom_minimum_size = Vector2(2, 0)
+layout_mode = 2
+
+[node name="Seperator3" type="TextureRect" parent="EditorUI/Main/BottomBar/Container" unique_id=629436694]
+custom_maximum_size = Vector2(2, -1)
+layout_mode = 2
+texture = SubResource("GradientTexture1D_fgd06")
+
+[node name="ProgramInfo" type="Label" parent="EditorUI/Main/BottomBar/Container" unique_id=54257453]
+layout_mode = 2
+text = "ProgramName - Edition - Version"
+
+[node name="Seperator" type="TextureRect" parent="EditorUI/Main/BottomBar/Container" unique_id=510205191]
+custom_maximum_size = Vector2(2, -1)
+layout_mode = 2
+texture = SubResource("GradientTexture1D_fgd06")
+
+[node name="Status" type="Label" parent="EditorUI/Main/BottomBar/Container" unique_id=1855892399]
+layout_mode = 2
+text = "hh:mm:ss:ms - LatestProgramStatus"
+
+[node name="Seperator2" type="TextureRect" parent="EditorUI/Main/BottomBar/Container" unique_id=2055106209]
+custom_maximum_size = Vector2(2, -1)
+layout_mode = 2
+texture = SubResource("GradientTexture1D_fgd06")
+
+[node name="CurrentWorld" type="Label" parent="EditorUI/Main/BottomBar/Container" unique_id=1146075198]
+layout_mode = 2
+text = "World: CurrentlyEditingWorld"
+
+[node name="Seperator4" type="TextureRect" parent="EditorUI/Main/BottomBar/Container" unique_id=1688071529]
+custom_maximum_size = Vector2(2, -1)
+layout_mode = 2
+texture = SubResource("GradientTexture1D_fgd06")
+
+[node name="WorldViewport" type="SubViewport" parent="." unique_id=754344060]
+handle_input_locally = false
+size = Vector2i(3840, 2160)
+script = ExtResource("5_hy100")
+RepresentationScene = ExtResource("6_fnb7j")
