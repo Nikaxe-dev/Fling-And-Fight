@@ -1,6 +1,7 @@
 using FaF.Debug;
 using FaF.Editor;
 using FaF.Editor.DataModel;
+using FaF.Editor.UI.Properties;
 using FaF.UserInput;
 using Godot;
 using Microsoft.VisualBasic;
@@ -90,7 +91,10 @@ public partial class Explorer : Tree
         };
 
         // renaming
-        ItemEdited += () => GetTreeItemInstance(GetEdited()).Name = GetEdited().GetText(0);
+        ItemEdited += () =>
+        {
+            GetTreeItemInstance(GetEdited()).Name = GetEdited().GetText(0);
+        };
 
         MultiSelected += (item, column, selected) =>
         {

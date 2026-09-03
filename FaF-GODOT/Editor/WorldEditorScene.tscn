@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://r2hmqlkinja6" path="res://Editor/EditorRoot.cs" id="1_4oup0"]
 [ext_resource type="Script" uid="uid://dmn0adgm6evbt" path="res://Editor/UI/Explorer.cs" id="2_4oup0"]
 [ext_resource type="Theme" uid="uid://c1d6jy32p2jyv" path="res://Editor/EditorTheme.tres" id="2_220lh"]
-[ext_resource type="Script" uid="uid://dgrln5nd6lhto" path="res://Editor/UI/Properties/Properties.cs" id="3_fnb7j"]
+[ext_resource type="Script" uid="uid://dgrln5nd6lhto" path="res://Editor/UI/Properties/PropertiesContainer.cs" id="3_fnb7j"]
 [ext_resource type="Script" uid="uid://dmsk6ed4hrrs7" path="res://Editor/UI/ViewportTexture.cs" id="3_hy100"]
 [ext_resource type="Script" uid="uid://dkntj4x5gci5k" path="res://Visuals/Camera/FreeCamera.cs" id="6_hy100"]
 

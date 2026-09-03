@@ -9,7 +9,9 @@ using System.Reflection;
 
 // TODO: ADD PROPER SUPPORT FOR MULTI SELECTING
 
-public partial class Properties : VBoxContainer
+namespace FaF.Editor.UI.Properties;
+
+public partial class PropertiesContainer : VBoxContainer
 {
     private static readonly FaFLogger LOGGER = FaFLogger.Get("Editor/UI/Panels/Properties");
 

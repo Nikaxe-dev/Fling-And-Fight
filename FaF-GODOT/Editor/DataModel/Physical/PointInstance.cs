@@ -1,4 +1,5 @@
 using FaF.Editor.Attributes;
+using FaF.Editor.UI.Properties;
 using Godot;
 
 namespace FaF.Editor.DataModel.Physical;
@@ -14,13 +15,13 @@ public class PointInstance : Instance
     public Transform3D Transform
     {
         get => Node3DRepresentation != null ? Node3DRepresentation.Transform : Transform3D.Identity;
-        set { if (Node3DRepresentation != null) Node3DRepresentation.Transform = value; Properties.RefreshTransformationPropertySelectors(); }
+        set { if (Node3DRepresentation != null) Node3DRepresentation.Transform = value; PropertiesContainer.RefreshTransformationPropertySelectors(); }
     }
 
     public Transform3D GlobalTransform
     {
         get => Node3DRepresentation != null ? Node3DRepresentation.GlobalTransform : Transform3D.Identity;
-        set { if(Node3DRepresentation != null) Node3DRepresentation.GlobalTransform = value; Properties.RefreshTransformationPropertySelectors(); }
+        set { if(Node3DRepresentation != null) Node3DRepresentation.GlobalTransform = value; PropertiesContainer.RefreshTransformationPropertySelectors(); }
     }
 
     [EditorAccess("Position")]
