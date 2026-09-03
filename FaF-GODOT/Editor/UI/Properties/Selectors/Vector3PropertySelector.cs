@@ -30,4 +30,11 @@ public partial class Vector3PropertySelector : PropertySelector<Vector3>
         YLabel.TextSubmitted += (value) => OnInputValueChanged();
         ZLabel.TextSubmitted += (value) => OnInputValueChanged();
     }
+
+    protected override void SetVisualToDifferent()
+    {
+        XLabel.Text = "";
+        YLabel.Text = "";
+        ZLabel.Text = "";
+    }
 }

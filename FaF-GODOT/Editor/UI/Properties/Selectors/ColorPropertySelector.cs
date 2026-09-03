@@ -15,4 +15,6 @@ public partial class ColorPropertySelector : PropertySelector<Color>
         base._Ready();
         Value.ColorChanged += (value) => OnInputValueChanged();
     }
+
+    protected override void SetVisualToDifferent() => Value.Color = new Color(1,1,1);
 }

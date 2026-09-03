@@ -7,8 +7,6 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 
-// TODO: ADD PROPER SUPPORT FOR MULTI SELECTING
-
 namespace FaF.Editor.UI.Properties;
 
 public partial class PropertiesContainer : VBoxContainer
@@ -19,10 +17,7 @@ public partial class PropertiesContainer : VBoxContainer
     {
         Explorer.SelectionChanged += (Selected) => {
             ClearPanel();
-            foreach (var item in Selected)
-            {
-                AddObject(item);
-            }
+            AddItems(Selected);
         };
     }
 
@@ -33,56 +28,59 @@ public partial class PropertiesContainer : VBoxContainer
     private static readonly PackedScene ColorSelector = ResourceLoader.Load<PackedScene>("Editor/UI/Properties/Selectors/ColorPropertySelector.tscn");
     private static readonly PackedScene Vector3Selector = ResourceLoader.Load<PackedScene>("Editor/UI/Properties/Selectors/Vector3PropertySelector.tscn");
 
-    private void AddObject(object item)
+    private void AddItems(object[] items)
     {
-        foreach (PropertyInfo property in item.GetType().GetProperties())
+        foreach (object item in items)
         {
-            if (Attribute.IsDefined(property, typeof(EditorAccessAttribute))) {
-                if (property.PropertyType == typeof(string))
-                {
-                    StringPropertySelector propertySelector = StringSelector.Instantiate<StringPropertySelector>();
-                    propertySelector.ObjectApplyingTo = item;
-                    propertySelector.ObjectPropertyName = property.Name;
-                    AddChild(propertySelector);
-                    PropertySelectors.Add(propertySelector);
-                } else if (property.PropertyType == typeof(double))
-                {
-                    DoublePropertySelector propertySelector = DoubleSelector.Instantiate<DoublePropertySelector>();
-                    propertySelector.ObjectApplyingTo = item;
-                    propertySelector.ObjectPropertyName = property.Name;
-                    AddChild(propertySelector);
-                    PropertySelectors.Add(propertySelector);
-                } else if (property.PropertyType == typeof(float))
-                {
-                    FloatPropertySelector propertySelector = FloatSelector.Instantiate<FloatPropertySelector>();
-                    propertySelector.ObjectApplyingTo = item;
-                    propertySelector.ObjectPropertyName = property.Name;
-                    AddChild(propertySelector);
-                    PropertySelectors.Add(propertySelector);
-                } else if (property.PropertyType == typeof(int))
-                {
-                    IntPropertySelector propertySelector = IntSelector.Instantiate<IntPropertySelector>();
-                    propertySelector.ObjectApplyingTo = item;
-                    propertySelector.ObjectPropertyName = property.Name;
-                    AddChild(propertySelector);
-                    PropertySelectors.Add(propertySelector);
-                } else if (property.PropertyType == typeof(Color))
-                {
-                    ColorPropertySelector propertySelector = ColorSelector.Instantiate<ColorPropertySelector>();
-                    propertySelector.ObjectApplyingTo = item;
-                    propertySelector.ObjectPropertyName = property.Name;
-                    AddChild(propertySelector);
-                    PropertySelectors.Add(propertySelector);
-                } else if (property.PropertyType == typeof(Vector3))
-                {
-                    Vector3PropertySelector propertySelector = Vector3Selector.Instantiate<Vector3PropertySelector>();
-                    propertySelector.ObjectApplyingTo = item;
-                    propertySelector.ObjectPropertyName = property.Name;
-                    AddChild(propertySelector);
-                    PropertySelectors.Add(propertySelector);
-                } else
-                {
-                    LOGGER.LOG(LogType.WARNING, $"Property of type {property.PropertyType} and name {property.Name} in {item.GetType()} is not supported by the properties panel. Please report this.", "PropertyUILoading", true);
+            foreach (PropertyInfo property in item.GetType().GetProperties())
+            {
+                if (Attribute.IsDefined(property, typeof(EditorAccessAttribute)) && GetPropertySelector(property.Name) == null) {
+                    if (property.PropertyType == typeof(string))
+                    {
+                        StringPropertySelector propertySelector = StringSelector.Instantiate<StringPropertySelector>();
+                        propertySelector.ObjectsApplyingTo = items;
+                        propertySelector.ObjectPropertyName = property.Name;
+                        AddChild(propertySelector);
+                        PropertySelectors.Add(propertySelector);
+                    } else if (property.PropertyType == typeof(double))
+                    {
+                        DoublePropertySelector propertySelector = DoubleSelector.Instantiate<DoublePropertySelector>();
+                        propertySelector.ObjectsApplyingTo = items;
+                        propertySelector.ObjectPropertyName = property.Name;
+                        AddChild(propertySelector);
+                        PropertySelectors.Add(propertySelector);
+                    } else if (property.PropertyType == typeof(float))
+                    {
+                        FloatPropertySelector propertySelector = FloatSelector.Instantiate<FloatPropertySelector>();
+                        propertySelector.ObjectsApplyingTo = items;
+                        propertySelector.ObjectPropertyName = property.Name;
+                        AddChild(propertySelector);
+                        PropertySelectors.Add(propertySelector);
+                    } else if (property.PropertyType == typeof(int))
+                    {
+                        IntPropertySelector propertySelector = IntSelector.Instantiate<IntPropertySelector>();
+                        propertySelector.ObjectsApplyingTo = items;
+                        propertySelector.ObjectPropertyName = property.Name;
+                        AddChild(propertySelector);
+                        PropertySelectors.Add(propertySelector);
+                    } else if (property.PropertyType == typeof(Color))
+                    {
+                        ColorPropertySelector propertySelector = ColorSelector.Instantiate<ColorPropertySelector>();
+                        propertySelector.ObjectsApplyingTo = items;
+                        propertySelector.ObjectPropertyName = property.Name;
+                        AddChild(propertySelector);
+                        PropertySelectors.Add(propertySelector);
+                    } else if (property.PropertyType == typeof(Vector3))
+                    {
+                        Vector3PropertySelector propertySelector = Vector3Selector.Instantiate<Vector3PropertySelector>();
+                        propertySelector.ObjectsApplyingTo = items;
+                        propertySelector.ObjectPropertyName = property.Name;
+                        AddChild(propertySelector);
+                        PropertySelectors.Add(propertySelector);
+                    } else
+                    {
+                        LOGGER.LOG(LogType.WARNING, $"Property of type {property.PropertyType} and name {property.Name} in {item.GetType()} is not supported by the properties panel. Please report this.", "PropertyUILoading", true);
+                    }
                 }
             }
         }
@@ -98,10 +96,8 @@ public partial class PropertiesContainer : VBoxContainer
         }
     }
 
-    public static void RefreshPropertySelector(string PropertyName)
-    {
-        PropertySelectors.Find(i => i.ObjectPropertyName == PropertyName)?.RefreshVisual();
-    }
+    public static void RefreshPropertySelector(string PropertyName) => GetPropertySelector(PropertyName)?.RefreshVisual();
+    public static IPropertySelector GetPropertySelector(string PropertyName) => PropertySelectors.Find(i => i.ObjectPropertyName == PropertyName);
 
     public static void RefreshTransformationPropertySelectors()
     {

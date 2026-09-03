@@ -10,7 +10,7 @@ namespace FaF.Editor.UI.Properties.Selectors;
 
 public interface IPropertySelector
 {
-    object? ObjectApplyingTo {get; set;}
+    object[] ObjectsApplyingTo {get; set;}
     string ObjectPropertyName {get; set;}
 
     void RefreshVisual();
@@ -22,29 +22,34 @@ public abstract partial class PropertySelector<T> : HBoxContainer, IPropertySele
 
     [Export] public required Label KeyLabel;
 
-    public object? ObjectApplyingTo {get; set;}
+    public object[] ObjectsApplyingTo {get; set;} = [];
     public string ObjectPropertyName {get; set;} = "unset";
 
     protected PropertyInfo? propertyInfo;
 
     protected void SetObjectValue(T value)
     {
-        if (IsInputValid()) propertyInfo?.SetValue(ObjectApplyingTo, value); LOGGER.LOG(LogType.DEBUG, $"Set {ObjectApplyingTo}.{ObjectPropertyName} to {value}", "UserPropertySetting");
+        foreach (var ObjectApplyingTo in ObjectsApplyingTo)
+        {
+            if (IsInputValid() && ObjectApplyingTo.GetType().GetProperty(ObjectPropertyName) != null) propertyInfo?.SetValue(ObjectApplyingTo, value); LOGGER.LOG(LogType.DEBUG, $"Set {ObjectApplyingTo}.{ObjectPropertyName} to {value}", "UserPropertySetting");
+        }
     }
 
     protected void OnInputValueChanged()
     {
         if (IsInputValid()) SetObjectValue(GetInputValue());
-        else
-        {
-            var value = propertyInfo?.GetValue(ObjectApplyingTo);
-            if (value != null) SetVisualTo((T)value);
-        }
+        else RefreshVisual();
     }
 
     public override void _Ready()
     {
-        propertyInfo = ObjectApplyingTo?.GetType().GetProperty(ObjectPropertyName);
+        // propertyInfo = ObjectApplyingTo?.GetType().GetProperty(ObjectPropertyName);
+
+        foreach (var item in ObjectsApplyingTo)
+        {
+            propertyInfo = item.GetType().GetProperty(ObjectPropertyName);
+            if (propertyInfo != null) break;
+        }
 
         KeyLabel.Text = ObjectPropertyName;
         if (propertyInfo != null) {
@@ -57,11 +62,18 @@ public abstract partial class PropertySelector<T> : HBoxContainer, IPropertySele
 
     public void RefreshVisual()
     {
-        var value = propertyInfo?.GetValue(ObjectApplyingTo);
-        if (value != null) SetVisualTo((T)value);
+        if (ObjectsApplyingTo.Length == 1) {
+            var value = propertyInfo?.GetValue(ObjectsApplyingTo[0]);
+            if (value != null) SetVisualTo((T)value);
+        } else SetVisualToDifferent();
     }
 
     protected abstract T GetInputValue();
     protected abstract void SetVisualTo(T value);
     protected abstract bool IsInputValid();
+
+    /// <summary>
+    /// called when there are multiple objects opened in the properties
+    /// </summary>
+    protected abstract void SetVisualToDifferent();
 }

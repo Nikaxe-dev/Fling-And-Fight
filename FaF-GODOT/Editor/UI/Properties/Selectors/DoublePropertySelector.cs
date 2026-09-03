@@ -15,4 +15,6 @@ public partial class DoublePropertySelector : PropertySelector<double>
         base._Ready();
         Value.ValueChanged += (value) => OnInputValueChanged();
     }
+
+    protected override void SetVisualToDifferent() => Value.Value = 0;
 }

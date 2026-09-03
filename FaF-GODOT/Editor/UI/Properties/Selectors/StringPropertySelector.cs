@@ -15,4 +15,6 @@ public partial class StringPropertySelector : PropertySelector<string>
         base._Ready();
         Value.TextSubmitted += (newValue) => OnInputValueChanged();
     }
+
+    protected override void SetVisualToDifferent() => Value.Text = "";
 }

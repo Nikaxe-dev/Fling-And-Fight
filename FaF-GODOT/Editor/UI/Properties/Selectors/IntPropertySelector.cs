@@ -15,4 +15,6 @@ public partial class IntPropertySelector : PropertySelector<int>
         base._Ready();
         Value.ValueChanged += (value) => OnInputValueChanged();
     }
+
+    protected override void SetVisualToDifferent() => Value.Value = 0;
 }
