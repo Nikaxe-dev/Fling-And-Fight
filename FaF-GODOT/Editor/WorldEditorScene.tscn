@@ -3,9 +3,9 @@
 [ext_resource type="Script" uid="uid://r2hmqlkinja6" path="res://Editor/EditorRoot.cs" id="1_4oup0"]
 [ext_resource type="Script" uid="uid://dmn0adgm6evbt" path="res://Editor/UI/Explorer.cs" id="2_4oup0"]
 [ext_resource type="Theme" uid="uid://c1d6jy32p2jyv" path="res://Editor/EditorTheme.tres" id="2_220lh"]
+[ext_resource type="Script" uid="uid://dgrln5nd6lhto" path="res://Editor/UI/Properties/Properties.cs" id="3_fnb7j"]
 [ext_resource type="Script" uid="uid://dmsk6ed4hrrs7" path="res://Editor/UI/ViewportTexture.cs" id="3_hy100"]
-[ext_resource type="Script" uid="uid://b00518si23u68" path="res://Editor/EditorViewport.cs" id="5_hy100"]
-[ext_resource type="PackedScene" uid="uid://bdbnm7xemd7dc" path="res://Editor/WorldMapScene.tscn" id="6_fnb7j"]
+[ext_resource type="Script" uid="uid://dkntj4x5gci5k" path="res://Visuals/Camera/FreeCamera.cs" id="6_hy100"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ugwn3"]
 bg_color = Color(0.044717066, 0.026053125, 0.0877695, 1)
@@ -15,6 +15,9 @@ bg_color = Color(0.060288675, 0.059858933, 0.10106715, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_220lh"]
 bg_color = Color(0.036559667, 0.04372295, 0.054320283, 1)
+
+[sub_resource type="Theme" id="Theme_q63yo"]
+default_font_size = 12
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hy100"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
@@ -34,8 +37,10 @@ colors = PackedColorArray(0.2, 0.2, 0.2, 0.5254902, 0.20152658, 0.20152658, 0.20
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_fgd06"]
 gradient = SubResource("Gradient_ftvu3")
 
-[node name="Editor" type="Node" unique_id=532999971 node_paths=PackedStringArray("GlobalStatusLabel", "ProgramInfoLabel", "CurrentWorldLabel")]
+[node name="Editor" type="Node" unique_id=532999971 node_paths=PackedStringArray("VIEWPORT", "EDITOR_CAMERA", "GlobalStatusLabel", "ProgramInfoLabel", "CurrentWorldLabel")]
 script = ExtResource("1_4oup0")
+VIEWPORT = NodePath("WorldViewport")
+EDITOR_CAMERA = NodePath("WorldViewport/EditorCamera")
 GlobalStatusLabel = NodePath("EditorUI/Main/BottomBar/Container/Status")
 ProgramInfoLabel = NodePath("EditorUI/Main/BottomBar/Container/ProgramInfo")
 CurrentWorldLabel = NodePath("EditorUI/Main/BottomBar/Container/CurrentWorld")
@@ -108,12 +113,17 @@ size_flags_horizontal = 4
 size_flags_vertical = 0
 text = "Properties"
 
-[node name="PropertyTree" type="Tree" parent="EditorUI/Main/Panels/Left/Properties/Menu" unique_id=1861348286]
+[node name="ScrollContainer" type="ScrollContainer" parent="EditorUI/Main/Panels/Left/Properties/Menu" unique_id=1058292335]
 layout_mode = 2
 size_flags_vertical = 3
-allow_search = false
-select_mode = 2
-auto_tooltip = false
+
+[node name="PropertiesList" type="VBoxContainer" parent="EditorUI/Main/Panels/Left/Properties/Menu/ScrollContainer" unique_id=79661937]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = SubResource("Theme_q63yo")
+theme_override_constants/separation = 10
+script = ExtResource("3_fnb7j")
 
 [node name="FileExplorer" type="PanelContainer" parent="EditorUI/Main/Panels/Left" unique_id=191575306]
 layout_mode = 2
@@ -121,12 +131,11 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_220lh")
 
 [node name="Tabs" type="TabContainer" parent="EditorUI/Main/Panels/Left/FileExplorer" unique_id=1814585470]
 layout_mode = 2
-current_tab = 1
+current_tab = 0
 tab_1/title = "res://"
 tab_2/title = "user://"
 
 [node name="World" type="VBoxContainer" parent="EditorUI/Main/Panels/Left/FileExplorer/Tabs" unique_id=1458589206]
-visible = false
 layout_mode = 2
 metadata/_tab_index = 0
 
@@ -138,6 +147,7 @@ select_mode = 2
 auto_tooltip = false
 
 [node name="Project" type="VBoxContainer" parent="EditorUI/Main/Panels/Left/FileExplorer/Tabs" unique_id=1629236230]
+visible = false
 layout_mode = 2
 metadata/_tab_index = 1
 metadata/_tab_name = "res://"
@@ -250,5 +260,7 @@ texture = SubResource("GradientTexture1D_fgd06")
 [node name="WorldViewport" type="SubViewport" parent="." unique_id=754344060]
 handle_input_locally = false
 size = Vector2i(3840, 2160)
-script = ExtResource("5_hy100")
-RepresentationScene = ExtResource("6_fnb7j")
+
+[node name="EditorCamera" type="Camera3D" parent="WorldViewport" unique_id=177025700]
+script = ExtResource("6_hy100")
+metadata/_custom_type_script = "uid://dkntj4x5gci5k"

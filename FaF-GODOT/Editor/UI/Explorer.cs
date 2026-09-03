@@ -12,7 +12,14 @@ namespace FaF.Editor.UI;
 
 public partial class Explorer : Tree
 {
-    private static readonly FaFLogger LOGGER = FaFLogger.Get("Editor/UI/Explorer");
+    private static readonly FaFLogger LOGGER = FaFLogger.Get("Editor/UI/Panels/Explorer");
+
+    public static Explorer Instance {get; private set;}
+
+    public static readonly List<Instance> SelectedInstances = [];
+
+    public delegate void SelectionChangedEventHandler(Instance[] Selected);
+    public static event SelectionChangedEventHandler SelectionChanged;
 
     private readonly Dictionary<Instance, TreeItem> TreeMappings = [];
     private readonly Dictionary<TreeItem, Instance> InstanceMappings = [];
@@ -76,12 +83,25 @@ public partial class Explorer : Tree
 
     public override void _Ready()
     {
+        Instance = this;
+
         EditorRoot.Instance.WorldLoaded += (WorldID) => {
             LoadExplorer();
         };
 
         // renaming
         ItemEdited += () => GetTreeItemInstance(GetEdited()).Name = GetEdited().GetText(0);
+
+        MultiSelected += (item, column, selected) =>
+        {
+            Instance instance = GetTreeItemInstance(item);
+            if (instance == null) return;
+
+            if (selected && !SelectedInstances.Contains(instance)) SelectedInstances.Add(instance);
+            else if (!selected) SelectedInstances.Remove(instance);
+            
+            SelectionChanged?.Invoke([.. SelectedInstances]);
+        };
     }
 
     public override void _UnhandledInput(InputEvent @event)

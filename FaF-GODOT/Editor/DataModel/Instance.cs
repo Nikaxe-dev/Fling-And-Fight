@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using FaF.Debug;
 using FaF.Editor.Attributes;
 using FaF.Game;
 using Godot;
@@ -14,9 +16,12 @@ namespace FaF.Editor.DataModel;
 
 public abstract class Instance
 {
+    protected static readonly FaFLogger LOGGER = FaFLogger.Get("Editor/DataModel");
+
     private Instance? _parent;
 
-    [EditorAccess("Parent")]
+    // TODO: INSTANCE TYPE NOT SUPPORTED YET
+    // [EditorAccess("Parent")]
     public Instance? Parent
     {
         get => _parent;
@@ -26,6 +31,26 @@ public abstract class Instance
             Parent?.RemoveChild(this);
             value?.AddChild(this);
         }
+    }
+
+    public string FullName
+    {
+        get
+        {
+            StringBuilder result = new();
+            Instance? c = this;
+            while (c != null)
+            {
+                result.Insert(0, $"{(c.Parent != null ? "." : "")}{c.Name}");
+                c = c.Parent;
+            }
+            return result.ToString();
+        }
+    }
+
+    public override string ToString()
+    {
+        return $"{FullName}";
     }
 
     public event MovedEventHandler? Moved;
@@ -50,12 +75,12 @@ public abstract class Instance
     [EditorAccess("Name", true), Save]
     public string Name {get; set;}
 
-    public Instance()
+    public Instance(bool doAutomaticNodeHandling = true, bool addToSceneTree = true)
     {
         ClassName = GetType().Name;
         Name = ClassName;
 
-        if (GameManager.IS_IN_EDITOR) CreateNode();
+        if (doAutomaticNodeHandling) CreateNode(addToSceneTree);
     }
 
     public void SetProperty(string PropertyName, object Value)
@@ -75,8 +100,8 @@ public abstract class Instance
         Children.Add(child);
         child._parent = this;
 
-        if (child.Parent?.ClassName != "Environment") child.NodeRepresentation?.GetParentOrNull<Node>()?.RemoveChild(child.NodeRepresentation);
-        if (child.NodeRepresentation != null) NodeRepresentation?.AddChild(child.NodeRepresentation);
+        if (child.NodeRepresentation != null) child.NodeRepresentation.Name = child.Name; NodeRepresentation?.AddChild(child.NodeRepresentation, true);
+            LOGGER.LOG(LogType.DEBUG, $"Instance {child.FullName}.NodeRepresentation (path may be incomplete) ({child.ClassName}) added to or moved around in scenetree.", "NodeHandling");
     }
 
     public void RemoveChild(Instance child)
@@ -132,6 +157,7 @@ public abstract class Instance
     public Node? CreateNode(bool addToTree = true)
     {
         NodeRepresentation = InternalCreateNode(addToTree);
+        LOGGER.LOG(LogType.DEBUG, $"Created node for {FullName} ({ClassName}) (incomplete path, node is not set up)", "NodeHandling");
 
         if (addToTree && NodeRepresentation != null && Parent != null) NodeRepresentation.GetParent().RemoveChild(NodeRepresentation); Parent?.NodeRepresentation?.AddChild(NodeRepresentation);
 

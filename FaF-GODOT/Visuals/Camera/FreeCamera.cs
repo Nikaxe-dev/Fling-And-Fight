@@ -53,6 +53,6 @@ public partial class FreeCamera : Camera3D
 
     public override void _Process(double delta)
     {
-        if (UserCanMove) ProcessMovement(delta);
+        if (UserCanMove && Input.IsMouseButtonPressed(MouseButton.Right)) ProcessMovement(delta);
     }
 }

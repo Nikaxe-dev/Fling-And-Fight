@@ -7,6 +7,7 @@ using FaF.Data.RegistryObjects;
 using FaF.Debug;
 using FaF.Editor.DataModel;
 using FaF.Game;
+using FaF.Visuals.Camera;
 using Godot;
 
 namespace FaF.Editor;
@@ -20,13 +21,17 @@ public partial class EditorRoot : Node
 
     public static bool IS_EDITOR = false;
 
-    public static Node WORLD_REPRESENTATION {get => EditorViewport.WorldRepresentation;}
+    public static readonly PackedScene WORLD_REPRESENTATION_SCENE = ResourceLoader.Load<PackedScene>("res://Editor/WorldMapScene.tscn");
 
-    public static Node3D ENVIRONMENT_REPRESENTATION {get => EditorViewport.EnvironmentRepresentation;}
-    public static WorldEnvironment LIGHTING_REPRESENTATION {get => EditorViewport.LightingRepresentation;}
+    [Export] public SubViewport VIEWPORT;
+    [Export] public FreeCamera EDITOR_CAMERA;
+
+    public static Node WORLD_REPRESENTATION {get; private set;}
+
+    public static WorldEnvironment LIGHTING_REPRESENTATION {get; private set;}
     
-    public static DirectionalLight3D SUN_REPRESENTATION {get => EditorViewport.SunRepresentation;}
-    public static MeshInstance3D SUN_SKYBOX_DECAL_REPRESENTATION {get => EditorViewport.SunSkyboxDecalRepresentation;}
+    public static DirectionalLight3D SUN_REPRESENTATION {get; private set;}
+    public static MeshInstance3D SUN_SKYBOX_DECAL_REPRESENTATION {get; private set;}
 
     public string CurrentWorkspaceWorldID {private set; get;}
     public string CurrentWorkspaceDirectory {private set; get;}
@@ -101,6 +106,9 @@ public partial class EditorRoot : Node
             }
         }
 
+        // load camera transform
+        if (document.RootElement.TryGetProperty("CameraTransform", out JsonElement storedCameraTransform)) EDITOR_CAMERA.GlobalTransform = EditorJSON.FromJson<Transform3D>(storedCameraTransform);
+
         // dispose file to avoid memory leaks
         file.Close();
         file.Dispose();
@@ -136,6 +144,9 @@ public partial class EditorRoot : Node
         }
 
         ROOT.Add("Instances", instances);
+
+        // save camera transform
+        ROOT.Add("CameraTransform", EditorJSON.ToJson(EDITOR_CAMERA.GlobalTransform));
 
         var file = FileAccess.Open(CurrentWorkspaceMapFileDirectory, FileAccess.ModeFlags.Write);
         file.StoreString(ROOT.ToJsonString());
@@ -174,6 +185,14 @@ public partial class EditorRoot : Node
     public override void _Ready()
     {
         IS_EDITOR = true;
+
+        WORLD_REPRESENTATION = WORLD_REPRESENTATION_SCENE.Instantiate<Node3D>();
+
+        LIGHTING_REPRESENTATION = WORLD_REPRESENTATION.GetNode<WorldEnvironment>("Lighting");
+        SUN_REPRESENTATION = LIGHTING_REPRESENTATION.GetNode<DirectionalLight3D>("CameraPivot/DirectionalLight");
+        SUN_SKYBOX_DECAL_REPRESENTATION = SUN_REPRESENTATION.GetNode<MeshInstance3D>("Sun");
+
+        VIEWPORT.AddChild(WORLD_REPRESENTATION);
 
         CurrentWorldLabel.Text = "World - None";
         SetGlobalStatusMessage("Loading the editor...");

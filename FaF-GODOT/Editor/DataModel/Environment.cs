@@ -1,6 +1,8 @@
+using FaF.Editor.DataModel.Physical;
+
 namespace FaF.Editor.DataModel;
 
-public sealed class Environment : Instance
+public sealed class Environment : PointInstance
 {
     
 }

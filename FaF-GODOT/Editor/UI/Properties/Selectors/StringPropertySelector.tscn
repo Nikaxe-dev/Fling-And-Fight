@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://5psyiqu5fqy8"]
+
+[ext_resource type="Script" uid="uid://ch4a77035brw1" path="res://Editor/UI/Properties/Selectors/StringPropertySelector.cs" id="1_kihtt"]
+[ext_resource type="Script" uid="uid://cccv873ftfair" path="res://Editor/UI/SubmitRemoveFocus.cs" id="2_l3ak7"]
+
+[node name="StringProperty" type="HBoxContainer" unique_id=1398126727 node_paths=PackedStringArray("Value", "KeyLabel")]
+script = ExtResource("1_kihtt")
+Value = NodePath("Value")
+KeyLabel = NodePath("Key")
+
+[node name="Key" type="Label" parent="." unique_id=282090939]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Name"
+
+[node name="Value" type="LineEdit" parent="." unique_id=1937292048]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Baseplate"
+placeholder_text = "string..."
+script = ExtResource("2_l3ak7")

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.Serialization;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using FaF.Debug;
@@ -45,7 +46,7 @@ public static class EditorJSON
         
         foreach (PropertyInfo property in instance.GetType().GetProperties())
         {
-            if (Attribute.IsDefined(property, typeof(SaveAttribute)) && property?.GetValue(instance) != property?.GetValue((Instance)Activator.CreateInstance(InstanceClassMappings[instance.ClassName])))
+            if (Attribute.IsDefined(property, typeof(SaveAttribute)) && property?.GetValue(instance) != property?.GetValue(FormatterServices.GetUninitializedObject(instance.GetType())))
             {
                 SaveAttribute saveAttribute = (SaveAttribute)Attribute.GetCustomAttribute(property, typeof(SaveAttribute));
                 Properties.Add(saveAttribute?.KeyName ?? property.Name, ToJson(property.GetValue(instance)));
