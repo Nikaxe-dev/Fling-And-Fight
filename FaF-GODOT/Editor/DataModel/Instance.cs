@@ -100,7 +100,7 @@ public abstract class Instance
         Children.Add(child);
         child._parent = this;
 
-        if (child.NodeRepresentation != null) child.NodeRepresentation.Name = child.Name; NodeRepresentation?.AddChild(child.NodeRepresentation, true);
+        if (child.NodeRepresentation != null) { child.NodeRepresentation.Name = child.Name; NodeRepresentation?.AddChild(child.NodeRepresentation, true); }
             LOGGER.LOG(LogType.DEBUG, $"Instance {child.FullName}.NodeRepresentation (path may be incomplete) ({child.ClassName}) added to or moved around in scenetree.", "NodeHandling");
     }
 
