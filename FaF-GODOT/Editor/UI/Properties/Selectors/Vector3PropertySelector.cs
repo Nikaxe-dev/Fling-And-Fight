@@ -37,4 +37,11 @@ public partial class Vector3PropertySelector : PropertySelector<Vector3>
         YLabel.Text = "";
         ZLabel.Text = "";
     }
+
+    protected override void MakeReadonly()
+    {
+        XLabel.Editable = false;
+        YLabel.Editable = false;
+        ZLabel.Editable = false;
+    }
 }

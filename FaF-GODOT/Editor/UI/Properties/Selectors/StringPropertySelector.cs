@@ -17,4 +17,9 @@ public partial class StringPropertySelector : PropertySelector<string>
     }
 
     protected override void SetVisualToDifferent() => Value.Text = "";
+
+    protected override void MakeReadonly()
+    {
+        Value.Editable = false;
+    }
 }

@@ -69,10 +69,10 @@ public abstract class Instance
         }
     }
 
-    [EditorAccess("ClassName")]
+    [EditorAccess("ClassName", true)]
     public string ClassName {get; private set;}
 
-    [EditorAccess("Name", true), Save]
+    [EditorAccess("Name"), Save]
     public string Name {get; set;}
 
     public Instance(bool doAutomaticNodeHandling = true, bool addToSceneTree = true)

@@ -17,4 +17,9 @@ public partial class IntPropertySelector : PropertySelector<int>
     }
 
     protected override void SetVisualToDifferent() => Value.Value = 0;
+
+    protected override void MakeReadonly()
+    {
+        Value.Editable = false;
+    }
 }

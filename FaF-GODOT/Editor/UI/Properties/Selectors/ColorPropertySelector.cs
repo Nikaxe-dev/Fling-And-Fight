@@ -17,4 +17,9 @@ public partial class ColorPropertySelector : PropertySelector<Color>
     }
 
     protected override void SetVisualToDifferent() => Value.Color = new Color(1,1,1);
+
+    protected override void MakeReadonly()
+    {
+        Value.Disabled = true;
+    }
 }

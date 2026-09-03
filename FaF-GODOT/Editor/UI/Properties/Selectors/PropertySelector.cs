@@ -26,6 +26,7 @@ public abstract partial class PropertySelector<T> : HBoxContainer, IPropertySele
     public string ObjectPropertyName {get; set;} = "unset";
 
     protected PropertyInfo? propertyInfo;
+    protected EditorAccessAttribute? AccessAttribute;
 
     protected void SetObjectValue(T value)
     {
@@ -53,8 +54,10 @@ public abstract partial class PropertySelector<T> : HBoxContainer, IPropertySele
 
         KeyLabel.Text = ObjectPropertyName;
         if (propertyInfo != null) {
-            EditorAccessAttribute? accessAttribute = (EditorAccessAttribute?)Attribute.GetCustomAttribute(propertyInfo, typeof(EditorAccessAttribute));
-            KeyLabel.Text = accessAttribute?.DisplayName ?? ObjectPropertyName;
+            AccessAttribute = (EditorAccessAttribute?)Attribute.GetCustomAttribute(propertyInfo, typeof(EditorAccessAttribute));
+            KeyLabel.Text = AccessAttribute?.DisplayName ?? ObjectPropertyName;
+
+            if (AccessAttribute != null && AccessAttribute.ReadOnly) MakeReadonly();
         }
 
         RefreshVisual();
@@ -71,6 +74,7 @@ public abstract partial class PropertySelector<T> : HBoxContainer, IPropertySele
     protected abstract T GetInputValue();
     protected abstract void SetVisualTo(T value);
     protected abstract bool IsInputValid();
+    protected abstract void MakeReadonly();
 
     /// <summary>
     /// called when there are multiple objects opened in the properties
