@@ -1,11 +1,13 @@
 [gd_scene format=3 uid="uid://bkri4odm02asr"]
 
 [ext_resource type="Script" uid="uid://r2hmqlkinja6" path="res://Editor/EditorRoot.cs" id="1_4oup0"]
-[ext_resource type="Script" uid="uid://dmn0adgm6evbt" path="res://Editor/UI/Explorer.cs" id="2_4oup0"]
+[ext_resource type="Script" uid="uid://dmn0adgm6evbt" path="res://Editor/UI/Explorer/ExplorerTree.cs" id="2_4oup0"]
 [ext_resource type="Theme" uid="uid://c1d6jy32p2jyv" path="res://Editor/EditorTheme.tres" id="2_220lh"]
 [ext_resource type="Script" uid="uid://dgrln5nd6lhto" path="res://Editor/UI/Properties/PropertiesContainer.cs" id="3_fnb7j"]
 [ext_resource type="Script" uid="uid://dmsk6ed4hrrs7" path="res://Editor/UI/ViewportTexture.cs" id="3_hy100"]
 [ext_resource type="Script" uid="uid://dkntj4x5gci5k" path="res://Visuals/Camera/FreeCamera.cs" id="6_hy100"]
+[ext_resource type="Script" uid="uid://c6t4mrjs53wyd" path="res://Editor/NewInstancePanel.cs" id="6_qq4so"]
+[ext_resource type="Texture2D" uid="uid://cxiy0riqfxo0s" path="res://Editor/UI/Cancel.png" id="7_qq4so"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ugwn3"]
 bg_color = Color(0.044717066, 0.026053125, 0.0877695, 1)
@@ -36,6 +38,12 @@ colors = PackedColorArray(0.2, 0.2, 0.2, 0.5254902, 0.20152658, 0.20152658, 0.20
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_fgd06"]
 gradient = SubResource("Gradient_ftvu3")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r5vg0"]
+bg_color = Color(0.015844265, 1.8548388e-05, 0.06822775, 1)
+
+[sub_resource type="Theme" id="Theme_fgd06"]
+default_font_size = 10
 
 [node name="Editor" type="Node" unique_id=532999971 node_paths=PackedStringArray("VIEWPORT", "EDITOR_CAMERA", "GlobalStatusLabel", "ProgramInfoLabel", "CurrentWorldLabel")]
 script = ExtResource("1_4oup0")
@@ -256,6 +264,80 @@ text = "World: CurrentlyEditingWorld"
 custom_maximum_size = Vector2(2, -1)
 layout_mode = 2
 texture = SubResource("GradientTexture1D_fgd06")
+
+[node name="NewInstance" type="PanelContainer" parent="EditorUI" unique_id=1278270308 node_paths=PackedStringArray("ButtonsContainer", "CloseButton", "OpenReasonLabel")]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -106.5
+offset_top = -105.0
+offset_right = 106.5
+offset_bottom = 105.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_r5vg0")
+script = ExtResource("6_qq4so")
+ButtonsContainer = NodePath("Layout/Contents/ScrollContainer/Selection")
+CloseButton = NodePath("Layout/Contents/Close")
+OpenReasonLabel = NodePath("Layout/Contents/OpenReason")
+
+[node name="Layout" type="HBoxContainer" parent="EditorUI/NewInstance" unique_id=2143580115]
+layout_mode = 2
+
+[node name="PaddingLeft" type="Control" parent="EditorUI/NewInstance/Layout" unique_id=1240602830]
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+
+[node name="Contents" type="VBoxContainer" parent="EditorUI/NewInstance/Layout" unique_id=1999744937]
+layout_mode = 2
+
+[node name="PaddingTop" type="Control" parent="EditorUI/NewInstance/Layout/Contents" unique_id=516294022]
+layout_mode = 2
+
+[node name="WindowTitle" type="Label" parent="EditorUI/NewInstance/Layout/Contents" unique_id=1553935992]
+layout_mode = 2
+theme_override_font_sizes/font_size = 25
+text = "Create New Instance"
+horizontal_alignment = 1
+
+[node name="OpenReason" type="Label" parent="EditorUI/NewInstance/Layout/Contents" unique_id=833972144]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 0.5137255)
+theme_override_font_sizes/font_size = 10
+text = "Add child to World.Environment"
+horizontal_alignment = 1
+
+[node name="SearchBar" type="LineEdit" parent="EditorUI/NewInstance/Layout/Contents" unique_id=1254492725]
+layout_mode = 2
+placeholder_text = "search..."
+
+[node name="ScrollContainer" type="ScrollContainer" parent="EditorUI/NewInstance/Layout/Contents" unique_id=977033661]
+custom_minimum_size = Vector2(0, 200)
+layout_mode = 2
+
+[node name="Selection" type="VBoxContainer" parent="EditorUI/NewInstance/Layout/Contents/ScrollContainer" unique_id=347614054]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = SubResource("Theme_fgd06")
+
+[node name="Close" type="Button" parent="EditorUI/NewInstance/Layout/Contents" unique_id=764209819]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "Cancel"
+icon = ExtResource("7_qq4so")
+expand_icon = true
+
+[node name="PaddingBottom" type="Control" parent="EditorUI/NewInstance/Layout/Contents" unique_id=31429967]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+
+[node name="PaddingRight" type="Control" parent="EditorUI/NewInstance/Layout" unique_id=828551666]
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
 
 [node name="WorldViewport" type="SubViewport" parent="." unique_id=754344060]
 handle_input_locally = false

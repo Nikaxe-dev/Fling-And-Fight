@@ -32,7 +32,16 @@ public abstract partial class PropertySelector<T> : HBoxContainer, IPropertySele
     {
         foreach (var ObjectApplyingTo in ObjectsApplyingTo)
         {
-            if (IsInputValid() && ObjectApplyingTo.GetType().GetProperty(ObjectPropertyName) != null) propertyInfo?.SetValue(ObjectApplyingTo, value); LOGGER.LOG(LogType.DEBUG, $"Set {ObjectApplyingTo}.{ObjectPropertyName} to {value}", "UserPropertySetting");
+            if (IsInputValid() && ObjectApplyingTo.GetType().GetProperty(ObjectPropertyName) != null)
+            {
+                propertyInfo?.SetValue(ObjectApplyingTo, value);
+                LOGGER.LOG(LogType.DEBUG, $"Set {ObjectApplyingTo}.{ObjectPropertyName} to {value}", "UserPropertySetting");
+
+                if (ObjectPropertyName == "Name")
+                {
+                    ExplorerTree.Instance.RefreshTitles();
+                }
+            }
         }
     }
 

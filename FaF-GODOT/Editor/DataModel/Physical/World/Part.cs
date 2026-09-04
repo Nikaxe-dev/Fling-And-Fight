@@ -5,6 +5,7 @@ namespace FaF.Editor.DataModel.Physical.World;
 
 # nullable enable
 
+[CreationAccess]
 public class Part : PointInstance
 {
     private Vector3 _size {get; set;} = Vector3.One;

@@ -1,21 +1,17 @@
 using FaF.Debug;
-using FaF.Editor;
 using FaF.Editor.DataModel;
 using FaF.Editor.UI.Properties;
-using FaF.UserInput;
 using Godot;
-using Microsoft.VisualBasic;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace FaF.Editor.UI;
 
-public partial class Explorer : Tree
+public partial class ExplorerTree : Tree
 {
     private static readonly FaFLogger LOGGER = FaFLogger.Get("Editor/UI/Panels/Explorer");
 
-    public static Explorer Instance {get; private set;}
+    public static ExplorerTree Instance {get; private set;}
 
     public static readonly List<Instance> SelectedInstances = [];
 
@@ -49,6 +45,8 @@ public partial class Explorer : Tree
 
         item.SetEditable(0, true);
 
+        item.AddButton(0, ResourceLoader.Load<Texture2D>("Editor/UI/Explorer/AddChild.png"), 0, tooltipText: "Add child");
+
         TreeMappings[instance] = item;
         InstanceMappings[item] = instance;
 
@@ -61,6 +59,8 @@ public partial class Explorer : Tree
         instance.Removed += () =>
         {
             item.Free();
+            SelectedInstances.Remove(instance);
+            SelectionChanged.Invoke([.. SelectedInstances]);
         };
 
         foreach (Instance child in instance.Children)
@@ -82,6 +82,28 @@ public partial class Explorer : Tree
         GetInstanceTreeItem(EditorRoot.Instance.MapRoot).Collapsed = false;
     }
 
+    private void PromptAddChild(Instance instance)
+    {
+        void onAccept(Instance child)
+        {
+            child.Parent = instance;
+            AddInstance(child);
+
+            NewInstancePanel.UserAccepted -= onAccept;
+            NewInstancePanel.UserCanceled -= onCancel;
+        }
+
+        void onCancel() {
+            NewInstancePanel.UserCanceled -= onCancel;
+            NewInstancePanel.UserAccepted -= onAccept;
+        }
+
+        NewInstancePanel.Instance.PromptUser($"Add child to {instance.FullName}");
+
+        NewInstancePanel.UserAccepted += onAccept;
+        NewInstancePanel.UserCanceled += onCancel;
+    }
+
     public override void _Ready()
     {
         Instance = this;
@@ -94,6 +116,12 @@ public partial class Explorer : Tree
         ItemEdited += () =>
         {
             GetTreeItemInstance(GetEdited()).Name = GetEdited().GetText(0);
+            PropertiesContainer.RefreshPropertySelector("Name");
+        };
+
+        ButtonClicked += (item, column, id, mouse_button_index) =>
+        {
+            if (id == 0) PromptAddChild(GetTreeItemInstance(item));
         };
 
         MultiSelected += (item, column, selected) =>
@@ -108,6 +136,14 @@ public partial class Explorer : Tree
         };
     }
 
+    public void RefreshTitles()
+    {
+        foreach (var (key, value) in TreeMappings)
+        {
+            value.SetText(0, key.Name);
+        }
+    }
+
     public override void _UnhandledInput(InputEvent @event)
     {
         // TODO: Add confirmation popup to deletion
@@ -120,6 +156,12 @@ public partial class Explorer : Tree
                 next = GetNextSelected(next);
                 GetTreeItemInstance(current).Remove();
             }
+        }
+
+        if (@event.IsActionPressed("editor_add_child"))
+        {
+            TreeItem next = GetNextSelected(null);
+            if (next != null) PromptAddChild(GetTreeItemInstance(next));
         }
     }
 

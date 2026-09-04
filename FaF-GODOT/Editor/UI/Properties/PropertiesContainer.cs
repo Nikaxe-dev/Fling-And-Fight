@@ -15,7 +15,7 @@ public partial class PropertiesContainer : VBoxContainer
 
     public override void _Ready()
     {
-        Explorer.SelectionChanged += (Selected) => {
+        ExplorerTree.SelectionChanged += (Selected) => {
             ClearPanel();
             AddItems(Selected);
         };
