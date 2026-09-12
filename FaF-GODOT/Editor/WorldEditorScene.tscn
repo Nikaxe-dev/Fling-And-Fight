@@ -4,10 +4,19 @@
 [ext_resource type="Script" uid="uid://dmn0adgm6evbt" path="res://Editor/UI/Explorer/ExplorerTree.cs" id="2_4oup0"]
 [ext_resource type="Theme" uid="uid://c1d6jy32p2jyv" path="res://Editor/EditorTheme.tres" id="2_220lh"]
 [ext_resource type="Script" uid="uid://dgrln5nd6lhto" path="res://Editor/UI/Properties/PropertiesContainer.cs" id="3_fnb7j"]
-[ext_resource type="Script" uid="uid://dmsk6ed4hrrs7" path="res://Editor/UI/ViewportTexture.cs" id="3_hy100"]
+[ext_resource type="Texture2D" uid="uid://dua1adc4us2c7" path="res://Editor/UI/Tabs/SelectTool.png" id="3_jncc8"]
+[ext_resource type="Script" uid="uid://dmtpto2w58h7j" path="res://Editor/UI/Tools.cs" id="3_rvb73"]
+[ext_resource type="Texture2D" uid="uid://qujvv1gbnlih" path="res://Editor/UI/Tabs/MoveTool.png" id="4_rvb73"]
+[ext_resource type="Texture2D" uid="uid://b5ak8dkct3vdu" path="res://Editor/UI/Tabs/ScaleTool.png" id="5_gdvhx"]
 [ext_resource type="Script" uid="uid://dkntj4x5gci5k" path="res://Visuals/Camera/FreeCamera.cs" id="6_hy100"]
 [ext_resource type="Script" uid="uid://c6t4mrjs53wyd" path="res://Editor/NewInstancePanel.cs" id="6_qq4so"]
+[ext_resource type="Texture2D" uid="uid://c0l7vfn25unli" path="res://Editor/UI/Tabs/RotateTool.png" id="6_yad1y"]
 [ext_resource type="Texture2D" uid="uid://cxiy0riqfxo0s" path="res://Editor/UI/Cancel.png" id="7_qq4so"]
+[ext_resource type="Script" uid="uid://dpxavvoidkq8m" path="res://Editor/UI/MoveToolConfiguration.cs" id="8_3xtwc"]
+[ext_resource type="Script" uid="uid://wkf0i32d8d2m" path="res://Editor/Gizmos/OriginGizmo3D.cs" id="10_rvb73"]
+[ext_resource type="Script" uid="uid://1sfmlfsplkpk" path="res://Editor/Gizmos/TransformGizmo3D.cs" id="10_yad1y"]
+[ext_resource type="Script" uid="uid://cqmlnba48ggkb" path="res://Editor/Gizmos/SelectionBoxGizmo3D.cs" id="11_gdvhx"]
+[ext_resource type="Script" uid="uid://cdfsolcbhcxk5" path="res://Editor/Gizmos/SelectionGizmo3D.cs" id="14_r7c7r"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ugwn3"]
 bg_color = Color(0.044717066, 0.026053125, 0.0877695, 1)
@@ -15,11 +24,29 @@ bg_color = Color(0.044717066, 0.026053125, 0.0877695, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_f35nr"]
 bg_color = Color(0.060288675, 0.059858933, 0.10106715, 1)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qq4so"]
+bg_color = Color(0.026668452, 0.026662959, 0.055130534, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rvb73"]
+bg_color = Color(0, 0, 0, 1)
+border_width_top = 2
+border_color = Color(0.14509805, 0.4627451, 1, 0.35686275)
+
+[sub_resource type="Gradient" id="Gradient_yad1y"]
+colors = PackedColorArray(1, 1, 1, 0.1882353, 1, 1, 1, 0.21176471)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_r5vg0"]
+gradient = SubResource("Gradient_yad1y")
+width = 1
+
+[sub_resource type="Theme" id="Theme_r5vg0"]
+default_font_size = 20
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_220lh"]
 bg_color = Color(0.036559667, 0.04372295, 0.054320283, 1)
 
 [sub_resource type="Theme" id="Theme_q63yo"]
-default_font_size = 12
+default_font_size = 25
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hy100"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
@@ -27,10 +54,36 @@ bg_color = Color(0.6, 0.6, 0.6, 0)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fnb7j"]
 bg_color = Color(0.06879826, 0.06879829, 0.06879823, 1)
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_qq4so"]
-viewport_path = NodePath("WorldViewport")
+[sub_resource type="World3D" id="World3D_rvb73"]
+
+[sub_resource type="World3D" id="World3D_yad1y"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ti6d1"]
+shading_mode = 0
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_r5vg0"]
+size = Vector3(1, 0.025, 0.025)
+
+[sub_resource type="PrismMesh" id="PrismMesh_bo4on"]
+size = Vector3(0.1, 0.1, 0.1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_r5vg0"]
+size = Vector3(1, 0.15, 0.15)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ti6d1"]
+size = Vector3(0.2, 0.2, 0.2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yad1y"]
+shading_mode = 0
+albedo_color = Color(0, 1, 0, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gdvhx"]
+shading_mode = 0
+albedo_color = Color(0, 0, 1, 1)
 
 [sub_resource type="Theme" id="Theme_qhilp"]
+default_font_size = 30
 Label/colors/font_color = Color(0.51718444, 0.5171845, 0.51718444, 0.60784316)
 
 [sub_resource type="Gradient" id="Gradient_ftvu3"]
@@ -43,12 +96,14 @@ gradient = SubResource("Gradient_ftvu3")
 bg_color = Color(0.015844265, 1.8548388e-05, 0.06822775, 1)
 
 [sub_resource type="Theme" id="Theme_fgd06"]
-default_font_size = 10
+default_font_size = 20
 
-[node name="Editor" type="Node" unique_id=532999971 node_paths=PackedStringArray("VIEWPORT", "EDITOR_CAMERA", "GlobalStatusLabel", "ProgramInfoLabel", "CurrentWorldLabel")]
+[node name="Editor" type="Node" unique_id=532999971 node_paths=PackedStringArray("VIEWPORT", "EDITOR_CAMERA", "EDITOR_GIZMOS", "GIZMO_VIEWPORT", "GlobalStatusLabel", "ProgramInfoLabel", "CurrentWorldLabel")]
 script = ExtResource("1_4oup0")
-VIEWPORT = NodePath("WorldViewport")
-EDITOR_CAMERA = NodePath("WorldViewport/EditorCamera")
+VIEWPORT = NodePath("EditorUI/Main/Panels/Viewport/SubViewportContainer/WorldViewport")
+EDITOR_CAMERA = NodePath("EditorUI/Main/Panels/Viewport/SubViewportContainer/WorldViewport/EditorCamera")
+EDITOR_GIZMOS = NodePath("EditorUI/Main/Panels/Viewport/SubViewportContainer/WorldViewport/SubViewportContainer/GizmoViewport/Gizmos")
+GIZMO_VIEWPORT = NodePath("EditorUI/Main/Panels/Viewport/SubViewportContainer/WorldViewport/SubViewportContainer/GizmoViewport")
 GlobalStatusLabel = NodePath("EditorUI/Main/BottomBar/Container/Status")
 ProgramInfoLabel = NodePath("EditorUI/Main/BottomBar/Container/ProgramInfo")
 CurrentWorldLabel = NodePath("EditorUI/Main/BottomBar/Container/CurrentWorld")
@@ -62,7 +117,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("2_220lh")
 
-[node name="Main" type="Control" parent="EditorUI" unique_id=1657702416]
+[node name="Main" type="VBoxContainer" parent="EditorUI" unique_id=951676775]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -71,42 +126,313 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="TopBar" type="PanelContainer" parent="EditorUI/Main" unique_id=401443917]
-layout_mode = 1
-anchors_preset = -1
-anchor_right = 1.0
-offset_bottom = 32.0
-grow_horizontal = 2
+layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_ugwn3")
 
-[node name="Container" type="HBoxContainer" parent="EditorUI/Main/TopBar" unique_id=487557856]
+[node name="Left" type="HBoxContainer" parent="EditorUI/Main/TopBar" unique_id=487557856]
 layout_mode = 2
 
-[node name="TabButtons" type="PanelContainer" parent="EditorUI/Main" unique_id=583226193]
-layout_mode = 1
-anchors_preset = 10
-anchor_right = 1.0
-offset_top = 32.0
-offset_bottom = 116.0
-grow_horizontal = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_f35nr")
+[node name="Project" type="Button" parent="EditorUI/Main/TopBar/Left" unique_id=520104716]
+layout_mode = 2
+text = "Project"
 
-[node name="Panels" type="HSplitContainer" parent="EditorUI/Main" unique_id=126822192]
+[node name="Right" type="HBoxContainer" parent="EditorUI/Main/TopBar" unique_id=5568920]
+layout_mode = 2
+alignment = 2
+
+[node name="TabContainer" type="TabContainer" parent="EditorUI/Main" unique_id=1396361695]
+custom_minimum_size = Vector2(0, 170)
+layout_mode = 2
+theme_override_constants/side_margin = 0
+theme_override_constants/tab_separation = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_f35nr")
+theme_override_styles/tabbar_background = SubResource("StyleBoxFlat_qq4so")
+current_tab = 0
+
+[node name="Home" type="HBoxContainer" parent="EditorUI/Main/TabContainer" unique_id=156861585]
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="Tools" type="HBoxContainer" parent="EditorUI/Main/TabContainer/Home" unique_id=674049706 node_paths=PackedStringArray("SelectButton", "MoveButton", "ScaleButton", "RotateButton", "ViewportContainer", "SelectingSelectionBoxGizmo3D", "SelectedSelectionBoxGizmo3D", "ToolGizmo3D") groups=["GizmoDragger"]]
+layout_mode = 2
+script = ExtResource("3_rvb73")
+SelectButton = NodePath("Select")
+MoveButton = NodePath("Move")
+ScaleButton = NodePath("Scale")
+RotateButton = NodePath("Rotate")
+ViewportContainer = NodePath("../../../Panels/Viewport/SubViewportContainer")
+SelectingSelectionBoxGizmo3D = NodePath("../../../Panels/Viewport/SubViewportContainer/WorldViewport/SubViewportContainer/GizmoViewport/Gizmos/SelectingGizmo3D")
+SelectedSelectionBoxGizmo3D = NodePath("../../../Panels/Viewport/SubViewportContainer/WorldViewport/SubViewportContainer/GizmoViewport/Gizmos/SelectedGizmo3D")
+ToolGizmo3D = NodePath("../../../Panels/Viewport/SubViewportContainer/WorldViewport/SubViewportContainer/GizmoViewport/Gizmos/SelectionGizmo3D")
+
+[node name="Select" type="Button" parent="EditorUI/Main/TabContainer/Home/Tools" unique_id=791974067]
+custom_minimum_size = Vector2(75, 75)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_styles/normal = SubResource("StyleBoxFlat_rvb73")
+text = "Select"
+icon = ExtResource("3_jncc8")
+flat = true
+icon_alignment = 1
+vertical_icon_alignment = 0
+expand_icon = true
+
+[node name="Move" type="Button" parent="EditorUI/Main/TabContainer/Home/Tools" unique_id=1037326972]
+custom_minimum_size = Vector2(75, 75)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_styles/normal = SubResource("StyleBoxFlat_rvb73")
+text = "Move"
+icon = ExtResource("4_rvb73")
+flat = true
+icon_alignment = 1
+vertical_icon_alignment = 0
+expand_icon = true
+
+[node name="Scale" type="Button" parent="EditorUI/Main/TabContainer/Home/Tools" unique_id=403715070]
+custom_minimum_size = Vector2(75, 75)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_styles/normal = SubResource("StyleBoxFlat_rvb73")
+text = "Scale"
+icon = ExtResource("5_gdvhx")
+flat = true
+icon_alignment = 1
+vertical_icon_alignment = 0
+expand_icon = true
+
+[node name="Rotate" type="Button" parent="EditorUI/Main/TabContainer/Home/Tools" unique_id=232432681]
+custom_minimum_size = Vector2(75, 75)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_styles/normal = SubResource("StyleBoxFlat_rvb73")
+text = "Rotate"
+icon = ExtResource("6_yad1y")
+flat = true
+icon_alignment = 1
+vertical_icon_alignment = 0
+expand_icon = true
+
+[node name="Seperator" type="Control" parent="EditorUI/Main/TabContainer/Home" unique_id=249462053]
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+
+[node name="Texture" type="TextureRect" parent="EditorUI/Main/TabContainer/Home/Seperator" unique_id=677685323]
+custom_minimum_size = Vector2(3, 0)
+custom_maximum_size = Vector2(3, -1)
 layout_mode = 1
-anchors_preset = -1
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = 116.0
-offset_bottom = -25.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -5.0
+offset_top = -60.0
+offset_right = 5.0
+offset_bottom = 60.0
 grow_horizontal = 2
 grow_vertical = 2
+texture = SubResource("GradientTexture1D_r5vg0")
+
+[node name="MoveToolConfiguration" type="VBoxContainer" parent="EditorUI/Main/TabContainer/Home" unique_id=2013573675 node_paths=PackedStringArray("LocalSpaceCheckbox", "SnapSpinBox")]
+layout_mode = 2
+script = ExtResource("8_3xtwc")
+LocalSpaceCheckbox = NodePath("Local/Value")
+SnapSpinBox = NodePath("Step/Value")
+
+[node name="Title" type="Label" parent="EditorUI/Main/TabContainer/Home/MoveToolConfiguration" unique_id=1089273939]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_font_sizes/font_size = 35
+text = "Move Tool"
+
+[node name="Step" type="HBoxContainer" parent="EditorUI/Main/TabContainer/Home/MoveToolConfiguration" unique_id=427000367]
+layout_mode = 2
 size_flags_vertical = 3
-split_offsets = PackedInt32Array(250, -250)
-split_offset = 250
+theme = SubResource("Theme_r5vg0")
+
+[node name="Key" type="Label" parent="EditorUI/Main/TabContainer/Home/MoveToolConfiguration/Step" unique_id=64058258]
+custom_minimum_size = Vector2(125, 0)
+layout_mode = 2
+text = "Step"
+
+[node name="Value" type="SpinBox" parent="EditorUI/Main/TabContainer/Home/MoveToolConfiguration/Step" unique_id=166148419]
+layout_mode = 2
+step = 0.0
+allow_greater = true
+allow_lesser = true
+custom_arrow_step = 1.0
+
+[node name="Local" type="HBoxContainer" parent="EditorUI/Main/TabContainer/Home/MoveToolConfiguration" unique_id=581569416]
+layout_mode = 2
+size_flags_vertical = 3
+theme = SubResource("Theme_r5vg0")
+
+[node name="Key" type="Label" parent="EditorUI/Main/TabContainer/Home/MoveToolConfiguration/Local" unique_id=431891340]
+custom_minimum_size = Vector2(125, 0)
+layout_mode = 2
+text = "Use Local Space"
+
+[node name="Value" type="CheckBox" parent="EditorUI/Main/TabContainer/Home/MoveToolConfiguration/Local" unique_id=1569205700]
+layout_mode = 2
+
+[node name="Seperator2" type="Control" parent="EditorUI/Main/TabContainer/Home" unique_id=3295609]
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+
+[node name="Texture" type="TextureRect" parent="EditorUI/Main/TabContainer/Home/Seperator2" unique_id=1818661263]
+custom_minimum_size = Vector2(3, 0)
+custom_maximum_size = Vector2(3, -1)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -5.0
+offset_top = -60.0
+offset_right = 5.0
+offset_bottom = 60.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture1D_r5vg0")
+
+[node name="RotateToolConfiguration" type="VBoxContainer" parent="EditorUI/Main/TabContainer/Home" unique_id=2031979348 node_paths=PackedStringArray("LocalSpaceCheckbox", "SnapSpinBox")]
+layout_mode = 2
+script = ExtResource("8_3xtwc")
+LocalSpaceCheckbox = NodePath("Local/Value")
+SnapSpinBox = NodePath("Step/Value")
+
+[node name="Title" type="Label" parent="EditorUI/Main/TabContainer/Home/RotateToolConfiguration" unique_id=677354428]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_font_sizes/font_size = 35
+text = "Rotate Tool"
+
+[node name="Step" type="HBoxContainer" parent="EditorUI/Main/TabContainer/Home/RotateToolConfiguration" unique_id=966069561]
+layout_mode = 2
+size_flags_vertical = 3
+theme = SubResource("Theme_r5vg0")
+
+[node name="Key" type="Label" parent="EditorUI/Main/TabContainer/Home/RotateToolConfiguration/Step" unique_id=1237011819]
+custom_minimum_size = Vector2(125, 0)
+layout_mode = 2
+text = "Step"
+
+[node name="Value" type="SpinBox" parent="EditorUI/Main/TabContainer/Home/RotateToolConfiguration/Step" unique_id=1907992507]
+layout_mode = 2
+step = 0.0
+allow_greater = true
+allow_lesser = true
+custom_arrow_step = 1.0
+
+[node name="Local" type="HBoxContainer" parent="EditorUI/Main/TabContainer/Home/RotateToolConfiguration" unique_id=162846611]
+layout_mode = 2
+size_flags_vertical = 3
+theme = SubResource("Theme_r5vg0")
+
+[node name="Key" type="Label" parent="EditorUI/Main/TabContainer/Home/RotateToolConfiguration/Local" unique_id=491937563]
+custom_minimum_size = Vector2(125, 0)
+layout_mode = 2
+text = "Use Local Space"
+
+[node name="Value" type="CheckBox" parent="EditorUI/Main/TabContainer/Home/RotateToolConfiguration/Local" unique_id=333197815]
+layout_mode = 2
+
+[node name="Seperator3" type="Control" parent="EditorUI/Main/TabContainer/Home" unique_id=323447537]
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+
+[node name="Texture" type="TextureRect" parent="EditorUI/Main/TabContainer/Home/Seperator3" unique_id=1699041954]
+custom_minimum_size = Vector2(3, 0)
+custom_maximum_size = Vector2(3, -1)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -5.0
+offset_top = -60.0
+offset_right = 5.0
+offset_bottom = 60.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture1D_r5vg0")
+
+[node name="ScaleToolConfiguration" type="VBoxContainer" parent="EditorUI/Main/TabContainer/Home" unique_id=173015303 node_paths=PackedStringArray("LocalSpaceCheckbox", "SnapSpinBox")]
+layout_mode = 2
+script = ExtResource("8_3xtwc")
+LocalSpaceCheckbox = NodePath("Local/Value")
+SnapSpinBox = NodePath("Step/Value")
+
+[node name="Title" type="Label" parent="EditorUI/Main/TabContainer/Home/ScaleToolConfiguration" unique_id=1689605588]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_font_sizes/font_size = 35
+text = "Scale Tool"
+
+[node name="Step" type="HBoxContainer" parent="EditorUI/Main/TabContainer/Home/ScaleToolConfiguration" unique_id=419377776]
+layout_mode = 2
+size_flags_vertical = 3
+theme = SubResource("Theme_r5vg0")
+
+[node name="Key" type="Label" parent="EditorUI/Main/TabContainer/Home/ScaleToolConfiguration/Step" unique_id=1911839432]
+custom_minimum_size = Vector2(125, 0)
+layout_mode = 2
+text = "Step"
+
+[node name="Value" type="SpinBox" parent="EditorUI/Main/TabContainer/Home/ScaleToolConfiguration/Step" unique_id=1392745923]
+layout_mode = 2
+step = 0.0
+allow_greater = true
+allow_lesser = true
+custom_arrow_step = 1.0
+
+[node name="Local" type="HBoxContainer" parent="EditorUI/Main/TabContainer/Home/ScaleToolConfiguration" unique_id=2143801059]
+layout_mode = 2
+size_flags_vertical = 3
+theme = SubResource("Theme_r5vg0")
+
+[node name="Key" type="Label" parent="EditorUI/Main/TabContainer/Home/ScaleToolConfiguration/Local" unique_id=1089484412]
+custom_minimum_size = Vector2(125, 0)
+layout_mode = 2
+text = "Use Local Space"
+
+[node name="Value" type="CheckBox" parent="EditorUI/Main/TabContainer/Home/ScaleToolConfiguration/Local" unique_id=2018279167]
+layout_mode = 2
+
+[node name="Seperator4" type="Control" parent="EditorUI/Main/TabContainer/Home" unique_id=1950324974]
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+
+[node name="Texture" type="TextureRect" parent="EditorUI/Main/TabContainer/Home/Seperator4" unique_id=739049944]
+custom_minimum_size = Vector2(3, 0)
+custom_maximum_size = Vector2(3, -1)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -5.0
+offset_top = -60.0
+offset_right = 5.0
+offset_bottom = 60.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture1D_r5vg0")
+
+[node name="Panels" type="HSplitContainer" parent="EditorUI/Main" unique_id=126822192]
+layout_mode = 2
+size_flags_vertical = 3
+split_offsets = PackedInt32Array(500, -500)
+split_offset = 500
 
 [node name="Left" type="VSplitContainer" parent="EditorUI/Main/Panels" unique_id=157086700]
 layout_mode = 2
-split_offsets = PackedInt32Array(350)
-split_offset = 350
+split_offsets = PackedInt32Array(800)
+split_offset = 800
 
 [node name="Properties" type="PanelContainer" parent="EditorUI/Main/Panels/Left" unique_id=1151925012]
 layout_mode = 2
@@ -186,13 +512,160 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_fnb7j")
 
-[node name="ViewportTexture" type="TextureRect" parent="EditorUI/Main/Panels/Viewport" unique_id=1592414240 node_paths=PackedStringArray("viewport")]
+[node name="SubViewportContainer" type="SubViewportContainer" parent="EditorUI/Main/Panels/Viewport" unique_id=1708163971]
+texture_filter = 1
+texture_repeat = 2
 layout_mode = 2
-texture = SubResource("ViewportTexture_qq4so")
-expand_mode = 1
-stretch_mode = 6
-script = ExtResource("3_hy100")
-viewport = NodePath("../../../../../WorldViewport")
+stretch = true
+mouse_target = true
+
+[node name="WorldViewport" type="SubViewport" parent="EditorUI/Main/Panels/Viewport/SubViewportContainer" unique_id=754344060]
+world_3d = SubResource("World3D_rvb73")
+handle_input_locally = false
+size = Vector2i(1536, 1150)
+render_target_update_mode = 4
+
+[node name="EditorCamera" type="Camera3D" parent="EditorUI/Main/Panels/Viewport/SubViewportContainer/WorldViewport" unique_id=177025700]
+script = ExtResource("6_hy100")
+metadata/_custom_type_script = "uid://dkntj4x5gci5k"
+
+[node name="RemoteTransform3D" type="RemoteTransform3D" parent="EditorUI/Main/Panels/Viewport/SubViewportContainer/WorldViewport/EditorCamera" unique_id=1157538277]
+remote_path = NodePath("../../SubViewportContainer/GizmoViewport/GizmoCamera")
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="EditorUI/Main/Panels/Viewport/SubViewportContainer/WorldViewport" unique_id=2026776265]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+
+[node name="GizmoViewport" type="SubViewport" parent="EditorUI/Main/Panels/Viewport/SubViewportContainer/WorldViewport/SubViewportContainer" unique_id=23574955]
+world_3d = SubResource("World3D_yad1y")
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(1536, 1150)
+render_target_update_mode = 4
+
+[node name="Gizmos" type="Node3D" parent="EditorUI/Main/Panels/Viewport/SubViewportContainer/WorldViewport/SubViewportContainer/GizmoViewport" unique_id=1420456278]
+
+[node name="TranslateGizmo3D" type="Node3D" parent="EditorUI/Main/Panels/Viewport/SubViewportContainer/WorldViewport/SubViewportContainer/GizmoViewport/Gizmos" unique_id=643372825 node_paths=PackedStringArray("XDragger", "YDragger", "ZDragger")]
+visible = false
+script = ExtResource("10_yad1y")
+XDragger = NodePath("XDragger")
+YDragger = NodePath("YDragger")
+ZDragger = NodePath("ZDragger")
+TargetSize = 0.2
+
+[node name="XDragger" type="StaticBody3D" parent="EditorUI/Main/Panels/Viewport/SubViewportContainer/WorldViewport/SubViewportContainer/GizmoViewport/Gizmos/TranslateGizmo3D" unique_id=757890645 groups=["GizmoDragger"]]
+collision_layer = 8388608
+collision_mask = 8388608
+
+[node name="Line" type="MeshInstance3D" parent="EditorUI/Main/Panels/Viewport/SubViewportContainer/WorldViewport/SubViewportContainer/GizmoViewport/Gizmos/TranslateGizmo3D/XDragger" unique_id=1487626695]
+material_override = SubResource("StandardMaterial3D_ti6d1")
+mesh = SubResource("BoxMesh_r5vg0")
+
+[node name="Arrow1" type="MeshInstance3D" parent="EditorUI/Main/Panels/Viewport/SubViewportContainer/WorldViewport/SubViewportContainer/GizmoViewport/Gizmos/TranslateGizmo3D/XDragger" unique_id=217957733]
+transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, -0.5, 0, 0)
+material_override = SubResource("StandardMaterial3D_ti6d1")
+mesh = SubResource("PrismMesh_bo4on")
+
+[node name="Arrow2" type="MeshInstance3D" parent="EditorUI/Main/Panels/Viewport/SubViewportContainer/WorldViewport/SubViewportContainer/GizmoViewport/Gizmos/TranslateGizmo3D/XDragger" unique_id=982914090]
+transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, 0.5, 0, 0)
+material_override = SubResource("StandardMaterial3D_ti6d1")
+mesh = SubResource("PrismMesh_bo4on")
+
+[node name="LineShape" type="CollisionShape3D" parent="EditorUI/Main/Panels/Viewport/SubViewportContainer/WorldViewport/SubViewportContainer/GizmoViewport/Gizmos/TranslateGizmo3D/XDragger" unique_id=527314317]
+shape = SubResource("BoxShape3D_r5vg0")
+
+[node name="ArrowShape" type="CollisionShape3D" parent="EditorUI/Main/Panels/Viewport/SubViewportContainer/WorldViewport/SubViewportContainer/GizmoViewport/Gizmos/TranslateGizmo3D/XDragger" unique_id=2101527947]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0, 0)
+shape = SubResource("BoxShape3D_ti6d1")
+
+[node name="ArrowShape2" type="CollisionShape3D" parent="EditorUI/Main/Panels/Viewport/SubViewportContainer/WorldViewport/SubViewportContainer/GizmoViewport/Gizmos/TranslateGizmo3D/XDragger" unique_id=31109747]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0)
+shape = SubResource("BoxShape3D_ti6d1")
+
+[node name="YDragger" type="StaticBody3D" parent="EditorUI/Main/Panels/Viewport/SubViewportContainer/WorldViewport/SubViewportContainer/GizmoViewport/Gizmos/TranslateGizmo3D" unique_id=1943271469 groups=["GizmoDragger"]]
+transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 0, 0, 0)
+collision_layer = 8388608
+collision_mask = 8388608
+
+[node name="Line" type="MeshInstance3D" parent="EditorUI/Main/Panels/Viewport/SubViewportContainer/WorldViewport/SubViewportContainer/GizmoViewport/Gizmos/TranslateGizmo3D/YDragger" unique_id=905024055]
+material_override = SubResource("StandardMaterial3D_yad1y")
+mesh = SubResource("BoxMesh_r5vg0")
+
+[node name="Arrow1" type="MeshInstance3D" parent="EditorUI/Main/Panels/Viewport/SubViewportContainer/WorldViewport/SubViewportContainer/GizmoViewport/Gizmos/TranslateGizmo3D/YDragger" unique_id=977016143]
+transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, -0.5, 0, 0)
+material_override = SubResource("StandardMaterial3D_yad1y")
+mesh = SubResource("PrismMesh_bo4on")
+
+[node name="Arrow2" type="MeshInstance3D" parent="EditorUI/Main/Panels/Viewport/SubViewportContainer/WorldViewport/SubViewportContainer/GizmoViewport/Gizmos/TranslateGizmo3D/YDragger" unique_id=1913119084]
+transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, 0.5, 0, 0)
+material_override = SubResource("StandardMaterial3D_yad1y")
+mesh = SubResource("PrismMesh_bo4on")
+
+[node name="LineShape" type="CollisionShape3D" parent="EditorUI/Main/Panels/Viewport/SubViewportContainer/WorldViewport/SubViewportContainer/GizmoViewport/Gizmos/TranslateGizmo3D/YDragger" unique_id=474189233]
+shape = SubResource("BoxShape3D_r5vg0")
+
+[node name="ArrowShape" type="CollisionShape3D" parent="EditorUI/Main/Panels/Viewport/SubViewportContainer/WorldViewport/SubViewportContainer/GizmoViewport/Gizmos/TranslateGizmo3D/YDragger" unique_id=622704730]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0, 0)
+shape = SubResource("BoxShape3D_ti6d1")
+
+[node name="ArrowShape2" type="CollisionShape3D" parent="EditorUI/Main/Panels/Viewport/SubViewportContainer/WorldViewport/SubViewportContainer/GizmoViewport/Gizmos/TranslateGizmo3D/YDragger" unique_id=999887766]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0)
+shape = SubResource("BoxShape3D_ti6d1")
+
+[node name="ZDragger" type="StaticBody3D" parent="EditorUI/Main/Panels/Viewport/SubViewportContainer/WorldViewport/SubViewportContainer/GizmoViewport/Gizmos/TranslateGizmo3D" unique_id=97607407 groups=["GizmoDragger"]]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, 0)
+collision_layer = 8388608
+collision_mask = 8388608
+
+[node name="Line" type="MeshInstance3D" parent="EditorUI/Main/Panels/Viewport/SubViewportContainer/WorldViewport/SubViewportContainer/GizmoViewport/Gizmos/TranslateGizmo3D/ZDragger" unique_id=1132955741]
+material_override = SubResource("StandardMaterial3D_gdvhx")
+mesh = SubResource("BoxMesh_r5vg0")
+
+[node name="Arrow1" type="MeshInstance3D" parent="EditorUI/Main/Panels/Viewport/SubViewportContainer/WorldViewport/SubViewportContainer/GizmoViewport/Gizmos/TranslateGizmo3D/ZDragger" unique_id=943203734]
+transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, -0.5, 0, 0)
+material_override = SubResource("StandardMaterial3D_gdvhx")
+mesh = SubResource("PrismMesh_bo4on")
+
+[node name="Arrow2" type="MeshInstance3D" parent="EditorUI/Main/Panels/Viewport/SubViewportContainer/WorldViewport/SubViewportContainer/GizmoViewport/Gizmos/TranslateGizmo3D/ZDragger" unique_id=1488455751]
+transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, 0.5, 0, 0)
+material_override = SubResource("StandardMaterial3D_gdvhx")
+mesh = SubResource("PrismMesh_bo4on")
+
+[node name="LineShape" type="CollisionShape3D" parent="EditorUI/Main/Panels/Viewport/SubViewportContainer/WorldViewport/SubViewportContainer/GizmoViewport/Gizmos/TranslateGizmo3D/ZDragger" unique_id=1799293954]
+shape = SubResource("BoxShape3D_r5vg0")
+
+[node name="ArrowShape" type="CollisionShape3D" parent="EditorUI/Main/Panels/Viewport/SubViewportContainer/WorldViewport/SubViewportContainer/GizmoViewport/Gizmos/TranslateGizmo3D/ZDragger" unique_id=1270468091]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0, 0)
+shape = SubResource("BoxShape3D_ti6d1")
+
+[node name="ArrowShape2" type="CollisionShape3D" parent="EditorUI/Main/Panels/Viewport/SubViewportContainer/WorldViewport/SubViewportContainer/GizmoViewport/Gizmos/TranslateGizmo3D/ZDragger" unique_id=463870191]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0)
+shape = SubResource("BoxShape3D_ti6d1")
+
+[node name="OriginGizmo3D" type="Node3D" parent="EditorUI/Main/Panels/Viewport/SubViewportContainer/WorldViewport/SubViewportContainer/GizmoViewport/Gizmos" unique_id=1634033165]
+script = ExtResource("10_rvb73")
+metadata/_custom_type_script = "uid://wkf0i32d8d2m"
+
+[node name="SelectingGizmo3D" type="Node3D" parent="EditorUI/Main/Panels/Viewport/SubViewportContainer/WorldViewport/SubViewportContainer/GizmoViewport/Gizmos" unique_id=1097490927]
+script = ExtResource("11_gdvhx")
+OutlineColor = Color(1, 1, 0, 1)
+metadata/_custom_type_script = "uid://cqmlnba48ggkb"
+
+[node name="SelectedGizmo3D" type="Node3D" parent="EditorUI/Main/Panels/Viewport/SubViewportContainer/WorldViewport/SubViewportContainer/GizmoViewport/Gizmos" unique_id=1700920843]
+script = ExtResource("11_gdvhx")
+OutlineColor = Color(0, 1, 1, 1)
+VisibleThroughWalls = true
+metadata/_custom_type_script = "uid://cqmlnba48ggkb"
+
+[node name="SelectionGizmo3D" type="Node3D" parent="EditorUI/Main/Panels/Viewport/SubViewportContainer/WorldViewport/SubViewportContainer/GizmoViewport/Gizmos" unique_id=303867409]
+script = ExtResource("14_r7c7r")
+metadata/_custom_type_script = "uid://cdfsolcbhcxk5"
+
+[node name="GizmoCamera" type="Camera3D" parent="EditorUI/Main/Panels/Viewport/SubViewportContainer/WorldViewport/SubViewportContainer/GizmoViewport" unique_id=1273983691]
 
 [node name="Explorer" type="PanelContainer" parent="EditorUI/Main/Panels" unique_id=1827524348]
 layout_mode = 2
@@ -217,12 +690,8 @@ auto_tooltip = false
 script = ExtResource("2_4oup0")
 
 [node name="BottomBar" type="PanelContainer" parent="EditorUI/Main" unique_id=641684269]
-layout_mode = 1
-anchors_preset = -1
-anchor_right = 1.0
-offset_top = 695.0
-offset_bottom = 720.0
-grow_horizontal = 2
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_ugwn3")
 
 [node name="Container" type="HBoxContainer" parent="EditorUI/Main/BottomBar" unique_id=184267740]
@@ -265,7 +734,7 @@ custom_maximum_size = Vector2(2, -1)
 layout_mode = 2
 texture = SubResource("GradientTexture1D_fgd06")
 
-[node name="NewInstance" type="PanelContainer" parent="EditorUI" unique_id=1278270308 node_paths=PackedStringArray("ButtonsContainer", "CloseButton", "OpenReasonLabel")]
+[node name="NewInstance" type="PanelContainer" parent="EditorUI" unique_id=1278270308 node_paths=PackedStringArray("ButtonsContainer", "CloseButton", "OpenReasonLabel", "SearchInput")]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -273,9 +742,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -106.5
-offset_top = -105.0
+offset_top = -178.5
 offset_right = 106.5
-offset_bottom = 105.0
+offset_bottom = 178.5
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_r5vg0")
@@ -283,6 +752,7 @@ script = ExtResource("6_qq4so")
 ButtonsContainer = NodePath("Layout/Contents/ScrollContainer/Selection")
 CloseButton = NodePath("Layout/Contents/Close")
 OpenReasonLabel = NodePath("Layout/Contents/OpenReason")
+SearchInput = NodePath("Layout/Contents/SearchBar")
 
 [node name="Layout" type="HBoxContainer" parent="EditorUI/NewInstance" unique_id=2143580115]
 layout_mode = 2
@@ -299,19 +769,20 @@ layout_mode = 2
 
 [node name="WindowTitle" type="Label" parent="EditorUI/NewInstance/Layout/Contents" unique_id=1553935992]
 layout_mode = 2
-theme_override_font_sizes/font_size = 25
+theme_override_font_sizes/font_size = 50
 text = "Create New Instance"
 horizontal_alignment = 1
 
 [node name="OpenReason" type="Label" parent="EditorUI/NewInstance/Layout/Contents" unique_id=833972144]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 0.5137255)
-theme_override_font_sizes/font_size = 10
+theme_override_font_sizes/font_size = 20
 text = "Add child to World.Environment"
 horizontal_alignment = 1
 
 [node name="SearchBar" type="LineEdit" parent="EditorUI/NewInstance/Layout/Contents" unique_id=1254492725]
 layout_mode = 2
+theme_override_font_sizes/font_size = 20
 placeholder_text = "search..."
 
 [node name="ScrollContainer" type="ScrollContainer" parent="EditorUI/NewInstance/Layout/Contents" unique_id=977033661]
@@ -326,7 +797,7 @@ theme = SubResource("Theme_fgd06")
 
 [node name="Close" type="Button" parent="EditorUI/NewInstance/Layout/Contents" unique_id=764209819]
 layout_mode = 2
-theme_override_font_sizes/font_size = 10
+theme_override_font_sizes/font_size = 20
 text = "Cancel"
 icon = ExtResource("7_qq4so")
 expand_icon = true
@@ -338,11 +809,3 @@ layout_mode = 2
 [node name="PaddingRight" type="Control" parent="EditorUI/NewInstance/Layout" unique_id=828551666]
 custom_minimum_size = Vector2(10, 0)
 layout_mode = 2
-
-[node name="WorldViewport" type="SubViewport" parent="." unique_id=754344060]
-handle_input_locally = false
-size = Vector2i(3840, 2160)
-
-[node name="EditorCamera" type="Camera3D" parent="WorldViewport" unique_id=177025700]
-script = ExtResource("6_hy100")
-metadata/_custom_type_script = "uid://dkntj4x5gci5k"

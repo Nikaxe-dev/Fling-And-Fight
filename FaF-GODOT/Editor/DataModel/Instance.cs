@@ -60,7 +60,22 @@ public abstract class Instance
     public delegate void RemovedEventHandler();
     
     private readonly List<Instance> _children = [];
-    public List<Instance> Children {get => _children;}
+    public List<Instance> Children {get => _children; }
+
+    public List<Instance> Ancestry
+    {
+        get
+        {
+            List<Instance> result = [];
+            Instance? c = Parent;
+            while (c != null)
+            {
+                result.Add(c);
+                c = c.Parent;
+            }
+            return result;
+        }
+    }
 
     public List<Instance> Descendants {get {
             List<Instance> result = [.. Children];
@@ -149,6 +164,14 @@ public abstract class Instance
         return null;
     }
 
+    private static readonly System.Collections.Generic.Dictionary<Node, Instance> NodeRepresentationInstanceMappings = [];
+
+    public static Instance? GetInstanceFromNode(Node node)
+    {
+        NodeRepresentationInstanceMappings.TryGetValue(node, out Instance? result);
+        return result;
+    }
+
     /// <summary>
     /// Not all instances create a node.
     /// </summary>
@@ -157,6 +180,8 @@ public abstract class Instance
     public Node? CreateNode(bool addToTree = true)
     {
         NodeRepresentation = InternalCreateNode(addToTree);
+        if (NodeRepresentation != null) NodeRepresentationInstanceMappings.Add(NodeRepresentation, this);
+
         LOGGER.LOG(LogType.DEBUG, $"Created node for {FullName} ({ClassName}) (incomplete path, node is not set up)", "NodeHandling");
 
         if (addToTree && NodeRepresentation != null && Parent != null) NodeRepresentation.GetParent().RemoveChild(NodeRepresentation); Parent?.NodeRepresentation?.AddChild(NodeRepresentation);

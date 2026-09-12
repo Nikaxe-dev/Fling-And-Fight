@@ -15,6 +15,7 @@ public partial class NewInstancePanel : PanelContainer
     [Export] public required VBoxContainer ButtonsContainer;
     [Export] public required Button CloseButton;
     [Export] public required Label OpenReasonLabel;
+    [Export] public required LineEdit SearchInput;
 
     private static readonly Dictionary<string, Type> InstanceClassMappings =
         Assembly.GetExecutingAssembly()
@@ -38,6 +39,9 @@ public partial class NewInstancePanel : PanelContainer
     public void PromptUser(string reason)
     {
         OpenReasonLabel.Text = reason;
+        SearchInput.Text = "";
+        FilterButtons("");
+        SearchInput.GrabFocus();
         Visible = true;
     }
 
@@ -54,16 +58,31 @@ public partial class NewInstancePanel : PanelContainer
                 Alignment = HorizontalAlignment.Left,
             };
 
-            button.Pressed += () =>
-            {
-                Instance? instance = (Instance?)Activator.CreateInstance(InstanceClassMappings[value.Name]);
-                if (instance != null) UserAccepted?.Invoke(instance); Visible = false;
-            };
+            button.Pressed += () => Accept(value.Name);
 
             ButtonsContainer.AddChild(button);
         }
     }
 
+    private void FilterButtons(string query)
+    {
+        foreach (var item in ButtonsContainer.GetChildren())
+        {
+            if (item is Button button) button.Visible = button.Text.Contains(query, StringComparison.OrdinalIgnoreCase);
+        }
+    }
+
+    private void Accept(string ClassName)
+    {
+        Instance? instance = (Instance?)Activator.CreateInstance(InstanceClassMappings[ClassName]);
+        if (instance != null) UserAccepted?.Invoke(instance); Visible = false;
+    }
+
+    private void Cancel()
+    {
+        Visible = false;
+        UserCanceled?.Invoke();
+    }
 
     public override void _Ready()
     {
@@ -72,10 +91,26 @@ public partial class NewInstancePanel : PanelContainer
         Instance = this;
 
         LoadButtons();
-        CloseButton.Pressed += () =>
+        CloseButton.Pressed += Cancel;
+
+        SearchInput.TextChanged += FilterButtons;
+    }
+
+    public override void _Input(InputEvent @event)
+    {
+        if (Visible && @event.IsActionPressed("ui_accept"))
         {
-            Visible = false;
-            UserCanceled?.Invoke();
-        };
+            foreach (var item in ButtonsContainer.GetChildren())
+            {
+                if (item is Button button && button.Visible) Accept(button.Text);
+            }
+            GetViewport().SetInputAsHandled();
+        }
+
+        if (Visible && @event.IsActionPressed("ui_cancel"))
+        {
+            Cancel();
+            GetViewport().SetInputAsHandled();
+        }
     }
 }

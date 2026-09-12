@@ -1,6 +1,11 @@
 [gd_resource type="Theme" format=3 uid="uid://c1d6jy32p2jyv"]
 
+[ext_resource type="Texture2D" uid="uid://c7wh2l8dt4sic" path="res://Editor/UI/CheckboxChecked.png" id="1_40nrm"]
+[ext_resource type="Texture2D" uid="uid://dov58svsj7uqn" path="res://Editor/UI/Explorer/Arrow.png" id="1_iybdm"]
 [ext_resource type="FontFile" uid="uid://ciwcv1xi6dn63" path="res://Assets/Fonts/PatrickHand.ttf" id="1_x365u"]
+[ext_resource type="Texture2D" uid="uid://dd6bhu3wp75xw" path="res://Editor/UI/CheckboxCheckedDisabled.png" id="2_q8h2h"]
+[ext_resource type="Texture2D" uid="uid://iwa16s2wco88" path="res://Editor/UI/Explorer/ArrowCollasped.png" id="2_rh1ja"]
+[ext_resource type="Texture2D" uid="uid://bumlrt0fevefy" path="res://Editor/UI/CheckboxUnchecked.png" id="3_t8yg3"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rh1ja"]
 content_margin_left = 4.0
@@ -36,9 +41,17 @@ expand_margin_left = 2.0
 
 [resource]
 default_font = ExtResource("1_x365u")
+default_font_size = 30
+CheckBox/colors/checkbox_unchecked_color = Color(0.39215687, 0.39215687, 0.39215687, 0.41568628)
+CheckBox/icons/checked = ExtResource("1_40nrm")
+CheckBox/icons/checked_disabled = ExtResource("2_q8h2h")
+CheckBox/icons/unchecked = ExtResource("3_t8yg3")
+CheckBox/icons/unchecked_disabled = ExtResource("3_t8yg3")
 Tree/colors/guide_color = Color(0.69803923, 0.69803923, 0.69803923, 0)
-Tree/constants/icon_max_width = 16
-Tree/font_sizes/font_size = 12
+Tree/constants/icon_max_width = 25
+Tree/font_sizes/font_size = 25
+Tree/icons/arrow = ExtResource("1_iybdm")
+Tree/icons/arrow_collapsed = ExtResource("2_rh1ja")
 Tree/styles/cursor = SubResource("StyleBoxFlat_rh1ja")
 Tree/styles/cursor_unfocused = SubResource("StyleBoxFlat_rh1ja")
 Tree/styles/hovered = SubResource("StyleBoxFlat_x365u")

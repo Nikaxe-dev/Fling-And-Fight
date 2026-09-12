@@ -3,6 +3,7 @@ using FaF.Editor.DataModel;
 using FaF.Editor.UI.Properties;
 using Godot;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Linq;
 
 namespace FaF.Editor.UI;
@@ -45,8 +46,6 @@ public partial class ExplorerTree : Tree
 
         item.SetEditable(0, true);
 
-        item.AddButton(0, ResourceLoader.Load<Texture2D>("Editor/UI/Explorer/AddChild.png"), 0, tooltipText: "Add child");
-
         TreeMappings[instance] = item;
         InstanceMappings[item] = instance;
 
@@ -88,6 +87,7 @@ public partial class ExplorerTree : Tree
         {
             child.Parent = instance;
             AddInstance(child);
+            SelectInstance(child);
 
             NewInstancePanel.UserAccepted -= onAccept;
             NewInstancePanel.UserCanceled -= onCancel;
@@ -136,12 +136,55 @@ public partial class ExplorerTree : Tree
         };
     }
 
+    public void SelectInstance(Instance instance)
+    {
+        if ((SelectedInstances.Count == 1 || Input.IsActionPressed("editor_select_multiple")) && SelectedInstances.Contains(instance))
+        {
+            GetInstanceTreeItem(instance).Deselect(0);
+            SelectedInstances.Remove(instance);
+            SelectionChanged.Invoke([.. SelectedInstances]);
+            return;
+        }
+        
+        if (!Input.IsActionPressed("editor_select_multiple")) DeselectAll();
+
+        if (!SelectedInstances.Contains(instance)) {
+            GetInstanceTreeItem(instance)?.Select(0, true);
+            GetInstanceTreeItem(instance)?.UncollapseTree();
+            SelectedInstances.Add(instance);
+            SelectionChanged.Invoke([.. SelectedInstances]);
+        }
+    }
+
+    public static TreeItem MouseHoveredItem {get; private set;}
+
+    private static readonly Texture2D AddChildButtonIcon = ResourceLoader.Load<Texture2D>("Editor/UI/Explorer/AddChild.png");
+
+    public override void _Process(double delta)
+    {
+        TreeItem CurrentItem = GetItemAtPosition(GetLocalMousePosition());
+
+        if (CurrentItem != MouseHoveredItem && IsInstanceValid(MouseHoveredItem))
+        {
+            MouseHoveredItem?.EraseButton(0,0);
+            MouseHoveredItem = CurrentItem;
+            MouseHoveredItem?.AddButton(0, AddChildButtonIcon, 0, tooltipText: "Add child");
+        }
+    }
+
     public void RefreshTitles()
     {
         foreach (var (key, value) in TreeMappings)
         {
             value.SetText(0, key.Name);
         }
+    }
+
+    public new void DeselectAll()
+    {
+        base.DeselectAll();
+        SelectedInstances.RemoveAll(i => true);
+        SelectionChanged.Invoke([]);
     }
 
     public override void _UnhandledInput(InputEvent @event)
@@ -156,12 +199,21 @@ public partial class ExplorerTree : Tree
                 next = GetNextSelected(next);
                 GetTreeItemInstance(current).Remove();
             }
+            GetViewport().SetInputAsHandled();
         }
 
         if (@event.IsActionPressed("editor_add_child"))
         {
             TreeItem next = GetNextSelected(null);
             if (next != null) PromptAddChild(GetTreeItemInstance(next));
+            else PromptAddChild(EditorRoot.Instance.MapRoot.FindFirstChild<DataModel.Environment>("Environment"));
+            GetViewport().SetInputAsHandled();
+        }
+
+        if (@event.IsActionPressed("ui_cancel"))
+        {
+            DeselectAll();
+            GetViewport().SetInputAsHandled();
         }
     }
 

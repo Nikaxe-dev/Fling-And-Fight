@@ -28,6 +28,7 @@ script = ExtResource("2_48qk0")
 transform = Transform3D(1, 0, 0, 0, 0.8280604, 0.560639, 0, -0.560639, 0.8280604, 0, 2.2233505, 8.992889)
 light_energy = 1.696
 light_specular = 2.5
+shadow_enabled = true
 shadow_bias = 10.0
 sky_mode = 1
 

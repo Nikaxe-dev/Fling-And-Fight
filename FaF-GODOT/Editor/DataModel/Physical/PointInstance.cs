@@ -8,8 +8,8 @@ namespace FaF.Editor.DataModel.Physical;
 
 public class PointInstance : Instance
 {
-    private static Vector3 RadToDeg(Vector3 vector) => new(Mathf.RadToDeg(vector.X),Mathf.RadToDeg(vector.Y),Mathf.RadToDeg(vector.Z));
-    private static Vector3 DegToRad(Vector3 vector) => new(Mathf.DegToRad(vector.X),Mathf.DegToRad(vector.Y),Mathf.DegToRad(vector.Z));
+    public static Vector3 RadToDeg(Vector3 vector) => new(Mathf.RadToDeg(vector.X),Mathf.RadToDeg(vector.Y),Mathf.RadToDeg(vector.Z));
+    public static Vector3 DegToRad(Vector3 vector) => new(Mathf.DegToRad(vector.X),Mathf.DegToRad(vector.Y),Mathf.DegToRad(vector.Z));
 
     [Save]
     public Transform3D Transform

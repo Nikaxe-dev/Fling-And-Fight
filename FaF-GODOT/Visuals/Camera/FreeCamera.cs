@@ -11,10 +11,12 @@ public partial class FreeCamera : Camera3D
 {
     [Export] public bool UserCanTurn = true;
     [Export] public bool UserCanMove = true;
+    [Export] public bool UserCanZoom = true;
 
     [Export] public float CAMERA_TURN_SENS = 0.009f;
-    [Export] public float CAMERA_MOVE_SPEED = 15;
-    [Export] public float CAMERA_MOVE_ACCELERATION = 5;
+    [Export] public float CAMERA_MOVE_SPEED = 25;
+    [Export] public float CAMERA_MOVE_ACCELERATION = 10;
+    [Export] public float CAMERA_ZOOM_SPEED = 10;
 
     [Export] public float MoveSpeed;
 
@@ -49,6 +51,20 @@ public partial class FreeCamera : Camera3D
     public override void _UnhandledInput(InputEvent @event)
     {
         if (UserCanTurn) ProcessCameraLookInput(@event);
+
+        if (@event is InputEventMouseButton mouseEvent)
+        {
+            Vector3 direction = ProjectRayNormal(GetViewport().GetMousePosition());
+            if (mouseEvent.ButtonIndex == MouseButton.WheelUp)
+            {
+                Position += direction.Normalized() * CAMERA_ZOOM_SPEED;
+                GetViewport().SetInputAsHandled();
+            } else if (mouseEvent.ButtonIndex == MouseButton.WheelDown)
+            {
+                Position -= direction.Normalized() * CAMERA_ZOOM_SPEED;
+                GetViewport().SetInputAsHandled();
+            }
+        }
     }
 
     public override void _Process(double delta)

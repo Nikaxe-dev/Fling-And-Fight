@@ -25,6 +25,8 @@ public partial class EditorRoot : Node
 
     [Export] public SubViewport VIEWPORT;
     [Export] public FreeCamera EDITOR_CAMERA;
+    [Export] public Node3D EDITOR_GIZMOS;
+    [Export] public SubViewport GIZMO_VIEWPORT;
 
     public static Node WORLD_REPRESENTATION {get; private set;}
 
