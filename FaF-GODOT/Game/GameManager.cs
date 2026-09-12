@@ -1,11 +1,7 @@
-using System;
-using System.Linq;
 using System.Threading;
-using System.Threading.Tasks;
 using FaF.Data;
 using FaF.Data.RegistryObjects;
 using FaF.Debug;
-using FaF.Editor;
 using FaF.Game.Networking;
 using FaF.Game.World;
 using Godot;
@@ -46,7 +42,6 @@ public sealed partial class GameManager : Node
     public static bool IS_IN_GAME {get; private set;} = false;
     public static string LOADED_WORLD {get; private set;}
     public static string GLOBAL_SERVER_ID {get; private set;} = "";
-    public static bool IS_IN_EDITOR {get => EditorRoot.IS_EDITOR;}
 
     public static Node GAME_ROOT {get; private set;}
     public static WorldRoot WORLD_ROOT {get; private set;}

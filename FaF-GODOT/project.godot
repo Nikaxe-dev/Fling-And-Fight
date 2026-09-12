@@ -40,10 +40,6 @@ window/stretch/aspect="expand"
 
 project/assembly_name="Fling And Fight"
 
-[editor]
-
-run/main_run_args="--faf-editor"
-
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/Gizmo3DSharp/plugin.cfg", "res://addons/discord-rpc-gd/plugin.cfg")

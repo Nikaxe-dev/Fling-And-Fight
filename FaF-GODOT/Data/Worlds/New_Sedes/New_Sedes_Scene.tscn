@@ -1,7 +1,7 @@
 [gd_scene format=4 uid="uid://jyl6yvmc2i8u"]
 
 [ext_resource type="PackedScene" uid="uid://dg0p1fqfjnctp" path="res://Game/World/WorldRoot.tscn" id="1_hwly8"]
-[ext_resource type="Material" uid="uid://ctcwt3pufp0ai" path="res://Editor/PresetAssets/Materials/Grass/Material.tres" id="4_fm4e1"]
+[ext_resource type="Material" uid="uid://ctcwt3pufp0ai" path="res://Assets/Materials/Grass/Material.tres" id="4_fm4e1"]
 [ext_resource type="Texture2D" uid="uid://c2paiy7hrng6j" path="res://Assets/Textures/Decals/Symbols/Symbol FaF Sun GLowing.png" id="5_rw4o6"]
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_fm4e1"]
