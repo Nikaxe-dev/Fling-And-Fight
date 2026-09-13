@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://baqrc3je1uggr"
-path="res://.godot/imported/TitleBanner.png-ae0ba04325c0663b1dcf5b57589ae58d.ctex"
+uid="uid://di53e0jc0m3xt"
+path="res://.godot/imported/Singleplayer.png-db7676cb089574349c2c57f6d10f96b5.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://TitleBanner.png"
-dest_files=["res://.godot/imported/TitleBanner.png-ae0ba04325c0663b1dcf5b57589ae58d.ctex"]
+source_file="res://UI/MainMenu/Singleplayer.png"
+dest_files=["res://.godot/imported/Singleplayer.png-db7676cb089574349c2c57f6d10f96b5.ctex"]
 
 [params]
 

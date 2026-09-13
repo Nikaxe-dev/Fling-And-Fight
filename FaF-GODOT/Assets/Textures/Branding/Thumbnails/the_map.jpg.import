@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://baqrc3je1uggr"
-path="res://.godot/imported/TitleBanner.png-ae0ba04325c0663b1dcf5b57589ae58d.ctex"
+uid="uid://dil4at66c7bq7"
+path="res://.godot/imported/the_map.jpg-0f0199b92adb58696c514fe0e37926d6.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://TitleBanner.png"
-dest_files=["res://.godot/imported/TitleBanner.png-ae0ba04325c0663b1dcf5b57589ae58d.ctex"]
+source_file="res://Assets/Textures/Branding/Thumbnails/the_map.jpg"
+dest_files=["res://.godot/imported/the_map.jpg-0f0199b92adb58696c514fe0e37926d6.ctex"]
 
 [params]
 

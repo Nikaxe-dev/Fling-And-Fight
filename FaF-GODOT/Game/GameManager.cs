@@ -79,7 +79,7 @@ public sealed partial class GameManager : Node
 
     public void SwitchToTitleScreen()
     {
-        GetTree().ChangeSceneToFile("res://UI/Menus/Title/TitleScreen.tscn");
+        GetTree().ChangeSceneToFile("res://UI/MainMenu/MainMenu.tscn");
         EmitSignal(SignalName.SwitchedToTitleScreen);
     }
 

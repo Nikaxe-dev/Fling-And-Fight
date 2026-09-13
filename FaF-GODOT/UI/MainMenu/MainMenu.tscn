@@ -1,0 +1,93 @@
+[gd_scene format=3 uid="uid://ddsed480fefvq"]
+
+[ext_resource type="Theme" uid="uid://bjgk5x3mw345o" path="res://UI/BaseUITheme.tres" id="1_ri767"]
+[ext_resource type="Texture2D" uid="uid://bxoovw2je4li4" path="res://Assets/Textures/Branding/Thumbnails/build_thumb_raw.png" id="2_a712v"]
+[ext_resource type="Texture2D" uid="uid://baqrc3je1uggr" path="res://TitleBanner.png" id="3_1dhmk"]
+[ext_resource type="Texture2D" uid="uid://di53e0jc0m3xt" path="res://UI/MainMenu/Singleplayer.png" id="4_jhcbk"]
+[ext_resource type="Texture2D" uid="uid://chr8dd8jyxsqn" path="res://UI/MainMenu/Multiplayer.png" id="5_32jca"]
+[ext_resource type="Script" uid="uid://1m8n6skuuh5j" path="res://UI/MainMenu/AnimatedHover.cs" id="5_a712v"]
+[ext_resource type="Texture2D" uid="uid://dgvoo3irqvka7" path="res://UI/MainMenu/Settings.png" id="6_srm2j"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_a712v"]
+texture = ExtResource("4_jhcbk")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_1dhmk"]
+texture = ExtResource("5_32jca")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_jhcbk"]
+texture = ExtResource("6_srm2j")
+
+[node name="MainMenu" type="Control" unique_id=24956911]
+clip_contents = true
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_ri767")
+
+[node name="Background" type="TextureRect" parent="." unique_id=1861436290]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_a712v")
+expand_mode = 2
+stretch_mode = 6
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=2086069639]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 120
+theme_override_constants/margin_top = 80
+theme_override_constants/margin_right = 120
+theme_override_constants/margin_bottom = 80
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer" unique_id=1871696280]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer" unique_id=1933794683]
+layout_mode = 2
+theme_override_constants/separation = 30
+
+[node name="Title" type="TextureRect" parent="MarginContainer/HBoxContainer/VBoxContainer" unique_id=2095086017]
+custom_minimum_size = Vector2(1500, 231)
+layout_mode = 2
+offset_transform_enabled = true
+texture = ExtResource("3_1dhmk")
+expand_mode = 1
+script = ExtResource("5_a712v")
+
+[node name="Singleplayer" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer" unique_id=729257271]
+custom_minimum_size = Vector2(0, 100)
+custom_maximum_size = Vector2(1000, -1)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxTexture_a712v")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_a712v")
+theme_override_styles/hover = SubResource("StyleBoxTexture_a712v")
+script = ExtResource("5_a712v")
+
+[node name="Multiplayer" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer" unique_id=562919818]
+custom_minimum_size = Vector2(0, 100)
+custom_maximum_size = Vector2(1000, -1)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxTexture_1dhmk")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_1dhmk")
+theme_override_styles/hover = SubResource("StyleBoxTexture_1dhmk")
+script = ExtResource("5_a712v")
+
+[node name="Settings" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer" unique_id=1314993023]
+custom_minimum_size = Vector2(0, 100)
+custom_maximum_size = Vector2(1000, -1)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxTexture_jhcbk")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_jhcbk")
+theme_override_styles/hover = SubResource("StyleBoxTexture_jhcbk")
+script = ExtResource("5_a712v")

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://baqrc3je1uggr"
-path="res://.godot/imported/TitleBanner.png-ae0ba04325c0663b1dcf5b57589ae58d.ctex"
+uid="uid://chr8dd8jyxsqn"
+path="res://.godot/imported/Multiplayer.png-7316b2139621852aef3176b8dfef4d82.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://TitleBanner.png"
-dest_files=["res://.godot/imported/TitleBanner.png-ae0ba04325c0663b1dcf5b57589ae58d.ctex"]
+source_file="res://UI/MainMenu/Multiplayer.png"
+dest_files=["res://.godot/imported/Multiplayer.png-7316b2139621852aef3176b8dfef4d82.ctex"]
 
 [params]
 
