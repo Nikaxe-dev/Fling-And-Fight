@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://di53e0jc0m3xt"
-path="res://.godot/imported/Singleplayer.png-db7676cb089574349c2c57f6d10f96b5.ctex"
+uid="uid://ko7n5kh1xojc"
+path="res://.godot/imported/Panel.png-2a973191e36f12bfc26a73d23801a9e0.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://UI/MainMenu/Singleplayer.png"
-dest_files=["res://.godot/imported/Singleplayer.png-db7676cb089574349c2c57f6d10f96b5.ctex"]
+source_file="res://UI/MainMenu/Assets/Textures/Panel.png"
+dest_files=["res://.godot/imported/Panel.png-2a973191e36f12bfc26a73d23801a9e0.ctex"]
 
 [params]
 

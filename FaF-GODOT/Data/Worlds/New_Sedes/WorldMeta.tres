@@ -5,8 +5,8 @@
 
 [resource]
 script = ExtResource("1_ss15q")
+Scene = ExtResource("1_ygrng")
 Name = "New Sedes"
 Creator = "Nikaxe"
 Description = "A desolate island where it all started..."
-Scene = ExtResource("1_ygrng")
 metadata/_custom_type_script = "uid://bylfnf2a4xvub"

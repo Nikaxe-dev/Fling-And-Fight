@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dgvoo3irqvka7"
-path="res://.godot/imported/Settings.png-c4b338b5077fc59fcdf26e7329fa6cf2.ctex"
+uid="uid://cfsjfv0sod1x"
+path="res://.godot/imported/Background.png-78abb646295115c5eeefb39db7043628.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://UI/MainMenu/Settings.png"
-dest_files=["res://.godot/imported/Settings.png-c4b338b5077fc59fcdf26e7329fa6cf2.ctex"]
+source_file="res://UI/MainMenu/Assets/Textures/WorldPicker/Background.png"
+dest_files=["res://.godot/imported/Background.png-78abb646295115c5eeefb39db7043628.ctex"]
 
 [params]
 

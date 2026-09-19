@@ -3,6 +3,35 @@
 [ext_resource type="Theme" uid="uid://bjgk5x3mw345o" path="res://UI/BaseUITheme.tres" id="1_ri767"]
 [ext_resource type="Texture2D" uid="uid://bxoovw2je4li4" path="res://Assets/Textures/Branding/Thumbnails/build_thumb_raw.png" id="2_a712v"]
 [ext_resource type="Texture2D" uid="uid://baqrc3je1uggr" path="res://TitleBanner.png" id="3_1dhmk"]
+[ext_resource type="Texture2D" uid="uid://cen4spxr52pw3" path="res://UI/MainMenu/Assets/Textures/TitleScreen/UIBackground.png" id="3_32jca"]
+[ext_resource type="Script" uid="uid://c862mvv38atq2" path="res://UI/MainMenu/MainMenuManager.cs" id="3_eoxer"]
+[ext_resource type="Texture2D" uid="uid://62ctqhx21dln" path="res://UI/MainMenu/Assets/Textures/TitleScreen/Continue.png" id="5_srm2j"]
+[ext_resource type="Script" uid="uid://c8mg1166v8fs5" path="res://UI/MainMenu/TitleScreenButtons.cs" id="5_wdl18"]
+[ext_resource type="Script" uid="uid://0cadq72n8do1" path="res://UI/MainMenu/AnimatedHoverTextureRect.cs" id="7_wdl18"]
+[ext_resource type="Texture2D" uid="uid://bgfhb5wju1vw3" path="res://UI/MainMenu/Assets/Textures/TitleScreen/Join.png" id="9_jt3i8"]
+[ext_resource type="Texture2D" uid="uid://cx5vwk4x5ja5" path="res://UI/MainMenu/Assets/Textures/TitleScreen/Play.png" id="9_migmm"]
+[ext_resource type="Script" uid="uid://yimmjukmqetd" path="res://UI/MainMenu/AnimatedHoverButton.cs" id="9_wdl18"]
+[ext_resource type="Texture2D" uid="uid://d1vhwb8fodf2x" path="res://UI/MainMenu/Assets/Textures/TitleScreen/Settings.png" id="10_q33u5"]
+[ext_resource type="Texture2D" uid="uid://cfsjfv0sod1x" path="res://UI/MainMenu/Assets/Textures/WorldPicker/Background.png" id="13_migmm"]
+[ext_resource type="FontFile" uid="uid://vex53yelmhs2" path="res://Assets/Fonts/Exo2.ttf" id="14_jt3i8"]
+[ext_resource type="Texture2D" uid="uid://dnjkf2ljasjly" path="res://UI/MainMenu/Assets/Textures/CloseButton.png" id="15_jt3i8"]
+[ext_resource type="Script" uid="uid://bst58i00ctp7f" path="res://UI/MainMenu/CloseButton.cs" id="16_q33u5"]
+[ext_resource type="Texture2D" uid="uid://ct30y62rt2fsi" path="res://UI/MainMenu/Assets/Textures/WorldPicker/WorldContentBackground.png" id="17_h4ivt"]
+[ext_resource type="Texture2D" uid="uid://dil4at66c7bq7" path="res://Assets/Textures/Branding/Thumbnails/the_map.jpg" id="18_5thul"]
+[ext_resource type="Texture2D" uid="uid://1xi7d8svj42q" path="res://UI/MainMenu/Assets/Textures/WorldPicker/WorldLabelBackground.png" id="19_a6vv6"]
+[ext_resource type="Texture2D" uid="uid://bidd1igaxfhn5" path="res://UI/MainMenu/Assets/Textures/WorldPicker/WorldSaveBackground.png" id="20_5thul"]
+[ext_resource type="Texture2D" uid="uid://djenwienrv22x" path="res://Assets/Textures/Branding/Thumbnails/above_the_dome.png" id="21_a6vv6"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r5vg0"]
+bg_color = Color(0, 0.007843138, 0.3647059, 0)
+draw_center = false
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color(0, 0.007843138, 0.3647059, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bo4on"]
 
 [node name="MainMenu" type="Control" unique_id=24956911]
 clip_contents = true
@@ -25,27 +54,684 @@ texture = ExtResource("2_a712v")
 expand_mode = 2
 stretch_mode = 6
 
-[node name="MarginContainer" type="MarginContainer" parent="." unique_id=2086069639]
+[node name="MainMenuManager" type="Control" parent="." unique_id=152094766 node_paths=PackedStringArray("GameSelectionPanel", "TitleScreenPanel")]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("3_eoxer")
+GameSelectionPanel = NodePath("GameSelection")
+TitleScreenPanel = NodePath("TitleScreen")
+TweenDuration = 0.35
+EaseType = 1
+TransitionType = 7
+
+[node name="TitleScreen" type="Control" parent="MainMenuManager" unique_id=1437466073]
+visible = false
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="UIBackground" type="TextureRect" parent="MainMenuManager/TitleScreen" unique_id=1302002182]
+layout_mode = 0
+offset_right = 2560.0
+offset_bottom = 1440.0
+texture = ExtResource("3_32jca")
+
+[node name="MarginContainer" type="MarginContainer" parent="MainMenuManager/TitleScreen" unique_id=2086069639]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 1444.0
+offset_bottom = 930.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 60
+theme_override_constants/margin_top = 60
+theme_override_constants/margin_right = 60
+theme_override_constants/margin_bottom = 70
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MainMenuManager/TitleScreen/MarginContainer" unique_id=1871696280]
+layout_mode = 2
+theme_override_constants/separation = 60
+
+[node name="Buttons" type="VBoxContainer" parent="MainMenuManager/TitleScreen/MarginContainer/HBoxContainer" unique_id=1933794683 node_paths=PackedStringArray("ContinueButton", "PlayButton", "JoinButton", "SettingsButton")]
+layout_mode = 2
+theme_override_constants/separation = 0
+script = ExtResource("5_wdl18")
+ContinueButton = NodePath("Continue")
+PlayButton = NodePath("Play")
+JoinButton = NodePath("Join")
+SettingsButton = NodePath("Settings")
+
+[node name="Title" type="TextureRect" parent="MainMenuManager/TitleScreen/MarginContainer/HBoxContainer/Buttons" unique_id=2095086017]
+custom_minimum_size = Vector2(1363.636, 210)
+layout_mode = 2
+texture = ExtResource("3_1dhmk")
+expand_mode = 1
+script = ExtResource("7_wdl18")
+
+[node name="Spacing" type="Control" parent="MainMenuManager/TitleScreen/MarginContainer/HBoxContainer/Buttons" unique_id=721169573]
+custom_minimum_size = Vector2(0, 5)
+layout_mode = 2
+
+[node name="Continue" type="Button" parent="MainMenuManager/TitleScreen/MarginContainer/HBoxContainer/Buttons" unique_id=113183183]
+custom_minimum_size = Vector2(0, 125)
+custom_maximum_size = Vector2(1000, -1)
+layout_mode = 2
+icon = ExtResource("5_srm2j")
+flat = true
+script = ExtResource("9_wdl18")
+
+[node name="Play" type="Button" parent="MainMenuManager/TitleScreen/MarginContainer/HBoxContainer/Buttons" unique_id=1396414928]
+custom_minimum_size = Vector2(0, 125)
+custom_maximum_size = Vector2(1000, -1)
+layout_mode = 2
+icon = ExtResource("9_migmm")
+flat = true
+script = ExtResource("9_wdl18")
+
+[node name="Join" type="Button" parent="MainMenuManager/TitleScreen/MarginContainer/HBoxContainer/Buttons" unique_id=1173153152]
+custom_minimum_size = Vector2(0, 125)
+custom_maximum_size = Vector2(1000, -1)
+layout_mode = 2
+icon = ExtResource("9_jt3i8")
+flat = true
+script = ExtResource("9_wdl18")
+
+[node name="Settings" type="Button" parent="MainMenuManager/TitleScreen/MarginContainer/HBoxContainer/Buttons" unique_id=1010534602]
+custom_minimum_size = Vector2(0, 125)
+custom_maximum_size = Vector2(1000, -1)
+layout_mode = 2
+icon = ExtResource("10_q33u5")
+flat = true
+script = ExtResource("9_wdl18")
+
+[node name="GameSelection" type="Control" parent="MainMenuManager" unique_id=1334036153]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 120
-theme_override_constants/margin_top = 80
-theme_override_constants/margin_right = 120
-theme_override_constants/margin_bottom = 80
+offset_transform_enabled = true
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer" unique_id=1871696280]
+[node name="Background" type="TextureRect" parent="MainMenuManager/GameSelection" unique_id=87790232]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("13_migmm")
+
+[node name="Label" type="Label" parent="MainMenuManager/GameSelection" unique_id=1789161486]
+layout_mode = 0
+offset_left = 36.0
+offset_right = 395.0
+offset_bottom = 77.0
+theme_override_fonts/font = ExtResource("14_jt3i8")
+theme_override_font_sizes/font_size = 64
+text = "Pick A World"
+
+[node name="CloseButton" type="Button" parent="MainMenuManager/GameSelection" unique_id=2124126291]
+layout_mode = 0
+offset_left = 1212.0
+offset_top = 3.0
+offset_right = 1317.0
+offset_bottom = 108.0
+icon = ExtResource("15_jt3i8")
+flat = true
+script = ExtResource("16_q33u5")
+HoveredOffset = Vector2(0, 0)
+HoveredScale = Vector2(1.1, 1.1)
+
+[node name="WorldContainer" type="ScrollContainer" parent="MainMenuManager/GameSelection" unique_id=1212070215]
+layout_mode = 0
+offset_left = -20.0
+offset_top = 125.0
+offset_right = 1185.0
+offset_bottom = 1440.0
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 3
+
+[node name="WorldList" type="VBoxContainer" parent="MainMenuManager/GameSelection/WorldContainer" unique_id=1388709050]
+layout_mode = 2
+theme_override_constants/separation = 40
+
+[node name="WorldTemplate" type="Control" parent="MainMenuManager/GameSelection/WorldContainer/WorldList" unique_id=1309906126]
+custom_minimum_size = Vector2(0, 490)
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer" unique_id=1933794683]
-layout_mode = 2
-theme_override_constants/separation = 30
+[node name="Background" type="TextureRect" parent="MainMenuManager/GameSelection/WorldContainer/WorldList/WorldTemplate" unique_id=2124995860]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+rotation = -0.03141593
+texture = ExtResource("17_h4ivt")
 
-[node name="Title" type="TextureRect" parent="MarginContainer/HBoxContainer/VBoxContainer" unique_id=2095086017]
-custom_minimum_size = Vector2(1500, 231)
+[node name="Thumbnail" type="PanelContainer" parent="MainMenuManager/GameSelection/WorldContainer/WorldList/WorldTemplate" unique_id=1988562765]
+layout_mode = 0
+offset_left = 600.0
+offset_top = 100.0
+offset_right = 1100.0
+offset_bottom = 390.0
+rotation = 0.08726646
+theme_override_styles/panel = SubResource("StyleBoxFlat_r5vg0")
+
+[node name="TextureRect" type="TextureRect" parent="MainMenuManager/GameSelection/WorldContainer/WorldList/WorldTemplate/Thumbnail" unique_id=1383257085]
+custom_minimum_size = Vector2(480, 270)
 layout_mode = 2
-texture = ExtResource("3_1dhmk")
+texture = ExtResource("18_5thul")
 expand_mode = 1
+
+[node name="Info" type="VBoxContainer" parent="MainMenuManager/GameSelection/WorldContainer/WorldList/WorldTemplate" unique_id=316333515]
+layout_mode = 0
+offset_left = 40.0
+offset_top = -20.0
+offset_right = 800.00006
+offset_bottom = 457.0
+theme_override_constants/separation = -45
+
+[node name="Title" type="TextureRect" parent="MainMenuManager/GameSelection/WorldContainer/WorldList/WorldTemplate/Info" unique_id=469069832]
+layout_mode = 2
+texture = ExtResource("19_a6vv6")
+
+[node name="Label" type="Label" parent="MainMenuManager/GameSelection/WorldContainer/WorldList/WorldTemplate/Info/Title" unique_id=1712608080]
+layout_mode = 0
+offset_left = 13.0
+offset_top = 95.0
+offset_right = 746.0
+offset_bottom = 182.0
+rotation = -0.1308997
+theme_override_font_sizes/font_size = 64
+text = "New Sedes"
+
+[node name="Saves" type="VBoxContainer" parent="MainMenuManager/GameSelection/WorldContainer/WorldList/WorldTemplate/Info" unique_id=2005912596]
+custom_maximum_size = Vector2(421, -1)
+layout_mode = 2
+offset_transform_enabled = true
+offset_transform_position = Vector2(20, 0)
+offset_transform_visual_only = false
+theme_override_constants/separation = -40
+
+[node name="Save1" type="Button" parent="MainMenuManager/GameSelection/WorldContainer/WorldList/WorldTemplate/Info/Saves" unique_id=1831992029]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_bo4on")
+icon = ExtResource("20_5thul")
+flat = true
+script = ExtResource("9_wdl18")
+HoveredOffset = Vector2(20, 0)
+
+[node name="Info" type="HBoxContainer" parent="MainMenuManager/GameSelection/WorldContainer/WorldList/WorldTemplate/Info/Saves/Save1" unique_id=296872192]
+layout_mode = 0
+offset_left = 7.915047
+offset_top = 53.85835
+offset_right = 410.7479
+offset_bottom = 133.96474
+rotation = -0.11519173
+
+[node name="Title" type="Label" parent="MainMenuManager/GameSelection/WorldContainer/WorldList/WorldTemplate/Info/Saves/Save1/Info" unique_id=1587072435]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 48
+text = "Save 1"
+vertical_alignment = 1
+
+[node name="Stats" type="VBoxContainer" parent="MainMenuManager/GameSelection/WorldContainer/WorldList/WorldTemplate/Info/Saves/Save1/Info" unique_id=172971897]
+layout_mode = 2
+alignment = 1
+
+[node name="Playtime" type="Label" parent="MainMenuManager/GameSelection/WorldContainer/WorldList/WorldTemplate/Info/Saves/Save1/Info/Stats" unique_id=578557625]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_font_sizes/font_size = 27
+text = "62 hrs"
+horizontal_alignment = 2
+
+[node name="Completion" type="Label" parent="MainMenuManager/GameSelection/WorldContainer/WorldList/WorldTemplate/Info/Saves/Save1/Info/Stats" unique_id=2136011850]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_font_sizes/font_size = 27
+text = "54%"
+horizontal_alignment = 2
+
+[node name="Save2" type="Button" parent="MainMenuManager/GameSelection/WorldContainer/WorldList/WorldTemplate/Info/Saves" unique_id=122634580]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_bo4on")
+icon = ExtResource("20_5thul")
+flat = true
+script = ExtResource("9_wdl18")
+HoveredOffset = Vector2(20, 0)
+
+[node name="Info" type="HBoxContainer" parent="MainMenuManager/GameSelection/WorldContainer/WorldList/WorldTemplate/Info/Saves/Save2" unique_id=1214472506]
+layout_mode = 0
+offset_left = 7.915047
+offset_top = 53.85835
+offset_right = 410.7479
+offset_bottom = 133.96474
+rotation = -0.11519173
+
+[node name="Title" type="Label" parent="MainMenuManager/GameSelection/WorldContainer/WorldList/WorldTemplate/Info/Saves/Save2/Info" unique_id=839156853]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 48
+text = "Save 2"
+vertical_alignment = 1
+
+[node name="Stats" type="VBoxContainer" parent="MainMenuManager/GameSelection/WorldContainer/WorldList/WorldTemplate/Info/Saves/Save2/Info" unique_id=1178798809]
+layout_mode = 2
+alignment = 1
+
+[node name="Playtime" type="Label" parent="MainMenuManager/GameSelection/WorldContainer/WorldList/WorldTemplate/Info/Saves/Save2/Info/Stats" unique_id=852110788]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_font_sizes/font_size = 27
+text = "62 hrs"
+horizontal_alignment = 2
+
+[node name="Completion" type="Label" parent="MainMenuManager/GameSelection/WorldContainer/WorldList/WorldTemplate/Info/Saves/Save2/Info/Stats" unique_id=638151141]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_font_sizes/font_size = 27
+text = "54%"
+horizontal_alignment = 2
+
+[node name="Save3" type="Button" parent="MainMenuManager/GameSelection/WorldContainer/WorldList/WorldTemplate/Info/Saves" unique_id=731644775]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_bo4on")
+icon = ExtResource("20_5thul")
+flat = true
+script = ExtResource("9_wdl18")
+HoveredOffset = Vector2(20, 0)
+
+[node name="Info" type="HBoxContainer" parent="MainMenuManager/GameSelection/WorldContainer/WorldList/WorldTemplate/Info/Saves/Save3" unique_id=1025477858]
+layout_mode = 0
+offset_left = 7.915047
+offset_top = 53.85835
+offset_right = 410.7479
+offset_bottom = 133.96474
+rotation = -0.11519173
+
+[node name="Title" type="Label" parent="MainMenuManager/GameSelection/WorldContainer/WorldList/WorldTemplate/Info/Saves/Save3/Info" unique_id=1938965765]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 48
+text = "New Save"
+vertical_alignment = 1
+
+[node name="Stats" type="VBoxContainer" parent="MainMenuManager/GameSelection/WorldContainer/WorldList/WorldTemplate/Info/Saves/Save3/Info" unique_id=1606664202]
+visible = false
+layout_mode = 2
+alignment = 1
+
+[node name="Playtime" type="Label" parent="MainMenuManager/GameSelection/WorldContainer/WorldList/WorldTemplate/Info/Saves/Save3/Info/Stats" unique_id=1145400608]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_font_sizes/font_size = 27
+text = "62 hrs"
+horizontal_alignment = 2
+
+[node name="Completion" type="Label" parent="MainMenuManager/GameSelection/WorldContainer/WorldList/WorldTemplate/Info/Saves/Save3/Info/Stats" unique_id=1485557238]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_font_sizes/font_size = 27
+text = "54%"
+horizontal_alignment = 2
+
+[node name="WorldTemplate2" type="Control" parent="MainMenuManager/GameSelection/WorldContainer/WorldList" unique_id=1244939655]
+custom_minimum_size = Vector2(0, 490)
+layout_mode = 2
+
+[node name="Background" type="TextureRect" parent="MainMenuManager/GameSelection/WorldContainer/WorldList/WorldTemplate2" unique_id=126144429]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+rotation = -0.03141593
+texture = ExtResource("17_h4ivt")
+
+[node name="Thumbnail" type="PanelContainer" parent="MainMenuManager/GameSelection/WorldContainer/WorldList/WorldTemplate2" unique_id=120284740]
+layout_mode = 0
+offset_left = 600.0
+offset_top = 100.0
+offset_right = 1100.0
+offset_bottom = 390.0
+rotation = 0.08726646
+theme_override_styles/panel = SubResource("StyleBoxFlat_r5vg0")
+
+[node name="TextureRect" type="TextureRect" parent="MainMenuManager/GameSelection/WorldContainer/WorldList/WorldTemplate2/Thumbnail" unique_id=779874699]
+custom_minimum_size = Vector2(480, 270)
+layout_mode = 2
+texture = ExtResource("2_a712v")
+expand_mode = 1
+
+[node name="Info" type="VBoxContainer" parent="MainMenuManager/GameSelection/WorldContainer/WorldList/WorldTemplate2" unique_id=422268799]
+layout_mode = 0
+offset_left = 40.0
+offset_top = -20.0
+offset_right = 800.00006
+offset_bottom = 457.0
+theme_override_constants/separation = -45
+
+[node name="Title" type="TextureRect" parent="MainMenuManager/GameSelection/WorldContainer/WorldList/WorldTemplate2/Info" unique_id=691653300]
+layout_mode = 2
+texture = ExtResource("19_a6vv6")
+
+[node name="Label" type="Label" parent="MainMenuManager/GameSelection/WorldContainer/WorldList/WorldTemplate2/Info/Title" unique_id=1896760920]
+layout_mode = 0
+offset_left = 13.0
+offset_top = 95.0
+offset_right = 746.0
+offset_bottom = 182.0
+rotation = -0.1308997
+theme_override_font_sizes/font_size = 64
+text = "New Argos"
+
+[node name="Saves" type="VBoxContainer" parent="MainMenuManager/GameSelection/WorldContainer/WorldList/WorldTemplate2/Info" unique_id=1600862414]
+custom_maximum_size = Vector2(421, -1)
+layout_mode = 2
+offset_transform_enabled = true
+offset_transform_position = Vector2(20, 0)
+offset_transform_visual_only = false
+theme_override_constants/separation = -40
+
+[node name="Save1" type="Button" parent="MainMenuManager/GameSelection/WorldContainer/WorldList/WorldTemplate2/Info/Saves" unique_id=1464647075]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_bo4on")
+icon = ExtResource("20_5thul")
+flat = true
+script = ExtResource("9_wdl18")
+HoveredOffset = Vector2(20, 0)
+
+[node name="Info" type="HBoxContainer" parent="MainMenuManager/GameSelection/WorldContainer/WorldList/WorldTemplate2/Info/Saves/Save1" unique_id=1230442644]
+layout_mode = 0
+offset_left = 7.915047
+offset_top = 53.85835
+offset_right = 410.7479
+offset_bottom = 133.96474
+rotation = -0.11519173
+
+[node name="Title" type="Label" parent="MainMenuManager/GameSelection/WorldContainer/WorldList/WorldTemplate2/Info/Saves/Save1/Info" unique_id=2038686150]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 48
+text = "Save 1"
+vertical_alignment = 1
+
+[node name="Stats" type="VBoxContainer" parent="MainMenuManager/GameSelection/WorldContainer/WorldList/WorldTemplate2/Info/Saves/Save1/Info" unique_id=1719392510]
+layout_mode = 2
+alignment = 1
+
+[node name="Playtime" type="Label" parent="MainMenuManager/GameSelection/WorldContainer/WorldList/WorldTemplate2/Info/Saves/Save1/Info/Stats" unique_id=806139966]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_font_sizes/font_size = 27
+text = "62 hrs"
+horizontal_alignment = 2
+
+[node name="Completion" type="Label" parent="MainMenuManager/GameSelection/WorldContainer/WorldList/WorldTemplate2/Info/Saves/Save1/Info/Stats" unique_id=1816473536]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_font_sizes/font_size = 27
+text = "54%"
+horizontal_alignment = 2
+
+[node name="Save2" type="Button" parent="MainMenuManager/GameSelection/WorldContainer/WorldList/WorldTemplate2/Info/Saves" unique_id=205482145]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_bo4on")
+icon = ExtResource("20_5thul")
+flat = true
+script = ExtResource("9_wdl18")
+HoveredOffset = Vector2(20, 0)
+
+[node name="Info" type="HBoxContainer" parent="MainMenuManager/GameSelection/WorldContainer/WorldList/WorldTemplate2/Info/Saves/Save2" unique_id=1542889025]
+layout_mode = 0
+offset_left = 7.915047
+offset_top = 53.85835
+offset_right = 410.7479
+offset_bottom = 133.96474
+rotation = -0.11519173
+
+[node name="Title" type="Label" parent="MainMenuManager/GameSelection/WorldContainer/WorldList/WorldTemplate2/Info/Saves/Save2/Info" unique_id=1878150127]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 48
+text = "Save 2"
+vertical_alignment = 1
+
+[node name="Stats" type="VBoxContainer" parent="MainMenuManager/GameSelection/WorldContainer/WorldList/WorldTemplate2/Info/Saves/Save2/Info" unique_id=843937130]
+layout_mode = 2
+alignment = 1
+
+[node name="Playtime" type="Label" parent="MainMenuManager/GameSelection/WorldContainer/WorldList/WorldTemplate2/Info/Saves/Save2/Info/Stats" unique_id=460287626]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_font_sizes/font_size = 27
+text = "62 hrs"
+horizontal_alignment = 2
+
+[node name="Completion" type="Label" parent="MainMenuManager/GameSelection/WorldContainer/WorldList/WorldTemplate2/Info/Saves/Save2/Info/Stats" unique_id=491237964]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_font_sizes/font_size = 27
+text = "54%"
+horizontal_alignment = 2
+
+[node name="Save3" type="Button" parent="MainMenuManager/GameSelection/WorldContainer/WorldList/WorldTemplate2/Info/Saves" unique_id=1832818701]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_bo4on")
+icon = ExtResource("20_5thul")
+flat = true
+script = ExtResource("9_wdl18")
+HoveredOffset = Vector2(20, 0)
+
+[node name="Info" type="HBoxContainer" parent="MainMenuManager/GameSelection/WorldContainer/WorldList/WorldTemplate2/Info/Saves/Save3" unique_id=497202351]
+layout_mode = 0
+offset_left = 7.915047
+offset_top = 53.85835
+offset_right = 410.7479
+offset_bottom = 133.96474
+rotation = -0.11519173
+
+[node name="Title" type="Label" parent="MainMenuManager/GameSelection/WorldContainer/WorldList/WorldTemplate2/Info/Saves/Save3/Info" unique_id=56702767]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 48
+text = "New Save"
+vertical_alignment = 1
+
+[node name="Stats" type="VBoxContainer" parent="MainMenuManager/GameSelection/WorldContainer/WorldList/WorldTemplate2/Info/Saves/Save3/Info" unique_id=17200456]
+visible = false
+layout_mode = 2
+alignment = 1
+
+[node name="Playtime" type="Label" parent="MainMenuManager/GameSelection/WorldContainer/WorldList/WorldTemplate2/Info/Saves/Save3/Info/Stats" unique_id=2061401224]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_font_sizes/font_size = 27
+text = "62 hrs"
+horizontal_alignment = 2
+
+[node name="Completion" type="Label" parent="MainMenuManager/GameSelection/WorldContainer/WorldList/WorldTemplate2/Info/Saves/Save3/Info/Stats" unique_id=1007928809]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_font_sizes/font_size = 27
+text = "54%"
+horizontal_alignment = 2
+
+[node name="WorldTemplate3" type="Control" parent="MainMenuManager/GameSelection/WorldContainer/WorldList" unique_id=1823800194]
+custom_minimum_size = Vector2(0, 490)
+layout_mode = 2
+
+[node name="Background" type="TextureRect" parent="MainMenuManager/GameSelection/WorldContainer/WorldList/WorldTemplate3" unique_id=745171362]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+rotation = -0.03141593
+texture = ExtResource("17_h4ivt")
+
+[node name="Thumbnail" type="PanelContainer" parent="MainMenuManager/GameSelection/WorldContainer/WorldList/WorldTemplate3" unique_id=1672264429]
+layout_mode = 0
+offset_left = 600.0
+offset_top = 100.0
+offset_right = 1100.0
+offset_bottom = 390.0
+rotation = 0.08726646
+theme_override_styles/panel = SubResource("StyleBoxFlat_r5vg0")
+
+[node name="TextureRect" type="TextureRect" parent="MainMenuManager/GameSelection/WorldContainer/WorldList/WorldTemplate3/Thumbnail" unique_id=1942110553]
+custom_minimum_size = Vector2(480, 270)
+layout_mode = 2
+texture = ExtResource("21_a6vv6")
+expand_mode = 1
+
+[node name="Info" type="VBoxContainer" parent="MainMenuManager/GameSelection/WorldContainer/WorldList/WorldTemplate3" unique_id=1588029568]
+layout_mode = 0
+offset_left = 40.0
+offset_top = -20.0
+offset_right = 800.00006
+offset_bottom = 457.0
+theme_override_constants/separation = -45
+
+[node name="Title" type="TextureRect" parent="MainMenuManager/GameSelection/WorldContainer/WorldList/WorldTemplate3/Info" unique_id=1930609352]
+layout_mode = 2
+texture = ExtResource("19_a6vv6")
+
+[node name="Label" type="Label" parent="MainMenuManager/GameSelection/WorldContainer/WorldList/WorldTemplate3/Info/Title" unique_id=1249229852]
+layout_mode = 0
+offset_left = 13.0
+offset_top = 95.0
+offset_right = 746.0
+offset_bottom = 182.0
+rotation = -0.1308997
+theme_override_font_sizes/font_size = 64
+text = "New Insula"
+
+[node name="Saves" type="VBoxContainer" parent="MainMenuManager/GameSelection/WorldContainer/WorldList/WorldTemplate3/Info" unique_id=880995210]
+custom_maximum_size = Vector2(421, -1)
+layout_mode = 2
+offset_transform_enabled = true
+offset_transform_position = Vector2(20, 0)
+offset_transform_visual_only = false
+theme_override_constants/separation = -40
+
+[node name="Save1" type="Button" parent="MainMenuManager/GameSelection/WorldContainer/WorldList/WorldTemplate3/Info/Saves" unique_id=1445433440]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_bo4on")
+icon = ExtResource("20_5thul")
+flat = true
+script = ExtResource("9_wdl18")
+HoveredOffset = Vector2(20, 0)
+
+[node name="Info" type="HBoxContainer" parent="MainMenuManager/GameSelection/WorldContainer/WorldList/WorldTemplate3/Info/Saves/Save1" unique_id=104062757]
+layout_mode = 0
+offset_left = 7.915047
+offset_top = 53.85835
+offset_right = 410.7479
+offset_bottom = 133.96474
+rotation = -0.11519173
+
+[node name="Title" type="Label" parent="MainMenuManager/GameSelection/WorldContainer/WorldList/WorldTemplate3/Info/Saves/Save1/Info" unique_id=1396891028]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 48
+text = "Save 1"
+vertical_alignment = 1
+
+[node name="Stats" type="VBoxContainer" parent="MainMenuManager/GameSelection/WorldContainer/WorldList/WorldTemplate3/Info/Saves/Save1/Info" unique_id=866042248]
+layout_mode = 2
+alignment = 1
+
+[node name="Playtime" type="Label" parent="MainMenuManager/GameSelection/WorldContainer/WorldList/WorldTemplate3/Info/Saves/Save1/Info/Stats" unique_id=319849579]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_font_sizes/font_size = 27
+text = "62 hrs"
+horizontal_alignment = 2
+
+[node name="Completion" type="Label" parent="MainMenuManager/GameSelection/WorldContainer/WorldList/WorldTemplate3/Info/Saves/Save1/Info/Stats" unique_id=1659775350]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_font_sizes/font_size = 27
+text = "54%"
+horizontal_alignment = 2
+
+[node name="Save2" type="Button" parent="MainMenuManager/GameSelection/WorldContainer/WorldList/WorldTemplate3/Info/Saves" unique_id=631808981]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_bo4on")
+icon = ExtResource("20_5thul")
+flat = true
+script = ExtResource("9_wdl18")
+HoveredOffset = Vector2(20, 0)
+
+[node name="Info" type="HBoxContainer" parent="MainMenuManager/GameSelection/WorldContainer/WorldList/WorldTemplate3/Info/Saves/Save2" unique_id=1682230274]
+layout_mode = 0
+offset_left = 7.915047
+offset_top = 53.85835
+offset_right = 410.7479
+offset_bottom = 133.96474
+rotation = -0.11519173
+
+[node name="Title" type="Label" parent="MainMenuManager/GameSelection/WorldContainer/WorldList/WorldTemplate3/Info/Saves/Save2/Info" unique_id=1099364036]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 48
+text = "Save 2"
+vertical_alignment = 1
+
+[node name="Stats" type="VBoxContainer" parent="MainMenuManager/GameSelection/WorldContainer/WorldList/WorldTemplate3/Info/Saves/Save2/Info" unique_id=517503545]
+layout_mode = 2
+alignment = 1
+
+[node name="Playtime" type="Label" parent="MainMenuManager/GameSelection/WorldContainer/WorldList/WorldTemplate3/Info/Saves/Save2/Info/Stats" unique_id=337090833]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_font_sizes/font_size = 27
+text = "62 hrs"
+horizontal_alignment = 2
+
+[node name="Completion" type="Label" parent="MainMenuManager/GameSelection/WorldContainer/WorldList/WorldTemplate3/Info/Saves/Save2/Info/Stats" unique_id=1936147911]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_font_sizes/font_size = 27
+text = "54%"
+horizontal_alignment = 2
+
+[node name="Save3" type="Button" parent="MainMenuManager/GameSelection/WorldContainer/WorldList/WorldTemplate3/Info/Saves" unique_id=2057473593]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_bo4on")
+icon = ExtResource("20_5thul")
+flat = true
+script = ExtResource("9_wdl18")
+HoveredOffset = Vector2(20, 0)
+
+[node name="Info" type="HBoxContainer" parent="MainMenuManager/GameSelection/WorldContainer/WorldList/WorldTemplate3/Info/Saves/Save3" unique_id=1782053141]
+layout_mode = 0
+offset_left = 7.915047
+offset_top = 53.85835
+offset_right = 410.7479
+offset_bottom = 133.96474
+rotation = -0.11519173
+
+[node name="Title" type="Label" parent="MainMenuManager/GameSelection/WorldContainer/WorldList/WorldTemplate3/Info/Saves/Save3/Info" unique_id=778329205]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 48
+text = "New Save"
+vertical_alignment = 1
+
+[node name="Stats" type="VBoxContainer" parent="MainMenuManager/GameSelection/WorldContainer/WorldList/WorldTemplate3/Info/Saves/Save3/Info" unique_id=1094892448]
+visible = false
+layout_mode = 2
+alignment = 1
+
+[node name="Playtime" type="Label" parent="MainMenuManager/GameSelection/WorldContainer/WorldList/WorldTemplate3/Info/Saves/Save3/Info/Stats" unique_id=1558802129]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_font_sizes/font_size = 27
+text = "62 hrs"
+horizontal_alignment = 2
+
+[node name="Completion" type="Label" parent="MainMenuManager/GameSelection/WorldContainer/WorldList/WorldTemplate3/Info/Saves/Save3/Info/Stats" unique_id=651834656]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_font_sizes/font_size = 27
+text = "54%"
+horizontal_alignment = 2
