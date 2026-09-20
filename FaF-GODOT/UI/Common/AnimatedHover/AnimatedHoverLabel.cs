@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-namespace FaF.UI.MainMenu;
+namespace FaF.UI.Common.AnimatedHover;
 
 public partial class AnimatedHoverLabel : Label
 {
