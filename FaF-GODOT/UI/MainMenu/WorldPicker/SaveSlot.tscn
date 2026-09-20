@@ -1,0 +1,102 @@
+[gd_scene format=3 uid="uid://dcwn88t4sl45o"]
+
+[ext_resource type="Texture2D" uid="uid://bidd1igaxfhn5" path="res://UI/MainMenu/Assets/Textures/WorldPicker/WorldSaveBackground.png" id="1_f15qv"]
+[ext_resource type="Script" uid="uid://yimmjukmqetd" path="res://UI/Common/AnimatedHover/AnimatedHoverButton.cs" id="2_rdi4g"]
+[ext_resource type="Texture2D" uid="uid://6d06kx2xk28d" path="res://UI/MainMenu/Assets/Textures/WorldPicker/TrashSaveIcon.png" id="3_5t5g5"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bo4on"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_r5vg0"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ti6d1"]
+bg_color = Color(1, 0, 0, 1)
+
+[node name="SaveSlot" type="TextureRect" unique_id=1529083150]
+offset_right = 422.0
+offset_bottom = 139.0
+texture = ExtResource("1_f15qv")
+
+[node name="Trigger" type="Button" parent="." unique_id=43386664 node_paths=PackedStringArray("EffectNode")]
+layout_mode = 0
+offset_left = -11.763135
+offset_top = 32.761673
+offset_right = 428.23688
+offset_bottom = 158.44164
+rotation = -0.11519173
+theme_override_styles/normal = SubResource("StyleBoxFlat_bo4on")
+flat = true
+script = ExtResource("2_rdi4g")
+HoveredOffset = Vector2(20, 0)
+EffectNode = NodePath("..")
+
+[node name="TrashProgressMask" type="TextureRect" parent="." unique_id=649216202]
+clip_children = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("1_f15qv")
+
+[node name="TrashProgress" type="ProgressBar" parent="TrashProgressMask" unique_id=759059654]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/background = SubResource("StyleBoxEmpty_r5vg0")
+theme_override_styles/fill = SubResource("StyleBoxFlat_ti6d1")
+show_percentage = false
+
+[node name="Content" type="HBoxContainer" parent="." unique_id=536684832]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 54.0
+offset_right = 492.07675
+offset_bottom = 134.0
+rotation = -0.11519173
+mouse_filter = 2
+theme_override_constants/separation = 16
+
+[node name="Info" type="HBoxContainer" parent="Content" unique_id=948510496]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="Title" type="Label" parent="Content/Info" unique_id=1575490491]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 48
+text = "New Save"
+vertical_alignment = 1
+
+[node name="Stats" type="VBoxContainer" parent="Content/Info" unique_id=340618245]
+visible = false
+layout_mode = 2
+mouse_filter = 2
+alignment = 1
+
+[node name="Playtime" type="Label" parent="Content/Info/Stats" unique_id=32036299]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_font_sizes/font_size = 27
+text = "62 hrs"
+horizontal_alignment = 2
+
+[node name="Completion" type="Label" parent="Content/Info/Stats" unique_id=1184428595]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_font_sizes/font_size = 27
+text = "54%"
+horizontal_alignment = 2
+
+[node name="TrashButton" type="Button" parent="Content" unique_id=550989030]
+visible = false
+layout_mode = 2
+theme_override_colors/icon_pressed_color = Color(1, 0, 0, 1)
+icon = ExtResource("3_5t5g5")
+flat = true

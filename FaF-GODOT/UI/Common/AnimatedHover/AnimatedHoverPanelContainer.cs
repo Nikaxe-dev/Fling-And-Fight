@@ -11,6 +11,7 @@ public partial class AnimatedHoverPanelContainer : PanelContainer
 	[Export] public Vector2 HoveredScale = Vector2.One * 1.05f;
 	[Export] public Tween.EaseType EaseType = Tween.EaseType.InOut;
 	[Export] public Tween.TransitionType TransitionType = Tween.TransitionType.Quart;
+	[Export] public Control EffectNode;
 
 	private Tween EnterTween;
 	private Tween ExitTween;
@@ -19,24 +20,26 @@ public partial class AnimatedHoverPanelContainer : PanelContainer
 	{
 		base._Ready();
 
-		OffsetTransformEnabled = true;
+		EffectNode ??= this;
+
+		EffectNode.OffsetTransformEnabled = true;
 
 		MouseEntered += () =>
 		{
 			ExitTween?.Kill();
 
-			EnterTween = GetTree().CreateTween();
-			EnterTween.TweenProperty(this, "offset_transform_position", HoveredOffset, EnterTweenDuration).SetTrans(TransitionType).SetEase(EaseType);
-			EnterTween.Parallel().TweenProperty(this, "offset_transform_scale", HoveredScale, EnterTweenDuration).SetTrans(TransitionType).SetEase(EaseType);
+			EnterTween = EffectNode.CreateTween();
+			EnterTween.TweenProperty(EffectNode, "offset_transform_position", HoveredOffset, EnterTweenDuration).SetTrans(TransitionType).SetEase(EaseType);
+			EnterTween.Parallel().TweenProperty(EffectNode, "offset_transform_scale", HoveredScale, EnterTweenDuration).SetTrans(TransitionType).SetEase(EaseType);
 		};
 
 		MouseExited += () =>
 		{
 			EnterTween?.Kill();
 
-			ExitTween = GetTree().CreateTween();
-			ExitTween.TweenProperty(this, "offset_transform_position", Vector2.Zero, ExitTweenDuration).SetTrans(TransitionType).SetEase(EaseType);
-			ExitTween.Parallel().TweenProperty(this, "offset_transform_scale", Vector2.One, ExitTweenDuration).SetTrans(TransitionType).SetEase(EaseType);
+			ExitTween = EffectNode.CreateTween();
+			ExitTween.TweenProperty(EffectNode, "offset_transform_position", Vector2.Zero, ExitTweenDuration).SetTrans(TransitionType).SetEase(EaseType);
+			ExitTween.Parallel().TweenProperty(EffectNode, "offset_transform_scale", Vector2.One, ExitTweenDuration).SetTrans(TransitionType).SetEase(EaseType);
 		};
 	}
 }
