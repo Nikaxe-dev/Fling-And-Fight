@@ -1,0 +1,9 @@
+digraph CSharpDependencies {
+  graph [rankdir=LR, fontname="Helvetica", fontsize=14, splines=sprite, overlap=false, nodesep=0.2, ranksep=0.8];
+  node [shape=box, style=filled, fillcolor=lightblue, fontname="Helvetica", fontsize=11];
+  edge [fontname="Helvetica", fontsize=9];
+
+  "Fling And Fight" [label="Fling And Fight\n(net8.0)"];
+
+  // Project reference edges
+}

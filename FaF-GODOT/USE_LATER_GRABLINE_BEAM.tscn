@@ -1,0 +1,48 @@
+[gd_scene format=3 uid="uid://coj1ofhfyp88m"]
+
+[ext_resource type="Script" uid="uid://c6affh0ebwru3" path="res://addons/godot-polyliner/Line3D/LinePath3D.gd" id="1_6d6xb"]
+[ext_resource type="Shader" uid="uid://c30na0obdky88" path="res://addons/godot-polyliner/shaders/line_pbr.tres" id="2_sx2vy"]
+[ext_resource type="Texture2D" uid="uid://ds1ly7rfcovod" path="res://Assets/Textures/Character/Grabline/Display/Grabline Pattern Dotted.png" id="3_qf147"]
+
+[sub_resource type="Curve3D" id="1"]
+bake_interval = 0.9
+_data = {
+"points": PackedVector3Array(-0.00480616, -0.137626, 3.36291, 0.00480616, 0.137626, -3.36291, 0.216624, -0.107999, 3.55684, -0.904586, -6.14268, 0.266922, 0.904586, 6.14268, -0.266922, 1.397049, 4.6482306, -4.100254, 0, 0, 0, 0, 0, 0, -0.32403946, 7.4909506, -13.353861),
+"tilts": PackedFloat32Array(0, 0, 0)
+}
+point_count = 3
+
+[sub_resource type="Gradient" id="Gradient_toels"]
+colors = PackedColorArray(1, 0, 0, 1, 1, 1, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_mrrte"]
+gradient = SubResource("Gradient_toels")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_q0bxg"]
+render_priority = 0
+shader = ExtResource("2_sx2vy")
+shader_parameter/line_width = 0.2
+shader_parameter/tangent_facing = false
+shader_parameter/rounded = false
+shader_parameter/tube_normal = true
+shader_parameter/uv_matches_width = false
+shader_parameter/tex_scale = Vector2(1, 1)
+shader_parameter/texture_alb = ExtResource("3_qf147")
+shader_parameter/tex_stretch = false
+shader_parameter/color_gradient = SubResource("GradientTexture1D_mrrte")
+shader_parameter/stretch_gradient = true
+shader_parameter/metallic = 0.0
+shader_parameter/specular = 0.5
+shader_parameter/roughness = 0.5
+
+[node name="Node3D" type="Node3D" unique_id=1140519367]
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=402888479]
+
+[node name="LinePath3D" type="Path3D" parent="." unique_id=1280167658]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -4)
+curve = SubResource("1")
+script = ExtResource("1_6d6xb")
+curve_mode = 1
+uv_size = 0.5
+material = SubResource("ShaderMaterial_q0bxg")

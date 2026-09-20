@@ -1,0 +1,40 @@
+[gd_scene format=3 uid="uid://c4ngs38mjj3v3"]
+
+[ext_resource type="Script" uid="uid://c6affh0ebwru3" path="res://addons/godot-polyliner/Line3D/LinePath3D.gd" id="1"]
+[ext_resource type="Shader" uid="uid://c30na0obdky88" path="res://addons/godot-polyliner/shaders/line_pbr.tres" id="2_vwa1i"]
+[ext_resource type="Texture2D" uid="uid://d2jcvj2tviphc" path="res://Assets/Textures/Character/Grabline/Display/Grabline Pattern Chain.png" id="3_gmnrh"]
+
+[sub_resource type="Curve3D" id="1"]
+bake_interval = 0.9
+_data = {
+"points": PackedVector3Array(-0.00480616, -0.137626, 3.36291, 0.00480616, 0.137626, -3.36291, 0.216624, -0.107999, 3.55684, -0.904586, -6.14268, 0.266922, 0.904586, 6.14268, -0.266922, -2.3837132, 11.191444, -8.67692),
+"tilts": PackedFloat32Array(0, 0)
+}
+point_count = 2
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_q0bxg"]
+render_priority = 0
+shader = ExtResource("2_vwa1i")
+shader_parameter/line_width = 0.1
+shader_parameter/tangent_facing = false
+shader_parameter/rounded = false
+shader_parameter/tube_normal = true
+shader_parameter/uv_matches_width = true
+shader_parameter/tex_scale = Vector2(1, 1)
+shader_parameter/texture_alb = ExtResource("3_gmnrh")
+shader_parameter/tex_stretch = true
+shader_parameter/color = Color(1, 1, 1, 1)
+shader_parameter/metallic = 0.0
+shader_parameter/specular = 0.5
+shader_parameter/roughness = 0.5
+
+[node name="Node3D" type="Node3D" unique_id=1140519367]
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=402888479]
+
+[node name="LinePath3D" type="Path3D" parent="." unique_id=1280167658]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -4)
+curve = SubResource("1")
+script = ExtResource("1")
+uv_size = 0.25
+material = SubResource("ShaderMaterial_q0bxg")

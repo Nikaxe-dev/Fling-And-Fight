@@ -1,3 +1,4 @@
+using FaF.UI.Common.AnimatedHover;
 using FaF.UI.MainMenu;
 using Godot;
 using System;
