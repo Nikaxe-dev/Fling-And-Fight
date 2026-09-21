@@ -6,7 +6,7 @@ namespace FaF.Data.RegistryObjects;
 /// Abstract class for everything with AvatarItem functionality.
 /// </summary>
 [GlobalClass]
-public abstract partial class AbstractAvatarItemLikeRegistry : Registry
+public abstract partial class AbstractAvatarItemLikeRegistry : AbstractItemLikeRegistry
 {
-    [Export] public bool LockedToWorld = false;
+    
 }

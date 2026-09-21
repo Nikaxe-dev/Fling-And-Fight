@@ -3,7 +3,7 @@ using Godot;
 namespace FaF.Data.RegistryObjects;
 
 [GlobalClass]
-public partial class WorldContentConfiguration : Resource
+public partial class WorldContentConfiguration : DataResource
 {
     public enum WorldIncludeBehaviour
     {

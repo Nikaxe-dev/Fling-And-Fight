@@ -3,7 +3,7 @@ using Godot;
 namespace FaF.Data.RegistryObjects;
 
 [GlobalClass]
-public abstract partial class Registry : Resource
+public abstract partial class Registry : DataResource
 {
     public string FULL_ID {get => $"{NAMESPACE}:{ID}";}
 

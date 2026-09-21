@@ -48,8 +48,6 @@ enabled=PackedStringArray("res://addons/discord-rpc-gd/plugin.cfg", "res://addon
 [file_customization]
 
 folder_colors={
-"res://Assets/": "red",
-"res://Data/": "red",
 "res://addons/": "gray"
 }
 

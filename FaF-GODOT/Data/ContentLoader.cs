@@ -24,6 +24,18 @@ public static class ContentLoader
 
     // AvatarItems
     private static readonly List<TShirtRegistry> TShirts = [];
+    private static readonly List<ShirtRegistry> Shirts = [];
+    private static readonly List<PantsRegistry> Pants = [];
+    private static readonly List<AccessoryRegistry> Accessories = [];
+
+    // Misc
+    
+    private static readonly List<SongRegistry> Songs = [];
+
+    private static readonly List<WorldEventRegistry> WorldEvents = [];
+
+    private static readonly List<GrablineShapeRegistry> GrablineShapes;
+    private static readonly List<GrablineSkinRegistry> GrablineSkins;
 
     /// <summary>
     /// Clears all of the registries with the exception of Worlds.
@@ -32,7 +44,18 @@ public static class ContentLoader
     {
         Props.Clear();
         Gears.Clear();
+
         TShirts.Clear();
+        Shirts.Clear();
+        Pants.Clear();
+        Accessories.Clear();
+
+        Songs.Clear();
+
+        WorldEvents.Clear();
+
+        GrablineShapes.Clear();
+        GrablineSkins.Clear();
     }
 
     private static void ExpectDir(string directory)
@@ -70,8 +93,30 @@ public static class ContentLoader
                 LOGGER.LOG(LogType.INFO, "Loading Gears", "WorldDataLoader");
                 LoadRegistryFolder(WorldID, fullPath.PathJoin("Data/Gears"), "GearMeta.tres", Gears);
 
+
                 LOGGER.LOG(LogType.INFO, "Loading TShirts", "WorldDataLoader");
                 LoadRegistryFolder(WorldID, fullPath.PathJoin("Data/AvatarItems/TShirts"), "TShirtMeta.tres", TShirts);
+
+                LOGGER.LOG(LogType.INFO, "Loading Shirts", "WorldDataLoader");
+                LoadRegistryFolder(WorldID, fullPath.PathJoin("Data/AvatarItems/Shirts"), "ShirtMeta.tres", TShirts);
+
+                LOGGER.LOG(LogType.INFO, "Loading Pants", "WorldDataLoader");
+                LoadRegistryFolder(WorldID, fullPath.PathJoin("Data/AvatarItems/Pants"), "PantsMeta.tres", TShirts);
+
+                LOGGER.LOG(LogType.INFO, "Loading Accessories", "WorldDataLoader");
+                LoadRegistryFolder(WorldID, fullPath.PathJoin("Data/AvatarItems/Accessories"), "AccessoryMeta.tres", TShirts);
+
+
+                LOGGER.LOG(LogType.INFO, "Loading GrablineSkins", "WorldDataLoader");
+                LoadRegistryFolder(WorldID, fullPath.PathJoin("Data/AvatarItems/GrablineSkins"), "GrablineSkinMeta.tres", TShirts);
+
+                LOGGER.LOG(LogType.INFO, "Loading GrablineShapes", "WorldDataLoader");
+                LoadRegistryFolder(WorldID, fullPath.PathJoin("Data/AvatarItems/GrablineShapes"), "GrablineShapeMeta.tres", TShirts);
+
+
+                LOGGER.LOG(LogType.INFO, "Loading Songs", "WorldDataLoader");
+                LoadRegistryFolder(WorldID, fullPath.PathJoin("Data/AvatarItems/Music"), "SongMeta.tres", TShirts);
+
 
                 LOGGER.LOG(LogType.INFO, $"World '{WorldID}' successfully loaded", "WorldDataLoader");
             }
@@ -136,8 +181,41 @@ public static class ContentLoader
         return Gears.Find(registry => registry.FULL_ID == FULL_ID);
     }
 
+
     public static TShirtRegistry GetTShirt(string FULL_ID)
     {
         return TShirts.Find(registry => registry.FULL_ID == FULL_ID);
+    }
+
+    public static ShirtRegistry GetShirt(string FULL_ID)
+    {
+        return Shirts.Find(registry => registry.FULL_ID == FULL_ID);
+    }
+
+    public static PantsRegistry GetPants(string FULL_ID)
+    {
+        return Pants.Find(registry => registry.FULL_ID == FULL_ID);
+    }
+
+    public static AccessoryRegistry GetAccessory(string FULL_ID)
+    {
+        return Accessories.Find(registry => registry.FULL_ID == FULL_ID);
+    }
+
+    
+    public static GrablineSkinRegistry GetGrablineSkin(string FULL_ID)
+    {
+        return GrablineSkins.Find(registry => registry.FULL_ID == FULL_ID);
+    }
+
+    public static GrablineShapeRegistry GetGrablineShape(string FULL_ID)
+    {
+        return GrablineShapes.Find(registry => registry.FULL_ID == FULL_ID);
+    }
+
+
+    public static SongRegistry GetSong(string FULL_ID)
+    {
+        return Songs.Find(registry => registry.FULL_ID == FULL_ID);
     }
 }
