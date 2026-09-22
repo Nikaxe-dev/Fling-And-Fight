@@ -22,11 +22,8 @@ config/icon="uid://2gbmis67qj5w"
 
 Discord="*uid://87qn2l8pml20"
 ConsoleUI="*uid://dh2x5lnklpc14"
-NetworkManager="*uid://cgq7ve731rqrt"
-GameManager="*uid://c3d02dtcnj37x"
-MouseInputManager="*uid://co4ciphoaek5d"
-InputManager="*uid://bmdpo8fxmmerv"
 ConsoleLoggerConnection="*uid://brkw7sdirdb6n"
+GameManager="*uid://cpg0n5agsb8vl"
 DiscordRPCLoader="*uid://cdg170dhtuqaw"
 
 [display]

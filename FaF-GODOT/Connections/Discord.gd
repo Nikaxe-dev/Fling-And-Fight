@@ -2,6 +2,8 @@
 
 extends Node
 
+@onready var NetworkManager: Node = GameManager.get_node("NetworkManager")
+
 func reset_rpc():
 	DiscordRPC.details = "Fling And Fight"
 	DiscordRPC.state = ""
