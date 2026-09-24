@@ -1,9 +1,7 @@
-using System;
 using FaF.Debug;
 using FaF.Game.Networking;
 using FaF.Game.Rig;
 using FaF.UserInput;
-using FaF.Visuals.Camera;
 using Godot;
 using Vector2 = Godot.Vector2;
 using Vector3 = Godot.Vector3;
@@ -160,4 +158,22 @@ public partial class Player : Node
 
 		Character.MoveDirection = (right * inputDir.X + forward * inputDir.Y).Normalized();
     }
+
+	#region PLAYER ATTRIBUTES
+
+	[Signal] public delegate void MoneyChangedEventHandler(int newMoney, int oldMoney);
+	public event MoneyChangedEventHandler? MoneyChanged;
+
+	private int _money = 0;
+	[Export] public int Money {
+		get => _money;
+
+		set
+		{
+			EmitSignal(SignalName.MoneyChanged, value, _money);
+			_money = value;
+		}
+	}
+
+	#endregion
 }

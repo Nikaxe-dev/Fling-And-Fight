@@ -1,3 +1,4 @@
+using FaF.Core;
 using FaF.Debug;
 using Godot;
 
@@ -13,10 +14,8 @@ public enum MouseMode
 /// Handles the global mouse mode using a UIModal group similar to Roblox's GuiButton.Modal property.
 /// Also uses my own enums and methods for changing the mouse mode, which is understood much better to me.
 /// </summary>
-public partial class MouseInputManager : Node
+public partial class MouseInputManager : Manager<MouseInputManager>
 {
-    public static MouseInputManager Instance;
-
     private static readonly FaFLogger LOGGER = FaFLogger.Get("UI/MouseInputManager");
 
     public MouseMode TargetMouseMode = MouseMode.Free;
@@ -60,10 +59,5 @@ public partial class MouseInputManager : Node
     {
         CurrentMouseMode = GetMouseMode();
         Input.MouseMode = MouseModeToGD(CurrentMouseMode);
-    }
-
-    public override void _Ready()
-    {
-        Instance = this;
     }
 }

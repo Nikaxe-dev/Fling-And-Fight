@@ -1,3 +1,4 @@
+using FaF.Core;
 using Godot;
 
 namespace FaF.UserInput;
@@ -12,7 +13,7 @@ public enum InputContext
 /// <summary>
 /// FaF input manager. Wraps around the basic Godot input manager adding a simple InputContext parameter that makes sure the user isn't in a textbox or anything when giving input.
 /// </summary>
-public partial class InputManager : Node
+public partial class InputManager : Manager<InputManager>
 {
     public static bool GameplayEnabled = true;
 
@@ -41,10 +42,4 @@ public partial class InputManager : Node
 
     public static Vector2 GetVector(StringName negativeX, StringName positiveX, StringName negativeY, StringName positiveY, InputContext context, float deadzone = -1)
     => ActionContextAllowed(context) ? Input.GetVector(negativeX, positiveX, negativeY, positiveY, deadzone) : Vector2.Zero;
-
-    private static InputManager Instance;
-    public override void _Ready()
-    {
-        Instance = this;
-    }
 }

@@ -1,4 +1,5 @@
 using System;
+using FaF.Core;
 using FaF.Debug;
 using FaF.Game.Players;
 using Godot;
@@ -8,7 +9,7 @@ namespace FaF.Game.Networking;
 /// <summary>
 /// Manages all of the networking of FaF including starting a server, joining a server, and disconnection from that server.
 /// </summary>
-public partial class NetworkManager : Node
+public partial class NetworkManager : Manager<NetworkManager>
 {
     private static readonly FaFLogger LOGGER = FaFLogger.Get("Networking/NetworkManager");
 
@@ -71,7 +72,7 @@ public partial class NetworkManager : Node
 
     public override void _Ready()
     {
-        Instance = this;
+        base._Ready();
 
         Multiplayer.PeerConnected += OnPeerConnected;
         Multiplayer.PeerDisconnected += OnPeerDisconnected;
@@ -205,6 +206,4 @@ public partial class NetworkManager : Node
         LOGGER.LOG(LogType.INFO, $"Peer connected: {id}", "PeerConnections", true);
         EmitSignal(SignalName.PlayerConnected, (int)id);
     }
-
-    public static NetworkManager Instance {get; private set;}
 }

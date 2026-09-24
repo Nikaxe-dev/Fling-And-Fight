@@ -34,8 +34,8 @@ public static class ContentLoader
 
     private static readonly List<WorldEventRegistry> WorldEvents = [];
 
-    private static readonly List<GrablineShapeRegistry> GrablineShapes;
-    private static readonly List<GrablineSkinRegistry> GrablineSkins;
+    private static readonly List<GrablineShapeRegistry> GrablineShapes = [];
+    private static readonly List<GrablineSkinRegistry> GrablineSkins = [];
 
     /// <summary>
     /// Clears all of the registries with the exception of Worlds.
@@ -98,24 +98,24 @@ public static class ContentLoader
                 LoadRegistryFolder(WorldID, fullPath.PathJoin("Data/AvatarItems/TShirts"), "TShirtMeta.tres", TShirts);
 
                 LOGGER.LOG(LogType.INFO, "Loading Shirts", "WorldDataLoader");
-                LoadRegistryFolder(WorldID, fullPath.PathJoin("Data/AvatarItems/Shirts"), "ShirtMeta.tres", TShirts);
+                LoadRegistryFolder(WorldID, fullPath.PathJoin("Data/AvatarItems/Shirts"), "ShirtMeta.tres", Shirts);
 
                 LOGGER.LOG(LogType.INFO, "Loading Pants", "WorldDataLoader");
-                LoadRegistryFolder(WorldID, fullPath.PathJoin("Data/AvatarItems/Pants"), "PantsMeta.tres", TShirts);
+                LoadRegistryFolder(WorldID, fullPath.PathJoin("Data/AvatarItems/Pants"), "PantsMeta.tres", Pants);
 
                 LOGGER.LOG(LogType.INFO, "Loading Accessories", "WorldDataLoader");
-                LoadRegistryFolder(WorldID, fullPath.PathJoin("Data/AvatarItems/Accessories"), "AccessoryMeta.tres", TShirts);
+                LoadRegistryFolder(WorldID, fullPath.PathJoin("Data/AvatarItems/Accessories"), "AccessoryMeta.tres", Accessories);
 
 
                 LOGGER.LOG(LogType.INFO, "Loading GrablineSkins", "WorldDataLoader");
-                LoadRegistryFolder(WorldID, fullPath.PathJoin("Data/AvatarItems/GrablineSkins"), "GrablineSkinMeta.tres", TShirts);
+                LoadRegistryFolder(WorldID, fullPath.PathJoin("Data/AvatarItems/GrablineSkins"), "GrablineSkinMeta.tres", GrablineSkins);
 
                 LOGGER.LOG(LogType.INFO, "Loading GrablineShapes", "WorldDataLoader");
-                LoadRegistryFolder(WorldID, fullPath.PathJoin("Data/AvatarItems/GrablineShapes"), "GrablineShapeMeta.tres", TShirts);
+                LoadRegistryFolder(WorldID, fullPath.PathJoin("Data/AvatarItems/GrablineShapes"), "GrablineShapeMeta.tres", GrablineShapes);
 
 
                 LOGGER.LOG(LogType.INFO, "Loading Songs", "WorldDataLoader");
-                LoadRegistryFolder(WorldID, fullPath.PathJoin("Data/AvatarItems/Music"), "SongMeta.tres", TShirts);
+                LoadRegistryFolder(WorldID, fullPath.PathJoin("Data/AvatarItems/Music"), "SongMeta.tres", Songs);
 
 
                 LOGGER.LOG(LogType.INFO, $"World '{WorldID}' successfully loaded", "WorldDataLoader");

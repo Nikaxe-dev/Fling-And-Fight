@@ -5,6 +5,7 @@ namespace FaF.Data;
 /// <summary>
 /// Configures the award given to the player upon activation of the parent registry. (EXAMPLES FOR USE: Events, Achievements)
 /// </summary>
+[GlobalClass]
 public partial class AwardConfiguration : DataResource
 {
     [Export] public int MoneyAwarded = 0;

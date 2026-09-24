@@ -1,4 +1,5 @@
 using System.Threading;
+using FaF.Core;
 using FaF.Data;
 using FaF.Data.RegistryObjects;
 using FaF.Debug;
@@ -23,15 +24,13 @@ namespace FaF.Game;
 /// <br/>
 /// On TransmitLoadedWorldToClient(string WorldID), load the given WorldID.
 /// </summary>
-public sealed partial class GameManager : Node
+public sealed partial class GameManager : Manager<GameManager>
 {
     private static readonly FaFLogger LOGGER = FaFLogger.Get("GameManager");
 
-    public static GameManager Instance {get; private set;}
-
     public override void _Ready()
     {
-        Instance = this;
+        base._Ready();
 
         ContentLoader.LoadWorldRegistryFolder();
         ContentLoader.LoadWorlds();
