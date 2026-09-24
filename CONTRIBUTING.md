@@ -5,6 +5,8 @@ Please take a moment to look over this document to make sure you follow all of t
 
 Going along with these contribution guidelines helps to look back on the projects history and saves time for the project maintainers.
 
+**NOTE:** The /FaF-RBLX-ARCHIVE directory is not meant to be modified ever. It contains the old version of FaF built in Roblox for archival purposes. Knowing that, feel free to look at it and otherwise fork the game on Roblox. The RBXL file is now licensed under the same license as this project.
+
 # Issues
 
 The [github issue tracker](https://github.com/nikaxe-dev/fling-and-fight/issues) is the preferred channel for bug reports & feature requests, although they can also be put in the discord server.
