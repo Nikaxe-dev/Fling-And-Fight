@@ -1,3 +1,7 @@
+![FaF Title Image](./FaF-GODOT/TitleBanner.png)
+
+---
+
 # Contributing to Fling And Fight
 Looking to contribute to FaF? **Here's how you can help.**
 
