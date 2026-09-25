@@ -1,12 +1,9 @@
 [gd_scene format=3 uid="uid://dg0p1fqfjnctp"]
 
 [ext_resource type="Script" uid="uid://cpch71j3u61ys" path="res://Game/World/WorldRoot.cs" id="1_n736j"]
-[ext_resource type="Material" uid="uid://beug8fe15r3nt" path="res://Data/Worlds/FaF/Assets/Sky/Skybox.tres" id="6_wahym"]
 [ext_resource type="Script" uid="uid://bnnmdd0ats3pg" path="res://Visuals/Camera/CameraPivot.cs" id="7_e0tht"]
-[ext_resource type="Texture2D" uid="uid://bxn65lvpn11qy" path="res://Data/Worlds/FaF/Assets/Sky/Sun.png" id="8_wahym"]
 
 [sub_resource type="Sky" id="Sky_8evay"]
-sky_material = ExtResource("6_wahym")
 
 [sub_resource type="Environment" id="Environment_hcybn"]
 background_mode = 2
@@ -23,7 +20,6 @@ transparency = 1
 blend_mode = 1
 cull_mode = 2
 shading_mode = 0
-albedo_texture = ExtResource("8_wahym")
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_ras5e"]
 material = SubResource("StandardMaterial3D_qswnl")

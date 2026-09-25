@@ -1,0 +1,11 @@
+{
+    "Name": "Boom!",
+    "Description": "Boom! The symbol all FaF players know.",
+
+    "Creator": "Nikaxe",
+
+    "TorsoAsset": "FaF:Content/TShirts/Boom",
+
+    "ShopPrice": 0,
+    "CanBeBought": true
+}

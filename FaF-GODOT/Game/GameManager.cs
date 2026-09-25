@@ -1,7 +1,7 @@
 using System.Threading;
 using FaF.Core;
 using FaF.Data;
-using FaF.Data.RegistryObjects;
+using FaF.Data.DataResources;
 using FaF.Debug;
 using FaF.Game.Networking;
 using FaF.Game.World;
@@ -31,9 +31,7 @@ public sealed partial class GameManager : Manager<GameManager>
     public override void _Ready()
     {
         base._Ready();
-
-        ContentLoader.LoadWorldRegistryFolder();
-        ContentLoader.LoadWorlds();
+        ContentLoader.LoadData();
     }
 
     // GAMESTATE
@@ -59,7 +57,7 @@ public sealed partial class GameManager : Manager<GameManager>
     public static string GetLoadedWorld() => LOADED_WORLD;
     public static string GetGlobalServerID() => GLOBAL_SERVER_ID;
 
-    public static WorldRegistry ContentLoaderGetWorld(string FullID) => ContentLoader.GetWorld(FullID);
+    public static ModResource ContentLoaderGetMod(string FullID) => ContentLoader.GetMod(FullID);
 
     // HELPERS
 
@@ -91,11 +89,11 @@ public sealed partial class GameManager : Manager<GameManager>
     {
         LOGGER.LOG(LogType.INFO, $"Loading the scene of world '{WorldID}'", "Worlds", true);
 
-        WorldRegistry worldRegistry = ContentLoader.GetWorld(WorldID);
-        if (worldRegistry != null)
+        ModResource modResource = ContentLoader.GetMod(WorldID);
+        if (modResource != null)
         {
-            // GetTree().ChangeSceneToPacked(worldRegistry.Scene);
-            var world = worldRegistry.Scene.Instantiate();
+            // GetTree().ChangeSceneToPacked(modResource.Scene);
+            var world = modResource.Scene.Instantiate();
             world.Name = "WorldRoot";
 
             if (world is WorldRoot newWorldRoot) WORLD_ROOT = newWorldRoot;

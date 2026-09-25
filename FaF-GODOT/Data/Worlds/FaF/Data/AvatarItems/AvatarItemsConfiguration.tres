@@ -1,7 +1,0 @@
-[gd_resource type="Resource" script_class="WorldContentConfiguration" format=3 uid="uid://bnvkcl8onvm66"]
-
-[ext_resource type="Script" uid="uid://ckp5710f8pu53" path="res://Data/RegistryObjects/WorldContentConfiguration.cs" id="1_fl567"]
-
-[resource]
-script = ExtResource("1_fl567")
-metadata/_custom_type_script = "uid://ckp5710f8pu53"

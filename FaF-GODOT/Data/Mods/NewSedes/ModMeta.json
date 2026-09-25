@@ -1,0 +1,12 @@
+{
+    "Name": "New Sedes",
+    "Description": "A desolate island where it all started...",
+
+    "Creator": "Nikaxe",
+    "Contributors": [
+        "Nikaxe"
+    ],
+
+    "ShowInGame": true,
+    "WorldType": "GodotScene"
+}

@@ -1,61 +1,28 @@
 using System;
 using System.Collections.Generic;
-using FaF.Data.RegistryObjects;
+using System.Text.Json;
+using FaF.Data.DataResources;
 using FaF.Debug;
 using Godot;
 
 namespace FaF.Data;
 
-/// <summary>
-/// FaF content loader. Contains all functions related to loading registries.
-/// </summary>
 public static class ContentLoader
 {
     private static readonly FaFLogger LOGGER = FaFLogger.Get("Data/ContentLoader");
 
     public static readonly string BUILTIN_DATA_PATH = "res://Data";
-    public static readonly string UGC_DATA_PATH = "user://Data"; // OS.GetExecutablePath().GetBaseDir().PathJoin("Data");
+    public static readonly string UGC_DATA_PATH = "user://Data";
 
-    private static readonly List<WorldRegistry> Worlds = [];
+    private static readonly List<ModResource> Mods = [];
 
-    // ItemLike
-    private static readonly List<PropRegistry> Props = [];
-    private static readonly List<GearRegistry> Gears = [];
+    private static readonly List<TShirtResource> TShirts = [];
 
-    // AvatarItems
-    private static readonly List<TShirtRegistry> TShirts = [];
-    private static readonly List<ShirtRegistry> Shirts = [];
-    private static readonly List<PantsRegistry> Pants = [];
-    private static readonly List<AccessoryRegistry> Accessories = [];
-
-    // Misc
-    
-    private static readonly List<SongRegistry> Songs = [];
-
-    private static readonly List<WorldEventRegistry> WorldEvents = [];
-
-    private static readonly List<GrablineShapeRegistry> GrablineShapes = [];
-    private static readonly List<GrablineSkinRegistry> GrablineSkins = [];
-
-    /// <summary>
-    /// Clears all of the registries with the exception of Worlds.
-    /// </summary>
-    public static void ClearRegistries()
+    public static void ClearData()
     {
-        Props.Clear();
-        Gears.Clear();
+        Mods.Clear();
 
         TShirts.Clear();
-        Shirts.Clear();
-        Pants.Clear();
-        Accessories.Clear();
-
-        Songs.Clear();
-
-        WorldEvents.Clear();
-
-        GrablineShapes.Clear();
-        GrablineSkins.Clear();
     }
 
     private static void ExpectDir(string directory)
@@ -68,154 +35,136 @@ public static class ContentLoader
         }
     }
 
-    /// <summary>
-    /// Loads a worlds data. NOTE: This means it loads the props, gears, avatar items, ect. NOT THE MAP.
-    /// </summary>
-    public static void LoadWorldData(string WorldID)
+    public static void LoadMod(string ModID)
     {
-        LOGGER.LOG(LogType.INFO, $"Loading world '{WorldID}'", "WorldDataLoader");
+        LOGGER.LOG(LogType.INFO, $"Loading mod '{ModID}'", "ModLoader");
 
-        DirAccess packRoot = DirAccess.Open(BUILTIN_DATA_PATH.PathJoin("Worlds").PathJoin(WorldID));
-        packRoot ??= DirAccess.Open(UGC_DATA_PATH.PathJoin("Worlds").PathJoin(WorldID));
+        // figure out whether it is a builtin or ugc mod
+        DirAccess packRoot = DirAccess.Open(BUILTIN_DATA_PATH.PathJoin("Mods").PathJoin(ModID));
+        packRoot ??= DirAccess.Open(UGC_DATA_PATH.PathJoin("Mods").PathJoin(ModID));
 
-        if (packRoot == null) LOGGER.LOG(LogType.ERROR, $"World with ID: '{WorldID}' not found in res:// or user://", "WorldDataLoader"); else {
-            // World exists: CONTINUE LOADING !!
-
-            string fullPath = packRoot.GetCurrentDir();
-
-            if (!ResourceLoader.Exists(fullPath.PathJoin("WorldMeta.tres"))) LOGGER.LOG(LogType.ERROR, $"World with ID: '{WorldID}' does not include the required WorldMeta.tres WorldRegistry Resource file", "WorldDataLoader"); else
-            {
-                // Worlds.Add((WorldRegistry)ResourceLoader.Load(fullPath.PathJoin("WorldMeta.tres")));
-                
-                LOGGER.LOG(LogType.INFO, "Loading Props", "WorldDataLoader");
-                LoadRegistryFolder(WorldID, fullPath.PathJoin("Data/Props"), "PropMeta.tres", Props);
-
-                LOGGER.LOG(LogType.INFO, "Loading Gears", "WorldDataLoader");
-                LoadRegistryFolder(WorldID, fullPath.PathJoin("Data/Gears"), "GearMeta.tres", Gears);
-
-
-                LOGGER.LOG(LogType.INFO, "Loading TShirts", "WorldDataLoader");
-                LoadRegistryFolder(WorldID, fullPath.PathJoin("Data/AvatarItems/TShirts"), "TShirtMeta.tres", TShirts);
-
-                LOGGER.LOG(LogType.INFO, "Loading Shirts", "WorldDataLoader");
-                LoadRegistryFolder(WorldID, fullPath.PathJoin("Data/AvatarItems/Shirts"), "ShirtMeta.tres", Shirts);
-
-                LOGGER.LOG(LogType.INFO, "Loading Pants", "WorldDataLoader");
-                LoadRegistryFolder(WorldID, fullPath.PathJoin("Data/AvatarItems/Pants"), "PantsMeta.tres", Pants);
-
-                LOGGER.LOG(LogType.INFO, "Loading Accessories", "WorldDataLoader");
-                LoadRegistryFolder(WorldID, fullPath.PathJoin("Data/AvatarItems/Accessories"), "AccessoryMeta.tres", Accessories);
-
-
-                LOGGER.LOG(LogType.INFO, "Loading GrablineSkins", "WorldDataLoader");
-                LoadRegistryFolder(WorldID, fullPath.PathJoin("Data/AvatarItems/GrablineSkins"), "GrablineSkinMeta.tres", GrablineSkins);
-
-                LOGGER.LOG(LogType.INFO, "Loading GrablineShapes", "WorldDataLoader");
-                LoadRegistryFolder(WorldID, fullPath.PathJoin("Data/AvatarItems/GrablineShapes"), "GrablineShapeMeta.tres", GrablineShapes);
-
-
-                LOGGER.LOG(LogType.INFO, "Loading Songs", "WorldDataLoader");
-                LoadRegistryFolder(WorldID, fullPath.PathJoin("Data/AvatarItems/Music"), "SongMeta.tres", Songs);
-
-
-                LOGGER.LOG(LogType.INFO, $"World '{WorldID}' successfully loaded", "WorldDataLoader");
-            }
+        if (packRoot == null)
+        {
+            LOGGER.LOG(LogType.ERROR, $"Mod with ID: '{ModID}' not found in builtin or ugc mod folder");
+            return;
         }
+
+        string fullPath = packRoot.GetCurrentDir();
+        string metaPath = fullPath.PathJoin("ModMeta.json");
+
+        if (!ResourceLoader.Exists(metaPath))
+        {
+            LOGGER.LOG(LogType.ERROR, $"Mod with ID: '{ModID}' failed to load: a ModMeta.json file was not found.");
+            return;
+        }
+
+        var modResource = LoadModResource(metaPath);
+        modResource.ID = ModID;
+        modResource.NAMESPACE = "Mods";
+        modResource.FILE_PATH = metaPath;
+        modResource.FOLDER_PATH = fullPath;
+
+        if (modResource.WorldType == WorldType.GodotScene)
+        {
+            modResource.Scene = ResourceLoader.Load<PackedScene>(fullPath.PathJoin("Data/World/GodotScene.tscn"));
+        }
+
+        Mods.Add(modResource);
+
+        LoadContentFolder<TShirtResource>(ModID, fullPath.PathJoin("Data/Content/TShirts"), (resource, document) =>
+        {
+            resource.TorsoAsset = LoadAsset(document.RootElement.GetProperty("TorsoAsset").GetString());
+        });
+
+        LOGGER.LOG(LogType.INFO, $"Loaded mod '{ModID}'", "ModLoader");
     }
 
-    public static void LoadWorlds()
+    public static void LoadData()
     {
         ExpectDir(UGC_DATA_PATH);
-        ExpectDir(UGC_DATA_PATH.PathJoin("Worlds"));
+        ExpectDir(UGC_DATA_PATH.PathJoin("Mods"));
 
-        // Load Built in data then user defined data.
-        foreach (string item in DirAccess.GetDirectoriesAt(BUILTIN_DATA_PATH.PathJoin("Worlds"))) LoadWorldData(item.GetFile());
-        foreach (string item in DirAccess.GetDirectoriesAt(UGC_DATA_PATH.PathJoin("Worlds"))) LoadWorldData(item.GetFile());
+        foreach (string item in DirAccess.GetDirectoriesAt(BUILTIN_DATA_PATH.PathJoin("Mods"))) LoadMod(item.GetFile());
+        foreach (string item in DirAccess.GetDirectoriesAt(UGC_DATA_PATH.PathJoin("Mods"))) LoadMod(item.GetFile());
     }
 
-    public static void LoadWorldRegistryFolder()
+    private static Texture2D LoadAsset(string AssetID)
     {
-        LOGGER.LOG(LogType.INFO, "Loading all world registries", "WorldLoader");
-        LoadRegistryFolder("Worlds", BUILTIN_DATA_PATH.PathJoin("Worlds"), "WorldMeta.tres", Worlds);
-        LoadRegistryFolder("Worlds", UGC_DATA_PATH.PathJoin("Worlds"), "WorldMeta.tres", Worlds);
+        var split = AssetID.Split(":");
+        
+        string NAMESPACE = split[0];
+        string ID = split[1];
+
+        ModResource mod = GetMod(NAMESPACE);
+
+        string assetPath = mod.FOLDER_PATH.PathJoin("Assets").PathJoin($"{ID}.png");
+        return ResourceLoader.Load<Texture2D>(assetPath);
     }
 
-    private static void LoadRegistryFolder<T>(string WorldID, string directory, string metaResourceFile, List<T> listOfContent) where T : Registry
+    private static void LoadContentFolder<T>(string ModID, string directory, Action<T, JsonDocument> callback) where T : ContentResource, new()
     {
         if (DirAccess.DirExistsAbsolute(directory))
         {
-            foreach (string item in DirAccess.GetDirectoriesAt(directory))
+            foreach (string contentMeta in DirAccess.GetFilesAt(directory))
             {
-                string metaPath = directory.PathJoin(item.PathJoin(metaResourceFile));
-                if (ResourceLoader.Exists(metaPath))
+                if (contentMeta.GetExtension() == "json")
                 {
-                    var registry = ResourceLoader.Load(metaPath) as T;
-                    registry.ID = item.GetFile();
-                    registry.NAMESPACE = WorldID;
+                    T resource = new();
+                    
+                    FileAccess file = FileAccess.Open(directory.PathJoin(contentMeta), FileAccess.ModeFlags.Read);
+                    JsonDocument document = JsonDocument.Parse(file.GetAsText());
 
-                    registry.FILE_PATH = metaPath;
+                    LoadContentResource(document, resource);
+                    
+                    resource.ID = contentMeta.GetBaseName().GetFile();
+                    resource.NAMESPACE = ModID;
 
-                    listOfContent.Add(registry);
+                    resource.FILE_PATH = directory.PathJoin(contentMeta);
+                    
+                    callback(resource, document);
 
-                    LOGGER.LOG(LogType.INFO, $"{registry.FULL_ID} resource loaded", "RegistryFolderLoading");
-                } else
-                {
-                    LOGGER.LOG(LogType.ERROR, $"{WorldID}:{item.GetFile()} failed to load: {metaPath} doesnt exist", "RegistryFolderLoading");
+                    LOGGER.LOG(LogType.INFO, $"Loaded content {resource.FULL_ID} at {resource.FILE_PATH}", "ModContentLoader");
                 }
             }
         }
     }
 
-    public static WorldRegistry GetWorld(string FULL_ID)
+    private static void LoadContentResource(JsonDocument document, ContentResource resource)
     {
-        return Worlds.Find(registry => registry.ID == FULL_ID);
+        resource.Name = document.RootElement.GetProperty("Name").GetString();
+        resource.Description = document.RootElement.GetProperty("Description").GetString();
+
+        resource.Creator = document.RootElement.GetProperty("Creator").GetString();
     }
 
-    public static PropRegistry GetProp(string FULL_ID)
+    private static ModResource LoadModResource(string FilePath)
     {
-        return Props.Find(registry => registry.FULL_ID == FULL_ID);
+        FileAccess file = FileAccess.Open(FilePath, FileAccess.ModeFlags.Read);
+        JsonDocument document = JsonDocument.Parse(file.GetAsText());
+
+        ModResource resource = new();
+        LoadContentResource(document, resource);
+
+        if (document.RootElement.TryGetProperty("ShowInGame", out JsonElement ShowInGame))
+        {
+            resource.ShowInGame = ShowInGame.GetBoolean();
+        }
+
+        if (document.RootElement.TryGetProperty("WorldType", out JsonElement WorldTypeElement))
+        {
+            resource.WorldType = WorldTypeElement.GetString() switch
+            {
+                "GodotScene" => WorldType.GodotScene,
+                _ => WorldType.NoWorld
+            };
+        }
+
+        file.Close();
+        file.Dispose();
+
+        return resource;
     }
 
-    public static GearRegistry GetGear(string FULL_ID)
-    {
-        return Gears.Find(registry => registry.FULL_ID == FULL_ID);
-    }
-
-
-    public static TShirtRegistry GetTShirt(string FULL_ID)
-    {
-        return TShirts.Find(registry => registry.FULL_ID == FULL_ID);
-    }
-
-    public static ShirtRegistry GetShirt(string FULL_ID)
-    {
-        return Shirts.Find(registry => registry.FULL_ID == FULL_ID);
-    }
-
-    public static PantsRegistry GetPants(string FULL_ID)
-    {
-        return Pants.Find(registry => registry.FULL_ID == FULL_ID);
-    }
-
-    public static AccessoryRegistry GetAccessory(string FULL_ID)
-    {
-        return Accessories.Find(registry => registry.FULL_ID == FULL_ID);
-    }
-
-    
-    public static GrablineSkinRegistry GetGrablineSkin(string FULL_ID)
-    {
-        return GrablineSkins.Find(registry => registry.FULL_ID == FULL_ID);
-    }
-
-    public static GrablineShapeRegistry GetGrablineShape(string FULL_ID)
-    {
-        return GrablineShapes.Find(registry => registry.FULL_ID == FULL_ID);
-    }
-
-
-    public static SongRegistry GetSong(string FULL_ID)
-    {
-        return Songs.Find(registry => registry.FULL_ID == FULL_ID);
-    }
+    public static ModResource GetMod(string FULL_ID) => Mods.Find(mod => mod.ID == FULL_ID);
+    public static TShirtResource GetTShirt(string FULL_ID) => TShirts.Find(mod => mod.FULL_ID == FULL_ID);
 }

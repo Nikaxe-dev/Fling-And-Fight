@@ -162,7 +162,6 @@ public partial class Player : Node
 	#region PLAYER ATTRIBUTES
 
 	[Signal] public delegate void MoneyChangedEventHandler(int newMoney, int oldMoney);
-	public event MoneyChangedEventHandler? MoneyChanged;
 
 	private int _money = 0;
 	[Export] public int Money {

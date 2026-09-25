@@ -55,7 +55,7 @@ func _on_editor_loaded() -> void:
 func _on_joined_server() -> void:
 	reset_rpc()
 
-	var worldRegistry: WorldRegistry = GameManager.ContentLoaderGetWorld(GameManager.GetLoadedWorld())
+	var worldRegistry = GameManager.ContentLoaderGetMod(GameManager.GetLoadedWorld())
 
 	DiscordRPC.details = worldRegistry.Name + " by " + worldRegistry.Creator
 

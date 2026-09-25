@@ -1,9 +1,0 @@
-[gd_resource type="Resource" script_class="TShirtRegistry" format=3 uid="uid://bfux0jwrbxhxu"]
-
-[ext_resource type="Script" uid="uid://b7cnb0re4he5q" path="res://Data/RegistryObjects/TShirtRegistry.cs" id="1_u4pxx"]
-[ext_resource type="Texture2D" uid="uid://bnxynebeajltu" path="res://Data/Worlds/FaF/Data/AvatarItems/TShirts/Explosion/Torso.png" id="1_w6huq"]
-
-[resource]
-script = ExtResource("1_u4pxx")
-TorsoImage = ExtResource("1_w6huq")
-metadata/_custom_type_script = "uid://b7cnb0re4he5q"
