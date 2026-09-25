@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://k60lebd0gxwx" path="res://Assets/Textures/Character/Face/smile.png" id="2_tjcmm"]
 [ext_resource type="Resource" uid="uid://blfm1xord2qlc" path="res://Game/Rig/HumanoidRig6/AnimationData/Fall.tres" id="2_ucmwe"]
 [ext_resource type="Resource" uid="uid://bowjqgga73dwf" path="res://Game/Rig/HumanoidRig6/AnimationData/Walk.tres" id="3_1nolc"]
-[ext_resource type="Texture2D" uid="uid://bnxynebeajltu" path="res://Data/Worlds/FaF/Data/AvatarItems/TShirts/Explosion/Torso.png" id="4_6d8nj"]
+[ext_resource type="Texture2D" uid="uid://7xi8eqpco1oc" path="res://Data/Mods/FaF/Assets/Content/TShirts/Boom.png" id="4_6d8nj"]
 [ext_resource type="Resource" uid="uid://bqv1i1skpjlvn" path="res://Game/Rig/HumanoidRig6/AnimationData/Idle.tres" id="4_s2ni8"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ucmwe"]

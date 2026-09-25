@@ -23,5 +23,7 @@
     },
 
     "UseDebanding": true,
-    "EnergyMultipliyer": 1
+    "EnergyMultipliyer": 1,
+
+    "SunAsset": "FaF:Sky/Sun"
 }
