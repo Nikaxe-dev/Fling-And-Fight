@@ -2,6 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://dg0p1fqfjnctp" path="res://Game/World/WorldRoot.tscn" id="1_hwly8"]
 [ext_resource type="Material" uid="uid://ctcwt3pufp0ai" path="res://Assets/Materials/Grass/Material.tres" id="4_fm4e1"]
+[ext_resource type="Texture2D" uid="uid://dr8fexccyxaso" path="res://Data/Mods/FaF/Assets/Sky/Sun.png" id="4_lwo5a"]
 [ext_resource type="Texture2D" uid="uid://c2paiy7hrng6j" path="res://Assets/Textures/Decals/Symbols/Symbol FaF Sun GLowing.png" id="5_rw4o6"]
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_fm4e1"]
@@ -55,6 +56,25 @@ albedo_texture = ExtResource("5_rw4o6")
 [sub_resource type="PlaneMesh" id="PlaneMesh_gmomp"]
 material = SubResource("StandardMaterial3D_ibvlx")
 
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_dvppq"]
+sky_top_color = Color(0.18039216, 0.4862745, 0.80784315, 1)
+sky_horizon_color = Color(1, 1, 1, 1)
+ground_bottom_color = Color(0.41568628, 0.6392157, 0.84313726, 1)
+ground_horizon_color = Color(0.41568628, 0.6392157, 0.84313726, 1)
+ground_curve = 1e-05
+
+[sub_resource type="Sky" id="Sky_lwo5a"]
+sky_material = SubResource("ProceduralSkyMaterial_dvppq")
+
+[sub_resource type="Environment" id="Environment_23y41"]
+background_mode = 2
+sky = SubResource("Sky_lwo5a")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dvppq"]
+transparency = 1
+shading_mode = 0
+albedo_texture = ExtResource("4_lwo5a")
+
 [node name="WorldRoot" unique_id=1505379970 instance=ExtResource("1_hwly8")]
 
 [node name="FuncGodotMap" type="Node3D" parent="Scene/Map" parent_id_path=PackedInt32Array(1669075599) index="0" unique_id=255924978]
@@ -96,5 +116,9 @@ shape = SubResource("ConvexPolygonShape3D_6konn")
 transform = Transform3D(10, 0, 0, 0, 1, 0, 0, 0, 10, 0, 0.5317583, 0)
 mesh = SubResource("PlaneMesh_gmomp")
 
+[node name="WorldEnvironment" parent="Scene/Environment" parent_id_path=PackedInt32Array(198490607) index="0" unique_id=978553092]
+environment = SubResource("Environment_23y41")
+
 [node name="Sun" parent="Scene/Environment/CameraPivot/DirectionalLight" parent_id_path=PackedInt32Array(2099556932) index="0" unique_id=1794400525]
 transform = Transform3D(1.5, 0, 0, 0, -1.5, 1.509958e-07, 0, -2.2649371e-07, -1, 0, 0, 3750)
+material_override = SubResource("StandardMaterial3D_dvppq")
