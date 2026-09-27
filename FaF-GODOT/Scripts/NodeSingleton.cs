@@ -1,6 +1,6 @@
 using Godot;
 
-namespace FaF.Managers;
+namespace FaF;
 
 public abstract partial class NodeSingleton<ThisType> : Node where ThisType : NodeSingleton<ThisType>
 {

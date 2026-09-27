@@ -4,7 +4,7 @@ using System.Text.Json;
 using System.Threading;
 using FaF.Debug;
 using FaF.Enums;
-using FaF.Managers;
+using FaF.Services;
 using Godot;
 
 namespace FaF;
@@ -52,14 +52,14 @@ public partial class ProgramEntry : Node
             LOGGER.LOG(LogType.INFO, "Starting server", "QuickArgs", true);
 
             if (ProgramArgs.TryGetValue("world", out string ID))
-                GameManager.CreateServer(ID);
+                GameService.CreateServer(ID);
             else
                 LOGGER.LOG(LogType.ERROR, "Automatic server startup requires a world argument to be specified in the commandline args", "ProgramStartup", true);
         } else if (ProgramArgs.ContainsKey("auto-join"))
         {
             LOGGER.LOG(LogType.INFO, "Auto joining server as client", "ProgramStartup", true);
-            GameManager.CreateClient();
+            GameService.CreateClient();
         } else
-            GameManager.SwitchToTitleScreen();
+            GameService.SwitchToTitleScreen();
     }
 }

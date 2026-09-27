@@ -65,8 +65,8 @@ public class FaFLogger(string path)
 
     private static string GenerateNetworkLoggerInfo()
     {
-        // NetworkManager not implemented yet
-        // {((NetworkManager.Instance != null && NetworkManager.IS_CONNECTED) ? $"[{(NetworkManager.Instance.Multiplayer.IsServer() ? "Server" : $"Client:{NetworkManager.Instance.Multiplayer.GetUniqueId()}")}]" : "[NOT CONNECTED]")}
+        // NetworkService not implemented yet
+        // {((NetworkService.Instance != null && NetworkService.IS_CONNECTED) ? $"[{(NetworkService.Instance.Multiplayer.IsServer() ? "Server" : $"Client:{NetworkService.Instance.Multiplayer.GetUniqueId()}")}]" : "[NOT CONNECTED]")}
         return "[NOT CONNECTED]";
     }
 

@@ -2,11 +2,11 @@ using FaF.Debug;
 using FaF.Enums;
 using Godot;
 
-namespace FaF.Managers;
+namespace FaF.Services;
 
-public partial class MouseInputManager : Node
+public partial class MouseInputService : Node
 {
-    private static readonly FaFLogger LOGGER = FaFLogger.Get("UI/MouseInputManager");
+    private static readonly FaFLogger LOGGER = FaFLogger.Get("UI/MouseInputService");
 
     public MouseMode TargetMouseMode = MouseMode.Free;
     public MouseMode CurrentMouseMode = MouseMode.Free;

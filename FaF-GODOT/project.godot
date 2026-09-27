@@ -20,7 +20,7 @@ config/icon="uid://2gbmis67qj5w"
 
 [autoload]
 
-GameManager="*uid://26qc1vpi84i2"
+GameService="*uid://26qc1vpi84i2"
 
 [display]
 

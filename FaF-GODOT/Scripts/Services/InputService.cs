@@ -1,9 +1,9 @@
 using FaF.Enums;
 using Godot;
 
-namespace FaF.Managers;
+namespace FaF.Services;
 
-public partial class InputManager : Node
+public partial class InputService : Node
 {
     public bool GameplayEnabled = true;
 
