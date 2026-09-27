@@ -1,18 +1,9 @@
 using System;
 using System.Collections.Generic;
+using FaF.Enums;
 using Godot;
 
 namespace FaF.Debug;
-
-public enum LogType
-{
-    CRASH,
-    ERROR,
-    WARNING,
-    INFO,
-    DEBUG,
-    TRACE
-}
 
 #nullable enable
 
