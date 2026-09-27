@@ -1,4 +1,9 @@
+using System.Runtime.CompilerServices;
+using System.Text.Json;
+using System.Text.Json.Nodes;
 using FaF.Core;
+using FaF.Game.Networking;
+using FaF.Game.Players;
 using Godot;
 
 namespace FaF.Saves;
@@ -16,5 +21,69 @@ namespace FaF.Saves;
 /// <seealso cref="DataSaver"/>
 public partial class SaveManager : Manager<SaveManager>
 {
-    
+    /// <summary>
+    /// CLIENT
+    /// </summary>
+    private void GeneratePlayerSave()
+    {
+        if (Multiplayer.IsServer()) return;
+
+        JsonObject playerData = [];
+
+        foreach (Node child in GetChildren())
+        {
+            if (child is DataSaver dataSaver)
+                playerData = dataSaver.SavePlayerData(playerData, Player.LocalPlayer);
+        }
+    }
+
+    /// <summary>
+    /// SERVER
+    /// </summary>
+    /// <param name="document"></param>
+    /// <param name="player"></param>
+    private void LoadPlayerSave(JsonDocument document, Player player)
+    {
+        if (!Multiplayer.IsServer()) return;
+
+        foreach (Node child in GetChildren())
+        {
+            if (child is DataSaver dataSaver)
+                dataSaver.LoadPlayerData(document, player);
+        }
+    }
+
+    /// <summary>
+    /// RPC from SERVER to CLIENT
+    /// </summary>
+    [Rpc(MultiplayerApi.RpcMode.Authority, CallLocal = false, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
+    private void RequestPlayerSave()
+    {
+        
+    }
+
+    /// <summary>
+    /// RPC from CLIENT to SERVER
+    /// </summary>
+    [Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = false, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
+    private void RecievePlayerSave(string jsonText)
+    {
+        
+    }
+
+    /// <summary>
+    /// SERVER
+    /// </summary>
+    private void GenerateWorldSave()
+    {
+        
+    }
+
+    /// <summary>
+    /// SERVER
+    /// </summary>
+    private void LoadWorldSave()
+    {
+        
+    }
 }

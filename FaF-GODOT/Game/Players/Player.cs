@@ -16,6 +16,8 @@ namespace FaF.Game.Players;
 [GlobalClass, Icon("res://Assets/Textures/Character/Icons/PlayerNode.png")]
 public partial class Player : Node
 {
+	public static Player? LocalPlayer {get; private set;}
+
 	private static readonly FaFLogger LOGGER = FaFLogger.Get("Players/Player");
 
 	[Export] public required NPC? Character;
@@ -33,6 +35,8 @@ public partial class Player : Node
 	{
 		// Name is set to the peer id.
 		PEER_ID = int.Parse(Name);
+
+		if (IsLocalPlayer()) LocalPlayer = this;
 	}
 
     public override void _EnterTree()
