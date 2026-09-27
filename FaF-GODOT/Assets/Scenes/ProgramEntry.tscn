@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://dfmuten2yon61"]
+
+[ext_resource type="Script" uid="uid://ciojb5qcx1y7o" path="res://Scripts/ProgramEntry.cs" id="1_gogij"]
+
+[node name="ProgramEntry" type="Node" unique_id=342755105]
+script = ExtResource("1_gogij")
