@@ -12,7 +12,6 @@ config_version=5
 
 config/name="Fling And Fight"
 config/version="1.0"
-run/main_scene="uid://dgr38pghxvmmd"
 config/use_custom_user_dir=true
 config/custom_user_dir_name="nikaxe/fling_and_fight"
 config/features=PackedStringArray("4.7", "C#", "GL Compatibility")
