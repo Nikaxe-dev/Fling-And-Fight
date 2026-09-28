@@ -51,15 +51,15 @@ public partial class ProgramEntry : Node
         {
             LOGGER.LOG(LogType.INFO, "Starting server", "QuickArgs", true);
 
-            if (ProgramArgs.TryGetValue("world", out string ID))
-                GameService.CreateServer(ID);
+            if (ProgramArgs.TryGetValue("world", out string worldID))
+                Game.RunService.StartServer(worldID);
             else
                 LOGGER.LOG(LogType.ERROR, "Automatic server startup requires a world argument to be specified in the commandline args", "ProgramStartup", true);
         } else if (ProgramArgs.ContainsKey("auto-join"))
         {
             LOGGER.LOG(LogType.INFO, "Auto joining server as client", "ProgramStartup", true);
-            GameService.CreateClient();
+            Game.RunService.StartClient();
         } else
-            GameService.SwitchToTitleScreen();
+            Game.RunService.OpenTitleScreen();
     }
 }
