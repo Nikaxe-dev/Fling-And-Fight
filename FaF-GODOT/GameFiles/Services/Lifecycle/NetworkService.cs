@@ -2,7 +2,7 @@ using FaF.Debug;
 using FaF.Enums;
 using Godot;
 
-namespace FaF.Services;
+namespace FaF.Services.Lifecycle;
 
 public partial class NetworkService : Node
 {

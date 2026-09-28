@@ -1,7 +1,7 @@
 using System;
 using Godot;
 
-namespace FaF.Services;
+namespace FaF.Services.Lifecycle;
 
 public partial class RunService : Node
 {

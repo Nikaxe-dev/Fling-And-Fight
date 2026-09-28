@@ -1,7 +1,7 @@
 using FaF.Debug;
 using Godot;
 
-namespace FaF.Services;
+namespace FaF.Services.UserInput;
 
 public partial class MouseInputService : Node
 {
