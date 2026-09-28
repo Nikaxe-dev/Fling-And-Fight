@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using FaF.Enums;
+using FaF.Services;
 using Godot;
 
 namespace FaF.Debug;
@@ -65,9 +66,7 @@ public class FaFLogger(string path)
 
     private static string GenerateNetworkLoggerInfo()
     {
-        // NetworkService not implemented yet
-        // {((NetworkService.Instance != null && NetworkService.IS_CONNECTED) ? $"[{(NetworkService.Instance.Multiplayer.IsServer() ? "Server" : $"Client:{NetworkService.Instance.Multiplayer.GetUniqueId()}")}]" : "[NOT CONNECTED]")}
-        return "[NOT CONNECTED]";
+        return Game.NetworkService.IsNetworkConnected ? (Game.NetworkService.IsServer ? "[Server]" : $"[Client:{Game.NetworkService.LocalPeerID}]") : "[NOT CONNECTED]";
     }
 
     public static string GenerateCommonLoggerInfo()
