@@ -4,6 +4,8 @@
 
 ---
 
+**CONTRIBUTORS PLEASE READ: FaF is currently in the process of being mostly rewritten. Please contribute to the `rewrite` branch instead of `main`.**
+
 The official repository for FaF.
 
 Fling And Fight started out as a simple Roblox game based off the already existing game 'Fling Things And People'. It quickly expanded into something much more until Roblox hit everyone with the publishing changes. The Roblox game was released half a year early unfinished & broken. This repository was started around two months after that, for the purpose of creating a revival of the project built in the open source engine, Godot.
