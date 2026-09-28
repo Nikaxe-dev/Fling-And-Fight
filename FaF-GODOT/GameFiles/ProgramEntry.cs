@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Text.Json;
 using System.Threading;
 using FaF.Debug;
-using FaF.Enums;
 using FaF.Services;
 using Godot;
 
@@ -19,7 +18,7 @@ public partial class ProgramEntry : Node
     {
         base._Ready();
 
-        LOGGER.LOG(LogType.INFO, "Starting new program instance", "Startup", true);
+        LOGGER.LOG(Enums.LogType.INFO, "Starting new program instance", "Startup", true);
 
         // parse arguments into dictionary
 		foreach (var argument in OS.GetCmdlineArgs())
@@ -35,7 +34,7 @@ public partial class ProgramEntry : Node
 			}
 		}
 
-        LOGGER.LOG(LogType.INFO, $"System arguments: {JsonSerializer.Serialize(ProgramArgs)}");
+        LOGGER.LOG(Enums.LogType.INFO, $"System arguments: {JsonSerializer.Serialize(ProgramArgs)}");
 
         if (ProgramArgs.TryGetValue("delay", out string rawDelay))
         {
@@ -49,16 +48,23 @@ public partial class ProgramEntry : Node
     {
         if (ProgramArgs.ContainsKey("server"))
         {
-            LOGGER.LOG(LogType.INFO, "Starting server", "QuickArgs", true);
+            LOGGER.LOG(Enums.LogType.INFO, "Entering program through server", "QuickArgs", true);
 
             if (ProgramArgs.TryGetValue("world", out string worldID))
-                Game.RunService.StartServer(worldID);
+            {
+                bool serverPortArgGiven = ProgramArgs.TryGetValue("port", out string serverPortString);
+                Game.RunService.StartServer(worldID, serverPortArgGiven ? int.Parse(serverPortString) : Game.NetworkService.DEFAULT_PORT);
+            }
             else
-                LOGGER.LOG(LogType.ERROR, "Automatic server startup requires a world argument to be specified in the commandline args", "ProgramStartup", true);
+                LOGGER.LOG(Enums.LogType.ERROR, "Automatic server startup requires a world argument to be specified in the commandline args", "ProgramStartup", true);
         } else if (ProgramArgs.ContainsKey("auto-join"))
         {
-            LOGGER.LOG(LogType.INFO, "Auto joining server as client", "ProgramStartup", true);
-            Game.RunService.StartClient();
+            LOGGER.LOG(Enums.LogType.INFO, "Entering program through client", "ProgramStartup", true);
+
+            bool serverIpArgGiven = ProgramArgs.TryGetValue("ip", out string serverIP);
+            bool serverPortArgGiven = ProgramArgs.TryGetValue("port", out string serverPortString);
+
+            Game.RunService.StartClient(serverIpArgGiven ? serverIP : "127.0.0.1", serverPortArgGiven ? int.Parse(serverPortString) : Game.NetworkService.DEFAULT_PORT);
         } else
             Game.RunService.OpenTitleScreen();
     }

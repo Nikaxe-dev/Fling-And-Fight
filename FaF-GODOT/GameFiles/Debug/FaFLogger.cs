@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using FaF.Enums;
 using FaF.Services;
 using Godot;
 
@@ -15,30 +14,30 @@ public class FaFLogger(string path)
 {
     private static readonly FaFLogger LOGGER = new("Debug/Logger");
 
-    public static readonly Dictionary<LogType, bool> EnabledLogTypes = new()
+    public static readonly Dictionary<Enums.LogType, bool> EnabledLogTypes = new()
     {
-        [LogType.CRASH] = true,
-        [LogType.ERROR] = true,
-        [LogType.WARNING] = true,
-        [LogType.INFO] = true,
-        [LogType.DEBUG] = true,
-        [LogType.TRACE] = true,
+        [Enums.LogType.CRASH] = true,
+        [Enums.LogType.ERROR] = true,
+        [Enums.LogType.WARNING] = true,
+        [Enums.LogType.INFO] = true,
+        [Enums.LogType.DEBUG] = true,
+        [Enums.LogType.TRACE] = true,
     };
 
     public static readonly Dictionary<string, bool> EnabledLogPaths = [];
 
     private static readonly Dictionary<string, FaFLogger> loggers = new();
 
-    public static string RichFormatLog(string environmentInfo, string message, LogType logType, bool isImportant = false) => $"{(isImportant ? "[b]" : "")}{
+    public static string RichFormatLog(string environmentInfo, string message, Enums.LogType logType, bool isImportant = false) => $"{(isImportant ? "[b]" : "")}{
     
     logType switch
     {
-        LogType.CRASH => $"[color=darkred]{environmentInfo}[/color] [color=red]{message}[/color]",
-        LogType.ERROR => $"[color=darkred]{environmentInfo}[/color] [color=red]{message}[/color]",
-        LogType.WARNING => $"[color=orange]{environmentInfo}[/color] [color=yellow]{message}[/color]",
-        LogType.INFO => $"[color=darkcyan]{environmentInfo}[/color] [color=cyan]{message}[/color]",
-        LogType.DEBUG => $"[color=gray]{environmentInfo}[/color] [color=white]{message}[/color]",
-        LogType.TRACE => $"[color=gray]{environmentInfo}[/color] [color=white]{message}[/color]",
+        Enums.LogType.CRASH => $"[color=darkred]{environmentInfo}[/color] [color=red]{message}[/color]",
+        Enums.LogType.ERROR => $"[color=darkred]{environmentInfo}[/color] [color=red]{message}[/color]",
+        Enums.LogType.WARNING => $"[color=orange]{environmentInfo}[/color] [color=yellow]{message}[/color]",
+        Enums.LogType.INFO => $"[color=darkcyan]{environmentInfo}[/color] [color=cyan]{message}[/color]",
+        Enums.LogType.DEBUG => $"[color=gray]{environmentInfo}[/color] [color=white]{message}[/color]",
+        Enums.LogType.TRACE => $"[color=gray]{environmentInfo}[/color] [color=white]{message}[/color]",
         _ => $"[color=gray]{environmentInfo}[/color] [color=white]{message}[/color]",
     }
     
@@ -59,7 +58,7 @@ public class FaFLogger(string path)
             EnabledLogPaths[path] = true;
         }
 
-        LOGGER.LOG(LogType.DEBUG, $"Registered new LOGGER with path '{path}'", "Registration");
+        LOGGER.LOG(Enums.LogType.DEBUG, $"Registered new LOGGER with path '{path}'", "Registration");
 
         return newLogger;
     }
@@ -76,7 +75,7 @@ public class FaFLogger(string path)
 
     private static readonly List<string> queuedUIOutputs = [];
 
-    public void LOG(LogType logType, string message, string category = "General", bool isImportant = false)
+    public void LOG(Enums.LogType logType, string message, string category = "General", bool isImportant = false)
     {
         string richFormatted = RichFormatLog($"{GenerateCommonLoggerInfo()} [{logType}] [{path}:{category}]", message, logType, isImportant);
         if (EnabledLogTypes[logType] && EnabledLogPaths.TryGetValue(path, out bool enabled) && enabled) GD.PrintRich(richFormatted);

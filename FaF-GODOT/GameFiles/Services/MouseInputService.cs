@@ -1,5 +1,4 @@
 using FaF.Debug;
-using FaF.Enums;
 using Godot;
 
 namespace FaF.Services;
@@ -8,8 +7,8 @@ public partial class MouseInputService : Node
 {
     private static readonly FaFLogger LOGGER = FaFLogger.Get("UI/MouseInputService");
 
-    public MouseMode TargetMouseMode = MouseMode.Free;
-    public MouseMode CurrentMouseMode = MouseMode.Free;
+    public Enums.MouseMode TargetMouseMode = Enums.MouseMode.Free;
+    public Enums.MouseMode CurrentMouseMode = Enums.MouseMode.Free;
 
     public bool IsInModalMode()
     {
@@ -19,29 +18,29 @@ public partial class MouseInputService : Node
                 if (control.Visible) return true;
             } else
             {
-                LOGGER.LOG(LogType.WARNING, $"Non control node '{item.GetPath()}' has UIModal enabled", "ModalCheck");
+                LOGGER.LOG(Enums.LogType.WARNING, $"Non control node '{item.GetPath()}' has UIModal enabled", "ModalCheck");
             }
         }
         
         return false;
     }
 
-    private MouseMode GetMouseMode()
+    private Enums.MouseMode GetMouseMode()
     {
-        if (!Input.IsMouseButtonPressed(MouseButton.Right) && IsInModalMode()) return MouseMode.Free;
+        if (!Input.IsMouseButtonPressed(MouseButton.Right) && IsInModalMode()) return Enums.MouseMode.Free;
         return TargetMouseMode;
     }
 
-    private Input.MouseModeEnum MouseModeToGD(MouseMode mode) => mode switch {
-        MouseMode.Free => Input.MouseModeEnum.Visible,
-        MouseMode.LockedCenter => Input.MouseModeEnum.Captured,
+    private Input.MouseModeEnum MouseModeToGD(Enums.MouseMode mode) => mode switch {
+        Enums.MouseMode.Free => Input.MouseModeEnum.Visible,
+        Enums.MouseMode.LockedCenter => Input.MouseModeEnum.Captured,
         _ => Input.MouseModeEnum.Visible
     };
 
     public bool IsMouseFree() => CurrentMouseMode switch
     {
-        MouseMode.Free => true,
-        MouseMode.LockedCenter => false,
+        Enums.MouseMode.Free => true,
+        Enums.MouseMode.LockedCenter => false,
         _ => true
     };
 

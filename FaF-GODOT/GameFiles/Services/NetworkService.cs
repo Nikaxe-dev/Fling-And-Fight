@@ -37,14 +37,20 @@ public partial class NetworkService : Node
     // server creation/stopping
 
     [Signal] public delegate void CreatedServerEventHandler();
-    [Signal] public delegate void FailedToCreateServerEventHandler(long creationError);
+
+    // no signal use due to variant limitations
+    public delegate void FailedToCreateServerEventHandler(Error creationError);
+    public event FailedToCreateServerEventHandler FailedToCreateServer;
 
     [Signal] public delegate void StoppedServerEventHandler();
 
     // client creation/stopping
 
     [Signal] public delegate void CreatedClientEventHandler();
-    [Signal] public delegate void FailedToCreateClientEventHandler(long creationError);
+
+    // no signal use due to variant limitations
+    public delegate void FailedToCreateClientEventHandler(Error creationError);
+    public event FailedToCreateClientEventHandler FailedToCreateClient;
 
     [Signal] public delegate void StoppedClientEventHandler();
 
@@ -78,10 +84,10 @@ public partial class NetworkService : Node
         ClientDisconnectedFromServer += () => LOGGER.LOG(LogType.ERROR, $"Disconnected from the server!", "Lifecycle", true);
 
         CreatedServer += () => LOGGER.LOG(LogType.INFO, "Successfully created server", "Lifecycle", true);
-        FailedToCreateServer += creationError => LOGGER.LOG(LogType.ERROR, $"Failed to create server with error: {(Error)creationError}", "Lifecycle", true);
+        FailedToCreateServer += creationError => LOGGER.LOG(LogType.ERROR, $"Failed to create server with error: {creationError}", "Lifecycle", true);
 
         CreatedClient += () => LOGGER.LOG(LogType.INFO, "Successfully created client", "Lifecycle", true);
-        FailedToCreateClient += creationError => LOGGER.LOG(LogType.ERROR, $"Failed to create client with error: {(Error)creationError}", "Lifecycle", true);
+        FailedToCreateClient += creationError => LOGGER.LOG(LogType.ERROR, $"Failed to create client with error: {creationError}", "Lifecycle", true);
     }
 
     private void SetupServiceSignals()
@@ -132,7 +138,7 @@ public partial class NetworkService : Node
 
         if (creationError != Error.Ok)
         {
-            EmitSignal(SignalName.FailedToCreateServer, (long)creationError);
+            FailedToCreateServer?.Invoke(creationError);
             return creationError;
         }
 
@@ -167,7 +173,7 @@ public partial class NetworkService : Node
 
         if (creationError != Error.Ok)
         {
-            EmitSignal(SignalName.FailedToCreateClient, (long)creationError);
+            FailedToCreateClient?.Invoke(creationError);
             return creationError;
         }
 
@@ -179,6 +185,16 @@ public partial class NetworkService : Node
         EmitSignal(SignalName.CreatedClient);
 
         return Error.Ok;
+    }
+
+    public void StopClient()
+    {
+        Peer?.Close();
+
+        Peer = null;
+        Multiplayer.MultiplayerPeer = null;
+
+        EmitSignal(SignalName.StoppedClient);
     }
 
     #endregion
