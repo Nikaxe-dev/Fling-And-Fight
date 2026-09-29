@@ -18,6 +18,7 @@ public partial class PlayerService() : Service(["NetworkService", "WorldService"
 
     #region State
 
+    public Player LocalPlayer {get; private set;}
     private List<Player> Players = [];
 
     #endregion
@@ -62,6 +63,9 @@ public partial class PlayerService() : Service(["NetworkService", "WorldService"
         PlayersContainer.AddChild(player);
 
         EmitSignal(SignalName.PlayerAdded, player);
+
+        if (peerID == Game.NetworkService.LocalPeerID)
+            LocalPlayer = player;
     }
 
     [Rpc(MultiplayerApi.RpcMode.Authority, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
