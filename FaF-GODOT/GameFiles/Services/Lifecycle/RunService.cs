@@ -26,15 +26,15 @@ public partial class RunService : Node
         }
     }
 
-    public string LoadedWorldID {get; private set;}
-
     #endregion
 
     #region State Switching
 
     public void StartClient(string serverIP, int serverPort)
     {
+        Game.WorldService.LoadWorldRoot();
         Game.NetworkService.CreateClient(serverIP, serverPort);
+
         ProgramState = Enums.ProgramState.Running;
     }
 
@@ -49,6 +49,10 @@ public partial class RunService : Node
     public void StartServer(string worldID, int port)
     {
         Game.NetworkService.CreateServer(port, Game.NetworkService.DEFAULT_MAX_PLAYERS);
+
+        Game.WorldService.LoadWorldRoot();
+        Game.WorldService.LoadWorldMap(worldID);
+
         ProgramState = Enums.ProgramState.Running;
     }
 

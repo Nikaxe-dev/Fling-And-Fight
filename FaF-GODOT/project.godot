@@ -35,6 +35,10 @@ display_server/driver.linuxbsd="wayland"
 
 project/assembly_name="Fling And Fight"
 
+[editor]
+
+run/main_run_args="--server --world=NewSedes"
+
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/discord-rpc-gd/plugin.cfg", "res://addons/godot-polyliner/plugin.cfg")

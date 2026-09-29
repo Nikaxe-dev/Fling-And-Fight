@@ -1,6 +1,6 @@
 using Godot;
 
-namespace FaF.Services;
+namespace FaF.Services.UserInput;
 
 public partial class InputService : Node
 {
