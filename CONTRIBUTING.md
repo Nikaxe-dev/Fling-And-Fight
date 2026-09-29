@@ -60,6 +60,8 @@ The format used for commit summaries is as follows:
 
 `[optional_feature]:[optional_second_feature]/[type]:[optional_second_type]/[progress]: [summary]`
 
+Only put the progress if it isn't complete.
+
 #### Commit Types:
 * fix
 * chore
@@ -70,7 +72,6 @@ The format used for commit summaries is as follows:
 * tiny-edit
 
 #### Progress types:
-* complete
 * progress
 * preparations
 
