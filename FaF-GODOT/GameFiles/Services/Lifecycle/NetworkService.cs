@@ -4,7 +4,7 @@ using Godot;
 
 namespace FaF.Services.Lifecycle;
 
-public partial class NetworkService : Node
+public partial class NetworkService() : Service([])
 {
     private static readonly FaFLogger LOGGER = FaFLogger.Get("Services/NetworkService");
 
@@ -71,7 +71,7 @@ public partial class NetworkService : Node
 
     #endregion
 
-    #region _Ready()    
+    #region LoadService()
 
     private void SetupNetworkLogs()
     {
@@ -92,13 +92,9 @@ public partial class NetworkService : Node
 
     private void SetupServiceSignals()
     {
-        // peer signals
-
-        Multiplayer.PeerConnected += peerID => EmitSignal(SignalName.PeerConnected, peerID);
-        Multiplayer.PeerDisconnected += peerID => EmitSignal(SignalName.PeerDisconnected, peerID);
-
         Multiplayer.PeerConnected += peerID =>
         {
+            EmitSignal(SignalName.PeerConnected, peerID);
             // filter server
             if (peerID != 1)
                 EmitSignal(SignalName.ClientPeerConnected, peerID);
@@ -106,6 +102,7 @@ public partial class NetworkService : Node
 
         Multiplayer.PeerDisconnected += peerID =>
         {
+            EmitSignal(SignalName.PeerDisconnected, peerID);
             // filter server
             if (peerID != 1)
                 EmitSignal(SignalName.ClientPeerDisconnected, peerID);
@@ -119,9 +116,9 @@ public partial class NetworkService : Node
         Multiplayer.ServerDisconnected += () => EmitSignal(SignalName.ClientDisconnectedFromServer);
     }
 
-    public override void _Ready()
+    public override void LoadService()
     {
-        base._Ready();
+        base.LoadService();
 
         SetupNetworkLogs();
         SetupServiceSignals();
@@ -183,6 +180,9 @@ public partial class NetworkService : Node
         ServerPort = serverPort;
 
         EmitSignal(SignalName.CreatedClient);
+
+        EmitSignal(SignalName.ClientPeerConnected, LocalPeerID);
+        EmitSignal(SignalName.PeerConnected, LocalPeerID);
 
         return Error.Ok;
     }

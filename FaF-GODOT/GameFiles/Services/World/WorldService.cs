@@ -3,7 +3,7 @@ using Godot;
 
 namespace FaF.Services.World;
 
-public partial class WorldService : Node
+public partial class WorldService() : Service([])
 {
     private static readonly FaFLogger LOGGER = FaFLogger.Get("Services/WorldService");
 
@@ -40,7 +40,7 @@ public partial class WorldService : Node
 
     public void LoadWorldMap(string worldID)
     {
-        LOGGER.LOG(Enums.LogType.INFO, $"Loading world '{worldID}'", "WorldLoading", true);
+        LOGGER.LOG(Enums.LogType.INFO, $"Loading world '{worldID}' map", "WorldLoading", true);
 
         EmitSignal(SignalName.WorldLoaded);
     }

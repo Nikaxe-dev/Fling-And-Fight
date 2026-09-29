@@ -2,7 +2,7 @@ using Godot;
 
 namespace FaF.Services.UserInput;
 
-public partial class InputService : Node
+public partial class InputService() : Service([])
 {
     public bool GameplayEnabled = true;
 

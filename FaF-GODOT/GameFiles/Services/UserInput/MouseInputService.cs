@@ -3,7 +3,7 @@ using Godot;
 
 namespace FaF.Services.UserInput;
 
-public partial class MouseInputService : Node
+public partial class MouseInputService() : Service([])
 {
     private static readonly FaFLogger LOGGER = FaFLogger.Get("UI/MouseInputService");
 

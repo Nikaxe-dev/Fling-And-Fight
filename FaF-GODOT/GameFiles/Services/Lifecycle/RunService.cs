@@ -3,7 +3,7 @@ using Godot;
 
 namespace FaF.Services.Lifecycle;
 
-public partial class RunService : Node
+public partial class RunService() : Service(["NetworkService", "WorldService"])
 {
     #region Signals
 
