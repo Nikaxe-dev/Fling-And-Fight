@@ -11,6 +11,8 @@ Going along with these contribution guidelines helps to look back on the project
 
 **NOTE:** The /FaF-RBLX-ARCHIVE directory is not meant to be modified ever. It contains the old version of FaF built in Roblox for archival purposes. Knowing that, feel free to look at it and otherwise fork the game on Roblox. The RBXL file is now licensed under the same license as this project.
 
+**NOTE:** /FaF-GODOT/Data/* (apart from Data/Example) is not going to be included here. FaF's content will only be available with the purchase of the game (unless made free in the future).
+
 # Issues
 
 The [github issue tracker](https://github.com/nikaxe-dev/fling-and-fight/issues) is the preferred channel for bug reports & feature requests, although they can also be put in the discord server.
@@ -110,7 +112,3 @@ However, not everything can stay the same.
 - Worlds - the game is split into worlds. Currently only New Sedes is planned, but in the future new worlds will be able to be easily added.
 - Events - the original game had a problem. There wasn't many ways to get money. In this new version, badges will award content / money & events which award the same will be everywhere spread along the worlds.
 - Avatars - built in the game, no longer external. Maybe accessories could grant special abilities? Still thinking.
-
-## I wanna take the game in a different direction, can I?
-
-Yes!! One of the great things about an open source game is the modding ability! The game already is able to be modded by adding worlds, but for a more modified version of the game you can fork the project and do whatever you wish with the game.
