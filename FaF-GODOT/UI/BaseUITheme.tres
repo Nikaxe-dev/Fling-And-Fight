@@ -1,7 +1,0 @@
-[gd_resource type="Theme" format=3 uid="uid://bjgk5x3mw345o"]
-
-[ext_resource type="FontFile" uid="uid://ciwcv1xi6dn63" path="res://Assets/Fonts/PatrickHand.ttf" id="1_j88t5"]
-
-[resource]
-default_font = ExtResource("1_j88t5")
-default_font_size = 40
