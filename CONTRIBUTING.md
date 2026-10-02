@@ -11,7 +11,7 @@ Going along with these contribution guidelines helps to look back on the project
 
 **NOTE:** The /FaF-RBLX-ARCHIVE directory is not meant to be modified ever. It contains the old version of FaF built in Roblox for archival purposes. Knowing that, feel free to look at it and otherwise fork the game on Roblox. The RBXL file is now licensed under the same license as this project.
 
-**NOTE:** /FaF-GODOT/Data/* (apart from Data/Example) is not going to be included here. FaF's content will only be available with the purchase of the game (unless made free in the future).
+**NOTE:** /FaF-GODOT/Packs/* (apart from Packs/Example) is not going to be included here. FaF's content will only be available with the purchase of the game (unless made free in the future).
 
 # Issues
 
