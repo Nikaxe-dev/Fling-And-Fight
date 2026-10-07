@@ -1,10 +1,11 @@
 namespace FaF.Enums;
 
-public enum LogType
+public enum LogLevel
 {
-    CRASH,
+    FATAL,
     ERROR,
     WARNING,
+    IMPORTANT,
     INFO,
     DEBUG,
     TRACE
