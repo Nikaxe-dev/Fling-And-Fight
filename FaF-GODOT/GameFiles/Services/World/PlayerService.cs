@@ -61,10 +61,10 @@ public partial class PlayerService() : Service(["NetworkService", "WorldService"
         Players.Add(player);
         PlayersContainer.AddChild(player);
 
-        EmitSignal(SignalName.PlayerAdded, player);
-
         if (peerID == Game.NetworkService.LocalPeerID)
             LocalPlayer = player;
+
+        EmitSignal(SignalName.PlayerAdded, player);
     }
 
     [Rpc(MultiplayerApi.RpcMode.Authority, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]

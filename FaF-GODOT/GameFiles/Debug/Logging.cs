@@ -51,13 +51,13 @@ public class Logger(string section, string module)
         if (Game.IsGameLoaded)
             if (Game.NetworkService.IsNetworkConnected)
                 if (Game.NetworkService.IsServer)
-                    return " [Server] ";
+                    return " [Server]";
                 else
-                    return $" [Client:{Game.PlayerService.LocalPlayer.Username}] ";
+                    return $" [Client{(Game.PlayerService.LocalPlayer != null ? $":{Game.PlayerService.LocalPlayer.Username}" : "")}]";
             else
                 return "";
         else
-            return " [Loading] ";
+            return "";
     }
     
     public static string GenerateCommonEnvironmentInfo()
