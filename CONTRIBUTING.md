@@ -1,4 +1,4 @@
-![FaF Title Image](./FaF-GODOT/TitleBanner.png)
+![FaF Banner](./Banner.png)
 
 ---
 
