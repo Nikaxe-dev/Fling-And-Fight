@@ -16,7 +16,7 @@ run/main_scene="uid://dgr38pghxvmmd"
 config/use_custom_user_dir=true
 config/custom_user_dir_name="nikaxe/fling_and_fight"
 config/features=PackedStringArray("4.7", "C#", "GL Compatibility")
-config/icon="uid://2gbmis67qj5w"
+config/icon="uid://c3g0madyituwj"
 
 [autoload]
 
