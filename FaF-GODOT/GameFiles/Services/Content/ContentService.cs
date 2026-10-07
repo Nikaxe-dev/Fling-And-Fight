@@ -7,8 +7,6 @@ namespace FaF.Services.Content;
 
 public partial class ContentService() : Service([])
 {
-    private static readonly FaFLogger LOGGER = FaFLogger.Get("Services/ContentService");
-
     #region State
 
     public readonly List<PackResource> Packs = [];

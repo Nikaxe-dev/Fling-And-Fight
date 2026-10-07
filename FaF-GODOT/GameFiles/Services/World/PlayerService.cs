@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using FaF.Debug;
 using Godot;
 
@@ -7,7 +6,7 @@ namespace FaF.Services.World;
 
 public partial class PlayerService() : Service(["NetworkService", "WorldService"])
 {
-    private static readonly FaFLogger LOGGER = FaFLogger.Get("Services/PlayerService");
+    private static readonly Debug.Logger LOGGER = CoreLoggers.Player;
 
     #region Signals
 
@@ -49,7 +48,7 @@ public partial class PlayerService() : Service(["NetworkService", "WorldService"
     {
         if (GetPlayerFromPeerID(peerID) != null)
         {
-            LOGGER.LOG(Enums.LogType.WARNING, $"Attempted to spawn player with username {username} and peerID {peerID} but they were already spawned in", "PlayerSpawner", true);
+            LOGGER.WARNING($"Attempted to spawn player with username {username} and peerID {peerID} but they were already spawned in");
             return;
         }
 
@@ -62,10 +61,10 @@ public partial class PlayerService() : Service(["NetworkService", "WorldService"
         Players.Add(player);
         PlayersContainer.AddChild(player);
 
-        EmitSignal(SignalName.PlayerAdded, player);
-
         if (peerID == Game.NetworkService.LocalPeerID)
             LocalPlayer = player;
+
+        EmitSignal(SignalName.PlayerAdded, player);
     }
 
     [Rpc(MultiplayerApi.RpcMode.Authority, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
@@ -78,7 +77,7 @@ public partial class PlayerService() : Service(["NetworkService", "WorldService"
             Players.Remove(player);
             player.QueueFree();
         } else
-            LOGGER.LOG(Enums.LogType.WARNING, $"Attempted to despawn player with peerID '{peerID}' but they did not exist", "PlayerSpawner", true);
+            LOGGER.WARNING($"Attempted to despawn player with peerID '{peerID}' but they did not exist");
     }
 
     #endregion
@@ -87,8 +86,8 @@ public partial class PlayerService() : Service(["NetworkService", "WorldService"
 
     private void SetupPlayerLogs()
     {
-        PlayerAdded += player => LOGGER.LOG(Enums.LogType.INFO, $"Player '{player.Username}' (with PeerID '{player.PeerID}') added");
-        PlayerRemoving += player => LOGGER.LOG(Enums.LogType.INFO, $"Removing player '{player.Username}' (with PeerID '{player.PeerID}')");
+        PlayerAdded += player => LOGGER.IMPORTANT($"Player '{player.Username}' (with PeerID '{player.PeerID}') added");
+        PlayerRemoving += player => LOGGER.IMPORTANT($"Removing player '{player.Username}' (with PeerID '{player.PeerID}')");
     }
 
     protected override void _LoadService()

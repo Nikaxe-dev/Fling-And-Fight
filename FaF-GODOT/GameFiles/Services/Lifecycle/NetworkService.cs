@@ -1,12 +1,11 @@
 using FaF.Debug;
-using FaF.Enums;
 using Godot;
 
 namespace FaF.Services.Lifecycle;
 
 public partial class NetworkService() : Service([])
 {
-    private static readonly FaFLogger LOGGER = FaFLogger.Get("Services/NetworkService");
+    private static readonly Debug.Logger LOGGER = CoreLoggers.Network;
 
     #region Configuration
 
@@ -75,19 +74,19 @@ public partial class NetworkService() : Service([])
 
     private void SetupNetworkLogs()
     {
-        PeerConnected += peerID => LOGGER.LOG(LogType.INFO, $"Peer connected: {peerID}", "PeerConnections", true);
-        PeerDisconnected += peerID => LOGGER.LOG(LogType.INFO, $"Peer disconnected: {peerID}", "PeerConnections", true);
+        PeerConnected += peerID =>               LOGGER.IMPORTANT($"Peer connected: {peerID}");
+        PeerDisconnected += peerID =>            LOGGER.IMPORTANT($"Peer disconnected: {peerID}");
 
-        ClientConnectionEstablished += () => LOGGER.LOG(LogType.INFO, $"Connected to server! My peer id: {LocalPeerID}", "Lifecycle", true);
-        ClientConnectionFailed += () => LOGGER.LOG(LogType.ERROR, $"Failed to connect to server!", "Lifecycle", true);
+        ClientConnectionEstablished += () =>     LOGGER.IMPORTANT($"Connected to server! My peer id: {LocalPeerID}");
+        ClientConnectionFailed += () =>          LOGGER.IMPORTANT($"Failed to connect to server!");
 
-        ClientDisconnectedFromServer += () => LOGGER.LOG(LogType.ERROR, $"Disconnected from the server!", "Lifecycle", true);
+        ClientDisconnectedFromServer += () =>    LOGGER.IMPORTANT($"Disconnected from the server!");
 
-        CreatedServer += () => LOGGER.LOG(LogType.INFO, "Successfully created server", "Lifecycle", true);
-        FailedToCreateServer += creationError => LOGGER.LOG(LogType.ERROR, $"Failed to create server with error: {creationError}", "Lifecycle", true);
+        CreatedServer += () =>                   LOGGER.IMPORTANT("Successfully created server");
+        FailedToCreateServer += creationError => LOGGER.IMPORTANT($"Failed to create server with error: {creationError}");
 
-        CreatedClient += () => LOGGER.LOG(LogType.INFO, "Successfully created client", "Lifecycle", true);
-        FailedToCreateClient += creationError => LOGGER.LOG(LogType.ERROR, $"Failed to create client with error: {creationError}", "Lifecycle", true);
+        CreatedClient += () =>                   LOGGER.IMPORTANT("Successfully created client");
+        FailedToCreateClient += creationError => LOGGER.IMPORTANT($"Failed to create client with error: {creationError}");
     }
 
     private void SetupServiceSignals()

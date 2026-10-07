@@ -16,8 +16,6 @@ public class ContentResourceLoader<ResourceType, ThisType> : IContentResourceLoa
     where ThisType : ContentResourceLoader<ResourceType, ThisType>, new()
     where ResourceType : ContentResource, new()
 {
-    private static readonly FaFLogger LOGGER = FaFLogger.Get("Modding/JsonResourceLoader");
-
     public static readonly ThisType Loader = new();
 
     public static ResourceType Load(JsonElement element)

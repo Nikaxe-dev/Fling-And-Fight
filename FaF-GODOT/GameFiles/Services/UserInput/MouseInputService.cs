@@ -5,7 +5,7 @@ namespace FaF.Services.UserInput;
 
 public partial class MouseInputService() : Service([])
 {
-    private static readonly FaFLogger LOGGER = FaFLogger.Get("UI/MouseInputService");
+    private static readonly Debug.Logger LOGGER = CoreLoggers.UserInput;
 
     public Enums.MouseMode TargetMouseMode = Enums.MouseMode.Free;
     public Enums.MouseMode CurrentMouseMode = Enums.MouseMode.Free;
@@ -14,12 +14,10 @@ public partial class MouseInputService() : Service([])
     {
         foreach (Node item in GetTree().GetNodesInGroup("UIModal")) {
             if (item is Control control)
-            {
-                if (control.Visible) return true;
-            } else
-            {
-                LOGGER.LOG(Enums.LogType.WARNING, $"Non control node '{item.GetPath()}' has UIModal enabled", "ModalCheck");
-            }
+                if (control.Visible)
+                    return true;
+            else
+                LOGGER.WARNING($"Non control node '{item.GetPath()}' has UIModal enabled");
         }
         
         return false;

@@ -10,7 +10,7 @@ namespace FaF;
 
 public partial class ProgramEntry : Node
 {
-    private static readonly FaFLogger LOGGER = FaFLogger.Get("ProgramEntry");
+    private static readonly Debug.Logger LOGGER = CoreLoggers.ProgramEntry;
 
     private readonly Dictionary<string, string> ProgramArgs = [];
 
@@ -18,7 +18,7 @@ public partial class ProgramEntry : Node
     {
         base._Ready();
 
-        LOGGER.LOG(Enums.LogType.INFO, "Starting new program instance", "Startup", true);
+        LOGGER.IMPORTANT("Starting new program instance");
 
         // parse arguments into dictionary
 		foreach (var argument in OS.GetCmdlineArgs())
@@ -34,7 +34,7 @@ public partial class ProgramEntry : Node
 			}
 		}
 
-        LOGGER.LOG(Enums.LogType.INFO, $"System arguments: {JsonSerializer.Serialize(ProgramArgs)}");
+        LOGGER.INFO($"System arguments: {JsonSerializer.Serialize(ProgramArgs)}");
 
         if (ProgramArgs.TryGetValue("delay", out string rawDelay))
         {
@@ -48,7 +48,7 @@ public partial class ProgramEntry : Node
     {
         if (ProgramArgs.ContainsKey("server"))
         {
-            LOGGER.LOG(Enums.LogType.INFO, "Entering program through server", "QuickArgs", true);
+            LOGGER.IMPORTANT("Entering program through server");
 
             if (ProgramArgs.TryGetValue("world", out string worldID))
             {
@@ -56,10 +56,10 @@ public partial class ProgramEntry : Node
                 Game.RunService.StartServer(worldID, serverPortArgGiven ? int.Parse(serverPortString) : Game.NetworkService.DEFAULT_PORT);
             }
             else
-                LOGGER.LOG(Enums.LogType.ERROR, "Automatic server startup requires a world argument to be specified in the commandline args", "ProgramStartup", true);
+                LOGGER.ERROR("Automatic server startup requires a world argument to be specified in the commandline args");
         } else if (ProgramArgs.ContainsKey("auto-join"))
         {
-            LOGGER.LOG(Enums.LogType.INFO, "Entering program through client", "ProgramStartup", true);
+            LOGGER.IMPORTANT("Entering program through client");
 
             bool serverIpArgGiven = ProgramArgs.TryGetValue("ip", out string serverIP);
             bool serverPortArgGiven = ProgramArgs.TryGetValue("port", out string serverPortString);
