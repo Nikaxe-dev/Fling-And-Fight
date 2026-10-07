@@ -1,4 +1,4 @@
-![FaF Title Image](./FaF-GODOT/TitleBanner.png)
+![FaF Banner](./Banner.png)
 
 <p align="center"><a href="https://discord.gg/vhpYZGUvXx">Discord</a> | <a href="./CONTRIBUTING.md">Contribute</a> | <a href="./LICENSE">License</a> | <a href="https://github.com/nikaxe-dev/fling-and-fight/issues">Issues</a> </p>
 
