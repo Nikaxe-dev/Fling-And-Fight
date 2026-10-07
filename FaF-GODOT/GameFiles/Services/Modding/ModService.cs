@@ -1,15 +1,16 @@
+using System;
 using System.IO;
 using FaF.Debug;
 using FaF.FileSystem;
 using FaF.Services.Content.Resources;
 using FaF.Services.Modding.ResourceLoaders;
-using Godot;
+
 
 namespace FaF.Services.Modding;
 
 public partial class ModService() : Service(["ContentService", "AssetService"])
 {
-    private static readonly FaFLogger LOGGER = FaFLogger.Get("Services/ModService");
+    private static readonly Debug.Logger LOGGER = CoreLoggers.Modding;
 
     #region Constants
 
@@ -33,7 +34,7 @@ public partial class ModService() : Service(["ContentService", "AssetService"])
             else if (instance is FileInstance file && !file.IsGodotImportExtension())
             {
                 string assetIdentifier = $"{mod.ID}:{Path.GetRelativePath(baseFolder.Path, file.BaseName)}";
-                LOGGER.LOG(Enums.LogType.INFO, $"\t\t\t\t\t\\_ {assetIdentifier} -> {file}", "ModLoading");
+                LOGGER.INFO($"\t\t\t\t\t\\_ {assetIdentifier} -> {file}");
                 Game.AssetService.AddAssetPath(assetIdentifier, file.Path);
             }
     }
@@ -43,7 +44,7 @@ public partial class ModService() : Service(["ContentService", "AssetService"])
         if (modFolder.TryGetChild("assets", out FSInstance instance))
             if (instance is FolderInstance assetsFolder)
             {
-                LOGGER.LOG(Enums.LogType.INFO, "\t\t\t\t\\_ assets:", "ModLoading");
+                LOGGER.INFO("\t\t\t\t\\_ assets:");
                 LoadAssetsFolder(mod, assetsFolder, assetsFolder);
             }
     }
@@ -59,7 +60,7 @@ public partial class ModService() : Service(["ContentService", "AssetService"])
                 if (file.IsJsonExtension() && file.GetExtension(0) == extension)
                 {
                     ResourceType resource = FileLoader.Load(file, mod.ID);
-                    LOGGER.LOG(Enums.LogType.INFO, $"\t\t\t\t\t\t\\_ {typeof(ResourceType).Name} {resource.FULL_ID}");
+                    LOGGER.INFO($"\t\t\t\t\t\t\\_ {typeof(ResourceType).Name} {resource.FULL_ID}");
 
                     // all that just so I dont have to include an extra parameter
                     // shut up
@@ -78,7 +79,7 @@ public partial class ModService() : Service(["ContentService", "AssetService"])
         if (modFolder.TryGetChild("data", out FSInstance instance))
             if (instance is FolderInstance dataFolder)
             {
-                LOGGER.LOG(Enums.LogType.INFO, "\t\t\t\t\\_ data:", "ModLoading");
+                LOGGER.INFO("\t\t\t\t\\_ data:");
                 LoadDataFolder(mod, dataFolder);
             }
     }
@@ -91,20 +92,31 @@ public partial class ModService() : Service(["ContentService", "AssetService"])
                     if (file.GetExtension(0) == WORLD_META_EXTENSION)
                     {
                         Game.ContentService.AddWorld(WorldResourceLoader.Load(file));
-                        LOGGER.LOG(Enums.LogType.INFO, $"\t\t\t\t\\_ {file.FullName}", "ModLoading");
+                        LOGGER.INFO($"\t\t\t\t\\_ {file.FullName}");
                     }
     }
 
-    public void LoadMod(PackResource _, FolderInstance modFolder)
+    public void LoadMod(PackResource pack, FolderInstance modFolder)
     {
-        LOGGER.LOG(Enums.LogType.INFO, $"\t\t\t\\_ {modFolder.Name} @ {modFolder.Path}:", "ModLoading");
+        try {
+            LOGGER.INFO($"\t\t\t\\_ {modFolder.Name} @ {modFolder.Path}:");
 
-        ModResource mod = Game.ContentService.GetOrCreateMod(modFolder.Name);
-        LoadModWorldMeta(modFolder);
+            ModResource mod = Game.ContentService.GetOrCreateMod(modFolder.Name);
+            LoadModWorldMeta(modFolder);
 
-        LoadModAssetMappings(mod, modFolder);
-        LoadModData(mod, modFolder);
+            LoadModAssetMappings(mod, modFolder);
+            LoadModData(mod, modFolder);
+        } catch (Exception exception)
+        {
+            throw new FailedToLoadModException(pack.ID, modFolder.Name, exception);
+        }
     }
+
+    #endregion
+
+    #region Exceptions
+
+    public class FailedToLoadModException(string packID, string modID, Exception exception) : Exception($"Failed to load mod {packID}:{modID} with error:\n{exception.Message}");
 
     #endregion
 }

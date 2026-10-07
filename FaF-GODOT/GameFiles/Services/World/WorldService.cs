@@ -5,7 +5,7 @@ namespace FaF.Services.World;
 
 public partial class WorldService() : Service([])
 {
-    private static readonly FaFLogger LOGGER = FaFLogger.Get("Services/WorldService");
+    private static readonly Debug.Logger LOGGER = CoreLoggers.World;
 
     #region Resources
     
@@ -49,8 +49,8 @@ public partial class WorldService() : Service([])
 
     private void SetupWorldLogs()
     {
-        WorldLoaded += worldID => LOGGER.LOG(Enums.LogType.INFO, $"Loaded map of world '{worldID}'", "WorldLoading", true);
-        WorldRootLoaded += () => LOGGER.LOG(Enums.LogType.INFO, "Loaded world root", "WorldLoading", true);
+        WorldLoaded += worldID => LOGGER.IMPORTANT($"Loaded map of world '{worldID}'");
+        WorldRootLoaded += () => LOGGER.IMPORTANT("Loaded world root");
     }
 
     protected override void _LoadService()

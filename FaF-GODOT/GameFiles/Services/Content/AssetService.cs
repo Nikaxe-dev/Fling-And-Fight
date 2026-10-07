@@ -1,15 +1,11 @@
 using System;
 using System.Collections.Generic;
-using FaF.Debug;
-using FaF.Services.Content.Resources;
 using Godot;
 
 namespace FaF.Services.Content;
 
 public partial class AssetService() : Service([])
 {
-    private static readonly FaFLogger LOGGER = FaFLogger.Get("Services/AssetService");
-
     #region State
 
     // example: {"new_sedes:world/new_sedes_godot": "res://Packs/faf/mods/new_sedes/assets/world/new_sedes_godot.tscn"}

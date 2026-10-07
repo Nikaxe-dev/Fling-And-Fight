@@ -22,7 +22,7 @@ public static class CoreLoggers
     public static readonly Logger Player         = LoggerFactory.GetLogger("Core", "Player");
 
     // ADDON SERVICES
-    public static readonly Logger Data           = LoggerFactory.GetLogger("Core", "Data");
+    public static readonly Logger Content        = LoggerFactory.GetLogger("Core", "Content");
     public static readonly Logger Assets         = LoggerFactory.GetLogger("Core", "Assets");
     public static readonly Logger Modding        = LoggerFactory.GetLogger("Core", "Modding");
 
@@ -67,7 +67,13 @@ public class Logger(string section, string module)
         => $"{GenerateCommonEnvironmentInfo()} [{Section}{(Module == "" ? "" : $"/{Module}")}] [{logLevel}]";
     
     private void LOG(Enums.LogLevel logLevel, string message)
-        => GD.PrintRich(RichFormatLog(GenerateEnvironmentInfo(logLevel), message, logLevel));
+    {
+        GD.PrintRich(RichFormatLog(GenerateEnvironmentInfo(logLevel), message, logLevel));
+        if (logLevel == Enums.LogLevel.ERROR || logLevel == Enums.LogLevel.FATAL)
+            GD.PushError(message);
+        else if (logLevel == Enums.LogLevel.WARNING)
+            GD.PushWarning(message);
+    }
     
     public void FATAL(string message)
         => LOG(Enums.LogLevel.FATAL, message);

@@ -1,5 +1,4 @@
 using System;
-using System.IO;
 using FaF.Debug;
 using FaF.FileSystem;
 using FaF.Services.Content.Resources;
@@ -10,7 +9,7 @@ namespace FaF.Services.Modding;
 
 public partial class PackService() : Service(["ContentService", "AssetService"])
 {
-    private static readonly FaFLogger LOGGER = FaFLogger.Get("Services/PackService");
+    private static readonly Debug.Logger LOGGER = CoreLoggers.Modding;
 
     #region Constants
 
@@ -28,7 +27,7 @@ public partial class PackService() : Service(["ContentService", "AssetService"])
         if (packFolder.TryGetChild("mods", out FSInstance modsChild))
             if (modsChild is FolderInstance modsFolder)
             {
-                LOGGER.LOG(Enums.LogType.INFO, $"\t\t\\_ mods:", "PackLoading", true);
+                LOGGER.INFO($"\t\t\\_ mods:");
                 foreach (FSInstance instance in modsFolder)
                     if (instance is FolderInstance modFolder)
                         Game.ModService.LoadMod(pack, modFolder);
@@ -45,13 +44,13 @@ public partial class PackService() : Service(["ContentService", "AssetService"])
             PackResource pack = LoadPackMeta(packFolder);
             Game.ContentService.Packs.Add(pack);
 
-            LOGGER.LOG(Enums.LogType.INFO, $"\t\\_ {pack.Creator}/{pack.ID} @ {pack.DIRECTORY_PATH}:", "PackLoading", true);
-            LOGGER.LOG(Enums.LogType.INFO, $"\t\t\\_ {pack.FILE_PATH.GetFile()}", "PackLoading", true);
+            LOGGER.INFO($"\t\\_ {pack.Creator}/{pack.ID} @ {pack.DIRECTORY_PATH}:");
+            LOGGER.INFO($"\t\t\\_ {pack.FILE_PATH.GetFile()}");
             
             LoadPackMods(packFolder, pack);
         } catch(Exception exception)
         {
-            LOGGER.LOG(Enums.LogType.ERROR, $"Failed to load pack '{packFolder}' with message:\n\t{exception.Message}", "PackLoading");
+            LOGGER.ERROR($"Failed to load pack '{packFolder}' with message:\n{exception.Message}");
         }
     }
 
@@ -86,7 +85,7 @@ public partial class PackService() : Service(["ContentService", "AssetService"])
     protected override void _LoadService()
     {
         base._LoadService();
-        LOGGER.LOG(Enums.LogType.INFO, "Loading packs:", "PackLoading", true);
+        LOGGER.INFO("Loading packs:");
         LoadPacksAt(FolderInstance.Open(BUILTIN_PACKS_PATH));
         LoadPacksAt(FolderInstance.Open(USER_PACKS_PATH, true));
     }
