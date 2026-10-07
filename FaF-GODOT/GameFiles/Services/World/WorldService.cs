@@ -15,7 +15,7 @@ public partial class WorldService() : Service([])
 
     #region Signals
 
-    [Signal] public delegate void WorldLoadedEventHandler();
+    [Signal] public delegate void WorldLoadedEventHandler(string worldID);
     [Signal] public delegate void WorldRootLoadedEventHandler();
 
     #endregion
@@ -23,6 +23,7 @@ public partial class WorldService() : Service([])
     #region State
 
     public WorldRoot WorldRoot {get; private set;}
+    public string LoadedWorldID {get; private set;}
     
     #endregion
 
@@ -30,8 +31,6 @@ public partial class WorldService() : Service([])
     
     public void LoadWorldRoot()
     {
-        LOGGER.LOG(Enums.LogType.INFO, "Loading world root", "WorldLoading", true);
-
         WorldRoot = WorldRootScene.Instantiate<WorldRoot>();
         GetTree().CallDeferred(SceneTree.MethodName.ChangeSceneToNode, WorldRoot);
 
@@ -40,9 +39,24 @@ public partial class WorldService() : Service([])
 
     public void LoadWorldMap(string worldID)
     {
-        LOGGER.LOG(Enums.LogType.INFO, $"Loading world '{worldID}' map", "WorldLoading", true);
+        LoadedWorldID = worldID;
+        EmitSignal(SignalName.WorldLoaded, worldID);
+    }
 
-        EmitSignal(SignalName.WorldLoaded);
+    #endregion
+
+    #region LoadService
+
+    private void SetupWorldLogs()
+    {
+        WorldLoaded += worldID => LOGGER.LOG(Enums.LogType.INFO, $"Loaded map of world '{worldID}'", "WorldLoading", true);
+        WorldRootLoaded += () => LOGGER.LOG(Enums.LogType.INFO, "Loaded world root", "WorldLoading", true);
+    }
+
+    protected override void _LoadService()
+    {
+        base._LoadService();
+        SetupWorldLogs();
     }
 
     #endregion

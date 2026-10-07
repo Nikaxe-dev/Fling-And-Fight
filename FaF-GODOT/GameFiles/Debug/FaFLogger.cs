@@ -65,7 +65,10 @@ public class FaFLogger(string path)
 
     private static string GenerateNetworkLoggerInfo()
     {
-        return Game.NetworkService.IsNetworkConnected ? (Game.NetworkService.IsServer ? "[Server]" : $"[Client:{Game.NetworkService.LocalPeerID}]") : "[NOT CONNECTED]";
+        if (!Game.IsGameLoaded)
+            return "[Loading]";
+        
+        return Game.NetworkService.IsNetworkConnected ? (Game.NetworkService.IsServer ? "[Server]" : $"[Client:{Game.NetworkService.LocalPeerID}]") : "[Disconnected]";
     }
 
     public static string GenerateCommonLoggerInfo()

@@ -116,9 +116,9 @@ public partial class NetworkService() : Service([])
         Multiplayer.ServerDisconnected += () => EmitSignal(SignalName.ClientDisconnectedFromServer);
     }
 
-    public override void LoadService()
+    protected override void _LoadService()
     {
-        base.LoadService();
+        base._LoadService();
 
         SetupNetworkLogs();
         SetupServiceSignals();

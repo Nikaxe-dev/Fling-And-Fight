@@ -1,66 +1,33 @@
-using System;
-using System.Collections.Generic;
+using FaF.Services.Content;
 using FaF.Services.Lifecycle;
+using FaF.Services.Modding;
 using FaF.Services.UserInput;
 using FaF.Services.World;
-using Godot;
 
 namespace FaF.Services;
 
-public partial class Game : Node
+public partial class Game() : ServiceLoader([], [typeof(Service), typeof(ServiceLoader)], [typeof(Game)])
 {
-    public static Game Instance {get; private set;}
+    private static Game Instance;
 
     #region State
 
-    private static readonly List<string> LoadedServices = [];
+    public static bool IsGameLoaded => Instance.IsLoaded;
 
     #endregion
 
-    #region Service Definitions
+    #region Service Links
 
-    public static readonly NetworkService NetworkService = new() {Name = "NetworkService"};
-    public static readonly InputService InputService = new() {Name = "InputService"};
-    public static readonly MouseInputService MouseInputService = new() {Name = "MouseInputService"};
-    public static readonly RunService RunService = new() {Name = "RunService"};
-    public static readonly WorldService WorldService = new() {Name = "WorldService"};
-    public static readonly PlayerService PlayerService = new() {Name = "PlayerService"};
-
-    private void AddServices()
-    {
-        AddChild(NetworkService);
-        AddChild(RunService);
-
-        AddChild(WorldService);
-        AddChild(PlayerService);
-
-        AddChild(InputService);
-        AddChild(MouseInputService);
-    }
-
-    private void LoadService(Service service)
-    {
-        if (LoadedServices.Contains(service.Name))
-            return;
-        
-        foreach (string serviceName in service.Dependencies)
-        {
-            if (GetNode(serviceName) is Service dependency)
-                LoadService(dependency);
-        }
-        
-        LoadedServices.Add(service.Name);
-        service.LoadService();
-    }
-
-    private void LoadServices()
-    {
-        foreach (var child in GetChildren())
-        {
-            if (child is Service service)
-                LoadService(service);
-        }
-    }
+    public static NetworkService NetworkService => Instance.GetNode<NetworkService>("NetworkService");
+    public static InputService InputService => Instance.GetNode<InputService>("InputService");
+    public static MouseInputService MouseInputService => Instance.GetNode<MouseInputService>("MouseInputService");
+    public static RunService RunService => Instance.GetNode<RunService>("RunService");
+    public static WorldService WorldService => Instance.GetNode<WorldService>("WorldService");
+    public static PlayerService PlayerService => Instance.GetNode<PlayerService>("PlayerService");
+    public static PackService PackService => Instance.GetNode<PackService>("PackService");
+    public static ModService ModService => Instance.GetNode<ModService>("ModService");
+    public static ContentService ContentService => Instance.GetNode<ContentService>("ContentService");
+    public static AssetService AssetService => Instance.GetNode<AssetService>("AssetService");
 
     #endregion
 
@@ -68,8 +35,6 @@ public partial class Game : Node
     {
         base._Ready();
         Instance = this;
-        
-        AddServices();
-        LoadServices();
+        LoadService();
     }
 }

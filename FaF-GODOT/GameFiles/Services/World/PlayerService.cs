@@ -91,9 +91,9 @@ public partial class PlayerService() : Service(["NetworkService", "WorldService"
         PlayerRemoving += player => LOGGER.LOG(Enums.LogType.INFO, $"Removing player '{player.Username}' (with PeerID '{player.PeerID}')");
     }
 
-    public override void LoadService()
+    protected override void _LoadService()
     {
-        base.LoadService();
+        base._LoadService();
         SetupPlayerLogs();
 
         Game.WorldService.WorldRootLoaded +=
