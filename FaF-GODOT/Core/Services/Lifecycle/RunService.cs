@@ -1,10 +1,13 @@
 using System;
+using FaF.Debug;
 using Godot;
 
 namespace FaF.Services.Lifecycle;
 
 public partial class RunService() : Service(["NetworkService", "WorldService"])
 {
+    private static readonly Debug.Logger LOGGER = CoreLoggers.GameLoop;
+
     #region Signals
 
     // no use of signal due to variant limitation
@@ -102,6 +105,21 @@ public partial class RunService() : Service(["NetworkService", "WorldService"])
     public void OpenTitleScreen()
     {
         throw new NotImplementedException();
+    }
+
+    #endregion
+
+    #region LoadService()
+
+    private void SetupRunningLogs()
+    {
+        ProgramStateChanged += (newState, oldState) => LOGGER.IMPORTANT($"Program state changed from {oldState} to {newState}");
+    }
+
+    protected override void _LoadService()
+    {
+        base._LoadService();
+        SetupRunningLogs();
     }
 
     #endregion
