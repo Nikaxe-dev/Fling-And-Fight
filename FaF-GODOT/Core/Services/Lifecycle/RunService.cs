@@ -23,6 +23,8 @@ public partial class RunService() : Service(["NetworkService", "WorldService"])
     [Signal] public delegate void ServerStoppedEventHandler();
     [Signal] public delegate void ServerStoppingEventHandler();
 
+    [Signal] public delegate void ProgramQuittingEventHandler();
+
     #endregion
 
     #region Program State
@@ -89,6 +91,12 @@ public partial class RunService() : Service(["NetworkService", "WorldService"])
         EmitSignal(SignalName.ServerStopped);
 
         ProgramState = Enums.ProgramState.Between;
+    }
+
+    public void QuitProgram(int exitCode = 0)
+    {
+        EmitSignal(SignalName.ProgramQuitting);
+        GetTree().Quit(exitCode);
     }
 
     public void OpenTitleScreen()
