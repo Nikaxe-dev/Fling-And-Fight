@@ -3,7 +3,7 @@ using Godot;
 
 namespace FaF.Services.World;
 
-public partial class WorldService() : Service([])
+public partial class WorldService() : Service(["RunService"])
 {
     private static readonly Debug.Logger LOGGER = CoreLoggers.World;
 
@@ -57,6 +57,14 @@ public partial class WorldService() : Service([])
     {
         base._LoadService();
         SetupWorldLogs();
+
+        Game.RunService.ClientStarting += (_,_) => LoadWorldRoot();
+
+        Game.RunService.ServerStarted += (worldID, _) =>
+        {
+            LoadWorldRoot();
+            LoadWorldMap(worldID);
+        };
     }
 
     #endregion

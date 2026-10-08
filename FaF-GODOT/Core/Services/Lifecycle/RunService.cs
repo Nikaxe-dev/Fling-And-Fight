@@ -4,7 +4,7 @@ using Godot;
 
 namespace FaF.Services.Lifecycle;
 
-public partial class RunService() : Service(["NetworkService", "WorldService"])
+public partial class RunService() : Service(["NetworkService"])
 {
     private static readonly Debug.Logger LOGGER = CoreLoggers.GameLoop;
 
@@ -14,19 +14,19 @@ public partial class RunService() : Service(["NetworkService", "WorldService"])
     public delegate void ProgramStateChangedEventHandler(Enums.ProgramState newState, Enums.ProgramState oldState);
     public event ProgramStateChangedEventHandler ProgramStateChanged;
 
-    [Signal] public delegate void ClientStartedEventHandler();
-    [Signal] public delegate void ClientStartingEventHandler();
+    [Signal] public delegate void ClientStartedEventHandler(string serverIP, int serverPort);
+    [Signal] public delegate void ClientStartingEventHandler(string serverIP, int serverPort);
 
     [Signal] public delegate void ClientStoppedEventHandler();
     [Signal] public delegate void ClientStoppingEventHandler();
 
-    [Signal] public delegate void ServerStartedEventHandler();
-    [Signal] public delegate void ServerStartingEventHandler();
+    [Signal] public delegate void ServerStartedEventHandler(string worldID, int port);
+    [Signal] public delegate void ServerStartingEventHandler(string worldID, int port);
 
     [Signal] public delegate void ServerStoppedEventHandler();
     [Signal] public delegate void ServerStoppingEventHandler();
 
-    [Signal] public delegate void ProgramQuittingEventHandler();
+    [Signal] public delegate void ProgramQuittingEventHandler(int exitCode);
 
     #endregion
 
@@ -49,12 +49,11 @@ public partial class RunService() : Service(["NetworkService", "WorldService"])
 
     public void StartClient(string serverIP, int serverPort)
     {
-        EmitSignal(SignalName.ClientStarting);
+        EmitSignal(SignalName.ClientStarting, serverIP, serverPort);
 
-        Game.WorldService.LoadWorldRoot();
         Game.NetworkService.CreateClient(serverIP, serverPort);
 
-        EmitSignal(SignalName.ClientStarted);
+        EmitSignal(SignalName.ClientStarted, serverIP, serverPort);
 
         ProgramState = Enums.ProgramState.Running;
     }
@@ -73,11 +72,11 @@ public partial class RunService() : Service(["NetworkService", "WorldService"])
 
     public void StartServer(string worldID, int port)
     {
-        EmitSignal(SignalName.ServerStarting);
+        EmitSignal(SignalName.ServerStarting, port);
 
         Game.NetworkService.CreateServer(port, Game.NetworkService.DEFAULT_MAX_PLAYERS);
 
-        EmitSignal(SignalName.ServerStarted);
+        EmitSignal(SignalName.ServerStarted, port);
 
         Game.WorldService.LoadWorldRoot();
         Game.WorldService.LoadWorldMap(worldID);
@@ -98,7 +97,7 @@ public partial class RunService() : Service(["NetworkService", "WorldService"])
 
     public void QuitProgram(int exitCode = 0)
     {
-        EmitSignal(SignalName.ProgramQuitting);
+        EmitSignal(SignalName.ProgramQuitting, exitCode);
         GetTree().Quit(exitCode);
     }
 
