@@ -9,7 +9,7 @@ public partial class WorldService() : Service([])
 
     #region Resources
     
-    private static readonly PackedScene WorldRootScene = ResourceLoader.Load<PackedScene>("res://GameFiles/Services/World/WorldRoot.tscn");
+    private static readonly PackedScene WorldRootScene = ResourceLoader.Load<PackedScene>("res://Core/Services/World/WorldRoot.tscn");
 
     #endregion
 
