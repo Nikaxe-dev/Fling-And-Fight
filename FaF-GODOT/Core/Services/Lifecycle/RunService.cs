@@ -11,6 +11,18 @@ public partial class RunService() : Service(["NetworkService", "WorldService"])
     public delegate void ProgramStateChangedEventHandler(Enums.ProgramState newState, Enums.ProgramState oldState);
     public event ProgramStateChangedEventHandler ProgramStateChanged;
 
+    [Signal] public delegate void ClientStartedEventHandler();
+    [Signal] public delegate void ClientStartingEventHandler();
+
+    [Signal] public delegate void ClientStoppedEventHandler();
+    [Signal] public delegate void ClientStoppingEventHandler();
+
+    [Signal] public delegate void ServerStartedEventHandler();
+    [Signal] public delegate void ServerStartingEventHandler();
+
+    [Signal] public delegate void ServerStoppedEventHandler();
+    [Signal] public delegate void ServerStoppingEventHandler();
+
     #endregion
 
     #region Program State
@@ -32,23 +44,35 @@ public partial class RunService() : Service(["NetworkService", "WorldService"])
 
     public void StartClient(string serverIP, int serverPort)
     {
+        EmitSignal(SignalName.ClientStarting);
+
         Game.WorldService.LoadWorldRoot();
         Game.NetworkService.CreateClient(serverIP, serverPort);
+
+        EmitSignal(SignalName.ClientStarted);
 
         ProgramState = Enums.ProgramState.Running;
     }
 
     public void StopClient()
     {
+        EmitSignal(SignalName.ClientStopping);
+
         Game.NetworkService.StopClient();
         ProgramState = Enums.ProgramState.Between;
+
+        EmitSignal(SignalName.ClientStopped);
 
         OpenTitleScreen();
     }
 
     public void StartServer(string worldID, int port)
     {
+        EmitSignal(SignalName.ServerStarting);
+
         Game.NetworkService.CreateServer(port, Game.NetworkService.DEFAULT_MAX_PLAYERS);
+
+        EmitSignal(SignalName.ServerStarted);
 
         Game.WorldService.LoadWorldRoot();
         Game.WorldService.LoadWorldMap(worldID);
@@ -58,7 +82,12 @@ public partial class RunService() : Service(["NetworkService", "WorldService"])
 
     public void StopServer()
     {
+        EmitSignal(SignalName.ServerStopping);
+
         Game.NetworkService.StopServer();
+
+        EmitSignal(SignalName.ServerStopped);
+
         ProgramState = Enums.ProgramState.Between;
     }
 
