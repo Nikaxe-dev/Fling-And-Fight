@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://buh1vno3vancc"]
 
-[ext_resource type="Script" uid="uid://pt3dheu2pghn" path="res://GameFiles/Services/World/WorldRoot.cs" id="1_t25qr"]
+[ext_resource type="Script" uid="uid://pt3dheu2pghn" path="res://Core/Services/World/WorldRoot.cs" id="1_t25qr"]
 
 [node name="WorldRoot" type="Node" unique_id=121894821]
 script = ExtResource("1_t25qr")

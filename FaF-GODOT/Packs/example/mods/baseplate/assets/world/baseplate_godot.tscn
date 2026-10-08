@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://ic6kdslu7an1"]
 
-[ext_resource type="PackedScene" uid="uid://cxtktoarrlog7" path="res://GameFiles/Services/World/MapRoot.tscn" id="1_k01g4"]
+[ext_resource type="PackedScene" uid="uid://cxtktoarrlog7" path="res://Core/Services/World/MapRoot.tscn" id="1_k01g4"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_cpuc4"]
 sky_top_color = Color(0.23529412, 0.47058824, 0.84705883, 1)
