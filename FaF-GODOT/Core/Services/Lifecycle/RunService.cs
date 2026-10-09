@@ -101,6 +101,9 @@ public partial class RunService() : Service(["NetworkService"])
         GetTree().Quit(exitCode);
     }
 
+    public void Start()
+        => OpenTitleScreen();
+
     public void OpenTitleScreen()
     {
         throw new NotImplementedException();

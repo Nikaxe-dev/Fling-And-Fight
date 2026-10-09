@@ -20,8 +20,8 @@ config/icon="uid://2gbmis67qj5w"
 
 [autoload]
 
-Game="*uid://dhe0vhae5oweo"
 DiscordRPCLoader="*uid://cdg170dhtuqaw"
+Game="*uid://dhe0vhae5oweo"
 
 [display]
 

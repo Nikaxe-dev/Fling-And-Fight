@@ -29,17 +29,14 @@ public class Logger(string section, string module)
                     return " [Server]";
                 else
                     return $" [Client{(Game.PlayerService.LocalPlayer != null ? $":{Game.PlayerService.LocalPlayer.Username}" : "")}]";
-            else
-                return "";
-        else
-            return "";
+        return Game.HasArgument("server") ? " [Server]" : " [Client]";
     }
     
     public static string GenerateCommonEnvironmentInfo()
         => $"[{DateTime.Now:HH:mm:ss:fff}]{GenerateInstanceIdentityInfo()}";
     
     public string GenerateEnvironmentInfo(Enums.LogLevel logLevel)
-        => $"{GenerateCommonEnvironmentInfo()} [{Section}]{(Module == "" ? "" : $" [{Module}] ")}[{logLevel}]";
+        => $"{GenerateCommonEnvironmentInfo()} [{Section}] {(Module == "" ? "" : $"[{Module}] ")}[{logLevel}]";
     
     private void LOG(Enums.LogLevel logLevel, string message)
     {
