@@ -39,7 +39,7 @@ public class Logger(string section, string module)
         => $"[{DateTime.Now:HH:mm:ss:fff}]{GenerateInstanceIdentityInfo()}";
     
     public string GenerateEnvironmentInfo(Enums.LogLevel logLevel)
-        => $"{GenerateCommonEnvironmentInfo()} [{Section}{(Module == "" ? "" : $"/{Module}")}] [{logLevel}]";
+        => $"{GenerateCommonEnvironmentInfo()} [{Section}]{(Module == "" ? "" : $" [{Module}] ")}[{logLevel}]";
     
     private void LOG(Enums.LogLevel logLevel, string message)
     {
