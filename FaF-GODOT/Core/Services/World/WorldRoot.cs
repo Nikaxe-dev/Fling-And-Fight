@@ -1,11 +1,11 @@
-using FaF.Visuals.Camera;
+using FaF.Visuals;
 using Godot;
 
 namespace FaF.Services.World;
 
 public partial class WorldRoot : Node
 {
-    public FreeCamera DebugCamera;
+    public StandardCamera3D DebugCamera;
 
     public override void _Ready()
     {
@@ -13,9 +13,10 @@ public partial class WorldRoot : Node
 
         if (Game.NetworkService.IsServer)
         {
-            DebugCamera = new FreeCamera()
+            DebugCamera = new StandardCamera3D()
             {
-                Name = "ServerDebugCamera"
+                Name = "ServerDebugCamera",
+                Mode = CameraMode.Free
             };
 
             AddChild(DebugCamera);
