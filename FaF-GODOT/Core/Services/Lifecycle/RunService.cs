@@ -72,19 +72,19 @@ public partial class RunService() : Service(["NetworkService"])
 
     public void StartServer(string worldID, int port)
     {
+        Game.WorldService.LoadWorldRoot();
+        Game.WorldService.LoadWorldMap(worldID);
+
         EmitSignal(SignalName.ServerStarting, port);
 
         Game.NetworkService.CreateServer(port, Game.NetworkService.DEFAULT_MAX_PLAYERS);
 
         EmitSignal(SignalName.ServerStarted, port);
 
-        Game.WorldService.LoadWorldRoot();
-        Game.WorldService.LoadWorldMap(worldID);
-
         ProgramState = Enums.ProgramState.Running;
     }
 
-    public void StopServer()
+    public void StopServer(int exitCode = 0)
     {
         EmitSignal(SignalName.ServerStopping);
 
@@ -93,6 +93,17 @@ public partial class RunService() : Service(["NetworkService"])
         EmitSignal(SignalName.ServerStopped);
 
         ProgramState = Enums.ProgramState.Between;
+        QuitProgram(exitCode);
+    }
+
+    public void StopSession(int exitCode = 0)
+    {
+        if (Game.NetworkService.IsServer)
+            StopServer(exitCode);
+        else if (Game.NetworkService.IsClient)
+            StopClient();
+        else
+            QuitProgram(exitCode);
     }
 
     public void QuitProgram(int exitCode = 0)

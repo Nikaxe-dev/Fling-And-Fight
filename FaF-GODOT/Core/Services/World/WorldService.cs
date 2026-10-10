@@ -1,4 +1,6 @@
+using System;
 using FaF.Debug;
+using FaF.Services.Content.Resources;
 using Godot;
 
 namespace FaF.Services.World;
@@ -23,7 +25,10 @@ public partial class WorldService() : Service(["RunService"])
     #region State
 
     public WorldRoot WorldRoot {get; private set;}
+    public Node MapRoot {get; private set;}
     public string LoadedWorldID {get; private set;}
+
+    private string ServerInfoWorldID = null;
     
     #endregion
 
@@ -39,8 +44,20 @@ public partial class WorldService() : Service(["RunService"])
 
     public void LoadWorldMap(string worldID)
     {
-        LoadedWorldID = worldID;
-        EmitSignal(SignalName.WorldLoaded, worldID);
+        try {
+            WorldResource world = Game.ContentService.GetWorld(worldID);
+            MapRoot = world.WorldMapScene.Instantiate();
+            WorldRoot.AddChild(MapRoot);
+
+            LoadedWorldID = worldID;
+            EmitSignal(SignalName.WorldLoaded, worldID);
+        } catch (Exception exception)
+        {
+            // handle exception by stopping the current game session
+
+            LOGGER.ERROR($"Encountered exception while loading the map of world '{worldID}':\n{exception.Message}");
+            Game.RunService.StopSession(22);
+        }
     }
 
     #endregion
@@ -53,18 +70,44 @@ public partial class WorldService() : Service(["RunService"])
         WorldRootLoaded += () => LOGGER.IMPORTANT("Loaded world root");
     }
 
-    protected override void _LoadService()
+    private void LoadClient()
     {
-        base._LoadService();
-        SetupWorldLogs();
+        Game.RunService.ClientStarting += (_,_) =>
+        {
+            ServerInfoWorldID = null;
+            LoadWorldRoot();
 
-        Game.RunService.ClientStarting += (_,_) => LoadWorldRoot();
+            if (ServerInfoWorldID != null && MapRoot == null)
+                LoadWorldMap(ServerInfoWorldID);
+        };
 
+        Game.NetworkService.ServerInfoCommunicatedToClient += info =>
+        {
+            ServerInfoWorldID = info["WorldID"].AsString();
+            
+            if (WorldRoot != null && MapRoot == null)
+                LoadWorldMap(ServerInfoWorldID);
+        };
+    }
+
+    private void LoadServer()
+    {
         Game.RunService.ServerStarted += (worldID, _) =>
         {
             LoadWorldRoot();
             LoadWorldMap(worldID);
         };
+
+        Game.NetworkService.ServerInfoConstructed += info => info["WorldID"] = LoadedWorldID;
+    }
+
+    protected override void _LoadService()
+    {
+        base._LoadService();
+        SetupWorldLogs();
+
+        LoadClient();
+        LoadServer();
     }
 
     #endregion

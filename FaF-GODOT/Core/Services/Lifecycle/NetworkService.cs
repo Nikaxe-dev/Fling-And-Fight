@@ -53,6 +53,13 @@ public partial class NetworkService() : Service([])
 
     [Signal] public delegate void StoppedClientEventHandler();
 
+    // server & client communication
+
+    [Signal] public delegate void ServerInfoCommunicatedToClientEventHandler(Godot.Collections.Dictionary<string, Variant> info);
+
+    // use this from other services in order to assign members of ServerInfo
+    [Signal] public delegate void ServerInfoConstructedEventHandler(Godot.Collections.Dictionary<string, Variant> info);
+
     #endregion
 
     #region State
@@ -121,6 +128,7 @@ public partial class NetworkService() : Service([])
 
         SetupNetworkLogs();
         SetupServiceSignals();
+        SetupServerInfoCommunication();
     }
 
     #endregion
@@ -194,6 +202,35 @@ public partial class NetworkService() : Service([])
         Multiplayer.MultiplayerPeer = null;
 
         EmitSignal(SignalName.StoppedClient);
+    }
+
+    #endregion
+
+    #region Communication
+
+    private void SetupServerInfoCommunication()
+    {
+        ClientPeerConnected += peerID =>
+        {
+            if (!IsServer)
+                return;
+
+            // construct the info, pass it to the constructed event for others to assign to, then send the constructed info to the connected peer
+
+            Godot.Collections.Dictionary<string, Variant> info = [];
+            EmitSignal(SignalName.ServerInfoConstructed, info);
+            RpcId(peerID, MethodName.CommunicateServerInfoToPeer, info);
+        };
+    }
+
+    [Rpc(MultiplayerApi.RpcMode.Authority, CallLocal = false, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
+    private void CommunicateServerInfoToPeer(Godot.Collections.Dictionary<string, Variant> info)
+    {
+        if (IsServer)
+            return;
+        
+        LOGGER.IMPORTANT($"Server communicated info {info} to client");
+        EmitSignal(SignalName.ServerInfoCommunicatedToClient, info);
     }
 
     #endregion

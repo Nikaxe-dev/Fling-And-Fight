@@ -37,7 +37,7 @@ project/assembly_name="Fling And Fight"
 
 [editor]
 
-run/main_run_args="--server --world=NewSedes"
+run/main_run_args="--server --world=new_sedes"
 
 [editor_plugins]
 
