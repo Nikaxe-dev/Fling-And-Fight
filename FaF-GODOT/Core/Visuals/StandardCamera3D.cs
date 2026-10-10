@@ -13,6 +13,7 @@ public enum CameraMode
     Unhandled
 }
 
+[GlobalClass]
 public partial class StandardCamera3D : Camera3D
 {
     [Export] public CameraMode Mode = CameraMode.Free;
@@ -52,7 +53,7 @@ public partial class StandardCamera3D : Camera3D
     {
         if (@event is InputEventMouseButton mouseEvent)
         {
-            Vector3 direction = ProjectLocalRayNormal(GetViewport().GetMousePosition());
+            Vector3 direction = ProjectRayNormal(GetViewport().GetMousePosition());
             if (mouseEvent.ButtonIndex == MouseButton.WheelUp)
             {
                 Position += direction.Normalized() * FreeCameraZoomSpeed;
