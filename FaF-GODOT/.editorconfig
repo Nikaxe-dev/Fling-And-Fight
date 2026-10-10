@@ -2,3 +2,6 @@ root = true
 
 [*]
 charset = utf-8
+
+[*.cs]
+dotnet_diagnostic.IDE0130.severity = none

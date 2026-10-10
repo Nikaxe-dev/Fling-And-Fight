@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://c6affh0ebwru3" path="res://addons/godot-polyliner/Line3D/LinePath3D.gd" id="1_6d6xb"]
 [ext_resource type="Shader" uid="uid://c30na0obdky88" path="res://addons/godot-polyliner/shaders/line_pbr.tres" id="2_sx2vy"]
-[ext_resource type="Texture2D" uid="uid://ds1ly7rfcovod" path="res://Assets/Textures/Character/Grabline/Display/Grabline Pattern Dotted.png" id="3_qf147"]
+[ext_resource type="Texture2D" uid="uid://d4js6et5lhqy5" path="res://SymbolIcon.png" id="3_qf147"]
 
 [sub_resource type="Curve3D" id="1"]
 bake_interval = 0.9

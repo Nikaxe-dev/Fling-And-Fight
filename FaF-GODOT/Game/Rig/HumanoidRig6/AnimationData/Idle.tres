@@ -1,9 +1,0 @@
-[gd_resource type="Resource" script_class="NPCAnimationData" format=3 uid="uid://bqv1i1skpjlvn"]
-
-[ext_resource type="Script" uid="uid://b5jbnv31tp521" path="res://Game/Rig/NPCAnimationData.cs" id="1_wii5i"]
-
-[resource]
-script = ExtResource("1_wii5i")
-ANIMATION_ID = "HumanoidRig6Animations/idle"
-PLAYBACK_BLEND = 0.1
-metadata/_custom_type_script = "uid://b5jbnv31tp521"

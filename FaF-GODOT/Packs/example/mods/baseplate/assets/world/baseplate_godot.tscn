@@ -1,0 +1,46 @@
+[gd_scene format=3 uid="uid://ic6kdslu7an1"]
+
+[ext_resource type="PackedScene" uid="uid://cxtktoarrlog7" path="res://Core/Services/World/MapRoot.tscn" id="1_k01g4"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_cpuc4"]
+sky_top_color = Color(0.23529412, 0.47058824, 0.84705883, 1)
+sky_horizon_color = Color(1, 1, 1, 1)
+sky_curve = 0.030459661
+ground_bottom_color = Color(0.13725491, 0.5647059, 1, 1)
+ground_horizon_color = Color(0.13545913, 0.56625646, 0.99996525, 1)
+
+[sub_resource type="Sky" id="Sky_4wuu7"]
+sky_material = SubResource("ProceduralSkyMaterial_cpuc4")
+
+[sub_resource type="Environment" id="Environment_fn7n8"]
+background_mode = 2
+sky = SubResource("Sky_4wuu7")
+glow_enabled = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ti6d1"]
+albedo_color = Color(0, 0, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_r5vg0"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_r5vg0"]
+size = Vector3(100, 5, 100)
+
+[node name="MapRoot" unique_id=1300141940 instance=ExtResource("1_k01g4")]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." index="0" unique_id=1216116672]
+environment = SubResource("Environment_fn7n8")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." index="1" unique_id=105937942]
+transform = Transform3D(0.14644662, 0.8535533, -0.49999997, -0.49999997, 0.49999997, 0.70710677, 0.8535533, 0.14644662, 0.49999997, 0, 0, 0)
+shadow_enabled = true
+
+[node name="Baseplate" type="StaticBody3D" parent="." index="2" unique_id=898106552]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.5, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Baseplate" index="0" unique_id=2098727660]
+transform = Transform3D(100, 0, 0, 0, 5, 0, 0, 0, 100, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_ti6d1")
+mesh = SubResource("BoxMesh_r5vg0")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Baseplate" index="1" unique_id=490037490]
+shape = SubResource("BoxShape3D_r5vg0")
