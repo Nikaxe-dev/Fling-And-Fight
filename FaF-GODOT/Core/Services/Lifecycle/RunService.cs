@@ -4,6 +4,14 @@ using Godot;
 
 namespace FaF.Services.Lifecycle;
 
+public enum ProgramState
+{
+    Entry,
+    Between,
+    Running,
+    MainMenu
+}
+
 public partial class RunService() : Service(["NetworkService"])
 {
     private static readonly Debug.Logger LOGGER = CoreLoggers.GameLoop;
@@ -11,7 +19,7 @@ public partial class RunService() : Service(["NetworkService"])
     #region Signals
 
     // no use of signal due to variant limitation
-    public delegate void ProgramStateChangedEventHandler(Enums.ProgramState newState, Enums.ProgramState oldState);
+    public delegate void ProgramStateChangedEventHandler(ProgramState newState, ProgramState oldState);
     public event ProgramStateChangedEventHandler ProgramStateChanged;
 
     [Signal] public delegate void ClientStartedEventHandler(string serverIP, int serverPort);
@@ -32,8 +40,8 @@ public partial class RunService() : Service(["NetworkService"])
 
     #region Program State
     
-    private Enums.ProgramState _programState = Enums.ProgramState.Entry;
-    public Enums.ProgramState ProgramState
+    private ProgramState _programState = ProgramState.Entry;
+    public ProgramState ProgramState
     {
         get => _programState;
         private set
@@ -55,7 +63,7 @@ public partial class RunService() : Service(["NetworkService"])
 
         EmitSignal(SignalName.ClientStarted, serverIP, serverPort);
 
-        ProgramState = Enums.ProgramState.Running;
+        ProgramState = ProgramState.Running;
     }
 
     public void StopClient()
@@ -63,7 +71,7 @@ public partial class RunService() : Service(["NetworkService"])
         EmitSignal(SignalName.ClientStopping);
 
         Game.NetworkService.StopClient();
-        ProgramState = Enums.ProgramState.Between;
+        ProgramState = ProgramState.Between;
 
         EmitSignal(SignalName.ClientStopped);
 
@@ -81,7 +89,7 @@ public partial class RunService() : Service(["NetworkService"])
 
         EmitSignal(SignalName.ServerStarted, port);
 
-        ProgramState = Enums.ProgramState.Running;
+        ProgramState = ProgramState.Running;
     }
 
     public void StopServer(int exitCode = 0)
@@ -92,7 +100,7 @@ public partial class RunService() : Service(["NetworkService"])
 
         EmitSignal(SignalName.ServerStopped);
 
-        ProgramState = Enums.ProgramState.Between;
+        ProgramState = ProgramState.Between;
         QuitProgram(exitCode);
     }
 
