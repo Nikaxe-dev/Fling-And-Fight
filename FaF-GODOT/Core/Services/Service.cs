@@ -30,7 +30,7 @@ public abstract partial class Service(string[] dependencies) : Node
         _LoadService();
         IsLoaded = true;
 
-        CoreLoggers.ProgramLoading.IMPORTANT($"Loaded service {GetFullServiceName()} in {Time.GetTicksMsec() - startTime}ms");
+        Loggers.ProgramLoading.IMPORTANT($"Loaded service {GetFullServiceName()} in {Time.GetTicksMsec() - startTime}ms");
     }
 
     public bool IsLoaded {get; private set;} = false;

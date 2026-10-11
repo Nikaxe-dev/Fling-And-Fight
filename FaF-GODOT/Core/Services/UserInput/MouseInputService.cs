@@ -11,7 +11,7 @@ public enum MouseMode
 
 public partial class MouseInputService() : Service([])
 {
-    private static readonly Debug.Logger LOGGER = CoreLoggers.UserInput;
+    private static readonly Debug.Logger LOGGER = Loggers.UserInput;
 
     public MouseMode TargetMouseMode = MouseMode.Free;
     public MouseMode CurrentMouseMode = MouseMode.Free;

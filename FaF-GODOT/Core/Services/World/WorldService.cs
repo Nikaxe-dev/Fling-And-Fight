@@ -7,7 +7,7 @@ namespace FaF.Core.Services.World;
 
 public partial class WorldService() : Service(["RunService"])
 {
-    private static readonly Debug.Logger LOGGER = CoreLoggers.World;
+    private static readonly Debug.Logger LOGGER = Loggers.World;
 
     #region Resources
     

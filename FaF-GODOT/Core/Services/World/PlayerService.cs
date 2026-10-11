@@ -6,7 +6,7 @@ namespace FaF.Core.Services.World;
 
 public partial class PlayerService() : Service(["NetworkService", "WorldService"])
 {
-    private static readonly Debug.Logger LOGGER = CoreLoggers.Player;
+    private static readonly Debug.Logger LOGGER = Loggers.Player;
 
     #region Signals
 

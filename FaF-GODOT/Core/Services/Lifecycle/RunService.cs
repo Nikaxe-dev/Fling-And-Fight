@@ -14,7 +14,7 @@ public enum ProgramState
 
 public partial class RunService() : Service(["NetworkService"])
 {
-    private static readonly Debug.Logger LOGGER = CoreLoggers.GameLoop;
+    private static readonly Debug.Logger LOGGER = Loggers.GameLoop;
 
     #region Signals
 

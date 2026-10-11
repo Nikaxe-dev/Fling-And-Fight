@@ -5,7 +5,7 @@ namespace FaF.Core.Services.Lifecycle;
 
 public partial class NetworkService() : Service([])
 {
-    private static readonly Debug.Logger LOGGER = CoreLoggers.Network;
+    private static readonly Debug.Logger LOGGER = Loggers.Network;
 
     #region Configuration
 

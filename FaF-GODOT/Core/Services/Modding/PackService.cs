@@ -9,7 +9,7 @@ namespace FaF.Core.Services.Modding;
 
 public partial class PackService() : Service(["ContentService", "AssetService"])
 {
-    private static readonly Debug.Logger LOGGER = CoreLoggers.Modding;
+    private static readonly Debug.Logger LOGGER = Loggers.Modding;
 
     #region Constants
 

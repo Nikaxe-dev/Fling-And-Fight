@@ -12,7 +12,7 @@ namespace FaF.Core.Services;
 
 public partial class Game() : ServiceLoader([], [typeof(Service), typeof(ServiceLoader)], [typeof(Game)])
 {
-    private static readonly Debug.Logger LOGGER = CoreLoggers.Core;
+    private static readonly Debug.Logger LOGGER = Loggers.Game;
     private static Game Instance;
 
     #region State

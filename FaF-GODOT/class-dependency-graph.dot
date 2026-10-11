@@ -11,7 +11,7 @@ digraph CSharpDependencies {
     style="filled";
     color="lightgray";
 
-    "Fling And Fight.CoreLoggers" [label="CoreLoggers", fillcolor=white, tooltip="FaF.Debug.CoreLoggers"];
+    "Fling And Fight.Loggers" [label="Loggers", fillcolor=white, tooltip="FaF.Debug.Loggers"];
     "Fling And Fight.Logger" [label="Logger", fillcolor=white, tooltip="FaF.Debug.Logger"];
     "Fling And Fight.LoggerFactory" [label="LoggerFactory", fillcolor=white, tooltip="FaF.Debug.LoggerFactory"];
     "Fling And Fight.FSInstance" [label="FSInstance", fillcolor=white, tooltip="FaF.FileSystem.FSInstance"];
@@ -61,8 +61,8 @@ digraph CSharpDependencies {
     "Fling And Fight.FreeCamera" [label="FreeCamera", fillcolor=white, tooltip="FaF.Visuals.Camera.FreeCamera"];
   }
 
-  "Fling And Fight.CoreLoggers" -> "Fling And Fight.LoggerFactory" [penwidth=1.5];
-  "Fling And Fight.CoreLoggers" -> "Fling And Fight.Logger" [penwidth=1.5];
+  "Fling And Fight.Loggers" -> "Fling And Fight.LoggerFactory" [penwidth=1.5];
+  "Fling And Fight.Loggers" -> "Fling And Fight.Logger" [penwidth=1.5];
   "Fling And Fight.LoggerFactory" -> "Fling And Fight.Logger" [penwidth=1.5];
   "Fling And Fight.FSInstance" -> "Fling And Fight.FolderInstance" [penwidth=1.5, color="#FF0000", penwidth=2.0, fontcolor="#FF0000", label="cycle"];
   "Fling And Fight.FSInstance" -> "Fling And Fight.FileInstance" [penwidth=1.5, color="#FF0000", penwidth=2.0, fontcolor="#FF0000", label="cycle"];
