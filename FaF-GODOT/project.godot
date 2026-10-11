@@ -12,7 +12,7 @@ config_version=5
 
 config/name="Fling And Fight"
 config/version="1.0"
-run/main_scene="uid://dfmuten2yon61"
+run/main_scene="uid://bjna4olwvivqy"
 config/use_custom_user_dir=true
 config/custom_user_dir_name="nikaxe/fling_and_fight"
 config/features=PackedStringArray("4.7", "C#", "GL Compatibility")
@@ -21,7 +21,6 @@ config/icon="uid://2gbmis67qj5w"
 [autoload]
 
 DiscordRPCLoader="*uid://cdg170dhtuqaw"
-Game="*uid://dhe0vhae5oweo"
 
 [display]
 
@@ -37,7 +36,7 @@ project/assembly_name="Fling And Fight"
 
 [editor]
 
-run/main_run_args="--server --world=new_sedes"
+run/main_run_args="--world=new_sedes"
 
 [editor_plugins]
 

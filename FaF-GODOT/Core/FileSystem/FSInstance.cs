@@ -5,7 +5,7 @@ namespace FaF.Core.FileSystem;
 
 public abstract class FSInstance
 {
-    protected static Core.Debug.Logger LOGGER = CoreLoggers.FileSystem;
+    protected static Debug.Logger LOGGER = LoggerFactory.GetLogger(null, "FaF", "FileSystem");
 
     public string Path {get; protected set;}
 

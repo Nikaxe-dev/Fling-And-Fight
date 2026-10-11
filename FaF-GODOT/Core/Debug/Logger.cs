@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using FaF.Client;
 using Godot;
 
 namespace FaF.Core.Debug;
@@ -15,8 +16,9 @@ public enum LogLevel
     TRACE
 }
 
-public class Logger(string section, string module)
+public class Logger(GameInstance GameInstance, string section, string module)
 {
+    public readonly GameInstance GameInstance = GameInstance;
     public readonly string Section = section;
     public readonly string Module = module;
 
@@ -28,15 +30,15 @@ public class Logger(string section, string module)
             LogLevel.WARNING   => $"[color=orange]{environmentInfo}[/color] [color=yellow]{message}[/color]",
             LogLevel.IMPORTANT => $"[b][color=darkcyan]{environmentInfo}[/color] [color=cyan]{message}[/color]",
             LogLevel.INFO      => $"[color=darkcyan]{environmentInfo}[/color] [color=cyan]{message}[/color]",
-            _                        => $"[color=gray]{environmentInfo}[/color] [color=white]{message}[/color]"
+            _                  => $"[color=gray]{environmentInfo}[/color] [color=white]{message}[/color]"
         };
     
     // TODO: add instance identity info to logger
-    public static string GenerateInstanceIdentityInfo()
-        => "";
+    public string GenerateInstanceIdentityInfo()
+        => GameInstance == null ? "[Core]" : (GameInstance is ClientInstance ? "[Client]" : "[Server]");
     
-    public static string GenerateCommonEnvironmentInfo()
-        => $"[{DateTime.Now:HH:mm:ss:fff}]{GenerateInstanceIdentityInfo()}";
+    public string GenerateCommonEnvironmentInfo()
+        => $"[{DateTime.Now:HH:mm:ss:fff}] {GenerateInstanceIdentityInfo()}";
     
     public string GenerateEnvironmentInfo(LogLevel logLevel)
         => $"{GenerateCommonEnvironmentInfo()} [{Section}] {(Module == "" ? "" : $"[{Module}] ")}[{logLevel}]";
@@ -76,11 +78,11 @@ public static class LoggerFactory
 {
     private static readonly Dictionary<string, Logger> RegisteredLoggers = [];
 
-    public static Logger GetLogger(string section = "Core", string module = "")
+    public static Logger GetLogger(GameInstance GameInstance, string section = "FaF", string module = "")
     {
         if (RegisteredLoggers.TryGetValue($"{section}:{module}", out Logger existingLogger))
             return existingLogger;
         
-        return new(section, module);
+        return new(GameInstance, section, module);
     }
 }
