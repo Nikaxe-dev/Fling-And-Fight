@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Godot;
 
-namespace FaF.FileSystem;
+namespace FaF.Core.FileSystem;
 
 public class FolderInstance : FSInstance, IEnumerable
 {

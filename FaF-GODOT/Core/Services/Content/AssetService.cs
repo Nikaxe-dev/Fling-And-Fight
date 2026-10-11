@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using Godot;
 
-namespace FaF.Services.Content;
+namespace FaF.Core.Services.Content;
 
 public partial class AssetService() : Service([])
 {

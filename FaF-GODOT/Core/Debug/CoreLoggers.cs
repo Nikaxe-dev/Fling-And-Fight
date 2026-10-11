@@ -1,4 +1,4 @@
-namespace FaF.Debug;
+namespace FaF.Core.Debug;
 
 public static class CoreLoggers
 {

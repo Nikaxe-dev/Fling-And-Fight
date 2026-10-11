@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace FaF.Services;
+namespace FaF.Core.Services;
 
 public abstract partial class ServiceLoader(string[] dependencies, Type[] loadedTypes, Type[] excludeTypes) : Service(dependencies)
 {

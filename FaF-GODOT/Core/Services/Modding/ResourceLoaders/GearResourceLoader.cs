@@ -1,6 +1,6 @@
-using FaF.Services.Content.Resources;
-using FaF.Services.Modding.ResourceLoaders;
+using FaF.Core.Services.Content.Resources;
+using FaF.Core.Services.Modding.ResourceLoaders;
 
-namespace FaF.Services.Modding;
+namespace FaF.Core.Services.Modding;
 
 public class GearResourceLoader : ItemLikeResourceLoader<GearResource, GearResourceLoader>;

@@ -1,10 +1,10 @@
 using System;
 using System.Text.Json;
-using FaF.Debug;
-using FaF.FileSystem;
-using FaF.Services.Content.Resources;
+using FaF.Core.Debug;
+using FaF.Core.FileSystem;
+using FaF.Core.Services.Content.Resources;
 
-namespace FaF.Services.Modding.ResourceLoaders;
+namespace FaF.Core.Services.Modding.ResourceLoaders;
 
 public interface IContentResourceLoader<ResourceType>
 {

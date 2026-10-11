@@ -1,7 +1,7 @@
-using FaF.Debug;
+using FaF.Core.Debug;
 using Godot;
 
-namespace FaF.FileSystem;
+namespace FaF.Core.FileSystem;
 
 public abstract class FSInstance
 {

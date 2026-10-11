@@ -1,7 +1,7 @@
-using FaF.FileSystem;
+using FaF.Core.FileSystem;
 using Godot;
 
-namespace FaF.Services.Content.Resources;
+namespace FaF.Core.Services.Content.Resources;
 
 public partial class ContentResource : Resource
 {

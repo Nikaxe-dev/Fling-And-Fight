@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
-using FaF.Debug;
+using FaF.Core.Debug;
 using Godot;
 
-namespace FaF.Services;
+namespace FaF.Core.Services;
 
 public abstract partial class Service(string[] dependencies) : Node
 {

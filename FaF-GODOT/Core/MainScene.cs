@@ -1,6 +1,6 @@
 using Godot;
 
-namespace FaF;
+namespace FaF.Core;
 
 
 /// <summary>

@@ -1,14 +1,14 @@
 using System;
 using System.Collections.Generic;
-using FaF.Debug;
-using FaF.Services.Content;
-using FaF.Services.Lifecycle;
-using FaF.Services.Modding;
-using FaF.Services.UserInput;
-using FaF.Services.World;
+using FaF.Core.Debug;
+using FaF.Core.Services.Content;
+using FaF.Core.Services.Lifecycle;
+using FaF.Core.Services.Modding;
+using FaF.Core.Services.UserInput;
+using FaF.Core.Services.World;
 using Godot;
 
-namespace FaF.Services;
+namespace FaF.Core.Services;
 
 public partial class Game() : ServiceLoader([], [typeof(Service), typeof(ServiceLoader)], [typeof(Game)])
 {

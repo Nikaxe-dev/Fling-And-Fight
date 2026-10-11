@@ -1,8 +1,8 @@
 using System.Collections.Generic;
-using FaF.Debug;
+using FaF.Core.Debug;
 using Godot;
 
-namespace FaF.Services.World;
+namespace FaF.Core.Services.World;
 
 public partial class PlayerService() : Service(["NetworkService", "WorldService"])
 {

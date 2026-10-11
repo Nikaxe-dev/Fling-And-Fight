@@ -1,11 +1,11 @@
 using System;
-using FaF.Debug;
-using FaF.FileSystem;
-using FaF.Services.Content.Resources;
-using FaF.Services.Modding.ResourceLoaders;
+using FaF.Core.Debug;
+using FaF.Core.FileSystem;
+using FaF.Core.Services.Content.Resources;
+using FaF.Core.Services.Modding.ResourceLoaders;
 using Godot;
 
-namespace FaF.Services.Modding;
+namespace FaF.Core.Services.Modding;
 
 public partial class PackService() : Service(["ContentService", "AssetService"])
 {

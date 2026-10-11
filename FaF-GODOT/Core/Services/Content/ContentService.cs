@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
-using FaF.Debug;
-using FaF.Services.Content.Resources;
+using FaF.Core.Debug;
+using FaF.Core.Services.Content.Resources;
 
-namespace FaF.Services.Content;
+namespace FaF.Core.Services.Content;
 
 public partial class ContentService() : Service([])
 {

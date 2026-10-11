@@ -1,8 +1,8 @@
 using System.Text.Json;
-using FaF.Services.Content.Resources;
+using FaF.Core.Services.Content.Resources;
 using Godot;
 
-namespace FaF.Services.Modding.ResourceLoaders;
+namespace FaF.Core.Services.Modding.ResourceLoaders;
 
 public class WorldResourceLoader : ItemLikeResourceLoader<WorldResource, WorldResourceLoader>
 {

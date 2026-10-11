@@ -1,7 +1,7 @@
-using FaF.Debug;
+using FaF.Core.Debug;
 using Godot;
 
-namespace FaF.Services.Lifecycle;
+namespace FaF.Core.Services.Lifecycle;
 
 public partial class NetworkService() : Service([])
 {

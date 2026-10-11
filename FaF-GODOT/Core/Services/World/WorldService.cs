@@ -1,9 +1,9 @@
 using System;
-using FaF.Debug;
-using FaF.Services.Content.Resources;
+using FaF.Core.Debug;
+using FaF.Core.Services.Content.Resources;
 using Godot;
 
-namespace FaF.Services.World;
+namespace FaF.Core.Services.World;
 
 public partial class WorldService() : Service(["RunService"])
 {

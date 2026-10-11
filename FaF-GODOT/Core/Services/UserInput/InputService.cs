@@ -1,6 +1,6 @@
 using Godot;
 
-namespace FaF.Services.UserInput;
+namespace FaF.Core.Services.UserInput;
 
 public enum InputContext
 {

@@ -1,8 +1,8 @@
-using FaF.Services;
-using FaF.Services.UserInput;
+using FaF.Core.Services;
+using FaF.Core.Services.UserInput;
 using Godot;
 
-namespace FaF.Visuals;
+namespace FaF.Core.Visuals;
 
 public enum CameraMode
 {

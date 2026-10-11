@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
-using FaF.Services;
+using FaF.Core.Services;
 using Godot;
 
-namespace FaF.Debug;
+namespace FaF.Core.Debug;
 
 public enum LogLevel
 {

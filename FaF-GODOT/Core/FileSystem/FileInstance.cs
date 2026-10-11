@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text.Json;
 using Godot;
 
-namespace FaF.FileSystem;
+namespace FaF.Core.FileSystem;
 
 public class FileInstance : FSInstance
 {

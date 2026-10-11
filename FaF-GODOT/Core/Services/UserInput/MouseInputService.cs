@@ -1,7 +1,7 @@
-using FaF.Debug;
+using FaF.Core.Debug;
 using Godot;
 
-namespace FaF.Services.UserInput;
+namespace FaF.Core.Services.UserInput;
 
 public enum MouseMode
 {

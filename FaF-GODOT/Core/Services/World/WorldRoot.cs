@@ -1,7 +1,7 @@
-using FaF.Visuals;
+using FaF.Core.Visuals;
 using Godot;
 
-namespace FaF.Services.World;
+namespace FaF.Core.Services.World;
 
 public partial class WorldRoot : Node
 {
