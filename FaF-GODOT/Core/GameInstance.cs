@@ -18,7 +18,7 @@ public abstract partial class GameInstance : SubViewport, INodeLoader<IGameServi
         ((INodeLoader<IGameService>)this).LoadDerived();
 
         foreach (Node child in GetChildren())
-            if (child is IGameService service)
+            if (child is Service service)
                 service.LoadService();
     }
 

@@ -127,7 +127,7 @@ public partial class Program : Node
                 GameInstanceContainer.AddChild(client);
 
                 client.Start();
-                client.ConnectTo(serverIP, serverPort);
+                client.ConnectTo(serverIP, int.Parse(serverPort));
             }
         }
 

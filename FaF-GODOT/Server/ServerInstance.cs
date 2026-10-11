@@ -1,5 +1,6 @@
 using FaF.Core;
 using FaF.Core.Debug;
+using FaF.Server.Services;
 using Godot;
 
 namespace FaF.Server;
@@ -8,8 +9,11 @@ public partial class ServerInstance(int port, string worldID) : GameInstance, IN
 {
     private Core.Debug.Logger LOGGER => LoggerFactory.GetLogger(this, "FaF", "ServerInstance");
 
-    public readonly int Port = port;
-    public readonly string WorldID = worldID;
+    #region Services
+
+    public ServerNetworkService NetworkService => GetNode<ServerNetworkService>("NetworkService");
+
+    #endregion
 
     public override void Start()
     {
@@ -19,8 +23,10 @@ public partial class ServerInstance(int port, string worldID) : GameInstance, IN
         ((INodeLoader<IServerService>)this).LoadDerived();
 
         foreach (Node child in GetChildren())
-            if (child is IGameService service)
+            if (child is Service service)
                 service.LoadService();
+        
+        NetworkService.CreateServer(port, NetworkService.DEFAULT_MAX_PLAYERS);
     }
 
     public override void Stop()

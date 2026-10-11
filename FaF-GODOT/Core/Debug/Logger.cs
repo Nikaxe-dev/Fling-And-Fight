@@ -80,9 +80,11 @@ public static class LoggerFactory
 
     public static Logger GetLogger(GameInstance GameInstance, string section = "FaF", string module = "")
     {
-        if (RegisteredLoggers.TryGetValue($"{section}:{module}", out Logger existingLogger))
+        if (RegisteredLoggers.TryGetValue($"{GameInstance}{section}{module}", out Logger existingLogger))
             return existingLogger;
         
-        return new(GameInstance, section, module);
+        Logger logger = new(GameInstance, section, module);
+        RegisteredLoggers[$"{GameInstance}:{section}:{module}"] = logger;
+        return logger;
     }
 }
