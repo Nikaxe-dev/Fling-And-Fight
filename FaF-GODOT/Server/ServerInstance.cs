@@ -1,5 +1,6 @@
 using FaF.Core;
 using FaF.Core.Debug;
+using Godot;
 
 namespace FaF.Server;
 
@@ -17,7 +18,13 @@ public partial class ServerInstance(int port, string worldID) : GameInstance, IN
         LOGGER.IMPORTANT("Starting ServerInstance");
         ((INodeLoader<IServerService>)this).LoadDerived();
 
-        // if (this is ILoader<IServerService> loader)
-        //     loader.LoadDerived();
+        foreach (Node child in GetChildren())
+            if (child is IGameService service)
+                service.LoadService();
+    }
+
+    public override void Stop()
+    {
+        base.Stop();
     }
 }

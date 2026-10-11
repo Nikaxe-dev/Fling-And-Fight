@@ -16,5 +16,11 @@ public abstract partial class GameInstance : SubViewport, INodeLoader<IGameServi
         GetTree().SetMultiplayer(MultiplayerApi.CreateDefaultInterface(), GetPath());
 
         ((INodeLoader<IGameService>)this).LoadDerived();
+
+        foreach (Node child in GetChildren())
+            if (child is IGameService service)
+                service.LoadService();
     }
+
+    public virtual void Stop() {}
 }
