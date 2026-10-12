@@ -23,7 +23,7 @@ public partial class ServerInstance(int port, string worldID) : GameInstance, IN
         ((INodeLoader<IServerService>)this).LoadDerived();
 
         foreach (Node child in GetChildren())
-            if (child is Service service)
+            if (child is IServerService && child is Service service)
                 service.LoadService();
         
         NetworkService.CreateServer(port, NetworkService.DEFAULT_MAX_PLAYERS);

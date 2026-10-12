@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Text.Json;
 using FaF.Client;
 using FaF.Core.Debug;
+using FaF.Core.Services.Content;
 using FaF.Server;
 using Godot;
 
 namespace FaF.Core;
 
-public partial class Program : Node
+public partial class Program : Node, INodeLoader<IProgramService>
 {
     private static readonly Debug.Logger LOGGER = LoggerFactory.GetLogger(null);
 
@@ -17,6 +18,13 @@ public partial class Program : Node
     #region Nodes
 
     public static SubViewportContainer GameInstanceContainer {get; private set;}
+
+    #endregion
+
+    #region Services
+
+    public static AssetService AssetService => Instance.GetNode<AssetService>("AssetService");
+    public static ContentService ContentService => Instance.GetNode<ContentService>("ContentService");
 
     #endregion
 
@@ -62,6 +70,13 @@ public partial class Program : Node
         LOGGER.INFO($"Program arguments: {JsonSerializer.Serialize(ProgramArgs)}");
 
         SetupGameInstanceContainer();
+
+        ((INodeLoader<IProgramService>)this).LoadDerived();
+
+        foreach (Node child in GetChildren())
+            if (child is IProgramService && child is Service service)
+                service.LoadService();
+
         StartProgram();
     }
 

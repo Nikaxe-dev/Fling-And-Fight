@@ -23,7 +23,7 @@ public partial class ClientInstance : GameInstance, INodeLoader<IClientService>
         ((INodeLoader<IClientService>)this).LoadDerived();
 
         foreach (Node child in GetChildren())
-            if (child is Service service)
+            if (child is IClientService && child is Service service)
                 service.LoadService();
     }
 

@@ -2,7 +2,7 @@ using Godot;
 
 namespace FaF.Core;
 
-public abstract partial class GameInstance : SubViewport, INodeLoader<IGameService>
+public abstract partial class GameInstance : SubViewport, INodeLoader<ICoreService>
 {
     protected Node AddService(Node service)
     {
@@ -15,10 +15,10 @@ public abstract partial class GameInstance : SubViewport, INodeLoader<IGameServi
         OwnWorld3D = true;
         GetTree().SetMultiplayer(MultiplayerApi.CreateDefaultInterface(), GetPath());
 
-        ((INodeLoader<IGameService>)this).LoadDerived();
+        ((INodeLoader<ICoreService>)this).LoadDerived();
 
         foreach (Node child in GetChildren())
-            if (child is Service service)
+            if (child is ICoreService && child is Service service)
                 service.LoadService();
     }
 
