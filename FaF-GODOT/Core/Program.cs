@@ -2,8 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Text.Json;
 using FaF.Client;
-using FaF.Core.Debug;
-using FaF.Core.Services.Content;
+using FaF.Core.Lib.Debug;
+using FaF.Core.Services.ProgramServices;
+using FaF.Core.Services;
 using FaF.Server;
 using Godot;
 
@@ -11,7 +12,7 @@ namespace FaF.Core;
 
 public partial class Program : Node, INodeLoader<IProgramService>
 {
-    private static readonly Debug.Logger LOGGER = LoggerFactory.GetLogger(null);
+    private static readonly Lib.Debug.Logger LOGGER = LoggerFactory.GetLogger(null);
 
     private static Program Instance;
 

@@ -1,13 +1,15 @@
 using FaF.Core;
-using FaF.Core.Debug;
+using FaF.Core.Lib.Debug;
+using FaF.Core.Services;
 using FaF.Server.Services;
+using FaF.Server.Services.ServerServices;
 using Godot;
 
 namespace FaF.Server;
 
 public partial class ServerInstance(int port, string worldID) : GameInstance, INodeLoader<IServerService>
 {
-    private Core.Debug.Logger LOGGER => LoggerFactory.GetLogger(this, "FaF", "ServerInstance");
+    private Core.Lib.Debug.Logger LOGGER => LoggerFactory.GetLogger(this, "FaF", "ServerInstance");
 
     #region Services
 
