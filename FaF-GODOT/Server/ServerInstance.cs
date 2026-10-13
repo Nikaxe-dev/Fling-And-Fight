@@ -7,7 +7,7 @@ using Godot;
 
 namespace FaF.Server;
 
-public partial class ServerInstance(int port, string worldID) : GameInstance, INodeLoader<IServerService>
+public partial class ServerInstance(int port, string worldID) : GameInstance, IServerInstance, INodeLoader<IServerService>
 {
     private Core.Lib.Debug.Logger LOGGER => LoggerFactory.GetLogger(this, "FaF", "ServerInstance");
 

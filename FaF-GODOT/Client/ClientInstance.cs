@@ -7,7 +7,7 @@ using Godot;
 
 namespace FaF.Client;
 
-public partial class ClientInstance : GameInstance, INodeLoader<IClientService>
+public partial class ClientInstance : GameInstance, IClientInstance, INodeLoader<IClientService>
 {
     private Core.Lib.Debug.Logger LOGGER => LoggerFactory.GetLogger(this, "FaF", "ClientInstance");
 

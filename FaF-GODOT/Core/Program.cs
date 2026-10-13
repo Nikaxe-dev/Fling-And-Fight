@@ -1,12 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Text.Json;
-using FaF.Client;
 using FaF.Core.Lib.Debug;
 using FaF.Core.Services.ProgramServices;
 using FaF.Core.Services;
-using FaF.Server;
 using Godot;
+using System.Linq;
 
 namespace FaF.Core;
 
@@ -52,9 +51,85 @@ public partial class Program : Node, INodeLoader<IProgramService>
 
     public static bool TryGetArgument(string arg, out string value)
         => ProgramArgs.TryGetValue(arg, out value);
-    
+
+    #endregion
+
+    #region Server
+
     public static bool IsDedicatedServer()
         => OS.HasFeature("dedicated_server");
+
+    public static bool IsServerAvailable()
+        => TryGetServerInstanceType(out Type _);
+    
+    public static bool TryGetServerInstanceType(out Type instanceType)
+    {
+        instanceType = typeof(Program).Assembly.GetTypes().First(t => !t.IsAbstract && t.IsAssignableTo(typeof(IServerInstance)));
+        return instanceType != null;
+    }
+
+    public static Type GetServerInstanceType()
+    {
+        if (TryGetServerInstanceType(out Type instanceType))
+            return instanceType;
+        else
+            throw new ServerIsNotAvailableException();
+    }
+
+    public static IServerInstance NewServer(int port, string worldID)
+    {
+        IServerInstance server = (IServerInstance)Activator.CreateInstance(GetServerInstanceType(), [port, worldID]);
+
+        if (server is GameInstance game)
+        {
+            game.Name = "Server";
+            game.Start();
+            GameInstanceContainer.AddChild(game);
+        }
+
+        return server;
+    }
+
+    #endregion
+
+    #region Client
+
+    public static bool IsClientAvailable()
+        => TryGetClientInstanceType(out Type _);
+
+    public static bool TryGetClientInstanceType(out Type instanceType)
+    {
+        instanceType = typeof(Program).Assembly.GetTypes().First(t => !t.IsAbstract && t.IsAssignableTo(typeof(IClientInstance)));
+        return instanceType != null;
+    }
+
+    public static Type GetClientInstanceType()
+    {
+        if (TryGetClientInstanceType(out Type instanceType))
+            return instanceType;
+        else
+            throw new ClientIsNotAvailableException();
+    }
+
+    public static IClientInstance NewClient()
+    {
+        IClientInstance client = (IClientInstance)Activator.CreateInstance(GetClientInstanceType());
+
+        if (client is GameInstance game)
+        {
+            game.Start();
+            GameInstanceContainer.AddChild(game);
+        }
+
+        return client;
+    }
+
+    public static IClientInstance NewAutoConnectClient(string serverIP, int serverPort)
+    {
+        IClientInstance client = NewClient();
+        client.ConnectTo(serverIP, serverPort);
+        return client;
+    }
 
     #endregion
 
@@ -101,61 +176,51 @@ public partial class Program : Node, INodeLoader<IProgramService>
 
     private void StartProgram()
     {
-        string serverPort = GetArgumentOrNull("port") ?? "56565";
+        /*
+            This requires IClientInstance & IServerInstance to allow the client & server namespaces to not be defined in the project.
+            Why is it handled this why? Because Godot doesn't easily support adding preprocessor tags for each different export OR for each added feature tag.
+            If it was a feature, I would simply use a DEDICATED_SERVER preprocessor tag.
+        */
 
-        // dedicated server - no client export
-        if (IsDedicatedServer())
+        int serverPort = int.Parse(GetArgumentOrNull("port") ?? "56565");
+
+        if (IsServerAvailable())
         {
-            LOGGER.IMPORTANT("Launching as dedicated server");
-
             string worldID = GetArgument("world");
 
-            ServerInstance server = new(int.Parse(serverPort), worldID) { Name = "Server" };
-            GameInstanceContainer.AddChild(server);
-
-            server.Start();
-            return;
-        }
-        
-        // create server with this argument
-        if (HasArgument("server"))
-        {
-            LOGGER.IMPORTANT("Launching server");
-
-            string worldID = GetArgument("world");
-
-            ServerInstance server = new(int.Parse(serverPort), worldID) { Name = "Server" };
-            GameInstanceContainer.AddChild(server);
-
-            server.Start();
-        }
-
-        // create amount of auto connecting clients
-        if (TryGetArgument("clients", out string clientsArg))
-        {
-            string serverIP = GetArgumentOrNull("ip") ?? "127.0.0.1";
-
-            for (int i = 0; i < int.Parse(clientsArg); i++)
+            if (IsDedicatedServer())
             {
-                LOGGER.IMPORTANT($"Launching client #{i+1}");
+                LOGGER.IMPORTANT("Launching as dedicated server");
+                NewServer(serverPort, worldID);
+                return;
+            }
 
-                ClientInstance client = new() { Name = $"Client{i+1}" };
-                GameInstanceContainer.AddChild(client);
-
-                client.Start();
-                client.ConnectTo(serverIP, int.Parse(serverPort));
+            if (HasArgument("server"))
+            {
+                LOGGER.IMPORTANT("Laucnhing server");
+                NewServer(serverPort, worldID);
             }
         }
 
-        // default program behaviour: start client
-        if (!HasArgument("clients") && !HasArgument("server"))
+        if (IsClientAvailable())
         {
-            LOGGER.IMPORTANT("Launching as client");
+            string serverIP = GetArgumentOrNull("ip") ?? "127.0.0.1";
 
-            ClientInstance client = new() { Name = "Client" };
-            GameInstanceContainer.AddChild(client);
-
-            client.Start();
+            if (TryGetArgument("clients", out string clientsArg))
+                for (int i = 0; i < int.Parse(clientsArg); i++)
+                {
+                    LOGGER.IMPORTANT($"Launching client #{i+1}");
+                    NewAutoConnectClient(serverIP, serverPort);
+                }
+            
+            if (!HasArgument("clients") && !HasArgument("server"))
+            {
+                LOGGER.IMPORTANT("Launching as client");
+                if (HasArgument("ip") || HasArgument("port"))
+                    NewAutoConnectClient(serverIP, serverPort);
+                else
+                    NewClient();
+            }
         }
     }
 
@@ -175,6 +240,9 @@ public partial class Program : Node, INodeLoader<IProgramService>
     #region Exceptions
 
     public class ProgramArgNotGivenException(string arg) : Exception($"Argument '{arg}' not found.");
+
+    public class ClientIsNotAvailableException() : Exception("Attempted to access the client. The client is not available in this build.");
+    public class ServerIsNotAvailableException() : Exception("Attempted to access the server. The server is not available in this build.");
 
     #endregion
 }
