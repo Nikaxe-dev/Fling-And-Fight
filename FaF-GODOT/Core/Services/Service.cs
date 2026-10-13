@@ -1,5 +1,3 @@
-using FaF.Client;
-using FaF.Server;
 using Godot;
 
 namespace FaF.Core.Services;
@@ -7,8 +5,8 @@ namespace FaF.Core.Services;
 public abstract partial class Service : Node
 {
     public GameInstance Game => GetOwner<GameInstance>();
-    public ServerInstance Server => GetOwner<ServerInstance>();
-    public ClientInstance Client => GetOwner<ClientInstance>();
+    public IServerInstance Server => GetOwner<IServerInstance>();
+    public IClientInstance Client => GetOwner<IClientInstance>();
 
     public virtual void LoadService() {}
 }

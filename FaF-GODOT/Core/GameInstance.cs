@@ -3,7 +3,7 @@ using Godot;
 
 namespace FaF.Core;
 
-public abstract partial class GameInstance : SubViewport, INodeLoader<ICoreService>
+public abstract partial class GameInstance : SubViewport, IGameInstance, INodeLoader<ICoreService>
 {
     protected Node AddService(Node service)
     {

@@ -1,3 +1,3 @@
 namespace FaF.Core;
 
-public interface IServerInstance;
+public partial interface IServerInstance : IGameInstance;
