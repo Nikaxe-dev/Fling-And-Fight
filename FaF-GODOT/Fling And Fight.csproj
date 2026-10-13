@@ -5,4 +5,7 @@
     <EnableDynamicLoading>true</EnableDynamicLoading>
     <RootNamespace>FaF</RootNamespace>
   </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Chickensoft.GodotNodeInterfaces" Version="3.0.39" />
+  </ItemGroup>
 </Project>

@@ -1,11 +1,9 @@
-using Godot;
+using Chickensoft.GodotNodeInterfaces;
 
 namespace FaF.Core;
 
-public partial interface IGameInstance
+public partial interface IGameInstance : INode
 {
-    public T GetNode<T>(NodePath node) where T : class;
-
     public void Start();
     public void Stop();
 }

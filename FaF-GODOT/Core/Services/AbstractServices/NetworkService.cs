@@ -68,8 +68,6 @@ public abstract partial class NetworkService : Service
 
     public override void LoadService()
     {
-        base.LoadService();
-
         SetupNetworkLogs();
         SetupServiceSignals();
     }
