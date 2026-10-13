@@ -82,9 +82,9 @@ public partial class Program : Node, INodeLoader<IProgramService>
 
         if (server is GameInstance game)
         {
+            GameInstanceContainer.AddChild(game);
             game.Name = "Server";
             game.Start();
-            GameInstanceContainer.AddChild(game);
         }
 
         return server;
@@ -117,8 +117,8 @@ public partial class Program : Node, INodeLoader<IProgramService>
 
         if (client is GameInstance game)
         {
-            game.Start();
             GameInstanceContainer.AddChild(game);
+            game.Start();
         }
 
         return client;
