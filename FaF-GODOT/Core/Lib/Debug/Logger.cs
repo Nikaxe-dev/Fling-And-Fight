@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using FaF.Client;
 using Godot;
 
 namespace FaF.Core.Lib.Debug;
@@ -35,7 +34,7 @@ public class Logger(GameInstance GameInstance, string section, string module)
     
     // TODO: add instance identity info to logger
     public string GenerateInstanceIdentityInfo()
-        => GameInstance == null ? "[Core]" : (GameInstance is ClientInstance ? "[Client]" : "[Server]");
+        => GameInstance == null ? "[Core]" : (GameInstance is IClientInstance ? "[Client]" : "[Server]");
     
     public string GenerateCommonEnvironmentInfo()
         => $"[{DateTime.Now:HH:mm:ss:fff}] {GenerateInstanceIdentityInfo()}";
