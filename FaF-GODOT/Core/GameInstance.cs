@@ -1,15 +1,16 @@
 using FaF.Core.Services;
+using FaF.Core.Services.ProgramServices;
 using Godot;
 
 namespace FaF.Core;
 
 public abstract partial class GameInstance : SubViewport, IGameInstance, INodeLoader<ICoreService>
 {
-    protected Node AddService(Node service)
-    {
-        AddChild(service);
-        return service;
-    }
+    #region Services
+
+    public RegistryHolder RegistryHolder => GetNode<RegistryHolder>("RegistryHolder");
+
+    #endregion
 
     public virtual void Start()
     {

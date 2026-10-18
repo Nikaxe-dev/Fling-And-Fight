@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace FaF.Core.Resources.ContentResources;
+namespace FaF.Core.Data.ContentResources;
 
 public partial class PackResource : ItemLikeResource
 {

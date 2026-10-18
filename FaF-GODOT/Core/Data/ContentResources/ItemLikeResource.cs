@@ -1,4 +1,4 @@
-namespace FaF.Core.Resources.ContentResources;
+namespace FaF.Core.Data.ContentResources;
 
 public abstract partial class ItemLikeResource : ContentResource
 {

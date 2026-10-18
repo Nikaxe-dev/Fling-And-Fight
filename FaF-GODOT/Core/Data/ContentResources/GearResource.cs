@@ -1,3 +1,3 @@
-namespace FaF.Core.Resources.ContentResources;
+namespace FaF.Core.Data.ContentResources;
 
 public partial class GearResource : ItemLikeResource;

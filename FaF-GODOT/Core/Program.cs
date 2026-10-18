@@ -21,13 +21,6 @@ public partial class Program : Node, INodeLoader<IProgramService>
 
     #endregion
 
-    #region Services
-
-    public static AssetService AssetService => Instance.GetNode<AssetService>("AssetService");
-    public static ContentService ContentService => Instance.GetNode<ContentService>("ContentService");
-
-    #endregion
-
     #region Launch Arguments
 
     private static readonly Dictionary<string, string> ProgramArgs = [];

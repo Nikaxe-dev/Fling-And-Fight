@@ -43,7 +43,7 @@ public class FileInstance : FSInstance
     {
         string text = FileAccess.GetFileAsString(Path);
         if (text == "")
-            throw new FileAccessGetFileAsStringFailed(this, FileAccess.GetOpenError());
+            throw new FileAccessGetFileAsStringFailedException(this, FileAccess.GetOpenError());
         return text;
     }
 
@@ -59,12 +59,12 @@ public class FileInstance : FSInstance
         }
         catch (Exception ex)
         {
-            throw new FileReadJsonFailed(this, ex);
+            throw new FileReadJsonFailedException(this, ex);
         }
     }
 
     public bool IsGodotImportExtension() => GetExtension() == "import" || GetExtension() == "uid";
 
-    public class FileAccessGetFileAsStringFailed(FileInstance file, Error errorCode) : Exception($"Failed to read file '{file}' as text with error code: {errorCode}");
-    public class FileReadJsonFailed(FileInstance file, Exception exception) : Exception($"Failed to read file '{file}' as json with message: {exception.Message}");
+    public class FileAccessGetFileAsStringFailedException(FileInstance file, Error errorCode) : Exception($"Failed to read file '{file}' as text with error code: {errorCode}");
+    public class FileReadJsonFailedException(FileInstance file, Exception exception) : Exception($"Failed to read file '{file}' as json with message: {exception.Message}");
 }
