@@ -57,12 +57,6 @@ public partial class RegistryHolder : Service, ICoreService, INodeLoader<IRegist
     /// </summary>
     public bool AddToRegistry<ContainedType>(Identifier identifier, ContainedType item)
     {
-        // if (TryGetRegistry(out Registry<ContainedType> registry))
-        // {
-        //     GD.Print("huh");
-        //     registry.Register(identifier, item);
-        //     return true;
-        // }
         foreach (Node child in GetChildren())
             if (child is Registry<ContainedType> registry)
             {
