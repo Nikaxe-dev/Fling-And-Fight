@@ -23,10 +23,8 @@ public partial class RegistryHolder : Service, ICoreService, INodeLoader<IRegist
         ((INodeLoader<IRegistry>)this).LoadDerived();
 
         foreach (Node node in GetChildren())
-        {
             if (node is IRegistry registry)
                 Registries[registry.GetType().Name] = registry;
-        }
     }
 
     public T GetRegistry<T>() where T : IRegistry

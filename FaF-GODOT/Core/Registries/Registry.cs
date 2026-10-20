@@ -16,7 +16,7 @@ public interface IRegistry
     
 }
 
-public abstract partial class Registry<T> : Node, IRegistry
+public abstract partial class Registry<T> : GameInstanceAccessor, IRegistry
 {
     public abstract bool Exists(Identifier identifier);
     public abstract T GetItem(Identifier identifier);
