@@ -2,7 +2,7 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using Godot;
 
-namespace FaF.Core.Data;
+namespace FaF.Core.Resources;
 
 public struct Identifier
 {

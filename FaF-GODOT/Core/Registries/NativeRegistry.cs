@@ -1,5 +1,6 @@
 using System.Collections.Generic;
-using FaF.Core.Data.ContentResources;
+using FaF.Core.Resources;
+using FaF.Core.Resources.Content;
 
 namespace FaF.Core.Data.Registries;
 

@@ -1,3 +1,3 @@
-namespace FaF.Core.Data.ContentResources;
+namespace FaF.Core.Resources.Content;
 
 public partial class PropResource : ItemLikeResource;

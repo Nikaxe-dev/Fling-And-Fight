@@ -1,6 +1,6 @@
 using Godot;
 
-namespace FaF.Core.Data.ContentResources;
+namespace FaF.Core.Resources.Content;
 
 public partial class WorldResource : ItemLikeResource
 {

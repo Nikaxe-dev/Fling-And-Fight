@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
-using FaF.Core.Data;
-using FaF.Core.Data.ContentResources;
+using FaF.Core.Resources;
 using FaF.Core.Data.Registries;
 using Godot;
 

@@ -1,4 +1,4 @@
-using FaF.Core.Data.ContentResources;
+using FaF.Core.Resources.Content;
 
 namespace FaF.Core.Data.Registries;
 

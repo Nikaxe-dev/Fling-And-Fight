@@ -1,4 +1,5 @@
 using System;
+using FaF.Core.Resources;
 using Godot;
 
 namespace FaF.Core.Data.Registries;
