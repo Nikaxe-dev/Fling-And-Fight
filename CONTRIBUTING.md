@@ -11,7 +11,7 @@ Going along with these contribution guidelines helps to look back on the project
 
 **NOTE:** The /FaF-RBLX-ARCHIVE directory is not meant to be modified ever. It contains the old version of FaF built in Roblox for archival purposes. Knowing that, feel free to look at it and otherwise fork the game on Roblox. The RBXL file is now licensed under the same license as this project.
 
-**NOTE:** /FaF-GODOT/Packs/* (apart from Packs/Example) is not going to be included here. FaF's content will only be available with the purchase of the game (unless made free in the future).
+**NOTE:** /Mods/* (apart from /Mods/Example) is not going to be included here. FaF's content will only be available with the purchase of the game (unless made free in the future).
 
 # Issues
 
@@ -21,7 +21,7 @@ Please follow these guidelines while making a issue:
 * **Do not** use the issue tracker for help playing the game.
 * **Do not** troll or otherwise distract conversations in issues. Keep on topic & use the discord server for any off topic conversations.
 * **Do not** make issues for projects forked from Fling And Fight. This is for the official game only.
-* **Do not** make issues about mods/addons for the game.
+* **Do not** make issues about user created mods/addons for the game.
 * **Do not** make duplicate issues without already checking for another issue of the same with good effort.
 
 # Bug reports
