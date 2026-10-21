@@ -1,5 +1,5 @@
 using Godot;
 
-namespace FaF.Core.Data.Registries;
+namespace FaF.Core.Registries;
 
 public partial class AssetRegistry : NativeRegistry<Resource>;

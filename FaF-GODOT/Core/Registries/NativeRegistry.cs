@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using FaF.Core.Resources;
 using FaF.Core.Resources.Content;
 
-namespace FaF.Core.Data.Registries;
+namespace FaF.Core.Registries;
 
 public abstract partial class NativeRegistry<T> : Registry<T>
 {

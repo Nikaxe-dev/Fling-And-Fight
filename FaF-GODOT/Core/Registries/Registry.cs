@@ -2,7 +2,7 @@ using System;
 using FaF.Core.Resources;
 using Godot;
 
-namespace FaF.Core.Data.Registries;
+namespace FaF.Core.Registries;
 
 public class RegistryItemNotFoundException(IRegistry registry, Identifier identifier)
     : Exception($"{identifier} was not found in registry {registry.GetType().Name}");

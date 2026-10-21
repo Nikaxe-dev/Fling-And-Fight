@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using FaF.Core.Resources;
-using FaF.Core.Data.Registries;
+using FaF.Core.Registries;
 using Godot;
 
 namespace FaF.Core.Services.ProgramServices;
