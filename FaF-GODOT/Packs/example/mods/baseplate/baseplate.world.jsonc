@@ -1,0 +1,25 @@
+{
+    "Name": "Baseplate",
+    "Description": "Baseplate world included in the example pack",
+
+    "Creator": "Nikaxe",
+
+    // links to something under assets (example: new_sedes:world/new_sedes_godot)
+    // doesn't include the file extension
+    "WorldMap": "baseplate:world/baseplate_godot",
+
+    // include the content of these mods
+    "Include": [
+        "faf",
+        "new_sedes"
+    ],
+
+    // exclude the content of these mods
+    "Exclude": [
+        "nuke_mod",
+        "malware_number_1378845365"
+    ]
+
+    // include & exclude cannot be present at the same time
+    // if none are specified then all mods are loaded
+}

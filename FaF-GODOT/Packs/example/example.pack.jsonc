@@ -1,0 +1,66 @@
+/*
+.json / .jsonc is supported for data files
+data file names are formatted like so: [DATA_ID].[CONTENT_TYPE].[json/jsonc]
+example: grabline.gear.json, faf.pack.json, new_sedes.world.json
+
+.pack.json -> pack data
+
+.world.json -> world data
+    inside the root directory of a mod
+    allows for the mod to be loaded as a world in game
+    contains data about which mods to include / exclude from loading when the world is loaded into
+    also what scene to load into the tree when loading
+
+.gear.json -> gear data
+    inside the /data/gears directory of a mod
+    contains data about a gear like the scene to load and shop info
+
+.prop.json -> prop data
+    inside the /data/props directory of a mod
+    contains data about a prop like the scene to load and shop info
+
+*/
+
+{
+    // this stops the pack from loading
+    "_DISABLE": true,
+
+    "Name": "Example Pack",
+    "Description": "An example pack for FaF. Have fun modding!",
+
+    "Creator": "nikaxe",
+
+    "Links": {
+        "Contact": "mailto:nikaxe.public@gmail.com",
+
+        "Source": "https://github.com/nikaxe-dev/fling-and-fight/tree/main/FaF-GODOT/Packs/example",
+        "Issues": "https://github.com/nikaxe-dev/fling-and-fight/issues",
+
+        "Discord": "https://discord.gg/vhpYZGUvXx"
+    },
+
+    "Version": "0.1.0",
+    "VersionNumber": 0,
+
+    // packs required for the pack to work
+    "PackDependencies": {
+        "faf": "0>"
+    },
+
+    // mods required for the pack to work
+    "ModDependencies": {
+        // format as PACK_ID:MOD_ID to require a certain pack to implement it
+        "faf:new_sedes": "0>",
+
+        // format as MOD_ID by itself to allow any pack to implement it
+        "testing": "[0-10],10>"
+    }
+
+    // version requirements for dependencies work like so:
+    // everything split by commas (,)
+    // versions use the VersionNumber integer, the Version property is simply for visual purposes (such as the packs description, etc)
+
+    // brackets mean a range (for example: '[0,10]' would be VersionNumber 0 to 10) (only allows raw numbers, so no '[0,10>]' because that would be the same as '0>')
+    // '>' means bigger (for example: 0> would be any VersionNumber higher than 0)
+    // '<' means smaller (for example: 10< would be any VersionNumber lower than 10)
+}
