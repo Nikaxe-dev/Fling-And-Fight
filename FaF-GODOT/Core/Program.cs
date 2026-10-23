@@ -171,7 +171,7 @@ public partial class Program : Node, INodeLoader<IProgramService>
     {
         /*
             This requires IClientInstance & IServerInstance to allow the client & server namespaces to not be defined in the project.
-            Why is it handled this why? Because Godot doesn't easily support adding preprocessor tags for each different export OR for each added feature tag.
+            Why is it handled like this? Because Godot doesn't easily support adding preprocessor tags for each different export OR for each added feature tag.
             If it was a feature, I would simply use a DEDICATED_SERVER preprocessor tag.
         */
 

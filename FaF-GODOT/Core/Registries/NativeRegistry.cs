@@ -8,6 +8,12 @@ public abstract partial class NativeRegistry<T> : Registry<T>
 {
     private readonly Dictionary<Identifier, T> Items = [];
 
+    public override Identifier[] GetIdentifiers()
+        => [.. Items.Keys];
+
+    public override T[] GetItems()
+        => [.. Items.Values];
+
     public override void Register(Identifier identifier, T item)
     {
         if (item is ContentResource resource)

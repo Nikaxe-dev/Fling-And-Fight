@@ -1,0 +1,8 @@
+{
+    // The type of map - godot means it will load a godot scene.
+    "Type": "Godot",
+
+    // links to assets/baseplate/world/baseplate_godot.tscn
+    // [namespace]:[path relative to 'assets/baseplate'] (no file extension required)
+    "Scene": "baseplate:world/baseplate_godot"
+}

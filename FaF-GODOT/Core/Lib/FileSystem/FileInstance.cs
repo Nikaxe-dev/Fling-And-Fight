@@ -22,6 +22,15 @@ public class FileInstance : FSInstance
             return null;
     }
 
+    public static new FileInstance OpenOrError(string path, Exception customException = null)
+    {
+        FileInstance result = Open(path);
+        if (result != null)
+            return result;
+        else
+            throw customException ?? new PathDoesNotExistException(path);
+    }
+
     public string[] GetExtensions()
     {
         List<string> dotSplit = [.. Path.GetFile().Split('.')];

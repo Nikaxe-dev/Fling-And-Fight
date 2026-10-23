@@ -21,6 +21,9 @@ public abstract partial class Registry<T> : GameInstanceAccessor, IRegistry
     public abstract bool Exists(Identifier identifier);
     public abstract T GetItem(Identifier identifier);
 
+    public abstract Identifier[] GetIdentifiers();
+    public abstract T[] GetItems();
+
     public virtual bool TryGetItem(Identifier identifier, out T item)
     {
         bool itemExists = Exists(identifier);

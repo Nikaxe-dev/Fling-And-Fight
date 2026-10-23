@@ -4,22 +4,21 @@
 
     "Creator": "Nikaxe",
 
-    // links to something under assets (example: new_sedes:world/new_sedes_godot)
-    // doesn't include the file extension
-    "WorldMap": "baseplate:world/baseplate_godot",
+    // links to a map in the map registry with the identifier 'baseplate:main'
+    "MainMap": "baseplate:main",
 
-    // include the content of these mods
+    // include the content of these namespaces
     "Include": [
         "faf",
         "new_sedes"
     ],
 
-    // exclude the content of these mods
+    // exclude the content of these namespaces
     "Exclude": [
         "nuke_mod",
         "malware_number_1378845365"
     ]
 
     // include & exclude cannot be present at the same time
-    // if none are specified then all mods are loaded
+    // if none are specified then all namespaces are loaded
 }
