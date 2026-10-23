@@ -13,7 +13,8 @@ public partial class ServerInstance(int port, string worldID) : GameInstance, IS
 
     #region Services
 
-    public ServerNetworkService NetworkService => GetNode<ServerNetworkService>("NetworkService");
+    public new ServerNetworkService NetworkService => GetNode<ServerNetworkService>("NetworkService");
+    public new ServerModLoader ModLoader => GetNode<ServerModLoader>("ModLoader");
 
     #endregion
 
