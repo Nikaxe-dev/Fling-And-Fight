@@ -1,5 +1,7 @@
+using System;
 using FaF.Core.Lib.Debug;
 using FaF.Core.Lib.FileSystem;
+using FaF.Core.Modding.Json.LoaderExtensions;
 using FaF.Core.Modding.ModExtensions;
 using FaF.Core.Registries;
 using FaF.Core.Resources.Content;
@@ -35,7 +37,21 @@ public abstract partial class ModLoader : Service, INodeLoader<ICoreModExtension
 
     private void InitModDirectory(FolderInstance modFolder)
     {
+        ModResource mod = null;
+        foreach (FSInstance item in modFolder)
+            if (item is FileInstance file)
+                if (file.IsJsonExtension() && file.GetExtension(0) == "mod")
+                    if (mod == null)
+                    {
+                        mod = ModResourceLoaderExtension.LoadFile(file);
+                        mod.FilePath = file.Path;
+                        Game.RegistryHolder.AddToRegistry(new(file.Name), mod);
+                    }
+                    else
+                        throw new MultipleModMetaFilesFoundException(modFolder);
         
+        if (mod == null)
+            throw new ModMetaFileNotFoundException(modFolder);
     }
 
     private void InitModsDirectory(FolderInstance modsFolder)
@@ -69,4 +85,7 @@ public abstract partial class ModLoader : Service, INodeLoader<ICoreModExtension
 
         InitMods();
     }
+
+    public class ModMetaFileNotFoundException(FolderInstance modFolder) : Exception($"A ID.mod.json file was not found in {modFolder}.");
+    public class MultipleModMetaFilesFoundException(FolderInstance modFolder) : Exception($"Multiple ID.mod.json files were found in {modFolder}. Mods should only have one meta file.");
 }
