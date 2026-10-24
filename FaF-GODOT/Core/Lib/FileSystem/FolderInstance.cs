@@ -51,4 +51,10 @@ public class FolderInstance : FSInstance, IEnumerable
         child = GetChild(joinedPath);
         return child != null;
     }
+
+    public bool TryGetChild<T>(string joinedPath, out T child) where T : FSInstance
+    {
+        child = (T)GetChild(joinedPath);
+        return child != null;
+    }
 }

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using FaF.Core.Lib.Debug;
 using FaF.Core.Lib.FileSystem;
 using FaF.Core.Modding.Json.LoaderExtensions;
@@ -35,6 +36,14 @@ public abstract partial class ModLoader : Service, INodeLoader<ICoreModExtension
 
     #endregion
 
+    private void ScanForNamespaces(List<string> resultList, FolderInstance namespaceFolder)
+    {
+        foreach (FSInstance item in namespaceFolder)
+            if (item is FolderInstance folder)
+                if (!resultList.Contains(folder.Name))
+                    resultList.Add(folder.Name);
+    }
+
     private void InitModDirectory(FolderInstance modFolder)
     {
         ModResource mod = null;
@@ -46,12 +55,28 @@ public abstract partial class ModLoader : Service, INodeLoader<ICoreModExtension
                         mod = ModResourceLoaderExtension.LoadFile(file);
                         mod.FilePath = file.Path;
                         Game.RegistryHolder.AddToRegistry(new(file.Name), mod);
-                    }
-                    else
+                    } else
                         throw new MultipleModMetaFilesFoundException(modFolder);
         
         if (mod == null)
             throw new ModMetaFileNotFoundException(modFolder);
+        
+        foreach (Node child in GetChildren())
+            if (child is IModInitExtension && child is IModRootExtension rootExtension)
+                rootExtension.LoadMod(mod);
+        
+        List<string> namespaces = [];
+        
+        if (modFolder.TryGetChild("assets", out FolderInstance assetsFolder))
+            ScanForNamespaces(namespaces, assetsFolder);
+        
+        if (modFolder.TryGetChild("data", out FolderInstance dataFolder))
+            ScanForNamespaces(namespaces, dataFolder);
+        
+        foreach (string namespaceID in namespaces)
+            foreach (Node child in GetChildren())
+                if (child is IModInitExtension && child is IModNamespaceExtension namespaceExtension)
+                    namespaceExtension.LoadNamespace(mod, namespaceID);
     }
 
     private void InitModsDirectory(FolderInstance modsFolder)

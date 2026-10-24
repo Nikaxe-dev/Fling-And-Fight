@@ -18,7 +18,7 @@ public abstract partial class RegistryPopulatorModExtension<ResourceType, Loader
                 {
                     // stuck on .NET 8.0 so I cant just LoaderExtension.LoadFile()
                     // look for `public static LoadFile()` in LoaderExtension
-                    var loadMethod = typeof(LoaderExtension).GetMethod("LoadFile", System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static)
+                    var loadMethod = typeof(LoaderExtension).GetMethod("LoadFile", System.Reflection.BindingFlags.FlattenHierarchy | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static)
                         ?? throw new LoaderExtensionLoadFileMethodNotFound(this);
                     
                     ResourceType newItem = (ResourceType)loadMethod.Invoke(null, [file]);
