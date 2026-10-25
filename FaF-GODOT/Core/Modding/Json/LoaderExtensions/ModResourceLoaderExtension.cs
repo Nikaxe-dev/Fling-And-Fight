@@ -8,6 +8,9 @@ public partial class ModResourceLoaderExtension : ItemLikeResourceLoaderExtensio
 {
     protected override ModResource LoadThis(ModResource resource, JsonNode node)
     {
+        if (node.TryGetNodeAsNative("_DISABLED", out bool disabled))
+            resource._DISABLED = disabled;
+
         if (node.TryGetNode("Links", out JsonNode linksNode))
             foreach (var (key, value) in linksNode.AsObject())
                 resource.Links[key] = value.AsNative<string>();
