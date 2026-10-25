@@ -42,18 +42,15 @@ example: grabline.gear.json, faf.pack.json, new_sedes.world.json
     "Version": "0.1.0",
     "VersionNumber": 0,
 
-    // packs required for the pack to work
-    "PackDependencies": {
-        "faf": "0>"
-    },
-
-    // mods required for the pack to work
-    "ModDependencies": {
-        // format as PACK_ID:MOD_ID to require a certain pack to implement it
+    // mods & namespaces required for this mod to work
+    "Dependencies": {
+        // format as MOD_ID:NAMESPACE_ID to require a certain mod to implement it
+        // this is recommended for most use cases
+        "faf:faf": "0>",
         "faf:new_sedes": "0>",
 
-        // format as MOD_ID by itself to allow any pack to implement it
-        "testing": "[0-10],10>"
+        // format as NAMESPACE_ID by itself to allow any mod to implement it
+        "new_sedes": "0>"
     }
 
     // version requirements for dependencies work like so:
