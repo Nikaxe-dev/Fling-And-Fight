@@ -1,0 +1,18 @@
+{
+    "Name": "Sandbox",
+    "Description": "Contains the physics-sandbox elements in FaF.",
+
+    "Creator": "nikaxe",
+
+    "Links": {
+        "Contact": "mailto:nikaxe.public@gmail.com",
+
+        "Source": "https://github.com/nikaxe-dev/fling-and-fight/tree/main/FaF-GODOT/Mods/sandbox",
+        "Issues": "https://github.com/nikaxe-dev/fling-and-fight/issues",
+
+        "Discord": "https://discord.gg/vhpYZGUvXx"
+    },
+
+    "Version": "0.1.0",
+    "VersionNumber": 0
+}

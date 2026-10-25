@@ -1,0 +1,8 @@
+{
+    // Override modes:
+    // Merge - merges the contents of all previous declarations of this file with the current
+    // Overwrite - completely overwrites the content of all previous declarations with the current file
+
+    "_OverrideMode": "Merge",
+    "Description": "Overwritten description example!"
+}

@@ -33,7 +33,7 @@ example: grabline.gear.json, faf.pack.json, new_sedes.world.json
     "Links": {
         "Contact": "mailto:nikaxe.public@gmail.com",
 
-        "Source": "https://github.com/nikaxe-dev/fling-and-fight/tree/main/FaF-GODOT/Packs/example",
+        "Source": "https://github.com/nikaxe-dev/fling-and-fight/tree/main/FaF-GODOT/Mods/example",
         "Issues": "https://github.com/nikaxe-dev/fling-and-fight/issues",
 
         "Discord": "https://discord.gg/vhpYZGUvXx"

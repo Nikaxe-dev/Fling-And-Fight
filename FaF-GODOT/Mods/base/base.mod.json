@@ -1,0 +1,18 @@
+{
+    "Name": "Base",
+    "Description": "Contains basic functionality for the game.",
+
+    "Creator": "nikaxe",
+
+    "Links": {
+        "Contact": "mailto:nikaxe.public@gmail.com",
+
+        "Source": "https://github.com/nikaxe-dev/fling-and-fight/tree/main/FaF-GODOT/Mods/base",
+        "Issues": "https://github.com/nikaxe-dev/fling-and-fight/issues",
+
+        "Discord": "https://discord.gg/vhpYZGUvXx"
+    },
+
+    "Version": "0.1.0",
+    "VersionNumber": 0
+}
