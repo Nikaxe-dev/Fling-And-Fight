@@ -7,13 +7,13 @@
     // links to a map in the map registry with the identifier 'baseplate:main'
     "MainMap": "baseplate:main",
 
-    // include the content of these namespaces
+    // include the content of these namespaces when loading the world
     "Include": [
         "faf",
         "new_sedes"
     ],
 
-    // exclude the content of these namespaces
+    // exclude the content of these namespaces when loading the world
     "Exclude": [
         "nuke_mod",
         "malware_number_1378845365"

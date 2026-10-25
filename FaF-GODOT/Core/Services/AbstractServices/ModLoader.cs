@@ -5,6 +5,7 @@ using FaF.Core.Lib.FileSystem;
 using FaF.Core.Modding.Json.LoaderExtensions;
 using FaF.Core.Modding.ModExtensions;
 using FaF.Core.Registries;
+using FaF.Core.Resources;
 using FaF.Core.Resources.Content;
 using Godot;
 
@@ -46,6 +47,8 @@ public abstract partial class ModLoader : Service, INodeLoader<ICoreModExtension
 
     private void InitModDirectory(FolderInstance modFolder)
     {
+        // scan for and then load meta file
+
         ModResource mod = null;
         foreach (FSInstance item in modFolder)
             if (item is FileInstance file)
@@ -61,19 +64,27 @@ public abstract partial class ModLoader : Service, INodeLoader<ICoreModExtension
         if (mod == null)
             throw new ModMetaFileNotFoundException(modFolder);
         
+        // scan for all defined namespaces in the mod
+        
+        List<string> definedNamespaces = [];
+        
+        if (modFolder.TryGetChild("assets", out FolderInstance assetsFolder))
+            ScanForNamespaces(definedNamespaces, assetsFolder);
+        
+        if (modFolder.TryGetChild("data", out FolderInstance dataFolder))
+            ScanForNamespaces(definedNamespaces, dataFolder);
+        
+        mod.DefinedNamespaces = [.. definedNamespaces];
+
+        // load root init mod extensions
+        
         foreach (Node child in GetChildren())
             if (child is IModInitExtension && child is IModRootExtension rootExtension)
                 rootExtension.LoadMod(mod);
         
-        List<string> namespaces = [];
+        // load namespace init mod extensions
         
-        if (modFolder.TryGetChild("assets", out FolderInstance assetsFolder))
-            ScanForNamespaces(namespaces, assetsFolder);
-        
-        if (modFolder.TryGetChild("data", out FolderInstance dataFolder))
-            ScanForNamespaces(namespaces, dataFolder);
-        
-        foreach (string namespaceID in namespaces)
+        foreach (string namespaceID in mod.DefinedNamespaces)
             foreach (Node child in GetChildren())
                 if (child is IModInitExtension && child is IModNamespaceExtension namespaceExtension)
                     namespaceExtension.LoadNamespace(mod, namespaceID);
@@ -94,7 +105,28 @@ public abstract partial class ModLoader : Service, INodeLoader<ICoreModExtension
 
     private void LoadMod(ModResource mod, WorldResource world)
     {
+        // load root load mod extensions
+
+        foreach (Node child in GetChildren())
+            if (child is IModLoadExtension loadExtension && child is IModRootExtension rootExtension)
+            {
+                loadExtension.LoadingWorld = world;
+                rootExtension.LoadMod(mod);
+
+                // set back to null when not in use to avoid any memory leaks
+                loadExtension.LoadingWorld = null;
+            }
         
+        // load namespace load mod extensions
+
+        foreach (string namespaceID in mod.DefinedNamespaces)
+            foreach (Node child in GetChildren())
+                if (child is IModLoadExtension loadExtension && child is IModNamespaceExtension namespaceExtension)
+                {
+                    loadExtension.LoadingWorld = world;
+                    namespaceExtension.LoadNamespace(mod, namespaceID);
+                    loadExtension.LoadingWorld = null;
+                }
     }
 
     private void LoadMods(WorldResource world)
@@ -109,6 +141,10 @@ public abstract partial class ModLoader : Service, INodeLoader<ICoreModExtension
         ((INodeLoader<ICoreModExtension>)this).LoadDerived();
 
         InitMods();
+        // LoadMods(Game.RegistryHolder.GetRegistry<WorldRegistry>().GetItem(Identifier.Parse("new_sedes:new_sedes")));
+        
+        GearResource gear = Game.RegistryHolder.GetRegistry<GearRegistry>().GetItem(Identifier.Parse("faf:grabline"));
+        GD.Print($"{gear.Name} - {gear.Description}");
     }
 
     public class ModMetaFileNotFoundException(FolderInstance modFolder) : Exception($"A ID.mod.json file was not found in {modFolder}.");

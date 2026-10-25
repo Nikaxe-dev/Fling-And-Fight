@@ -6,14 +6,17 @@ using Godot;
 
 namespace FaF.Core.Modding.ModExtensions;
 
-public abstract partial class RegistryPopulatorModExtension<ResourceType, LoaderExtension>(string fileExtension, string registryFolderJoinedPath = "data") : GameInstanceAccessor(), IModNamespaceExtension
+public abstract partial class RegistryPopulatorModExtension<ResourceType, LoaderExtension>(string fileExtension, string registryFolderJoinedPath = "data", bool includeNamespace = true) : GameInstanceAccessor(), IModNamespaceExtension
     where ResourceType : ContentResource, new()
     where LoaderExtension : ContentResourceLoaderExtension<ResourceType, LoaderExtension>, new()
 {
+    public WorldResource LoadingWorld { get; set; }
+
     private void LoadFolderRecursive(FolderInstance registryFolder, string namespaceID)
     {
         foreach (FSInstance item in registryFolder)
             if (item is FileInstance file)
+            {
                 if (file.IsJsonExtension() && file.GetExtension(0) == fileExtension)
                 {
                     // stuck on .NET 8.0 so I cant just LoaderExtension.LoadFile()
@@ -24,9 +27,11 @@ public abstract partial class RegistryPopulatorModExtension<ResourceType, Loader
                     ResourceType newItem = (ResourceType)loadMethod.Invoke(null, [file]);
                     newItem.FilePath = file.Path;
 
-                    Game.RegistryHolder.AddToRegistry(new(namespaceID, file.Name), newItem);
-                } else if (item is FolderInstance folder)
-                    LoadFolderRecursive(folder, namespaceID);
+                    Game.RegistryHolder.AddToRegistry(includeNamespace ? new(namespaceID, file.Name) : new(file.Name), newItem);
+                }
+            }
+            else if (item is FolderInstance folder)
+                LoadFolderRecursive(folder, namespaceID);
     }
 
     public void LoadNamespace(ModResource mod, string namespaceID)
