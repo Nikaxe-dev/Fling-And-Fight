@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
+using System.Text.Json.Nodes;
 using Godot;
 
 namespace FaF.Core.Lib.FileSystem;
@@ -58,7 +59,7 @@ public class FileInstance : FSInstance
 
     public bool IsJsonExtension() => GetExtension() == "json" || GetExtension() == "jsonc";
 
-    public JsonDocument ReadJson(JsonDocumentOptions? options = null)
+    public JsonDocument AsJsonDocument(JsonDocumentOptions? options = null)
     {
         options ??= DefaultJsonParsingOptions;
         
@@ -67,6 +68,19 @@ public class FileInstance : FSInstance
             return JsonDocument.Parse(ReadText(), (JsonDocumentOptions)options);
         }
         catch (Exception ex)
+        {
+            throw new FileReadJsonFailedException(this, ex);
+        }
+    }
+
+    public JsonNode AsJsonNode(JsonDocumentOptions? options = null)
+    {
+        options ??= DefaultJsonParsingOptions;
+
+        try
+        {
+            return JsonNode.Parse(ReadText(), documentOptions: (JsonDocumentOptions)options);
+        } catch (Exception ex)
         {
             throw new FileReadJsonFailedException(this, ex);
         }

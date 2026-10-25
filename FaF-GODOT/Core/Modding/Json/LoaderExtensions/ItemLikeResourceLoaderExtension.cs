@@ -1,4 +1,5 @@
-using System.Text.Json;
+using System.Text.Json.Nodes;
+using FaF.Core.Extensions;
 using FaF.Core.Resources.Content;
 
 namespace FaF.Core.Modding.Json.LoaderExtensions;
@@ -7,14 +8,16 @@ public class ItemLikeResourceLoaderExtension<ResourceType, ThisType> : ContentRe
     where ResourceType : ItemLikeResource, new()
     where ThisType : ItemLikeResourceLoaderExtension<ResourceType, ThisType>, new()
 {
-    protected override ResourceType LoadThis(ResourceType resource, JsonElement element, string filePath = null)
+    protected override ResourceType LoadThis(ResourceType resource, JsonNode node)
     {
-        resource.Name = (string)LoadMetaProperty(element, "Name", JsonValueKind.String, filePath);
-        resource.Creator = (string)LoadMetaProperty(element, "Creator", JsonValueKind.String, filePath);
-        
-        if (TryLoadMetaProperty(out object result, element, "Description", JsonValueKind.String, filePath))
-            resource.Description = (string)result;
+        resource.Name = node.GetNodeAsNative<string>("Name");
 
-        return base.LoadThis(resource, element, filePath);
+        if (node.TryGetNodeAsNative("Creator", out string creator))
+            resource.Creator = creator;
+        
+        if (node.TryGetNodeAsNative("Description", out string description))
+            resource.Description = description;
+
+        return base.LoadThis(resource, node);
     }
 }
