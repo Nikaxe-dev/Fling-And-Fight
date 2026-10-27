@@ -17,6 +17,13 @@ public enum LogLevel
 
 public class Logger(GameInstance GameInstance, string section, string module)
 {
+    /// <summary>
+    /// Controls whether the log messages are sent so they all appear at the same position in the output
+    /// </summary>
+    public static bool LogPaddingEnabled = false;
+    
+    private static int MaxEnvLength = 0;
+
     public readonly GameInstance GameInstance = GameInstance;
     public readonly string Section = section;
     public readonly string Module = module;
@@ -44,7 +51,19 @@ public class Logger(GameInstance GameInstance, string section, string module)
     
     private void LOG(LogLevel logLevel, string message)
     {
-        GD.PrintRich(RichFormatLog(GenerateEnvironmentInfo(logLevel), message, logLevel));
+        string envInfo = GenerateEnvironmentInfo(logLevel);
+
+        if (envInfo.Length > MaxEnvLength)
+            MaxEnvLength = envInfo.Length;
+        
+        if (LogPaddingEnabled) {
+            int messagePadding = MaxEnvLength - envInfo.Length;
+
+            for (int i=0; i<messagePadding; i++)
+                message = $" {message}";
+        }
+
+        GD.PrintRich(RichFormatLog(envInfo, message, logLevel));
         if (logLevel == LogLevel.ERROR || logLevel == LogLevel.FATAL)
             GD.PushError(message);
         else if (logLevel == LogLevel.WARNING)
