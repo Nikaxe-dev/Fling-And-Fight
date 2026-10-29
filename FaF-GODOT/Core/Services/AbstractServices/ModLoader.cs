@@ -64,6 +64,25 @@ public abstract partial class ModLoader : Service, INodeLoader<ICoreModExtension
 
     #endregion
 
+    private void SetupLogs()
+    {
+        InitializingMods += () => LOGGER.IMPORTANT("Initializing mods:");
+        InitializedMods += timeMs => LOGGER.IMPORTANT($"Initialized mods in {timeMs} ms");
+
+        InitializingMod += mod => LOGGER.INFO($"\tInitializing {mod.Identifier}");
+        InitializedMod += (mod, timeMs) => LOGGER.INFO($"\tInitialized {mod.Identifier} in {timeMs} ms");
+
+        InitializedNamespace += (mod, namespaceID, timeMs) => LOGGER.INFO($"\t\tInitialized {mod.Identifier}/{namespaceID} in {timeMs} ms");
+
+        LoadingMods += world => LOGGER.IMPORTANT("Loading mods:");
+        LoadedMods += (world, timeMs) => LOGGER.IMPORTANT($"Loaded mods in {timeMs} ms");
+
+        LoadingMod += (mod, world) => LOGGER.INFO($"\tLoading {mod.Identifier}");
+        LoadedMod += (mod, world, timeMs) => LOGGER.INFO($"\tLoaded {mod.Identifier} in {timeMs} ms");
+
+        LoadedNamespace += (mod, world, namespaceId, timeMs) => LOGGER.INFO($"\t\tLoaded {mod.Identifier}/{namespaceId} in {timeMs} ms");
+    }
+
     private void ScanForNamespaces(List<string> resultList, FolderInstance namespaceFolder)
     {
         foreach (FSInstance item in namespaceFolder)
@@ -217,6 +236,8 @@ public abstract partial class ModLoader : Service, INodeLoader<ICoreModExtension
     public override void LoadService()
     {
         base.LoadService();
+        SetupLogs();
+
         ((INodeLoader<ICoreModExtension>)this).LoadDerived();
 
         InitMods();
