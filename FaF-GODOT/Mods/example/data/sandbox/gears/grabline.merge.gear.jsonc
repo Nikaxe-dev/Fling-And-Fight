@@ -1,0 +1,12 @@
+// grabline.merge.gear.jsonc
+//          ^
+// this means that this data is merged with other declarations of itself.
+// making the original sandbox:grabline under the sandbox pack is merged with this
+// making the description of sandbox:grabline "Overwritten description example!"
+
+// NOTE: this depends on the mod load order, however.
+// The game automatically builds this through the listed dependencies of your mod, although that wont always be perfect.
+
+{
+    "Description": "Overwritten description example!"
+}

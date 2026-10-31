@@ -169,8 +169,18 @@ public abstract partial class ModLoader : Service, INodeLoader<ICoreModExtension
         ulong startTime = Time.GetTicksMsec();
         EmitSignal(SignalName.InitializingMods);
 
+        // load loader start extensions
+        foreach (Node child in GetChildren())
+            if (child is IModInitExtension && child is IModLoaderStartExtension loaderStartExtension)
+                loaderStartExtension.StartedLoadingMods();
+
         InitModsDirectory(FolderInstance.OpenOrError(PROJECT_MODS_DIRECTORY));
         InitModsDirectory(FolderInstance.Open(USER_MODS_DIRECTORY, true));
+
+        // load loader end extensions
+        foreach (Node child in GetChildren())
+            if (child is IModInitExtension && child is IModLoaderEndExtension loaderEndExtension)
+                loaderEndExtension.StoppedLoadingMods();
 
         EmitSignal(SignalName.InitializedMods, Time.GetTicksMsec() - startTime);
     }
@@ -227,8 +237,26 @@ public abstract partial class ModLoader : Service, INodeLoader<ICoreModExtension
         ulong startTime = Time.GetTicksMsec();
         EmitSignal(SignalName.LoadingMods, world);
 
+        // load loader start extensions
+        foreach (Node child in GetChildren())
+            if (child is IModLoadExtension loadExtension && child is IModLoaderStartExtension loaderStartExtension)
+            {
+                loadExtension.LoadingWorld = world;
+                loaderStartExtension.StartedLoadingMods();
+                loadExtension.LoadingWorld = null;
+            }
+
         foreach (ModResource mod in ModRegistry.GetItems())
             LoadMod(mod, world);
+        
+        // load loader end extensions
+        foreach (Node child in GetChildren())
+            if (child is IModLoadExtension loadExtension && child is IModLoaderEndExtension loaderEndExtension)
+            {
+                loadExtension.LoadingWorld = world;
+                loaderEndExtension.StoppedLoadingMods();
+                loadExtension.LoadingWorld = null;
+            }
         
         EmitSignal(SignalName.LoadedMods, world, Time.GetTicksMsec() - startTime);
     }

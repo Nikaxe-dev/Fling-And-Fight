@@ -23,7 +23,7 @@ example: grabline.gear.json, faf.pack.json, new_sedes.world.json
 
 {
     // this stops the pack from loading
-    "_DISABLED": true,
+    "_DISABLED": false,
 
     "Name": "Example Pack",
     "Description": "An example pack for FaF. Have fun modding!",

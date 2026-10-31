@@ -32,9 +32,21 @@ public class FileInstance : FSInstance
             throw customException ?? new PathDoesNotExistException(path);
     }
 
+    public static bool TryOpen(string path, out FileInstance file)
+    {
+        file = Open(path);
+        return file != null;
+    }
+
+    public static bool TryOpenOrError(string path, out FileInstance file, Exception customException = null)
+    {
+        file = OpenOrError(path, customException);
+        return true;
+    }
+
     public string[] GetExtensions()
     {
-        List<string> dotSplit = [.. Path.GetFile().Split('.')];
+        List<string> dotSplit = [.. FullName.Split('.')];
         dotSplit.RemoveAt(0);
         return [.. dotSplit];
     }
@@ -48,6 +60,9 @@ public class FileInstance : FSInstance
         else
             return extensions[(int)index];
     }
+
+    public bool HasExtension(string extension)
+        => GetExtensions().Contains(extension);
 
     public string ReadText()
     {
@@ -80,6 +95,20 @@ public class FileInstance : FSInstance
         try
         {
             return JsonNode.Parse(ReadText(), documentOptions: (JsonDocumentOptions)options);
+        } catch (Exception ex)
+        {
+            throw new FileReadJsonFailedException(this, ex);
+        }
+    }
+
+    public T AsJsonNode<T>(JsonDocumentOptions? options = null)
+        where T : JsonNode
+    {
+        options ??= DefaultJsonParsingOptions;
+
+        try
+        {
+            return (T)JsonNode.Parse(ReadText(), documentOptions: (JsonDocumentOptions)options);
         } catch (Exception ex)
         {
             throw new FileReadJsonFailedException(this, ex);

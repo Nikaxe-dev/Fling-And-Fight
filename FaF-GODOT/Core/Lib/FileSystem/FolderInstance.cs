@@ -31,6 +31,18 @@ public class FolderInstance : FSInstance, IEnumerable
             throw customException ?? new PathDoesNotExistException(path);
     }
 
+    public static bool TryOpen(string path, out FolderInstance folder)
+    {
+        folder = Open(path);
+        return folder != null;
+    }
+
+    public static bool TryOpenOrError(string path, out FolderInstance folder, Exception customException = null)
+    {
+        folder = OpenOrError(path, customException);
+        return true;
+    }
+
     public IEnumerator GetEnumerator()
     {
         List<FSInstance> result = [];
