@@ -39,7 +39,6 @@ public class Logger(GameInstance GameInstance, string section, string module)
             _                  => $"[color=gray]{environmentInfo}[/color] [color=white]{message}[/color]"
         };
     
-    // TODO: add instance identity info to logger
     public string GenerateInstanceIdentityInfo()
         => GameInstance == null ? "[Core]" : (GameInstance is IClientInstance ? "[Client]" : "[Server]");
     
