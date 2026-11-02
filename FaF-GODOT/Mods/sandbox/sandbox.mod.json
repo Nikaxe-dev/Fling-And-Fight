@@ -17,6 +17,6 @@
     "VersionNumber": 0,
     
     "Dependencies": {
-        "faf": "0>"
+        
     }
 }

@@ -47,7 +47,7 @@ example: grabline.gear.json, faf.pack.json, new_sedes.world.json
     "Dependencies": {
         // format as MOD_ID:NAMESPACE_ID to require a mod namespace
         "faf:faf": "0>",
-        "new_sedes:new_sedes": "0>",
+        "faf:new_sedes": "0>",
 
         // quite often the mod and namespace id are both the same so this does get annoying
         // because of that the following is recommended:
