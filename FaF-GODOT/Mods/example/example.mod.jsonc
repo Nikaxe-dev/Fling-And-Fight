@@ -43,13 +43,17 @@ example: grabline.gear.json, faf.pack.json, new_sedes.world.json
     "VersionNumber": 0,
 
     // mods & namespaces required for this mod to work
+    // formatted as Identifier: Version Requirement
     "Dependencies": {
-        // format as MOD_ID:NAMESPACE_ID to require a certain mod to implement it
-        // this is recommended for most use cases
+        // format as MOD_ID:NAMESPACE_ID to require a mod namespace
         "faf:faf": "0>",
-        "faf:new_sedes": "0>",
+        "new_sedes:new_sedes": "0>",
 
-        // format as NAMESPACE_ID by itself to allow any mod to implement it
+        // quite often the mod and namespace id are both the same so this does get annoying
+        // because of that the following is recommended:
+
+        // format as NAMESPACE_ID by itself to require a mod
+        // this is recommended for most uses
         "new_sedes": "0>"
     }
 

@@ -14,5 +14,9 @@
     },
 
     "Version": "0.1.0",
-    "VersionNumber": 0
+    "VersionNumber": 0,
+    
+    "Dependencies": {
+        "faf": "0>"
+    }
 }
