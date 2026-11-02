@@ -17,3 +17,5 @@ mono_crash.*.json
 
 # Whilst FaF is open source, its assets are not.
 Mods/faf
+
+.vscode
