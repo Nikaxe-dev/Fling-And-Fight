@@ -5,6 +5,12 @@ using Godot;
 
 namespace FaF.Core.Lib.FileSystem;
 
+/// <summary>
+/// Represents a folder in the godot file system. <br/>
+/// Can be enumerated on and provides methods for getting children and creating folders. <br/>
+/// <br/>
+/// This wraps around the godot DirAccess API.
+/// </summary>
 public class FolderInstance : FSInstance, IEnumerable
 {
     public override string Name => Path.GetFile();

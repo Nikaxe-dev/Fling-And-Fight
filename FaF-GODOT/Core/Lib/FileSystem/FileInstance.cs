@@ -7,6 +7,12 @@ using Godot;
 
 namespace FaF.Core.Lib.FileSystem;
 
+/// <summary>
+/// Represents a file in the godot file system and provides methods for reading, writing and creating files in the file system. <br/>
+/// Whats neat about FaFs implementation of the file system API is that it allows accessing multi extension files (example: faf.mod.json). <br/>
+/// <br/>
+/// This wraps around the godot FileAccess API.
+/// </summary>
 public class FileInstance : FSInstance
 {
     public static readonly JsonDocumentOptions DefaultJsonParsingOptions = new() {CommentHandling = JsonCommentHandling.Skip, AllowTrailingCommas = true};
@@ -15,10 +21,20 @@ public class FileInstance : FSInstance
     public string FullName => Path.GetFile();
     public string BaseName => Path.GetBaseName();
 
-    public static new FileInstance Open(string path)
+    #region Access
+
+    public static FileInstance Touch(string path)
+    {
+        FileAccess.Open(path, FileAccess.ModeFlags.Write).Dispose();
+        return OpenOrError(path, new FailedToTouchFileException(path, FileAccess.GetOpenError()));
+    }
+
+    public static FileInstance Open(string path, bool makeFile = false)
     {
         if (FileAccess.FileExists(path))
             return new FileInstance() {Path = path};
+        else if (makeFile)
+            return Touch(path);
         else
             return null;
     }
@@ -44,6 +60,10 @@ public class FileInstance : FSInstance
         return true;
     }
 
+    #endregion
+
+    #region Extensions
+
     public string[] GetExtensions()
     {
         List<string> dotSplit = [.. FullName.Split('.')];
@@ -63,6 +83,12 @@ public class FileInstance : FSInstance
 
     public bool HasExtension(string extension)
         => GetExtensions().Contains(extension);
+    
+    public bool IsGodotImportExtension() => GetExtension() == "import" || GetExtension() == "uid";
+    
+    #endregion
+    
+    #region Reading
 
     public string ReadText()
     {
@@ -115,8 +141,11 @@ public class FileInstance : FSInstance
         }
     }
 
-    public bool IsGodotImportExtension() => GetExtension() == "import" || GetExtension() == "uid";
+    #endregion
 
-    public class FileAccessGetFileAsStringFailedException(FileInstance file, Error errorCode) : Exception($"Failed to read file '{file}' as text with error code: {errorCode}");
-    public class FileReadJsonFailedException(FileInstance file, Exception exception) : Exception($"Failed to read file '{file}' as json with message: {exception.Message}");
+    // TODO: add members to every exception in the program like below
+
+    public class FileAccessGetFileAsStringFailedException(FileInstance file, Error errorCode) : Exception($"Failed to read file '{file}' as text with error code: {errorCode}") {  }
+    public class FileReadJsonFailedException(FileInstance file, Exception exception) : Exception($"Failed to read file '{file}' as json with message: {exception.Message}") { public readonly string Path = file.Path; public readonly Exception Exception = exception; }
+    public class FailedToTouchFileException(string path, Error errorCode) : Exception($"Failed to touch (create) file at path '{path}' with error code: {errorCode}") { public readonly string Path = path; public readonly Error ErrorCode = errorCode; }
 }

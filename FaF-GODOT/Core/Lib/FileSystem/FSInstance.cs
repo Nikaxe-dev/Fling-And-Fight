@@ -3,6 +3,11 @@ using Godot;
 
 namespace FaF.Core.Lib.FileSystem;
 
+/// <summary>
+/// Represents a file or folder in the godot file system. <br/>
+/// <br/>
+/// This wraps around the godot FileAccess & DirAccess API
+/// </summary>
 public abstract class FSInstance
 {
     public string Path {get; protected set;}
