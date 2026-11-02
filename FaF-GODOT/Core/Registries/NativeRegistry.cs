@@ -1,10 +1,12 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using FaF.Core.Resources;
 using FaF.Core.Resources.Content;
 
 namespace FaF.Core.Registries;
 
-public abstract partial class NativeRegistry<T> : Registry<T>
+public abstract partial class NativeRegistry<T> : Registry<T>, IEnumerable
 {
     private readonly Dictionary<Identifier, T> Items = [];
 
@@ -31,4 +33,7 @@ public abstract partial class NativeRegistry<T> : Registry<T>
 
     public override bool Exists(Identifier identifier)
         => Items.ContainsKey(identifier);
+
+    public IEnumerator GetEnumerator()
+        => Items.Values.GetEnumerator();
 }

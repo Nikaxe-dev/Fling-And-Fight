@@ -17,6 +17,8 @@ public abstract partial class ModLoader : Service, INodeLoader<ICoreModExtension
 
     #region Configuration
 
+    public static List<string> MOD_LOAD_ORDER = [];
+
     public readonly string PROJECT_MODS_DIRECTORY = "res://Mods";
     public readonly string USER_MODS_DIRECTORY = "user://Mods";
 
@@ -64,6 +66,20 @@ public abstract partial class ModLoader : Service, INodeLoader<ICoreModExtension
 
     #endregion
 
+    #region Dependencies
+
+    private void VerifyDependencies(ModResource mod)
+    {
+        
+    }
+
+    private void UpdateModLoadOrder()
+    {
+        
+    }
+
+    #endregion
+
     private void SetupLogs()
     {
         InitializingMods += () => LOGGER.IMPORTANT("Initializing mods:");
@@ -83,6 +99,8 @@ public abstract partial class ModLoader : Service, INodeLoader<ICoreModExtension
         LoadedNamespace += (mod, world, namespaceId, timeMs) => LOGGER.INFO($"\t\tLoaded {mod.Identifier}/{namespaceId} in {timeMs} ms");
     }
 
+    #region Helpers
+
     private void ScanForNamespaces(List<string> resultList, FolderInstance namespaceFolder)
     {
         foreach (FSInstance item in namespaceFolder)
@@ -91,14 +109,16 @@ public abstract partial class ModLoader : Service, INodeLoader<ICoreModExtension
                     resultList.Add(folder.Name);
     }
 
-    private void InitModDirectory(FolderInstance modFolder)
-    {
-        // scan for and then load meta file
+    #endregion
 
+    #region Initialization
+
+    private void InitializeModMeta(FolderInstance modFolder)
+    {
         ModResource mod = null;
         foreach (FSInstance item in modFolder)
             if (item is FileInstance file)
-                if (file.IsJsonExtension() && file.GetExtension(0) == "mod")
+                if (file.IsJsonExtension() && file.HasExtension("mod"))
                     if (mod == null)
                     {
                         mod = ModResourceLoaderExtension.LoadFile(file);
@@ -106,10 +126,13 @@ public abstract partial class ModLoader : Service, INodeLoader<ICoreModExtension
                         Game.RegistryHolder.AddToRegistry(new(file.Name), mod);
                     } else
                         throw new MultipleModMetaFilesFoundException(modFolder);
-        
+
         if (mod == null)
             throw new ModMetaFileNotFoundException(modFolder);
-        
+    }
+
+    private void InitializeMod(ModResource mod)
+    {
         // mod is disabled: skip loading anything more
         if (mod._DISABLED)
             return;
@@ -121,10 +144,10 @@ public abstract partial class ModLoader : Service, INodeLoader<ICoreModExtension
         
         List<string> definedNamespaces = [];
         
-        if (modFolder.TryGetChild("assets", out FolderInstance assetsFolder))
+        if (mod.Directory.TryGetChild("assets", out FolderInstance assetsFolder))
             ScanForNamespaces(definedNamespaces, assetsFolder);
         
-        if (modFolder.TryGetChild("data", out FolderInstance dataFolder))
+        if (mod.Directory.TryGetChild("data", out FolderInstance dataFolder))
             ScanForNamespaces(definedNamespaces, dataFolder);
         
         mod.DefinedNamespaces = [.. definedNamespaces];
@@ -157,14 +180,26 @@ public abstract partial class ModLoader : Service, INodeLoader<ICoreModExtension
         EmitSignal(SignalName.InitializedMod, mod, Time.GetTicksMsec() - startTime);
     }
 
-    private void InitModsDirectory(FolderInstance modsFolder)
+    private void InitializeMods()
     {
-        foreach (FSInstance item in modsFolder)
+        foreach (ModResource mod in ModRegistry)
+            InitializeMod(mod);
+    }
+
+    private void InitializeModsDirectoryMeta(FolderInstance modsFolder)
+    {
+        foreach(FSInstance item in modsFolder)
             if (item is FolderInstance modFolder)
-                InitModDirectory(modFolder);
+                InitializeModMeta(modFolder);
+    }
+
+    private void InitializeModsMeta()
+    {
+        InitializeModsDirectoryMeta(FolderInstance.OpenOrError(PROJECT_MODS_DIRECTORY));
+        InitializeModsDirectoryMeta(FolderInstance.Open(USER_MODS_DIRECTORY, true));
     }
     
-    private void InitMods()
+    private void Initialize()
     {
         ulong startTime = Time.GetTicksMsec();
         EmitSignal(SignalName.InitializingMods);
@@ -174,8 +209,8 @@ public abstract partial class ModLoader : Service, INodeLoader<ICoreModExtension
             if (child is IModInitExtension && child is IModLoaderStartExtension loaderStartExtension)
                 loaderStartExtension.StartedLoadingMods();
 
-        InitModsDirectory(FolderInstance.OpenOrError(PROJECT_MODS_DIRECTORY));
-        InitModsDirectory(FolderInstance.Open(USER_MODS_DIRECTORY, true));
+        InitializeModsMeta();
+        InitializeMods();
 
         // load loader end extensions
         foreach (Node child in GetChildren())
@@ -184,6 +219,10 @@ public abstract partial class ModLoader : Service, INodeLoader<ICoreModExtension
 
         EmitSignal(SignalName.InitializedMods, Time.GetTicksMsec() - startTime);
     }
+
+    #endregion
+
+    #region Loading
 
     private void LoadMod(ModResource mod, WorldResource world)
     {
@@ -232,7 +271,7 @@ public abstract partial class ModLoader : Service, INodeLoader<ICoreModExtension
         EmitSignal(SignalName.LoadedMod, mod, world, Time.GetTicksMsec() - startTime);
     }
 
-    private void LoadMods(WorldResource world)
+    private void Load(WorldResource world)
     {
         ulong startTime = Time.GetTicksMsec();
         EmitSignal(SignalName.LoadingMods, world);
@@ -268,10 +307,16 @@ public abstract partial class ModLoader : Service, INodeLoader<ICoreModExtension
 
         ((INodeLoader<ICoreModExtension>)this).LoadDerived();
 
-        InitMods();
-        LoadMods(Game.RegistryHolder.GetRegistry<WorldRegistry>().GetItem(Identifier.Parse("new_sedes:new_sedes")));
+        Initialize();
+        Load(Game.RegistryHolder.GetRegistry<WorldRegistry>().GetItem(Identifier.Parse("new_sedes:new_sedes")));
     }
+
+    #endregion
+
+    #region Exceptions
 
     public class ModMetaFileNotFoundException(FolderInstance modFolder) : Exception($"A ID.mod.json file was not found in {modFolder}.");
     public class MultipleModMetaFilesFoundException(FolderInstance modFolder) : Exception($"Multiple ID.mod.json files were found in {modFolder}. Mods should only have one meta file.");
+
+    #endregion
 }
