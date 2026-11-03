@@ -115,6 +115,8 @@ public abstract partial class ModLoader : Service, INodeLoader<ICoreModExtension
 
     private void InitializeModMeta(FolderInstance modFolder)
     {
+        try {
+
         ModResource mod = null;
         foreach (FSInstance item in modFolder)
             if (item is FileInstance file)
@@ -129,10 +131,17 @@ public abstract partial class ModLoader : Service, INodeLoader<ICoreModExtension
 
         if (mod == null)
             throw new ModMetaFileNotFoundException(modFolder);
+
+        } catch (Exception ex)
+        {
+            LOGGER.FATAL($"Fatal problem occured whilst initializing mod in the META stage at {modFolder}:\n{ex}");
+        }
     }
 
     private void InitializeMod(ModResource mod)
     {
+        try {
+        
         // mod is disabled: skip loading anything more
         if (mod._DISABLED)
             return;
@@ -178,6 +187,11 @@ public abstract partial class ModLoader : Service, INodeLoader<ICoreModExtension
         }
 
         EmitSignal(SignalName.InitializedMod, mod, Time.GetTicksMsec() - startTime);
+
+        } catch (Exception ex)
+        {
+            LOGGER.FATAL($"Fatal problem occured whilst initializing mod {mod.Identifier} @ {mod.DirectoryPath}:\n{ex}");
+        }
     }
 
     private void InitializeMods()
@@ -226,6 +240,8 @@ public abstract partial class ModLoader : Service, INodeLoader<ICoreModExtension
 
     private void LoadMod(ModResource mod, WorldResource world)
     {
+        try {
+
         // skip loading if the mod is configured to be disabled
         if (mod._DISABLED)
             return;
@@ -269,6 +285,11 @@ public abstract partial class ModLoader : Service, INodeLoader<ICoreModExtension
         }
 
         EmitSignal(SignalName.LoadedMod, mod, world, Time.GetTicksMsec() - startTime);
+
+        } catch (Exception ex)
+        {
+            LOGGER.FATAL($"Fatal problem occured whilst loading mod {mod.Identifier} @ {mod.DirectoryPath}:\n{ex}");
+        }
     }
 
     private void Load(WorldResource world)
