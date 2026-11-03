@@ -5,7 +5,9 @@ namespace FaF.Core.Resources.Content;
 public partial class ModResource : ItemLikeResource
 {
     public Dictionary<string, string> Links = [];
+    
     public string[] DefinedNamespaces = [];
+    public string[] Dependencies;
 
     public bool _DISABLED = false;
 }

@@ -1,7 +1,6 @@
 using System;
-using System.Collections;
+using System.Linq;
 using FaF.Core.Resources;
-using Godot;
 
 namespace FaF.Core.Registries;
 
@@ -31,6 +30,9 @@ public abstract partial class Registry<T> : GameInstanceAccessor, IRegistry
         item = itemExists ? GetItem(identifier) : default;
         return itemExists;
     }
+
+    public virtual bool Has(Identifier identifier)
+        => GetIdentifiers().Contains(identifier);
 
     public virtual void Register(Identifier identifier, T item) {}
 }
