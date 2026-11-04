@@ -39,6 +39,15 @@ public class FileInstance : FSInstance
             return null;
     }
 
+
+    public static (FileInstance file, bool newlyCreated) OpenOrNew(string path)
+    {
+        if (FileAccess.FileExists(path))
+            return (new FileInstance() {Path = path}, false);
+        else
+            return (Touch(path), true);
+    }
+
     public static new FileInstance OpenOrError(string path, Exception customException = null)
     {
         FileInstance result = Open(path);
@@ -93,7 +102,7 @@ public class FileInstance : FSInstance
     public string ReadText()
     {
         string text = FileAccess.GetFileAsString(Path);
-        if (text == "")
+        if (FileAccess.GetOpenError() != Error.Ok)
             throw new FileAccessGetFileAsStringFailedException(this, FileAccess.GetOpenError());
         return text;
     }
@@ -140,6 +149,25 @@ public class FileInstance : FSInstance
             throw new FileReadJsonFailedException(this, ex);
         }
     }
+
+    #endregion
+
+    #region Writing
+
+    public void WriteText(string text)
+    {
+        FileAccess fileAccess = FileAccess.Open(Path, FileAccess.ModeFlags.Write);
+        fileAccess.StoreString(text);
+
+        fileAccess.Close();
+        fileAccess.Dispose();
+    }
+
+    public void WriteJson(JsonObject json)
+        => WriteText(json.ToJsonString());
+    
+    public void WriteJson(JsonElement json)
+        => WriteText(json.GetRawText());
 
     #endregion
 
