@@ -232,8 +232,7 @@ public partial class Program : Node, INodeLoader<IProgramService>
 
     #region Exceptions
 
-    public class ProgramArgNotGivenException(string arg) : Exception($"Argument '{arg}' not found.");
-
+    public class ProgramArgNotGivenException(string arg) : Exception($"Argument '{arg}' not found.") { public readonly string Argument = arg; }
     public class ClientIsNotAvailableException() : Exception("Attempted to access the client. The client is not available in this build.");
     public class ServerIsNotAvailableException() : Exception("Attempted to access the server. The server is not available in this build.");
 

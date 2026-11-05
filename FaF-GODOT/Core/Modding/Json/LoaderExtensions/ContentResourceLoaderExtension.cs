@@ -34,6 +34,6 @@ public partial class ContentResourceLoaderExtension<ResourceType, ThisType>
     public static ResourceType LoadFile(FileInstance file)
         => Load(file.AsJsonNode(), file.Path);
     
-    public class ContentResourceJsonKeyNotSetException(Type expectedNativeType, string filePath, string keyPath) : Exception($"{filePath} : {typeof(ResourceType).Name} - required {expectedNativeType.Name} value '{keyPath}' is not set.");
-    public class ContentResourceJsonKeySetToWrongTypeException(Type expectedNativeType, string filePath, string keyPath) : Exception($"{filePath} : {typeof(ResourceType).Name} - value '{keyPath}' is has the wrong type. The expected type is a {expectedNativeType.Name}.");
+    public class ContentResourceJsonKeyNotSetException(Type expectedNativeType, string filePath, string keyPath) : Exception($"{filePath} : {typeof(ResourceType).Name} - required {expectedNativeType.Name} value '{keyPath}' is not set.") { public readonly Type ExpectedNativeType = expectedNativeType; public readonly string FilePath = filePath; public readonly string KeyPath = keyPath; };
+    public class ContentResourceJsonKeySetToWrongTypeException(Type expectedNativeType, string filePath, string keyPath) : Exception($"{filePath} : {typeof(ResourceType).Name} - value '{keyPath}' is has the wrong type. The expected type is a {expectedNativeType.Name}.") { public readonly Type ExpectedNativeType = expectedNativeType; public readonly string FilePath = filePath; public readonly string KeyPath = keyPath; };
 }

@@ -123,5 +123,5 @@ public abstract partial class RegistryPopulatorModExtension<ResourceType, Loader
         compiledJsonData = [];
     }
 
-    public class LoaderExtensionLoadMethodNotFound(RegistryPopulatorModExtension<ResourceType, LoaderExtension> causingExtension) : Exception($"{causingExtension.GetType().Name} ran into issue: public static method {typeof(LoaderExtension).Name}.Load was not found");
+    public class LoaderExtensionLoadMethodNotFound(RegistryPopulatorModExtension<ResourceType, LoaderExtension> causingExtension) : Exception($"{causingExtension.GetType().Name} ran into issue: public static method {typeof(LoaderExtension).Name}.Load was not found") { public readonly RegistryPopulatorModExtension<ResourceType, LoaderExtension> CausingExtension = causingExtension; }
 }

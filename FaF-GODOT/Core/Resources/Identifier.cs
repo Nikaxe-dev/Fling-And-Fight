@@ -75,6 +75,6 @@ public struct Identifier
     }
 
     public class IdentifierIsEmptyException() : Exception($"The given identifier was an empty string.");
-    public class IdentifierPathNotSetException(string identifier) : Exception($"Expected identifier path after colon in {identifier}");
-    public class IdentifierHasTooManyKeysException(string identifier) : Exception($"Identifier string {identifier} has too many keys. There should only be an optional namespace & path in any identifier.");
+    public class IdentifierPathNotSetException(string identifier) : Exception($"Expected identifier path after colon in {identifier}") { public readonly string Identifier = identifier; }
+    public class IdentifierHasTooManyKeysException(string identifier) : Exception($"Identifier string {identifier} has too many keys. There should only be an optional namespace & path in any identifier.") { public readonly string Identifier = identifier; }
 }

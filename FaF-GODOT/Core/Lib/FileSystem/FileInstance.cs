@@ -173,7 +173,7 @@ public class FileInstance : FSInstance
 
     // TODO: add members to every exception in the program like below
 
-    public class FileAccessGetFileAsStringFailedException(FileInstance file, Error errorCode) : Exception($"Failed to read file '{file}' as text with error code: {errorCode}") {  }
+    public class FileAccessGetFileAsStringFailedException(FileInstance file, Error errorCode) : Exception($"Failed to read file '{file}' as text with error code: {errorCode}") { public readonly string Path = file.Path; public readonly Error ErrorCode = errorCode; }
     public class FileReadJsonFailedException(FileInstance file, Exception exception) : Exception($"Failed to read file '{file}' as json with message: {exception.Message}") { public readonly string Path = file.Path; public readonly Exception Exception = exception; }
     public class FailedToTouchFileException(string path, Error errorCode) : Exception($"Failed to touch (create) file at path '{path}' with error code: {errorCode}") { public readonly string Path = path; public readonly Error ErrorCode = errorCode; }
 }

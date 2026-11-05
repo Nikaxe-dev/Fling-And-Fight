@@ -336,8 +336,8 @@ public abstract partial class ModLoader : Service, INodeLoader<ICoreModExtension
 
     #region Exceptions
 
-    public class ModMetaFileNotFoundException(FolderInstance modFolder) : Exception($"A ID.mod.json file was not found in {modFolder}.");
-    public class MultipleModMetaFilesFoundException(FolderInstance modFolder) : Exception($"Multiple ID.mod.json files were found in {modFolder}. Mods should only have one meta file.");
+    public class ModMetaFileNotFoundException(FolderInstance modFolder) : Exception($"A ID.mod.json file was not found in {modFolder}.") { public readonly string ModFolderPath = modFolder.Path; }
+    public class MultipleModMetaFilesFoundException(FolderInstance modFolder) : Exception($"Multiple ID.mod.json files were found in {modFolder}. Mods should only have one meta file.") { public readonly string ModFolderPath = modFolder.Path; }
 
     #endregion
 }

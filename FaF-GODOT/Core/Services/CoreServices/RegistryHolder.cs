@@ -63,5 +63,5 @@ public partial class RegistryHolder : Service, ICoreService, INodeLoader<IRegist
         return false;
     }
 
-    public class RegistryDoesNotExistException(string registryName) : Exception($"Registry {registryName} does not exist.");
+    public class RegistryDoesNotExistException(string registryName) : Exception($"Registry {registryName} does not exist.") { public readonly string RegistryName = registryName; }
 }

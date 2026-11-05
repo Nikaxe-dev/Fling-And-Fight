@@ -24,5 +24,5 @@ public abstract class FSInstance
     public static FSInstance TryOpen(string path, out FSInstance item) => FileAccess.FileExists(path) ? FileInstance.TryOpen(path, out item) : FolderInstance.TryOpen(path, out item);
     public static FSInstance TryOpenOrError(string path, out FSInstance item, Exception customException = null) => FileAccess.FileExists(path) ? FileInstance.TryOpenOrError(path, out item, customException ?? new PathDoesNotExistException(path)) : FolderInstance.TryOpenOrError(path, out item, customException ?? new PathDoesNotExistException(path));
 
-    public class PathDoesNotExistException(string path) : Exception($"The given file/directory at '{path}' was not found.");
+    public class PathDoesNotExistException(string path) : Exception($"The given file/directory at '{path}' was not found.") { public readonly string Path = path; }
 }

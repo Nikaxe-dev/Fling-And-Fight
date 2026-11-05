@@ -5,7 +5,11 @@ using FaF.Core.Resources;
 namespace FaF.Core.Registries;
 
 public class RegistryItemNotFoundException(IRegistry registry, Identifier identifier)
-    : Exception($"{identifier} was not found in registry {registry.GetType().Name}");
+    : Exception($"{identifier} was not found in registry {registry.GetType().Name}")
+{
+    public readonly IRegistry Registry = registry;
+    public readonly Identifier Identifier = identifier;
+}
 
 /// <summary>
 /// Only used for the RegistryHolder to provide a reference to the registry class that isnt generic. <br/>
