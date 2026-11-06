@@ -1,8 +1,7 @@
-using System.Collections.Generic;
 using System.Text.Json.Nodes;
 using FaF.Core.Extensions;
+using FaF.Core.Lib;
 using FaF.Core.Resources.Content;
-using Godot;
 
 namespace FaF.Core.Modding.Json.LoaderExtensions;
 
@@ -20,6 +19,12 @@ public partial class ModResourceLoaderExtension : ItemLikeResourceLoaderExtensio
         if (node.TryGetNode("Dependencies", out JsonNode dependenciesNode))
             foreach (var (key, value) in dependenciesNode.AsObject())
                 resource.Dependencies[key] = value.AsNative<string>();
+        
+        if (node.TryGetNodeAsNative("Version", out string versionText))
+            resource.Version = Version.Parse(versionText);
+        
+        if (node.TryGetNodeAsNative("VersionName", out string versionName))
+            resource.Version.Name = versionName;
 
         return base.LoadThis(resource, node);
     }

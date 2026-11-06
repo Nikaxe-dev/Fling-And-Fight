@@ -163,7 +163,7 @@ public class FileInstance : FSInstance
         fileAccess.Dispose();
     }
 
-    public void WriteJson(JsonObject json)
+    public void WriteJson(JsonNode json)
         => WriteText(json.ToJsonString());
     
     public void WriteJson(JsonElement json)

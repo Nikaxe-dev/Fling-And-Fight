@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Text.Json.Nodes;
+using FaF.Core.Extensions;
 using FaF.Core.Lib.Debug;
 using FaF.Core.Lib.FileSystem;
 using FaF.Core.Modding.Json.LoaderExtensions;
@@ -9,7 +11,11 @@ using FaF.Core.Resources;
 using FaF.Core.Resources.Content;
 using Godot;
 
+using Version = FaF.Core.Lib.Version;
+
 namespace FaF.Core.Services.AbstractServices;
+
+#nullable enable
 
 public abstract partial class ModLoader : Service, INodeLoader<ICoreModExtension>
 {
@@ -17,10 +23,12 @@ public abstract partial class ModLoader : Service, INodeLoader<ICoreModExtension
 
     #region Configuration
 
-    public static List<string> MOD_LOAD_ORDER = [];
+    public List<string> MOD_LOAD_ORDER = [];
 
-    public readonly string PROJECT_MODS_DIRECTORY = "res://Mods";
-    public readonly string USER_MODS_DIRECTORY = "user://Mods";
+    public static readonly string PROJECT_MODS_DIRECTORY = "res://Mods";
+    public static readonly string USER_MODS_DIRECTORY = "user://Mods";
+
+    public static readonly string MOD_LOAD_ORDER_FILE = "user://ModLoadOrder.json";
 
     #endregion
 
@@ -70,12 +78,83 @@ public abstract partial class ModLoader : Service, INodeLoader<ICoreModExtension
 
     private void VerifyDependencies(ModResource mod)
     {
+        List<(string modIdentifierText, Version? givenVersion, Version recommendedVersion, string versionRequirements)> missingDependencies = [];
+
+        foreach (var (identifierText, versionRequirements) in mod.Dependencies)
+            if (ModRegistry.TryGetItem(new Identifier(identifierText), out ModResource requiredMod))
+            {
+                if (!requiredMod.Version.MatchesRequirements(versionRequirements))
+                    missingDependencies.Add((requiredMod.Identifier.ToString(), requiredMod.Version, Version.GetRecommendedVersion(versionRequirements), versionRequirements));
+            } else
+                missingDependencies.Add((identifierText, null, Version.GetRecommendedVersion(versionRequirements), versionRequirements));
         
+        if (missingDependencies.Count > 0)
+            throw new ModDependenciesMissingException(mod, [.. missingDependencies]);
+    }
+
+    private void VerifyMods()
+    {
+        foreach (ModResource mod in ModRegistry)
+            VerifyDependencies(mod);
+    }
+
+    private void AddModToLoadOrder(ModResource mod, bool doCheckDependencies = true)
+    {
+        if (MOD_LOAD_ORDER.Contains(mod.Identifier.Path))
+            return;
+        
+        foreach (string identifierText in mod.Dependencies.Keys)
+            if (ModRegistry.TryGetItem(new(identifierText), out ModResource dependencyMod))
+                AddModToLoadOrder(dependencyMod);
+        
+        MOD_LOAD_ORDER.Add(mod.Identifier.Path);
+    }
+    
+    private static FileInstance GetModLoadOrderSaveFile()
+    {
+        var (saveFile, newlyCreated) = FileInstance.OpenOrNew(MOD_LOAD_ORDER_FILE);
+
+        if (newlyCreated)
+            saveFile.WriteText("[]");
+
+        return saveFile;
     }
 
     private void UpdateModLoadOrder()
     {
+        FileInstance saveFile = GetModLoadOrderSaveFile();
+
+        // load existing contents
         
+        JsonArray jsonArray = saveFile.AsJsonNode<JsonArray>();
+
+        MOD_LOAD_ORDER = [];
+
+        foreach (JsonNode? node in jsonArray)
+            MOD_LOAD_ORDER.Add(node.AsNative<string>());
+        
+        // update load order
+        foreach (ModResource mod in ModRegistry)
+            AddModToLoadOrder(mod);
+
+        // clear out removed mods
+        foreach (string identifierText in MOD_LOAD_ORDER.ToArray())
+            if (!ModRegistry.TryGetItem(new(identifierText), out _))
+                MOD_LOAD_ORDER.Remove(identifierText);
+        
+        SaveModLoadOrder();
+    }
+
+    public void SaveModLoadOrder()
+    {
+        FileInstance saveFile = GetModLoadOrderSaveFile();
+
+        JsonArray jsonArray = [];
+
+        foreach (string modIdentifierText in MOD_LOAD_ORDER)
+            jsonArray.Add(modIdentifierText);
+        
+        saveFile.WriteJson(jsonArray);
     }
 
     #endregion
@@ -116,21 +195,22 @@ public abstract partial class ModLoader : Service, INodeLoader<ICoreModExtension
     private void InitializeModMeta(FolderInstance modFolder)
     {
         try {
+            ModResource? mod = null;
+            foreach (FSInstance item in modFolder)
+                if (item is FileInstance file)
+                    if (file.IsJsonExtension() && file.HasExtension("mod"))
+                        if (mod == null)
+                        {
+                            mod = ModResourceLoaderExtension.LoadFile(file);
+                            mod.FilePath = file.Path;
+                            
+                            if (!mod._DISABLED)
+                                Game.RegistryHolder.AddToRegistry(new(file.Name), mod);
+                        } else
+                            throw new MultipleModMetaFilesFoundException(modFolder);
 
-        ModResource mod = null;
-        foreach (FSInstance item in modFolder)
-            if (item is FileInstance file)
-                if (file.IsJsonExtension() && file.HasExtension("mod"))
-                    if (mod == null)
-                    {
-                        mod = ModResourceLoaderExtension.LoadFile(file);
-                        mod.FilePath = file.Path;
-                        Game.RegistryHolder.AddToRegistry(new(file.Name), mod);
-                    } else
-                        throw new MultipleModMetaFilesFoundException(modFolder);
-
-        if (mod == null)
-            throw new ModMetaFileNotFoundException(modFolder);
+            if (mod == null)
+                throw new ModMetaFileNotFoundException(modFolder);
 
         } catch (Exception ex)
         {
@@ -141,10 +221,6 @@ public abstract partial class ModLoader : Service, INodeLoader<ICoreModExtension
     private void InitializeMod(ModResource mod)
     {
         try {
-        
-        // mod is disabled: skip loading anything more
-        if (mod._DISABLED)
-            return;
         
         ulong startTime = Time.GetTicksMsec();
         EmitSignal(SignalName.InitializingMod, mod);
@@ -196,8 +272,9 @@ public abstract partial class ModLoader : Service, INodeLoader<ICoreModExtension
 
     private void InitializeMods()
     {
-        foreach (ModResource mod in ModRegistry)
-            InitializeMod(mod);
+        foreach (string modIdentifierText in MOD_LOAD_ORDER)
+            if (ModRegistry.TryGetItem(new(modIdentifierText), out ModResource mod))
+                InitializeMod(mod);
     }
 
     private void InitializeModsDirectoryMeta(FolderInstance modsFolder)
@@ -224,6 +301,10 @@ public abstract partial class ModLoader : Service, INodeLoader<ICoreModExtension
                 loaderStartExtension.StartedLoadingMods();
 
         InitializeModsMeta();
+
+        UpdateModLoadOrder();
+        VerifyMods();
+        
         InitializeMods();
 
         // load loader end extensions
@@ -241,10 +322,6 @@ public abstract partial class ModLoader : Service, INodeLoader<ICoreModExtension
     private void LoadMod(ModResource mod, WorldResource world)
     {
         try {
-
-        // skip loading if the mod is configured to be disabled
-        if (mod._DISABLED)
-            return;
 
         ulong startTime = Time.GetTicksMsec();
         EmitSignal(SignalName.LoadingMod, mod, world);
@@ -292,6 +369,13 @@ public abstract partial class ModLoader : Service, INodeLoader<ICoreModExtension
         }
     }
 
+    private void LoadMods(WorldResource world)
+    {
+        foreach (string modIdentifierText in MOD_LOAD_ORDER)
+            if (ModRegistry.TryGetItem(new(modIdentifierText), out ModResource mod))
+                LoadMod(mod, world);
+    }
+
     private void Load(WorldResource world)
     {
         ulong startTime = Time.GetTicksMsec();
@@ -306,8 +390,7 @@ public abstract partial class ModLoader : Service, INodeLoader<ICoreModExtension
                 loadExtension.LoadingWorld = null;
             }
 
-        foreach (ModResource mod in ModRegistry.GetItems())
-            LoadMod(mod, world);
+        LoadMods(world);
         
         // load loader end extensions
         foreach (Node child in GetChildren())
@@ -338,6 +421,28 @@ public abstract partial class ModLoader : Service, INodeLoader<ICoreModExtension
 
     public class ModMetaFileNotFoundException(FolderInstance modFolder) : Exception($"A ID.mod.json file was not found in {modFolder}.") { public readonly string ModFolderPath = modFolder.Path; }
     public class MultipleModMetaFilesFoundException(FolderInstance modFolder) : Exception($"Multiple ID.mod.json files were found in {modFolder}. Mods should only have one meta file.") { public readonly string ModFolderPath = modFolder.Path; }
+
+    public class ModDependenciesMissingException(ModResource mod, (string modIdentifierText, Version? givenVersion, Version recommendedVersion, string versionRequirements)[] missing) : Exception()
+    {
+        public readonly ModResource Mod = mod;
+        public readonly (string modIdentifierText, Version? givenVersion, Version recommendedVersion, string versionRequirements)[] MissingDependencies = missing;
+
+        public override string Message
+        {
+            get
+            {
+                string message = $"Mod {Mod.Identifier} is missing dependencies:";
+
+                foreach (var (modIdentifierText, givenVersion, recommendedVersion, versionRequirements) in MissingDependencies)
+                    if (givenVersion != null)
+                        message = $"{message}\n\t{modIdentifierText}, given version {givenVersion}, recommended to be {recommendedVersion} (exact requirements: {versionRequirements})";
+                    else
+                        message = $"{message}\n\t{modIdentifierText}, recommended to be version {recommendedVersion} (exact requirements: {versionRequirements})";
+                
+                return message;
+            }
+        }
+    }
 
     #endregion
 }

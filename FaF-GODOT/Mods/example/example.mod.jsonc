@@ -1,7 +1,10 @@
 /*
 .json / .jsonc is supported for data files
-data file names are formatted like so: [DATA_ID].[CONTENT_TYPE].[json/jsonc]
+data file names are formatted like so: [DATA_ID].[OPTIONAL_MERGE_TYPE].[CONTENT_TYPE].[json/jsonc]
 example: grabline.gear.json, faf.pack.json, new_sedes.world.json
+
+.example.merge.json -> merged with other declarations in the same namespace
+.example.overwrite.json -> overwrites other declarations in the same namespace
 
 .pack.json -> pack data
 
@@ -22,8 +25,8 @@ example: grabline.gear.json, faf.pack.json, new_sedes.world.json
 */
 
 {
-    // this stops the pack from loading
-    "_DISABLED": false,
+    // this stops the pack from loading or initalizing entirely
+    "_DISABLED": true,
 
     "Name": "Example Pack",
     "Description": "An example pack for FaF. Have fun modding!",
@@ -39,29 +42,28 @@ example: grabline.gear.json, faf.pack.json, new_sedes.world.json
         "Discord": "https://discord.gg/vhpYZGUvXx"
     },
 
-    "Version": "0.1.0",
-    "VersionNumber": 0,
+    "VersionName": "The foo and bar update",
 
-    // mods & namespaces required for this mod to work
-    // formatted as Identifier: Version Requirement
+    // version only contains the major minor and patch
+    "Version": "1.0.0",
+
+    // mods required for this mod to work
+    // formatted as Mod ID: Version Requirement
     "Dependencies": {
-        // format as MOD_ID:NAMESPACE_ID to require a mod namespace
-        "faf:faf": "0>",
-        "faf:new_sedes": "0>",
+        // requires faf, version 0.0.0 or above
+        "faf": ">=0.0.0",
 
-        // quite often the mod and namespace id are both the same so this does get annoying
-        // because of that the following is recommended:
+        // a space between requirements means and
+        // so this would mean somewhere between version 0.1.0 or 1.0.0 of some_mod
+        "some_mod": ">=0.1.0 <=1.0.0",
 
-        // format as NAMESPACE_ID by itself to require a mod
-        // this is recommended for most uses
-        "new_sedes": "0>"
+        // '|' between requirements means or
+        // so this would be version 0.0.0 or 0.1.0 of some_other_mod
+        "some_other_mod": "0.0.0|0.1.0",
+
+        // an empty string means any version of the namespace works
+        "some_other_other_mod": "any"
+
+        // the recommended version of a dependency given to a user is the highest one available matching the requirements
     }
-
-    // version requirements for dependencies work like so:
-    // everything split by commas (,)
-    // versions use the VersionNumber integer, the Version property is simply for visual purposes (such as the packs description, etc)
-
-    // brackets mean a range (for example: '[0,10]' would be VersionNumber 0 to 10) (only allows raw numbers, so no '[0,10>]' because that would be the same as '0>')
-    // '>' means bigger (for example: 0> would be any VersionNumber higher than 0)
-    // '<' means smaller (for example: 10< would be any VersionNumber lower than 10)
 }
