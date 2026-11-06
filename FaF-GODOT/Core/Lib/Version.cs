@@ -58,7 +58,7 @@ public struct Version()
 
             foreach (string requirement in ANDs)
             {
-                Version version = Parse(requirement.TrimPrefix(">=").TrimPrefix("<=").TrimPrefix("==").TrimPrefix("!="));
+                Version version = Parse(requirement.TrimPrefix(">=").TrimPrefix("<=").TrimPrefix("==").TrimPrefix("!=").TrimPrefix(">").TrimPrefix("<"));
                 
                 if (requirement.StartsWith("=="))
                     andResult &= this == version;
