@@ -27,7 +27,7 @@ public partial class ContentResourceLoaderExtension<ResourceType, ThisType>
             if (exception is JsonKeySetToWrongTypeException keySetToWrongTypeException)
                 throw new ContentResourceJsonKeySetToWrongTypeException(keySetToWrongTypeException.ExpectedNativeType, filePath, keySetToWrongTypeException.KeyPath);
 
-            throw exception;
+            throw;
         }
     }
     
