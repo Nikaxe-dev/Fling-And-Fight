@@ -1,0 +1,59 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using Godot;
+
+namespace FaF.Core.Lib;
+
+public interface INodeLoader<loadType>
+{
+    private IEnumerable<Type> GetDerivedTypes(Assembly assembly, Type baseType)
+        => assembly.GetTypes().Where(t => t.IsAssignableTo(baseType));
+    
+    public void LoadDerived()
+    {
+        foreach (Type type in GetDerivedTypes(GetType().Assembly, typeof(loadType)))
+            if (!type.IsAbstract)
+                OnLoaded((loadType)Activator.CreateInstance(type));
+    }
+
+    protected void OnLoaded(loadType loaded)
+    {
+        if (loaded is Node loadedNode)
+        {
+            loadedNode.Name = loadedNode.GetType().Name.TrimPrefix("Server").TrimPrefix("Client");
+            if (this is Node thisNode)
+            {
+                thisNode.AddChild(loadedNode);
+                loadedNode.Owner = thisNode;
+            }
+        }
+    }
+}
+
+public interface INodeLoader<loadType, secondLoadType>
+{
+    private IEnumerable<Type> GetDerivedTypes(Assembly assembly, Type baseType, Type secondBaseType)
+        => assembly.GetTypes().Where(t => t.IsAssignableTo(baseType) && t.IsAssignableTo(secondBaseType));
+    
+    public void LoadDerived()
+    {
+        foreach (Type type in GetDerivedTypes(GetType().Assembly, typeof(loadType), typeof(secondLoadType)))
+            if (!type.IsAbstract)
+                OnLoaded(Activator.CreateInstance(type));
+    }
+
+    protected void OnLoaded(object loaded)
+    {
+        if (loaded is Node loadedNode)
+        {
+            loadedNode.Name = loadedNode.GetType().Name.TrimPrefix("Server").TrimPrefix("Client");
+            if (this is Node thisNode)
+            {
+                thisNode.AddChild(loadedNode);
+                loadedNode.Owner = thisNode;
+            }
+        }
+    }
+}

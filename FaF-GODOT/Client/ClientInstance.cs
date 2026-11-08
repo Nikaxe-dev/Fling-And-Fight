@@ -1,13 +1,15 @@
-using FaF.Client.Services.ClientServices;
-using FaF.Client.Services;
-using FaF.Core;
+using FaF.Client.Implementations;
+using FaF.Client.Tree.Game.Services;
+using FaF.Core.Lib;
 using FaF.Core.Lib.Debug;
-using FaF.Core.Services;
+using FaF.Core.Tree.Game;
+using FaF.Core.Tree.Game.Implementations;
+using FaF.Core.Tree.Game.Nodes;
 using Godot;
 
 namespace FaF.Client;
 
-public partial class ClientInstance : GameInstance, IClientInstance, INodeLoader<IClientService>
+public partial class ClientInstance : GameInstance, IClientInstance, INodeLoader<GameService, IClientObject>
 {
     private Core.Lib.Debug.Logger LOGGER => LoggerFactory.GetLogger(this, "FaF", "ClientInstance");
 
@@ -23,10 +25,10 @@ public partial class ClientInstance : GameInstance, IClientInstance, INodeLoader
         base.Start();
 
         LOGGER.IMPORTANT("Starting ClientInstance");
-        ((INodeLoader<IClientService>)this).LoadDerived();
+        ((INodeLoader<GameService, IClientObject>)this).LoadDerived();
 
         foreach (Node child in GetChildren())
-            if (child is IClientService && child is Service service)
+            if (child is IClientObject && child is GameService service)
                 service.LoadService();
     }
 
