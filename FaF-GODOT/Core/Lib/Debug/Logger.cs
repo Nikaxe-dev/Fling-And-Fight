@@ -40,7 +40,7 @@ public class Logger(GameInstance GameInstance, string section, string module)
         };
     
     public string GenerateInstanceIdentityInfo()
-        => GameInstance == null ? "[Core]" : (GameInstance is IClientInstance ? "[Client]" : "[Server]");
+        => GameInstance == null ? "[Core]" : $"[{GameInstance.Name}]";
     
     public string GenerateCommonEnvironmentInfo()
         => $"[{DateTime.Now:HH:mm:ss:fff}] {GenerateInstanceIdentityInfo()}";

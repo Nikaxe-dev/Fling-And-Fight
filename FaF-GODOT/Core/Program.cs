@@ -69,14 +69,14 @@ public partial class Program : Node, INodeLoader<IProgramService>
             throw new ServerIsNotAvailableException();
     }
 
-    public static IServerInstance NewServer(int port, string worldID)
+    public static IServerInstance NewServer(int port, string worldID, string name = "Server#1")
     {
         IServerInstance server = (IServerInstance)Activator.CreateInstance(GetServerInstanceType(), [port, worldID]);
 
         if (server is GameInstance game)
         {
             GameInstanceContainer.AddChild(game);
-            game.Name = "Server";
+            game.Name = name;
             game.Start();
         }
 
@@ -104,9 +104,10 @@ public partial class Program : Node, INodeLoader<IProgramService>
             throw new ClientIsNotAvailableException();
     }
 
-    public static IClientInstance NewClient()
+    public static IClientInstance NewClient(string name = "Client#1")
     {
         IClientInstance client = (IClientInstance)Activator.CreateInstance(GetClientInstanceType());
+        client.Name = name;
 
         if (client is GameInstance game)
         {
@@ -117,9 +118,9 @@ public partial class Program : Node, INodeLoader<IProgramService>
         return client;
     }
 
-    public static IClientInstance NewAutoConnectClient(string serverIP, int serverPort)
+    public static IClientInstance NewAutoConnectClient(string serverIP, int serverPort, string name = "Client#1")
     {
-        IClientInstance client = NewClient();
+        IClientInstance client = NewClient(name);
         client.ConnectTo(serverIP, serverPort);
         return client;
     }
@@ -203,7 +204,7 @@ public partial class Program : Node, INodeLoader<IProgramService>
                 for (int i = 0; i < int.Parse(clientsArg); i++)
                 {
                     LOGGER.IMPORTANT($"Launching client #{i+1}");
-                    NewAutoConnectClient(serverIP, serverPort);
+                    NewAutoConnectClient(serverIP, serverPort, $"Client#{i+1}");
                 }
             
             if (!HasArgument("clients") && !HasArgument("server"))
