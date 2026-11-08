@@ -91,8 +91,8 @@ public abstract partial class PlayerService<PlayerType> : Service
 
     private void SetupServiceLogs()
     {
-        PlayerAdded += player => LOGGER.IMPORTANT($"{player.Username} ({player.PeerID}) joined the game");
-        PlayerRemoving += player => LOGGER.IMPORTANT($"{player.Username} ({player.PeerID}) disconnected from the game");
+        PlayerAdded += player => LOGGER.IMPORTANT($"{player.Username} ({player.PeerID}) added to the game");
+        PlayerRemoving += player => LOGGER.IMPORTANT($"{player.Username} ({player.PeerID}) removed from the game");
     }
 
     public override void LoadService()
