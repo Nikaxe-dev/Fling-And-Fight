@@ -5,5 +5,5 @@ namespace GodotShell.Runtime;
 
 public class GDSRuntime
 {
-    public Dictionary<string, GDSValue> Variables = [];
+    
 }
