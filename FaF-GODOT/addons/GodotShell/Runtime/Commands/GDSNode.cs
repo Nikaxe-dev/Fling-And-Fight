@@ -1,14 +1,44 @@
 using System;
 using System.Collections.Generic;
-using GodotShell.Runtime.Values;
 
 namespace GodotShell.Runtime.Commands;
 
-public class GDSNode<ThisType>
-    where ThisType : GDSNode<ThisType>
+public class GDSNode
 {
-    public ThisType Executes(Func<GDSRuntime, Dictionary<string, GDSValue>, GDSValue> callback)
+    public GDSNode NextArgument = null;
+    public Dictionary<string, GDSCommand> NextCommands = null;
+
+    public GDSNode Previous = null;
+
+    public Delegate Callback = null;
+
+    public GDSCommand Command(string name, string description)
     {
-        throw new NotImplementedException();
+        GDSCommand command = new(name, description)
+        {
+            Previous = this
+        };
+
+        NextCommands ??= [];
+        NextCommands[name] = command;
+        
+        return command;
+    }
+
+    public GDSArgument<T> Argument<T>()
+    {
+        GDSArgument<T> argument = new()
+        {
+            Previous = this
+        };
+
+        NextArgument = argument;
+        return argument;
+    }
+
+    public GDSNode Executes(Delegate callback)
+    {
+        Callback = callback;
+        return this;
     }
 }
