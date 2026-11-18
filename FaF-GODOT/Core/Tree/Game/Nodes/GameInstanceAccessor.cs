@@ -1,3 +1,4 @@
+using FaF.Core.Extensions;
 using FaF.Core.Tree.Game.Implementations;
 using Godot;
 
@@ -5,21 +6,7 @@ namespace FaF.Core.Tree.Game.Nodes;
 
 public abstract partial class GameInstanceAccessor : Node
 {
-    public GameInstance Game
-    {
-        get
-        {
-            Node c = GetOwner();
-            while (c != null)
-            {
-                if (c is GameInstance instance)
-                    return instance;
-                c = c.GetOwner();
-            }
-            return null;
-        }
-    }
-
-    public IServerInstance Server => (IServerInstance)Game;
-    public IClientInstance Client => (IClientInstance)Game;
+    public GameInstance Game => this.GetGame();
+    public IServerInstance Server => this.GetServer();
+    public IClientInstance Client => this.GetClient();
 }
