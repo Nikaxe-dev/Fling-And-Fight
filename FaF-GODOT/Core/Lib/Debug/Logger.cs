@@ -49,9 +49,9 @@ public class Logger(GameInstance GameInstance, string section, string module)
     public string GenerateEnvironmentInfo(LogLevel logLevel)
         => $"{GenerateCommonEnvironmentInfo()} [{Section}] {(Module == "" ? "" : $"[{Module}] ")}[{logLevel}]";
     
-    private void LOG(LogLevel logLevel, string message)
+    private void LOG(LogLevel logLevel, string message, string addedEnvironmentInfo = "")
     {
-        string envInfo = GenerateEnvironmentInfo(logLevel);
+        string envInfo = $"{GenerateEnvironmentInfo(logLevel)} {addedEnvironmentInfo}";
 
         if (envInfo.Length > MaxEnvLength)
             MaxEnvLength = envInfo.Length;
@@ -70,26 +70,26 @@ public class Logger(GameInstance GameInstance, string section, string module)
             GD.PushWarning(message);
     }
     
-    public void FATAL(string message)
-        => LOG(LogLevel.FATAL, message);
+    public void FATAL(string message, string addedEnvironmentInfo = "")
+        => LOG(LogLevel.FATAL, message, addedEnvironmentInfo);
     
-    public void ERROR(string message)
-        => LOG(LogLevel.ERROR, message);
+    public void ERROR(string message, string addedEnvironmentInfo = "")
+        => LOG(LogLevel.ERROR, message, addedEnvironmentInfo);
     
-    public void WARNING(string message)
-        => LOG(LogLevel.WARNING, message);
+    public void WARNING(string message, string addedEnvironmentInfo = "")
+        => LOG(LogLevel.WARNING, message, addedEnvironmentInfo);
     
-    public void IMPORTANT(string message)
-        => LOG(LogLevel.IMPORTANT, message);
+    public void IMPORTANT(string message, string addedEnvironmentInfo = "")
+        => LOG(LogLevel.IMPORTANT, message, addedEnvironmentInfo);
     
-    public void INFO(string message)
-        => LOG(LogLevel.INFO, message);
+    public void INFO(string message, string addedEnvironmentInfo = "")
+        => LOG(LogLevel.INFO, message, addedEnvironmentInfo);
     
-    public void DEBUG(string message)
-        => LOG(LogLevel.DEBUG, message);
+    public void DEBUG(string message, string addedEnvironmentInfo = "")
+        => LOG(LogLevel.DEBUG, message, addedEnvironmentInfo);
     
-    public void TRACE(string message)
-        => LOG(LogLevel.TRACE, message);
+    public void TRACE(string message, string addedEnvironmentInfo = "")
+        => LOG(LogLevel.TRACE, message, addedEnvironmentInfo);
 }
 
 public static class LoggerFactory
