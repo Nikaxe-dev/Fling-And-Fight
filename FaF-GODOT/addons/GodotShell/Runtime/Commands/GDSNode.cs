@@ -3,8 +3,10 @@ using System.Collections.Generic;
 
 namespace GodotShell.Runtime.Commands;
 
-public class GDSNode
+public class GDSNode()
 {
+    public required GDSRuntime Runtime;
+
     public GDSNode NextArgument = null;
     public Dictionary<string, GDSCommand> NextCommands = null;
 
@@ -16,7 +18,8 @@ public class GDSNode
     {
         GDSCommand command = new(name, description)
         {
-            Previous = this
+            Previous = this,
+            Runtime = Runtime
         };
 
         NextCommands ??= [];
@@ -29,7 +32,8 @@ public class GDSNode
     {
         GDSArgument<T> argument = new()
         {
-            Previous = this
+            Previous = this,
+            Runtime = Runtime
         };
 
         NextArgument = argument;

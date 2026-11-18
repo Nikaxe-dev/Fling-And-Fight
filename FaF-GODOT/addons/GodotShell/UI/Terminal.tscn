@@ -1,0 +1,42 @@
+[gd_scene format=3 uid="uid://s7mt86jh00sn"]
+
+[ext_resource type="Script" uid="uid://ckbyqpkas7gyw" path="res://addons/GodotShell/UI/Terminal.cs" id="1_q4u4c"]
+
+[sub_resource type="Theme" id="Theme_r5vg0"]
+default_font_size = 32
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ti6d1"]
+bg_color = Color(0, 0, 0, 0.79607844)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r5vg0"]
+bg_color = Color(0.023529412, 0.023529412, 0.023529412, 0.74509805)
+
+[node name="Terminal" type="VBoxContainer" unique_id=2067601539 node_paths=PackedStringArray("OutputContainer", "InputTextBox")]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_r5vg0")
+alignment = 2
+script = ExtResource("1_q4u4c")
+OutputContainer = NodePath("PanelContainer/ScrollContainer/VBoxContainer")
+InputTextBox = NodePath("Input")
+
+[node name="PanelContainer" type="PanelContainer" parent="." unique_id=1281618099]
+custom_minimum_size = Vector2(0, 300)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ti6d1")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer" unique_id=1889796930]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/ScrollContainer" unique_id=320743608]
+layout_mode = 2
+size_flags_vertical = 3
+alignment = 2
+
+[node name="Input" type="LineEdit" parent="." unique_id=1564430035]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_r5vg0")
+placeholder_text = "Enter a GodotShell command here..."

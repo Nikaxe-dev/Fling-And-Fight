@@ -11,38 +11,20 @@ public class GDSRuntime
 
     public GDSCommand Command(string name, string description)
     {
-        GDSCommand command = new(name, description);
+        GDSCommand command = new(name, description) { Runtime = this };
         Commands[name] = command;
         return command;
     }
 
     public GDSRuntime SetupBaseLibrary()
     {
-        var printCommand = Command("print", "Prints text to the console");
+        var logCommand = Command("log", "Logs to the console. Allows the use of BBCode");
         
-        printCommand
+        logCommand
             .Argument<string>()
 
             .Executes((string message)
-                => GD.Print(message)
-            );
-
-        var logCommand = Command("log", "Logs to the console");
-        
-        logCommand
-            .Command("raw", "Prints raw text to the console")
-            .Argument<string>()
-
-            .Executes((string message)
-                => GD.Print(message)
-            );
-        
-        logCommand
-            .Command("rich", "Prints rich text to the console")
-            .Argument<string>()
-
-            .Executes((string richMessage)
-                => GD.PrintRich(richMessage)
+                => Log(message)
             );
         
         logCommand
@@ -52,7 +34,7 @@ public class GDSRuntime
             .Argument<string>()
 
             .Executes((string colorCode, string message)
-                => GD.PrintRich($"[color={colorCode}]{message}")
+                => Log($"[color={colorCode}]{message}")
             );
 
         return this;
@@ -60,6 +42,15 @@ public class GDSRuntime
 
     public GDSRuntime SetupLib()
         => SetupBaseLibrary();
+    
+    public delegate void LoggedEventHandler(string message);
+    public event LoggedEventHandler Logged;
+
+    public void Log(string message)
+    {
+        GD.PrintRich($"[GodotShell] {message}");
+        Logged.Invoke(message);
+    }
 
     public string[] Tokenize(string text)
     {
