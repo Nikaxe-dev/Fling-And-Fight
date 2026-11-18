@@ -47,10 +47,7 @@ public class GDSRuntime
     public event LoggedEventHandler Logged;
 
     public void Log(string message)
-    {
-        GD.PrintRich($"[GodotShell] {message}");
-        Logged.Invoke(message);
-    }
+        => Logged.Invoke(message);
 
     public string[] Tokenize(string text)
     {
