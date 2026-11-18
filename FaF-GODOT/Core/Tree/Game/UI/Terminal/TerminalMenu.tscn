@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://dry76m6j82j3a"]
+
+[ext_resource type="PackedScene" uid="uid://s7mt86jh00sn" path="res://addons/GodotShell/UI/Terminal.tscn" id="1_kpw3y"]
+[ext_resource type="Script" uid="uid://bq3onwvseilfu" path="res://Core/Tree/Game/UI/Terminal/TerminalMenu.cs" id="2_6jum2"]
+
+[node name="Terminal" unique_id=2067601539 instance=ExtResource("1_kpw3y")]
+script = ExtResource("2_6jum2")

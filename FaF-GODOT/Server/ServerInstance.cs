@@ -17,6 +17,7 @@ public partial class ServerInstance(int port, string worldID) : GameInstance, IS
 
     public new ServerNetworkService NetworkService => GetNode<ServerNetworkService>("NetworkService");
     public new ServerModLoader ModLoader => GetNode<ServerModLoader>("ModLoader");
+    public new ServerCommandService CommandService => GetNode<ServerCommandService>("CommandService");
 
     #endregion
 

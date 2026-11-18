@@ -47,7 +47,7 @@ public class GDSRuntime
     public event LoggedEventHandler Logged;
 
     public void Log(string message)
-        => Logged.Invoke(message);
+        => Logged?.Invoke(message);
 
     public string[] Tokenize(string text)
     {
@@ -118,7 +118,7 @@ public class GDSRuntime
                     node = command;
                     continue;
                 } else if (command.NextArgument == null)
-                    throw new CommandNotFoundException(originalText);
+                    throw new CommandNotFoundException(Peek());
             
             node = node.NextArgument;
             

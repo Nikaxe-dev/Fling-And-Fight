@@ -17,6 +17,7 @@ public abstract partial class GameInstance : SubViewport, IGameInstance, INodeLo
     public ModLoader ModLoader => GetNode<ModLoader>("ModLoader");
     public NetworkService NetworkService => GetNode<NetworkService>("NetworkService");
     public PlayerService<Player> PlayerService => GetNode<PlayerService<Player>>("PlayerService");
+    public CommandService CommandService => GetNode<CommandService>("CommandService");
 
     #endregion
 

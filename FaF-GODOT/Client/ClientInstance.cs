@@ -17,6 +17,7 @@ public partial class ClientInstance : GameInstance, IClientInstance, INodeLoader
 
     public new ClientNetworkService NetworkService => GetNode<ClientNetworkService>("NetworkService");
     public new ClientModLoader ModLoader => GetNode<ClientModLoader>("ModLoader");
+    public new ClientCommandService CommandService => GetNode<ClientCommandService>("CommandService");
 
     #endregion
 
