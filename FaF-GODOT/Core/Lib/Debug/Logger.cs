@@ -51,7 +51,7 @@ public class Logger(GameInstance GameInstance, string section, string module)
     
     private void LOG(LogLevel logLevel, string message, string addedEnvironmentInfo = "")
     {
-        string envInfo = $"{GenerateEnvironmentInfo(logLevel)} {addedEnvironmentInfo}";
+        string envInfo = $"{GenerateEnvironmentInfo(logLevel)}{(addedEnvironmentInfo == "" ? "" : $" {addedEnvironmentInfo}")}";
 
         if (envInfo.Length > MaxEnvLength)
             MaxEnvLength = envInfo.Length;
