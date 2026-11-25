@@ -13,6 +13,12 @@ public partial class ServerInstance(int port, string worldID) : GameInstance, IS
 {
     private Core.Lib.Debug.Logger LOGGER => LoggerFactory.GetLogger(this, "FaF", "ServerInstance");
 
+    #region Config
+
+    public int Port {get => port;}
+
+    #endregion
+
     #region Services
 
     public new ServerNetworkService NetworkService => GetNode<ServerNetworkService>("NetworkService");
@@ -32,7 +38,7 @@ public partial class ServerInstance(int port, string worldID) : GameInstance, IS
             if (child is IServerObject && child is GameService service)
                 service.LoadService();
         
-        NetworkService.CreateServer(port, NetworkService.DEFAULT_MAX_PLAYERS);
+        NetworkService.CreateServer(Port, NetworkService.DEFAULT_MAX_PLAYERS);
     }
 
     public override void Stop()
