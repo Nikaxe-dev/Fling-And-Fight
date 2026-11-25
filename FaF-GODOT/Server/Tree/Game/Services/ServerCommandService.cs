@@ -33,6 +33,28 @@ public partial class ServerCommandService : CommandService, IServerObject
     {
         base._Ready();
 
+        Runtime
+            .Command("whoami", "prints info about the command caller")
+                .Executes((CallerData callerData) =>
+                {
+                    if (callerData.Player != null)
+                    {
+                        Runtime.Log("CLIENT");
+                        Runtime.Log($"- Logged into server at port {Server.Port}");
+                        Runtime.Log("PLAYER");
+                        Runtime.Log($"- Acting as {callerData.Player.Username} with peer ID {callerData.Player.PeerID}");
+                    } else
+                    {
+                        Runtime.Log("SERVER");
+                        Runtime.Log($"- Hosted at port {Server.Port}");
+                    }
+                });
+        
+        Runtime
+            .Command("server", "executes the given string as a command as the server")
+                .Argument<string>()
+                .Executes((CallerData _, string command) => ExecuteCommand(command, true));
+
         Runtime.Logged += message
             => Rpc(CommandService.MethodName.OnLog, message);
     }
