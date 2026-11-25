@@ -1,9 +1,10 @@
 using System;
 using System.Collections.Generic;
-using Godot;
 using GodotShell.Runtime.Commands;
 
 namespace GodotShell.Runtime;
+
+public partial struct CallerData {}
 
 public class GDSRuntime
 {
@@ -23,7 +24,7 @@ public class GDSRuntime
         logCommand
             .Argument<string>()
 
-            .Executes((string message)
+            .Executes((CallerData _, string message)
                 => Log(message)
             );
         
@@ -33,7 +34,7 @@ public class GDSRuntime
             .Argument<string>()
             .Argument<string>()
 
-            .Executes((string colorCode, string message)
+            .Executes((CallerData _, string colorCode, string message)
                 => Log($"[color={colorCode}]{message}")
             );
 
@@ -85,15 +86,15 @@ public class GDSRuntime
         return [.. tokens];
     }
 
-    public Queue<string> Tokens = [];
+    private Queue<string> Tokens = [];
 
-    public string Advance()
+    private string Advance()
         => Tokens.Dequeue();
     
-    public string Peek()
+    private string Peek()
         => Tokens.Peek();
 
-    public void Interpret(string[] tokens, string originalText)
+    public void Interpret(string[] tokens, string originalText, CallerData callerData = default)
     {
         Tokens.Clear();
         
@@ -132,11 +133,11 @@ public class GDSRuntime
                 args.Add(Advance());
         }
 
-        node.Callback?.DynamicInvoke([.. args]);
+        node.Callback?.DynamicInvoke([callerData, .. args]);
     }
 
-    public void Execute(string text)
-        => Interpret(Tokenize(text), text);
+    public void Execute(string text, CallerData callerData = default)
+        => Interpret(Tokenize(text), text, callerData);
     
     public class SyntaxException(string message) : Exception(message);
 
