@@ -1,4 +1,3 @@
-using System;
 using FaF.Core.Extensions;
 using Godot;
 
@@ -8,6 +7,15 @@ public partial class TerminalMenu : VBoxContainer
 {
     [Export] public VBoxContainer OutputContainer;
     [Export] public LineEdit InputTextBox;
+
+    public void AddMessage(string msg)
+        => OutputContainer.AddChild(new RichTextLabel()
+            {
+               Text = msg,
+               FitContent = true,
+               BbcodeEnabled = true,
+               AutowrapMode = TextServer.AutowrapMode.Off 
+            });
 
     public override void _Ready()
     {
@@ -21,13 +29,10 @@ public partial class TerminalMenu : VBoxContainer
         };
 
         this.GetGame().CommandService.Logged += message =>
-            OutputContainer.AddChild(new RichTextLabel()
-            {
-               Text = message,
-               FitContent = true,
-               BbcodeEnabled = true,
-               AutowrapMode = TextServer.AutowrapMode.Off 
-            });
+            AddMessage(message);
+        
+        this.GetGame().CommandService.CommandExecuted += (callerData, command) =>
+            AddMessage($"[{callerData.Player?.Username ?? "server"}@FaF ~]$ {command}");
     }
 
     public override void _UnhandledInput(InputEvent @event)
